@@ -2,6 +2,7 @@ package net.kelmer.correostracker.ui.list
 
 import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_parcel_list.*
+import net.kelmer.correostracker.ApplicationComponent
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.BaseFragment
 import net.kelmer.correostracker.data.Result
@@ -13,11 +14,17 @@ import net.kelmer.correostracker.ui.detail.DetailActivity
  * Created by gabriel on 25/03/2018.
  */
 class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
+
+    override fun injectDependencies(graph: ApplicationComponent) {
+        graph.injectTo(this)
+        graph.injectTo(viewModel)
+    }
+
     override val layoutId: Int = R.layout.fragment_parcel_list
     override val viewModelClass: Class<ParcelListViewModel> = ParcelListViewModel::class.java
 
     private val adapter = ParcelListAdapter({ p ->
-        startActivity(DetailActivity.newIntent(context, p.codEnvio))
+        startActivity(DetailActivity.newIntent(context, p.code))
     })
 
 

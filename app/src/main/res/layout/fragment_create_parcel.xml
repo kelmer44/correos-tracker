@@ -39,6 +39,7 @@
             android:hint="@string/parcel_code"
             android:inputType="textCapSentences"
             android:maxLines="1"
+            android:text="PK11YL0720217720128821V"
             />
     </android.support.design.widget.TextInputLayout>
 

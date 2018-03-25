@@ -4,7 +4,6 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.disposables.Disposable
 import net.kelmer.correostracker.data.Result
 import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.SchedulerProvider
@@ -23,35 +22,33 @@ fun <T> Flowable<T>.toResult(schedulerProvider: SchedulerProvider): Flowable<Res
     }
 }
 
-fun <T> Observable<T>.toResult(networkRequest: Disposable, schedulerProvider: SchedulerProvider): Observable<Result<T>> {
+fun <T> Single<T>.toResult(schedulerProvider: SchedulerProvider): Observable<Result<T>> {
+    return toObservable().toResult(schedulerProvider)
+}
+
+
+fun <T> Observable<T>.toResult(schedulerProvider: SchedulerProvider): Observable<Result<T>> {
     return compose { item ->
         item
                 .map { Result.success(it) }
-                .onErrorReturn { e ->
-                    when (e) {
-                        is NetworkInteractor.NetworkUnavailableException -> Result.networkUnavailable("NetworkUnavailable", e)
-                        else ->
-                            Result
-                            .failure(e.message?:"Fail", e)
-//                                e -> Result.failure(e.message ?: "unknown", e)
-                    }
 
+                .onErrorReturn { e ->
+                    if (e is NetworkInteractor.NetworkUnavailableException)
+                        Result.networkUnavailable(e)
+                    else
+                        Result.failure(e.message ?: "unknown", e)
                 }
-                .doOnSubscribe {
-                    networkRequest.dispose()
-                }
-//                .observeOn(schedulerProvider.ui())
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .startWith(Result.inProgress())
-
     }
 }
 
-fun <T> Single<T>.toResult(networkRequest: Disposable, schedulerProvider: SchedulerProvider): Observable<Result<T>> {
-    return toObservable().toResult(networkRequest, schedulerProvider)
+
+fun <T> Completable.toResult(schedulerProvider: SchedulerProvider): Observable<Result<T>> {
+    return toObservable<T>().toResult(schedulerProvider)
 }
 
-fun <T> Completable.toResult(networkRequest: Disposable, schedulerProvider: SchedulerProvider): Observable<Result<T>> {
-    return toObservable<T>().toResult(networkRequest, schedulerProvider)
-}
+
+
+fun <T> Single<T>.withNetwork(networkInteractor: NetworkInteractor)  = apply { networkInteractor.hasNetworkConnectionCompletable().andThen(this) }
