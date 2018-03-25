@@ -71,6 +71,9 @@ dependencies {
     implementation deps.glide.glide
     kapt deps.glide.compiler
 
+    //TimelineView for detail
+    implementation 'com.github.vipulasri:timelineview:1.0.6'
+
 
     kapt deps.dagger.compiler
     implementation deps.dagger.runtime

@@ -7,6 +7,8 @@ import net.kelmer.correostracker.data.repository.RepositoryModule
 import net.kelmer.correostracker.di.NetModule
 import net.kelmer.correostracker.ui.create.CreateParcelComponent
 import net.kelmer.correostracker.ui.create.CreateParcelModule
+import net.kelmer.correostracker.ui.detail.DetailFragment
+import net.kelmer.correostracker.ui.detail.ParcelDetailViewModel
 import net.kelmer.correostracker.ui.list.ParcelListFragment
 import net.kelmer.correostracker.ui.list.ParcelListViewModel
 import javax.inject.Singleton
@@ -26,6 +28,8 @@ interface ApplicationComponent {
 
     fun injectTo(app: CorreosApp)
     fun injectTo(app: ParcelListFragment)
+    fun injectTo(app: DetailFragment)
+    fun injectTo(app: ParcelDetailViewModel)
     fun injectTo(viewModel: ParcelListViewModel)
 
     fun plus(createParcelModule: CreateParcelModule): CreateParcelComponent
