@@ -2,17 +2,21 @@ package net.kelmer.correostracker.ui.list
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.PopupMenu
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_parcel_list.*
 import net.kelmer.correostracker.ApplicationComponent
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.BaseFragment
 import net.kelmer.correostracker.data.Result
+import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.ext.observe
 import net.kelmer.correostracker.ui.detail.DetailActivity
+import timber.log.Timber
 
 
 /**
@@ -28,13 +32,39 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
     override val layoutId: Int = R.layout.fragment_parcel_list
     override val viewModelClass: Class<ParcelListViewModel> = ParcelListViewModel::class.java
 
-    private val adapter = ParcelListAdapter({ p ->
-        startActivity(DetailActivity.newIntent(context, p.code))
-    })
+
+    private val clickListener = object: ParcelClickListener{
+        override fun click(parcelReference: LocalParcelReference) {
+            startActivity(DetailActivity.newIntent(context, parcelReference.code))
+        }
+
+        override fun dots(view: View, parcelReference: LocalParcelReference) {
+//            viewModel.deleteParcel(parcelReference)
+            val popup = PopupMenu(this@ParcelListFragment.context, view)
+            val inflater = popup.menuInflater
+            inflater.inflate(R.menu.parcel_menu, popup.menu)
+            popup.setOnMenuItemClickListener { item ->
+                //do your things in each of the following cases
+                when (item.itemId) {
+                    R.id.menu_delete -> {
+                        viewModel.deleteParcel(parcelReference)
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popup.show()
+        }
+
+        override fun update(parcelReference: LocalParcelReference) {
+        }
+
+    }
+
+    private val adapter = ParcelListAdapter(clickListener)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setHasOptionsMenu(true)
     }
 
@@ -52,6 +82,20 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                 }
                 is Result.Failure -> {
                     Toast.makeText(context, "ERROR!!!", Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+
+        viewModel.deleteLiveData.observe(this, {
+            when (it){
+                is Result.Success -> {
+
+                    Timber.w("Deleted ${it.data} elements!!")
+                    adapter.notifyDataSetChanged()
+                    rv_parcel_list.invalidate()
+                }
+                is Result.Failure -> {
+                    Toast.makeText(context, "ERROR DELETING!", Toast.LENGTH_LONG).show()
                 }
             }
         })

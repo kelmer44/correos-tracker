@@ -11,12 +11,15 @@ import net.kelmer.correostracker.data.model.local.LocalParcelReference
 /**
  * Created by gabriel on 25/03/2018.
  */
-class ParcelListAdapter constructor(val clickListener: (LocalParcelReference) -> Unit): RecyclerView.Adapter<ParcelListAdapter.ViewHolder>() {
+class ParcelListAdapter constructor(
+        val clickListener: ParcelClickListener
+) : RecyclerView.Adapter<ParcelListAdapter.ViewHolder>() {
+
 
     var items = mutableListOf<LocalParcelReference>()
 
     override fun getItemCount(): Int =
-        items.size
+            items.size
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,12 +36,15 @@ class ParcelListAdapter constructor(val clickListener: (LocalParcelReference) ->
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(parcel: LocalParcelReference,
-                 clickListener: (LocalParcelReference) -> Unit) = with(itemView) {
+                 clickListener: ParcelClickListener) = with(itemView) {
 
             parcel_name.text = parcel.parcelName
             parcel_code.text = parcel.code
             parcel_cardview.setOnClickListener {
-                clickListener.invoke(parcel)
+                clickListener.click(parcel)
+            }
+            more.setOnClickListener {
+                clickListener.dots(more, parcel)
             }
         }
 

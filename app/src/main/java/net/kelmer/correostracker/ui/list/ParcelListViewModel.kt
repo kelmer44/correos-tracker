@@ -16,6 +16,8 @@ import javax.inject.Inject
 class ParcelListViewModel : RxViewModel() {
 
     val parcelList: MutableLiveData<Result<List<LocalParcelReference>>> = MutableLiveData()
+    val deleteLiveData: MutableLiveData<Result<Int>> = MutableLiveData()
+
 
     @Inject
     lateinit var localParcelRepository: LocalParcelRepository
@@ -24,11 +26,22 @@ class ParcelListViewModel : RxViewModel() {
     fun retrieveParcelList() {
         localParcelRepository.getParcels()
                 .toResult(schedulerProvider)
-                .subscribeBy (
+                .subscribeBy(
                         onNext = {
-                            parcelList.value =  it
+                            parcelList.value = it
                         }
                 ).addTo(disposables)
+    }
+
+    fun deleteParcel(parcelReference: LocalParcelReference) {
+        localParcelRepository.deleteParcel(parcelReference)
+                .toResult(schedulerProvider)
+                .subscribeBy(
+                        onNext = {
+                            deleteLiveData.value = it
+                        }
+                )
+                .addTo(disposables)
     }
 
 

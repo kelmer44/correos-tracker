@@ -4,7 +4,7 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import net.kelmer.correostracker.data.model.local.LocalParcelDao
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
-
+import timber.log.Timber
 
 
 /**
@@ -25,6 +25,7 @@ class LocalParcelRepositoryImpl(val localParcelDao: LocalParcelDao) : LocalParce
     }
 
     override fun deleteParcel(parcel: LocalParcelReference): Observable<Int> {
+        Timber.e("Requested deletion of $parcel")
         return Observable.fromCallable{ localParcelDao.deleteParcel(parcel)}
     }
 

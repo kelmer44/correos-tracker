@@ -5,7 +5,7 @@ import android.arch.persistence.room.Delete
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import android.arch.persistence.room.Query
-import io.reactivex.Single
+import io.reactivex.Flowable
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -14,10 +14,10 @@ import io.reactivex.Single
 interface LocalParcelDao {
 
     @Query("select * from LocalParcelReference")
-    fun getParcels() : Single<List<LocalParcelReference>>
+    fun getParcels() : Flowable<List<LocalParcelReference>>
 
     @Query("select * from LocalParcelReference where code = :code")
-    fun getParcel(code: String) : Single<LocalParcelReference>
+    fun getParcel(code: String) : Flowable<LocalParcelReference>
 
     @Insert(onConflict = REPLACE)
     fun saveParcel(parcel: LocalParcelReference)
