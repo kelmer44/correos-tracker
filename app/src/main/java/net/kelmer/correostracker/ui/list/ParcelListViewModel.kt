@@ -15,7 +15,6 @@ import net.kelmer.correostracker.data.model.CorreosApiParcel
  */
 class ParcelListViewModel : RxViewModel() {
 
-
     val parcelList: MutableLiveData<Result<List<CorreosApiParcel>>> = MutableLiveData()
 
 

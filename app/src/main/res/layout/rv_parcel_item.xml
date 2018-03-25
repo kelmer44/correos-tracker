@@ -9,6 +9,7 @@
     android:padding="@dimen/single_spacing">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/parcel_cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -21,6 +22,7 @@
             android:padding="@dimen/double_spacing">
 
             <TextView
+                android:id="@+id/parcel_name"
                 style="@style/Base.TextAppearance.AppCompat"
                 android:layout_width="match_parent"
                 android:textAllCaps="true"
@@ -29,6 +31,7 @@
                 tools:text="NOMBRE DEL PAQUETE"/>
 
             <TextView
+                android:id="@+id/parcel_code"
                 style="@style/Base.TextAppearance.AppCompat.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
