@@ -64,6 +64,11 @@ dependencies {
     implementation deps.glide.glide
     kapt deps.glide.compiler
 
+
+    kapt deps.dagger.compiler
+    implementation deps.dagger.runtime
+
+
     //==================== Debug ====================
     //Logging
     implementation deps.timber
