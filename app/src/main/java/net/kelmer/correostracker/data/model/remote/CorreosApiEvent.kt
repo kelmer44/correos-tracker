@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.data.model
+package net.kelmer.correostracker.data.model.remote
 
 data class CorreosApiEvent(val fecEvento: String,
                            val horEvento: String,

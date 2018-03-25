@@ -12,6 +12,8 @@
         android:id="@+id/parcel_cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
+        android:foreground="?selectableItemBackground"
         android:layout_gravity="center"
         card_view:cardCornerRadius="4dp">
 

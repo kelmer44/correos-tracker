@@ -1,12 +1,16 @@
 package net.kelmer.correostracker.di
 
 import android.app.Application
+import android.content.Context
+import android.net.ConnectivityManager
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
 import dagger.Provides
+import net.kelmer.correostracker.util.NetworkInteractor
+import net.kelmer.correostracker.util.NetworkInteractorImpl
 import okhttp3.Cache
 import okhttp3.ConnectionPool
 import okhttp3.Interceptor
@@ -76,5 +80,16 @@ open class NetModule {
         val cacheSize = 10 * 1024 * 1024L
         return Cache(application.getCacheDir(), cacheSize)
     }
+
+    @Provides
+    @Singleton
+    fun provideConnectivityManager( context: Context): ConnectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+    @Provides
+    @Singleton
+    fun provideNetworkInteractor(networkInteractor: NetworkInteractorImpl): NetworkInteractor = networkInteractor
+
+
 
 }

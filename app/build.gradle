@@ -52,6 +52,13 @@ dependencies {
     implementation deps.lifecycle.extensions
     implementation deps.lifecycle.reactivestreams
     kapt deps.lifecycle.compiler
+
+
+    //Room
+    implementation deps.room.runtime
+    implementation deps.room.rx
+    kapt deps.room.compiler
+
     //Rx
     implementation deps.rx.core
     implementation deps.rx.android

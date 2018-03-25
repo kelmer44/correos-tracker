@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Correos Tracker</string>
+    <string name="parcel_name">Nombre del paquete</string>
+    <string name="parcel_code">Código de seguimiento</string>
 </resources>

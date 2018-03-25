@@ -1,23 +1,30 @@
 package net.kelmer.correostracker.ui.list
 
 import android.support.v7.widget.LinearLayoutManager
-import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_parcel_list.*
+import net.kelmer.correostracker.ApplicationComponent
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.BaseFragment
 import net.kelmer.correostracker.data.Result
 import net.kelmer.correostracker.ext.observe
+import net.kelmer.correostracker.ui.detail.DetailActivity
 
 
 /**
  * Created by gabriel on 25/03/2018.
  */
 class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
+
+    override fun injectDependencies(graph: ApplicationComponent) {
+        graph.injectTo(this)
+        graph.injectTo(viewModel)
+    }
+
     override val layoutId: Int = R.layout.fragment_parcel_list
     override val viewModelClass: Class<ParcelListViewModel> = ParcelListViewModel::class.java
 
-    val adapter = ParcelListAdapter({ p ->
-        Toast.makeText(context, "Clicked ${p.codEnvio}!!", Toast.LENGTH_LONG).show()
+    private val adapter = ParcelListAdapter({ p ->
+        startActivity(DetailActivity.newIntent(context, p.code))
     })
 
 

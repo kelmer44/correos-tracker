@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import net.kelmer.correostracker.ApplicationComponent
+import net.kelmer.correostracker.CorreosApp
 import timber.log.Timber
 
 /**
@@ -32,10 +34,10 @@ abstract class BaseFragment<V: ViewModel> : Fragment() {
         Timber.e("BF: onCreate " + javaClass.simpleName + "(" + this + ")")
         viewModel =
                 ViewModelProviders.of(this).get(viewModelClass)
-//        injectDependencies(MycujooPlayerApp.graph)
+        injectDependencies(CorreosApp.graph)
     }
 
-
+    abstract fun injectDependencies(graph: ApplicationComponent)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

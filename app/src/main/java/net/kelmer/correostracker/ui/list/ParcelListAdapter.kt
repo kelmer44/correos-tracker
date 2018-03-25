@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.rv_parcel_item.view.*
 import net.kelmer.correostracker.R
-import net.kelmer.correostracker.data.model.CorreosApiParcel
+import net.kelmer.correostracker.data.model.local.LocalParcelReference
 
 /**
  * Created by gabriel on 25/03/2018.
  */
-class ParcelListAdapter constructor(val clickListener: (CorreosApiParcel) -> Unit): RecyclerView.Adapter<ParcelListAdapter.ViewHolder>() {
+class ParcelListAdapter constructor(val clickListener: (LocalParcelReference) -> Unit): RecyclerView.Adapter<ParcelListAdapter.ViewHolder>() {
 
-    var items = mutableListOf<CorreosApiParcel>()
+    var items = mutableListOf<LocalParcelReference>()
 
     override fun getItemCount(): Int =
         items.size
@@ -32,11 +32,11 @@ class ParcelListAdapter constructor(val clickListener: (CorreosApiParcel) -> Uni
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(parcel: CorreosApiParcel,
-                 clickListener: (CorreosApiParcel) -> Unit) = with(itemView) {
+        fun bind(parcel: LocalParcelReference,
+                 clickListener: (LocalParcelReference) -> Unit) = with(itemView) {
 
-            parcel_name.text = parcel.codEnvio
-            parcel_code.text = parcel.codEnvio
+            parcel_name.text = parcel.parcelName
+            parcel_code.text = parcel.code
             parcel_cardview.setOnClickListener {
                 clickListener.invoke(parcel)
             }
@@ -44,7 +44,7 @@ class ParcelListAdapter constructor(val clickListener: (CorreosApiParcel) -> Uni
 
     }
 
-    fun updateItems(data: List<CorreosApiParcel>) {
+    fun updateItems(data: List<LocalParcelReference>) {
         items = data.toMutableList()
     }
 }
