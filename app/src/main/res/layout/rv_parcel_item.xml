@@ -23,14 +23,30 @@
             android:orientation="vertical"
             android:padding="@dimen/double_spacing">
 
-            <TextView
-                android:id="@+id/parcel_name"
-                style="@style/Base.TextAppearance.AppCompat"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:textAllCaps="true"
-                android:textStyle="bold"
-                android:layout_height="wrap_content"
-                tools:text="NOMBRE DEL PAQUETE"/>
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/parcel_name"
+                    style="@style/Base.TextAppearance.AppCompat"
+                    android:layout_width="match_parent"
+                    android:textAllCaps="true"
+                    android:layout_toLeftOf="@id/more"
+                    android:gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:layout_height="24dp"
+                    tools:text="NOMBRE DEL PAQUETE"/>
+
+                <ImageView
+                    android:background="@null"
+                    android:id="@+id/more"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_more"/>
+            </RelativeLayout>
+
 
             <TextView
                 android:id="@+id/parcel_code"
@@ -40,7 +56,45 @@
                 android:textAllCaps="true"
                 tools:text="RF11232423415706W"/>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="@dimen/single_spacing"
+                android:background="#d5d5d5"
+                />
+
+
+            <TextView
+                style="?textAppearanceListItem"
+                android:text="@string/ultimo_estado_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/single_spacing"
+                />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_marginLeft="@dimen/single_spacing"
+                    android:layout_marginRight="@dimen/single_spacing"
+                    android:src="@drawable/ic_delivered"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"/>
+                <TextView
+                    android:text="Entregado"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    />
+            </LinearLayout>
+
         </LinearLayout>
+
+
 
 
     </android.support.v7.widget.CardView>

@@ -2,4 +2,7 @@
     <string name="app_name">Correos Tracker</string>
     <string name="parcel_name">Nombre del paquete</string>
     <string name="parcel_code">Código de seguimiento</string>
+    <string name="ultimo_estado_header">Último estado</string>
+    <string name="refresh_all">Actualizar todos</string>
+    <string name="delete">Eliminar</string>
 </resources>

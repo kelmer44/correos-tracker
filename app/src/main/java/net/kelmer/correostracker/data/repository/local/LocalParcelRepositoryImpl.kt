@@ -10,7 +10,7 @@ import net.kelmer.correostracker.data.model.local.LocalParcelReference
 /**
  * Created by gabriel on 25/03/2018.
  */
-class LocalParcelRepositoryImpl(val localParcelDao: LocalParcelDao) : LocalParcelRepository
+class LocalParcelRepositoryImpl(val localParcelDao: LocalParcelDao) : LocalParcelRepository {
 
 
     override fun getParcels() =

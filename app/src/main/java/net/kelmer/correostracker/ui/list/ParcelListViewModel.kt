@@ -8,9 +8,6 @@ import net.kelmer.correostracker.data.Result
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
 import net.kelmer.correostracker.ext.toResult
-import net.kelmer.correostracker.ext.withNetwork
-import net.kelmer.correostracker.util.NetworkInteractor
-import net.kelmer.correostracker.util.SchedulerProvider
 import javax.inject.Inject
 
 /**
@@ -25,25 +22,7 @@ class ParcelListViewModel : RxViewModel() {
 
 
     fun retrieveParcelList() {
-
-
-//        var correosApiParcel = CorreosApiParcel("1234567890D", listOf())
-//        var correosApiParcel1 = CorreosApiParcel("0987654321Q", listOf())
-//
-//        Observable.just(listOf(correosApiParcel, correosApiParcel1))
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeBy(onError = {
-//                    parcelList.value = Result.failure("ERROR", it)
-//                },
-//                        onNext = { p ->
-//                            parcelList.value = Result.success(p)
-//                        })
-//                .addTo(disposables)
-
-
         localParcelRepository.getParcels()
-                .withNetwork(networkInteractor)
                 .toResult(schedulerProvider)
                 .subscribeBy (
                         onNext = {

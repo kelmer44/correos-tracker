@@ -13,7 +13,6 @@ import net.kelmer.correostracker.ext.observe
  */
 class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
 
-
     override fun injectDependencies(graph: ApplicationComponent) {
         val component = graph.plus(CreateParcelModule())
         component
@@ -31,12 +30,12 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
                 viewModel.addParcel(localParcelReference)
             }
         }
-
         viewModel.saveParcelLiveData.observe(this, {
            activity.finish()
         })
 
     }
+
 
     override val layoutId: Int = R.layout.fragment_create_parcel
 }
