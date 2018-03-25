@@ -1,7 +1,7 @@
 package net.kelmer.correostracker.repository
 
 import io.reactivex.Single
-import net.kelmer.correostracker.data.model.CorreosApiParcel
+import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.network.ApiFactory
 import net.kelmer.correostracker.data.network.CorreosApi
 

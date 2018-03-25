@@ -8,7 +8,8 @@ import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import net.kelmer.correostracker.base.RxViewModel
 import net.kelmer.correostracker.data.Result
-import net.kelmer.correostracker.data.model.CorreosApiParcel
+import net.kelmer.correostracker.data.model.local.LocalParcelReference
+import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -19,10 +20,7 @@ class CreateParcelViewModel : RxViewModel() {
     val parcelLiveData = MutableLiveData<Result<CorreosApiParcel>>()
 
     fun retrieveParcelDetails(code: String) {
-
-
         var correosApiParcel = CorreosApiParcel("DSFDSFASD1", listOf())
-
         Observable.just(correosApiParcel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -35,7 +33,11 @@ class CreateParcelViewModel : RxViewModel() {
                         }
                 )
                 .addTo(disposables)
+    }
 
+    fun addParcel(localParcelReference: LocalParcelReference) {
+
+        
     }
 
 

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.rv_parcel_item.view.*
 import net.kelmer.correostracker.R
-import net.kelmer.correostracker.data.model.CorreosApiParcel
+import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 
 /**
  * Created by gabriel on 25/03/2018.

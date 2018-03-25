@@ -8,7 +8,7 @@ import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import net.kelmer.correostracker.base.RxViewModel
 import net.kelmer.correostracker.data.Result
-import net.kelmer.correostracker.data.model.CorreosApiParcel
+import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 
 /**
  * Created by gabriel on 25/03/2018.
