@@ -12,23 +12,17 @@ import net.kelmer.correostracker.R
  */
 class DetailActivity : AppCompatActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        var parcelCode = intent.getStringExtra(KEY_PARCELCODE)
-        parcel_code.text = parcelCode
-
-
     }
 
 
     companion object {
-        private val KEY_PARCELCODE = "PARCEL_CODE"
+        val KEY_PARCELCODE = "PARCEL_CODE"
 
         fun newIntent(context: Context, code: String): Intent {
             var intent = Intent(context, DetailActivity::class.java)
