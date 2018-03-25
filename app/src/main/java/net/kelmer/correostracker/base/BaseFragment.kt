@@ -5,7 +5,9 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.v4.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import timber.log.Timber
 
 /**
@@ -15,7 +17,14 @@ abstract class BaseFragment<V: ViewModel> : Fragment() {
 
     var isReady: Boolean = false
     abstract val viewModelClass: Class<V>
+    abstract val layoutId : Int
+
     protected lateinit var viewModel: V
+
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        var view = inflater?.inflate(layoutId, container, false)
+        return view
+    }
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,8 +33,10 @@ abstract class BaseFragment<V: ViewModel> : Fragment() {
         viewModel =
                 ViewModelProviders.of(this).get(viewModelClass)
 //        injectDependencies(MycujooPlayerApp.graph)
-
     }
+
+
+
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadUp()

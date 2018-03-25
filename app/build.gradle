@@ -41,7 +41,7 @@ dependencies {
     implementation deps.support.fragment
     implementation deps.support.constraint
     implementation deps.support.vector
-
+    implementation deps.support.cardview
     //==================== Network ====================
     implementation deps.okhttp.logger
     implementation deps.retrofit.core
@@ -69,8 +69,6 @@ dependencies {
     implementation deps.timber
     debugImplementation deps.stetho.core
     debugImplementation deps.stetho.okhttp3
-
-
 
     //Test
     testImplementation deps.junit
