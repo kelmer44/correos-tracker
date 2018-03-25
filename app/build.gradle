@@ -1,8 +1,13 @@
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 0
+def versionBuild = 0 // bump for dogfood builds, public betas, etc.
+
+
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt' // Use experimental kapt implementation
 
 android {
     compileSdkVersion 26
@@ -15,6 +20,9 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -23,11 +31,57 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    //Kotlin
+    implementation deps.kotlin
+    //==================== Support Library ====================
+    implementation deps.support.appCompat
+    implementation deps.support.design
+    implementation deps.support.v4
+    implementation deps.support.fragment
+    implementation deps.support.constraint
+    implementation deps.support.vector
+    implementation deps.support.cardview
+    //==================== Network ====================
+    implementation deps.okhttp.logger
+    implementation deps.retrofit.core
+    implementation deps.retrofit.gson
+    implementation deps.retrofit.rxjava
+    //lifecycle
+    implementation deps.lifecycle.runtime
+    implementation deps.lifecycle.extensions
+    implementation deps.lifecycle.reactivestreams
+    kapt deps.lifecycle.compiler
+    //Rx
+    implementation deps.rx.core
+    implementation deps.rx.android
+    implementation deps.rx.kotlin
+
+    //Gson
+    implementation deps.gson
+
+    //UI
+    implementation deps.glide.glide
+    kapt deps.glide.compiler
+
+
+    kapt deps.dagger.compiler
+    implementation deps.dagger.runtime
+
+
+    //==================== Debug ====================
+    //Logging
+    implementation deps.timber
+    debugImplementation deps.stetho.core
+    debugImplementation deps.stetho.okhttp3
+
+    //Test
+    testImplementation deps.junit
+    testImplementation deps.espresso.core
+    testImplementation deps.espresso.contrib
+    testImplementation deps.mockito
+
+    androidTestImplementation deps.espresso.core
+    androidTestImplementation deps.junit
+
 }
