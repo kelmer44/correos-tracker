@@ -1,0 +1,28 @@
+package net.kelmer.correostracker.di
+
+import com.facebook.stetho.okhttp3.StethoInterceptor
+import dagger.Module
+import dagger.Provides
+import dagger.multibindings.IntoSet
+import okhttp3.Interceptor
+import okhttp3.logging.HttpLoggingInterceptor
+import javax.inject.Singleton
+
+/**
+ * Created by gabriel on 25/03/2018.
+ */
+@Module
+open class Interceptors {
+
+    @NetworkLogger @Singleton
+    @Provides
+    @IntoSet
+    fun provideStetho(): Interceptor = StethoInterceptor()
+
+    @NetworkLogger @Singleton
+    @Provides
+    @IntoSet
+    fun provideNetworkLogger(): Interceptor = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
+}
