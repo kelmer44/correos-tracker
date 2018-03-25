@@ -23,7 +23,10 @@ import javax.inject.Singleton
 /**
  * Created by gabriel on 25/03/2018.
  */
-@Module
+@Module(
+        includes = [Interceptors::class]
+)
+
 open class NetModule {
 
     @Provides
@@ -47,7 +50,7 @@ open class NetModule {
                         gsonConverterFactory: GsonConverterFactory
     ): Retrofit {
         return Retrofit.Builder()
-                .baseUrl("https://www.correos.es")
+                .baseUrl("https://localizador.correos.es/canonico/")
                 .addCallAdapterFactory(rxJavaCallAdapterFactory)
                 .addConverterFactory(gsonConverterFactory)
                 .client(okHttpClient)
@@ -58,7 +61,6 @@ open class NetModule {
     @Singleton
     fun provideGson(): Gson {
         val gsonBuilder = GsonBuilder()
-        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
         return gsonBuilder.create()
     }
 

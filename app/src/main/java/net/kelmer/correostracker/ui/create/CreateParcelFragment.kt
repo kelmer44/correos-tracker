@@ -27,7 +27,7 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
     override fun loadUp() {
         create_ok.setOnClickListener {
             if(!TextUtils.isEmpty(parcel_name.text.toString()) && !TextUtils.isEmpty(parcel_code.text.toString())) {
-                var localParcelReference = LocalParcelReference(parcel_name.text.toString(), parcel_code.text.toString())
+                var localParcelReference = LocalParcelReference(parcel_code.text.toString(), parcel_name.text.toString())
                 viewModel.addParcel(localParcelReference)
             }
         }

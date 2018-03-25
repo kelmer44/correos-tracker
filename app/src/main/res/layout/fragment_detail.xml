@@ -7,8 +7,11 @@
     android:layout_height="match_parent"
     android:padding="@dimen/double_spacing">
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/parcelStatusRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/parcel_code"/>
+        android:padding="10dp"
+        android:clipToPadding="false"/>
+
 </LinearLayout>
