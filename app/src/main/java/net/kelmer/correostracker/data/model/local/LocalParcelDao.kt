@@ -23,5 +23,5 @@ interface LocalParcelDao {
     fun saveParcel(parcel: LocalParcelReference)
 
     @Delete
-    fun deleteParcel(parcel: LocalParcelReference)
+    fun deleteParcel(parcel: LocalParcelReference) : Int
 }

@@ -6,6 +6,7 @@ import net.kelmer.correostracker.ApplicationComponent
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.BaseFragment
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
+import net.kelmer.correostracker.ext.observe
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -30,6 +31,10 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
                 viewModel.addParcel(localParcelReference)
             }
         }
+
+        viewModel.saveParcelLiveData.observe(this, {
+           activity.finish()
+        })
 
     }
 

@@ -4,6 +4,9 @@ import android.arch.lifecycle.ViewModel
 import android.support.annotation.CallSuper
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import net.kelmer.correostracker.util.NetworkInteractor
+import net.kelmer.correostracker.util.SchedulerProvider
+import javax.inject.Inject
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -11,6 +14,11 @@ import io.reactivex.disposables.Disposable
 abstract class RxViewModel : ViewModel() {
 
     protected val disposables: CompositeDisposable = CompositeDisposable()
+
+    @Inject
+    lateinit var networkInteractor: NetworkInteractor
+    @Inject
+    lateinit var schedulerProvider: SchedulerProvider
 
     @CallSuper
     fun onDestroy() {

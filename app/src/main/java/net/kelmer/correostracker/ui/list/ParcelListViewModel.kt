@@ -23,10 +23,6 @@ class ParcelListViewModel : RxViewModel() {
     @Inject
     lateinit var localParcelRepository: LocalParcelRepository
 
-    @Inject
-    lateinit var networkInteractor: NetworkInteractor
-    @Inject
-    lateinit var schedulerProvider: SchedulerProvider
 
     fun retrieveParcelList() {
 

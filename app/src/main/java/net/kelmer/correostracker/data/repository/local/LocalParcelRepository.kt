@@ -1,5 +1,7 @@
 package net.kelmer.correostracker.data.repository.local
 
+import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 
@@ -10,6 +12,6 @@ interface LocalParcelRepository {
 
     fun getParcels(): Single<List<LocalParcelReference>>
     fun getParcel(code: String): Single<LocalParcelReference>
-    fun saveParcel(parcel: LocalParcelReference)
-    fun deleteParcel(parcel: LocalParcelReference)
+    fun saveParcel(parcel: LocalParcelReference) : Completable
+    fun deleteParcel(parcel: LocalParcelReference) : Observable<Int>
 }
