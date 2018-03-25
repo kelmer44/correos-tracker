@@ -20,6 +20,14 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.create.CreateActivity"
+            android:parentActivityName=".ui.list.ParcelListActivity">
+        </activity>
+
+        <activity android:name=".ui.detail.DetailActivity"
+            android:parentActivityName=".ui.list.ParcelListActivity">
+        </activity>
     </application>
 
 </manifest>
