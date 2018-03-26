@@ -13,7 +13,6 @@ import net.kelmer.correostracker.data.repository.correos.CorreosRepository
 import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
 import net.kelmer.correostracker.ext.toResult
 import net.kelmer.correostracker.ext.withNetwork
-import java.sql.ResultSet
 import javax.inject.Inject
 
 
@@ -30,12 +29,11 @@ class ParcelDetailViewModel : RxViewModel() {
 
     fun getParcel(parcelCode: String) {
         localParcelRepository.getParcel(parcelCode)
-                .withNetwork(networkInteractor)
                 .zipWith(
-                        correosRepository.getParcelStatus(parcelCode),
+                        correosRepository.getParcelStatus(parcelCode)
+                                .withNetwork(networkInteractor),
                         BiFunction<LocalParcelReference,CorreosApiParcel, ParcelDetailDTO>{
                             localParcel, correosParcel ->
-
                             ParcelDetailDTO(localParcel.parcelName, localParcel.code, correosParcel.eventos)
                         }
 

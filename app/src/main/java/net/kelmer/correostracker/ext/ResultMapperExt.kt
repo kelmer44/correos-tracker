@@ -17,6 +17,7 @@ fun <T> Flowable<T>.toResult(schedulerProvider: SchedulerProvider): Flowable<Res
         item
                 .map { Result.success(it) }
                 .onErrorReturn { e -> Result.failure(e.message ?: "unknown", e) }
+                .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .startWith(Result.inProgress())
     }

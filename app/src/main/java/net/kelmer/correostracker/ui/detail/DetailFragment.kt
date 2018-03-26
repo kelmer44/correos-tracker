@@ -1,6 +1,7 @@
 package net.kelmer.correostracker.ui.detail
 
 import android.support.v7.widget.LinearLayoutManager
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import net.kelmer.correostracker.ApplicationComponent
@@ -41,6 +42,7 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
                     loadParcelInformation(it.data)
                 }
                 is Result.Failure -> {
+                    Toast.makeText(context, "ERROR " + it.errorMessage, Toast.LENGTH_LONG).show()
                     Timber.e(it.errorMessage)
                 }
             }
