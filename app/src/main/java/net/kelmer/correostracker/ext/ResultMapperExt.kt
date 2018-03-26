@@ -50,5 +50,5 @@ fun <T> Completable.toResult(schedulerProvider: SchedulerProvider): Observable<R
 }
 
 
-
+fun <T> Flowable<T>.withNetwork(networkInteractor: NetworkInteractor)  = apply { networkInteractor.hasNetworkConnectionCompletable().andThen(this) }
 fun <T> Single<T>.withNetwork(networkInteractor: NetworkInteractor)  = apply { networkInteractor.hasNetworkConnectionCompletable().andThen(this) }
