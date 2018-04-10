@@ -6,6 +6,7 @@ import android.content.res.Resources
 import android.view.LayoutInflater
 import dagger.Module
 import dagger.Provides
+import net.kelmer.correostracker.ocr.TessOCR
 import net.kelmer.correostracker.util.AppSchedulerProvider
 import net.kelmer.correostracker.util.SchedulerProvider
 import javax.inject.Singleton
@@ -40,6 +41,10 @@ class ApplicationModule(private val app: CorreosApp) {
     @Provides
     fun provideSchedulerProvider(): SchedulerProvider = AppSchedulerProvider()
 
+
+    @Provides
+    @Singleton
+fun providesOCRScanner(context: Context) : TessOCR = TessOCR(context)
 
 
 

@@ -137,7 +137,9 @@ def extension = ext {
                     'core': "com.npaw.youbora:youboralib:${versions.youbora}",
                     'exo' : "com.npaw.youbora.adapters:exoplayer2-adapter:${versions.youbora}",
                     'util' : "com.npaw.youbora.utils:optionsutils:0.1.0"
-            ]
+            ],
+            'tess' : 'com.rmtheis:tess-two:8.0.0'
+
     ]
 
 }
