@@ -1,6 +1,10 @@
 package net.kelmer.correostracker.ui.detail
 
 import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.*
@@ -9,6 +13,7 @@ import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.BaseFragment
 import net.kelmer.correostracker.data.Result
 import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
+import net.kelmer.correostracker.ext.isVisible
 import net.kelmer.correostracker.ext.observe
 import timber.log.Timber
 
@@ -29,14 +34,21 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
     override val viewModelClass: Class<ParcelDetailViewModel> = ParcelDetailViewModel::class.java
 
 
+    private val parcelCode by lazy { activity.intent.getStringExtra(DetailActivity.KEY_PARCELCODE) }
+
     override fun loadUp() {
-        var parcelCode = activity.intent.getStringExtra(DetailActivity.KEY_PARCELCODE)
+        setHasOptionsMenu(true)
 
         parcelStatusRecyclerView.layoutManager = linearLayoutManager
         parcelStatusRecyclerView.adapter = adapterRecyclerView
 
         viewModel.getParcel(parcelCode)
         viewModel.parcel.observe(this, {
+
+            it?.let {
+                    detail_loading.isVisible = it.inProgress
+
+            }
             when(it){
                 is Result.Success ->{
                     loadParcelInformation(it.data)
@@ -47,7 +59,20 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
                 }
             }
         })
+    }
 
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.detail, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if(item.itemId == R.id.parcel_refresh) {
+            viewModel.getParcel(parcelCode)
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun loadParcelInformation(parcelInformation: ParcelDetailDTO) {

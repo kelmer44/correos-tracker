@@ -5,4 +5,5 @@
     <string name="ultimo_estado_header">Último estado</string>
     <string name="refresh_all">Actualizar todos</string>
     <string name="delete">Eliminar</string>
+    <string name="refresh">Actualizar</string>
 </resources>
