@@ -1,54 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="@dimen/double_spacing">
 
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/parcel_name_layout"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        app:errorEnabled="true"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/parcel_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:hint="@string/parcel_name"
-            android:inputType="textCapSentences"
-            android:maxLines="1"
-            />
-    </android.support.design.widget.TextInputLayout>
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            android:foreground="?selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/holo_red_dark" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/single_spacing"
+            android:orientation="vertical"
+            android:gravity="top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/frameLayout"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/parcel_name_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/parcel_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/parcel_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapSentences"
+                    android:maxLines="1" />
+            </android.support.design.widget.TextInputLayout>
+
+
+        </LinearLayout>
+
+
+
+    </android.support.constraint.ConstraintLayout>
+
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/parcel_code_layout"
         android:layout_width="match_parent"
-        app:errorEnabled="true"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:errorEnabled="true">
 
         <EditText
             android:id="@+id/parcel_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
             android:hint="@string/parcel_code"
+            android:imeOptions="actionNext"
             android:inputType="textCapSentences"
             android:maxLines="1"
-            android:text="PK11YL0720217720128821V"
-            />
+            android:text="PK11YL0720217720128821V" />
     </android.support.design.widget.TextInputLayout>
+    <Spinner
 
+        android:entries="@array/tofrom_values"
+        android:dropDownWidth="wrap_content"
+        android:spinnerMode="dropdown"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+    </Spinner>
 
     <Button
-        android:layout_gravity="right"
         android:id="@+id/create_ok"
         style="?borderlessButtonStyle"
-        android:text="@android:string/ok"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:textColor="?colorAccent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="@android:string/ok" />
 </LinearLayout>
