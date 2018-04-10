@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/double_spacing"
     android:paddingRight="@dimen/double_spacing">
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/detail_loading"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/parcelStatusRecyclerView"
@@ -16,4 +22,4 @@
         android:paddingRight="@dimen/single_spacing"
         android:clipToPadding="false"/>
 
-</LinearLayout>
+</RelativeLayout>
