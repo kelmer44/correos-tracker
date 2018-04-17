@@ -77,7 +77,7 @@
             android:imeOptions="actionNext"
             android:inputType="textCapSentences"
             android:maxLines="1"
-            android:text="PK11YL0720217720128821V" />
+            android:text="" />
     </android.support.design.widget.TextInputLayout>
     <Spinner
 

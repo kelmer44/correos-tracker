@@ -17,6 +17,13 @@ import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.ext.observe
 import net.kelmer.correostracker.ui.detail.DetailActivity
 import timber.log.Timber
+import android.R.attr.label
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
+
+
 
 
 /**
@@ -34,6 +41,13 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
 
 
     private val clickListener = object: ParcelClickListener{
+        override fun longPress(parcelReference: LocalParcelReference) {
+            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("ParcelCode", parcelReference.code)
+            clipboard.primaryClip = clip
+            Toast.makeText(context, getString(R.string.clipboard_copied), Toast.LENGTH_LONG).show()
+        }
+
         override fun click(parcelReference: LocalParcelReference) {
             startActivity(DetailActivity.newIntent(context, parcelReference.code))
         }

@@ -1,12 +1,16 @@
 package net.kelmer.correostracker.ui.list
 
 import android.support.v7.widget.RecyclerView
+import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.rv_parcel_item.view.*
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
+import android.view.MotionEvent
+
+
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -45,6 +49,11 @@ class ParcelListAdapter constructor(
             }
             more.setOnClickListener {
                 clickListener.dots(more, parcel)
+            }
+
+            parcel_cardview.setOnLongClickListener {
+                clickListener.longPress(parcel)
+                true
             }
         }
 

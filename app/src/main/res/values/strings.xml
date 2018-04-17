@@ -6,4 +6,5 @@
     <string name="refresh_all">Actualizar todos</string>
     <string name="delete">Eliminar</string>
     <string name="refresh">Actualizar</string>
+    <string name="clipboard_copied">El código ha sido copiado al portapapeles.</string>
 </resources>

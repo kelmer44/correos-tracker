@@ -14,4 +14,6 @@ interface ParcelClickListener {
 
     fun update(parcelReference: LocalParcelReference)
 
+    fun longPress(parcelReference: LocalParcelReference)
+
 }
