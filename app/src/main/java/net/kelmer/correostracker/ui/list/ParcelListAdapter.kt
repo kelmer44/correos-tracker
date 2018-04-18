@@ -61,5 +61,6 @@ class ParcelListAdapter constructor(
 
     fun updateItems(data: List<LocalParcelReference>) {
         items = data.toMutableList()
+        notifyDataSetChanged()
     }
 }
