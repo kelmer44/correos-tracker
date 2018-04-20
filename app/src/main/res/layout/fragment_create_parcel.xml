@@ -18,7 +18,7 @@
             android:layout_height="64dp"
             android:layout_marginBottom="8dp"
             android:clickable="true"
-            android:foreground="?selectableItemBackground"
+            android:foreground="?android:selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -33,8 +33,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/single_spacing"
-            android:orientation="vertical"
             android:gravity="top"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/frameLayout"
             app:layout_constraintTop_toTopOf="parent">
@@ -59,7 +59,6 @@
         </LinearLayout>
 
 
-
     </android.support.constraint.ConstraintLayout>
 
 
@@ -70,31 +69,64 @@
         app:errorEnabled="true">
 
         <EditText
+
             android:id="@+id/parcel_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/parcel_code"
             android:imeOptions="actionNext"
-            android:inputType="textCapSentences"
+            android:inputType="textCapWords"
             android:maxLines="1"
             android:text="" />
     </android.support.design.widget.TextInputLayout>
-    <Spinner
 
-        android:entries="@array/tofrom_values"
-        android:dropDownWidth="wrap_content"
-        android:spinnerMode="dropdown"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp">
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </Spinner>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/stance"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/stance_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="16dp"
+            android:paddingTop="16dp">
+
+            <RadioButton
+                android:id="@+id/createevent_visibility_public"
+                android:layout_width="wrap_content"
+                android:checked="true"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/incoming" />
+
+            <RadioButton
+                android:id="@+id/createevent_visibility_private"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/outgoing" />
+
+        </RadioGroup>
+    </LinearLayout>
 
     <Button
         android:id="@+id/create_ok"
-        style="?borderlessButtonStyle"
+        style="?android:borderlessButtonStyle"
         android:layout_width="wrap_content"
-        android:textColor="?colorAccent"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text="@android:string/ok" />
+        android:text="@android:string/ok"
+        android:textColor="@color/colorAccent" />
 </LinearLayout>
