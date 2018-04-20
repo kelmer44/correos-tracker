@@ -7,7 +7,7 @@
     <string name="delete">Eliminar</string>
     <string name="refresh">Actualizar</string>
     <string name="clipboard_copied">El código ha sido copiado al portapapeles.</string>
-    <string name="incoming">Entrante</string>
-    <string name="outgoing">Saliente</string>
+    <string name="incoming">Lo voy a recibir</string>
+    <string name="outgoing">Lo he enviado</string>
     <string name="stance">Dirección</string>
 </resources>
