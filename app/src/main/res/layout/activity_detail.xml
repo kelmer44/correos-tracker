@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,22 +16,43 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+            android:layout_height="?android:attr/actionBarSize"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/half_spacing"
+            android:text="CD0CXK0000TDGDSFG15706H"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textStyle="bold" />
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/half_spacing"
+            android:gravity="center"
+            android:text="Saliente"
+            android:textAllCaps="true"
+
+            />
     </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
         android:id="@+id/content"
-        android:layout_below="@id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/app_bar"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <fragment
-            xmlns:android="http://schemas.android.com/apk/res/android"
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/detail_fragment"
             android:name="net.kelmer.correostracker.ui.detail.DetailFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/detail_fragment"/>
+            android:layout_height="match_parent" />
     </FrameLayout>
 
 

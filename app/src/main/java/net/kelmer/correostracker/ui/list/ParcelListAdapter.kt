@@ -44,6 +44,17 @@ class ParcelListAdapter constructor(
 
             parcel_name.text = parcel.parcelName
             parcel_code.text = parcel.code
+
+            when (parcel.stance) {
+                LocalParcelReference.Stance.INCOMING -> {
+                    parcel_stance.setText(R.string.incoming)
+                }
+                LocalParcelReference.Stance.OUTGOING -> {
+                    parcel_stance.setText(R.string.outgoing)
+
+                }
+            }
+
             parcel_cardview.setOnClickListener {
                 clickListener.click(parcel)
             }

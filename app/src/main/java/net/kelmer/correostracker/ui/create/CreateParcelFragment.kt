@@ -25,9 +25,20 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
 
     override fun loadUp() {
         create_ok.setOnClickListener {
+
+
+
             if(!TextUtils.isEmpty(parcel_name.text.toString()) && !TextUtils.isEmpty(parcel_code.text.toString())) {
-                var localParcelReference = LocalParcelReference(parcel_code.text.toString(), parcel_name.text.toString())
+
+                var checkedRadioButtonId = stance_group.getCheckedRadioButtonId()
+                var stance = when (checkedRadioButtonId){
+                    R.id.stance_incoming -> LocalParcelReference.Stance.INCOMING
+                    else -> LocalParcelReference.Stance.OUTGOING
+                }
+
+                var localParcelReference = LocalParcelReference(parcel_code.text.toString(), parcel_name.text.toString(), stance)
                 viewModel.addParcel(localParcelReference)
+
             }
         }
         viewModel.saveParcelLiveData.observe(this, {

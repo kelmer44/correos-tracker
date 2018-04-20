@@ -78,7 +78,7 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
     private fun loadParcelInformation(parcelInformation: ParcelDetailDTO) {
         activity.toolbar.title = parcelInformation.name
         adapterRecyclerView.updateStatus(parcelInformation.states)
-        parcelStatusRecyclerView.smoothScrollToPosition(parcelInformation.states.size-1)
+        parcelStatusRecyclerView.scrollToPosition(adapterRecyclerView.itemCount -1 )
     }
 
 }
