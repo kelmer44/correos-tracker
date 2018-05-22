@@ -1,7 +1,6 @@
 package net.kelmer.correostracker
 
 import android.app.Application
-import com.facebook.stetho.Stetho
 import net.kelmer.correostracker.data.db.DbModule
 import timber.log.Timber
 
@@ -17,7 +16,6 @@ class CorreosApp : Application() {
     override fun onCreate() {
         super.onCreate()
         initDependencyGraph()
-        setupStetho()
         setupTimber()
     }
 
@@ -25,9 +23,9 @@ class CorreosApp : Application() {
         Timber.plant(Timber.DebugTree())
     }
 
-    private fun setupStetho() {
-        Stetho.initializeWithDefaults(this)
-    }
+//    private fun setupStetho() {
+//        Stetho.initializeWithDefaults(this)
+//    }
 
     private fun initDependencyGraph() {
         graph = DaggerApplicationComponent.builder()

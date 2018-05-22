@@ -1,6 +1,5 @@
 package net.kelmer.correostracker.di
 
-import com.facebook.stetho.okhttp3.StethoInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
@@ -14,10 +13,10 @@ import javax.inject.Singleton
 @Module
 open class Interceptors {
 
-    @NetworkLogger @Singleton
-    @Provides
-    @IntoSet
-    fun provideStetho(): Interceptor = StethoInterceptor()
+//    @NetworkLogger @Singleton
+//    @Provides
+//    @IntoSet
+//    fun provideStetho(): Interceptor = StethoInterceptor()
 
     @NetworkLogger @Singleton
     @Provides
