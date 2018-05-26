@@ -1,11 +1,17 @@
 package net.kelmer.correostracker.data.model.remote
 
 data class CorreosApiEvent(val fecEvento: String,
+                           val codEvento: String,
                            val horEvento: String,
                            val fase: String,
                            val desTextoResumen: String,
                            val desTextoAmpliado: String,
-                           val unidad: String)
+                           val unidad: String) {
+
+
+
+    fun buildUltimoEstado() = "$desTextoResumen en $unidad ($fecEvento - $horEvento)"
+}
 
 //
 //"fecEvento": "19/03/2018",

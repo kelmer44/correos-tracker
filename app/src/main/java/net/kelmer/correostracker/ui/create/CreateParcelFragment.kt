@@ -36,7 +36,7 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
                     else -> LocalParcelReference.Stance.OUTGOING
                 }
 
-                var localParcelReference = LocalParcelReference(parcel_code.text.toString(), parcel_name.text.toString(), stance)
+                var localParcelReference = LocalParcelReference(parcel_code.text.toString(), parcel_name.text.toString(), stance, null)
                 viewModel.addParcel(localParcelReference)
 
             }

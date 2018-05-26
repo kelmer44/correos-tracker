@@ -1,11 +1,9 @@
 package net.kelmer.correostracker.data.model.local
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Delete
-import android.arch.persistence.room.Insert
+import android.arch.persistence.room.*
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
-import android.arch.persistence.room.Query
 import io.reactivex.Flowable
+import io.reactivex.Single
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -13,14 +11,19 @@ import io.reactivex.Flowable
 @Dao
 interface LocalParcelDao {
 
-    @Query("select * from LocalParcelReference")
+    @Query("select * from LocalParcelReference ORDER BY parcelName ")
     fun getParcels() : Flowable<List<LocalParcelReference>>
 
     @Query("select * from LocalParcelReference where code = :code")
     fun getParcel(code: String) : Flowable<LocalParcelReference>
 
+    @Query("select * from LocalParcelReference where code = :code")
+    fun getParcelSync(code: String) : Single<LocalParcelReference>
+
+
     @Insert(onConflict = REPLACE)
-    fun saveParcel(parcel: LocalParcelReference)
+    fun saveParcel(parcel: LocalParcelReference) : Long
+
 
     @Delete
     fun deleteParcel(parcel: LocalParcelReference) : Int

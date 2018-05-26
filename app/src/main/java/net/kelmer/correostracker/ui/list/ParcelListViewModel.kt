@@ -6,8 +6,12 @@ import io.reactivex.rxkotlin.subscribeBy
 import net.kelmer.correostracker.base.RxViewModel
 import net.kelmer.correostracker.data.Result
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
+import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
+import net.kelmer.correostracker.data.repository.correos.CorreosRepository
 import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
 import net.kelmer.correostracker.ext.toResult
+import net.kelmer.correostracker.ext.withNetwork
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -22,6 +26,8 @@ class ParcelListViewModel : RxViewModel() {
     @Inject
     lateinit var localParcelRepository: LocalParcelRepository
 
+    @Inject
+    lateinit var parcelRepository: CorreosRepository
 
     fun retrieveParcelList() {
         localParcelRepository.getParcels()
@@ -42,6 +48,26 @@ class ParcelListViewModel : RxViewModel() {
                         }
                 )
                 .addTo(disposables)
+    }
+
+
+    val statusReports: MutableLiveData<CorreosApiParcel> = MutableLiveData()
+
+
+    fun refresh(items: MutableList<LocalParcelReference>) {
+        items.forEachIndexed { i, p ->
+            parcelRepository.getParcelStatus(p.code)
+                    .withNetwork(networkInteractor)
+                    .subscribeOn(schedulerProvider.io())
+                    .observeOn(schedulerProvider.ui())
+                    .subscribeBy(onError = {
+                        Timber.e(it, "Could not update $i : ${it.message}")
+                    },
+                            onNext = {
+                                statusReports.value = it
+                            })
+                    .addTo(disposables)
+        }
     }
 
 

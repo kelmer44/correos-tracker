@@ -113,6 +113,13 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                 }
             }
         })
+
+
+        viewModel.statusReports.observe(this, {
+            it?.let {
+                adapter.setLoading(it.codEnvio, false)
+            }
+        })
     }
 
     private fun setupRecyclerView() {
@@ -140,7 +147,10 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.app_refresh_all -> {
-                Toast.makeText(context, "Refresh all!!!", Toast.LENGTH_LONG).show()
+                viewModel.refresh(adapter.items)
+                adapter.items.forEachIndexed { i, p ->
+                    adapter.setLoading(p.code, true)
+                }
             }
         }
         return true

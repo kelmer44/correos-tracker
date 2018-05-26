@@ -47,15 +47,14 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
 
             it?.let {
                     detail_loading.isVisible = it.inProgress
-
             }
             when(it){
                 is Result.Success ->{
                     loadParcelInformation(it.data)
                 }
                 is Result.Failure -> {
-                    Toast.makeText(context, "ERROR " + it.errorMessage, Toast.LENGTH_LONG).show()
-                    Timber.e(it.errorMessage)
+                    Toast.makeText(context, "ERROR!",Toast.LENGTH_LONG).show()
+                    Timber.e(it.e, it.errorMessage)
                 }
             }
         })

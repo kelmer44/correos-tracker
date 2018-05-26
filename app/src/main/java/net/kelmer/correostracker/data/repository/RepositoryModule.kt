@@ -23,8 +23,8 @@ class RepositoryModule {
     }
     @Provides
     @Singleton
-    fun provideCorreosRepository(correosApi: CorreosApi): CorreosRepository {
-        return CorreosRepositoryImpl.getInstance(correosApi)
+    fun provideCorreosRepository(correosApi: CorreosApi, correosDao: LocalParcelDao): CorreosRepository {
+        return CorreosRepositoryImpl.getInstance(correosApi, correosDao)
     }
 
 

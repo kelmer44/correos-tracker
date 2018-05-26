@@ -1,25 +1,50 @@
 package net.kelmer.correostracker.data.repository.correos
 
+import android.arch.lifecycle.Transformations.map
 import io.reactivex.Flowable
+import io.reactivex.internal.operators.single.SingleInternalHelper.toFlowable
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
+import net.kelmer.correostracker.data.model.local.LocalParcelDao
+import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.network.correos.CorreosApi
+import timber.log.Timber
+import java.util.*
 
-class CorreosRepositoryImpl(val correosApi: CorreosApi) : CorreosRepository {
+class CorreosRepositoryImpl(val correosApi: CorreosApi, val dao: LocalParcelDao) : CorreosRepository {
 
     var cache: List<CorreosApiParcel>? = null
 
     override fun getParcelStatus(parcelId: String): Flowable<CorreosApiParcel> {
-        return correosApi.getParcelStatus(parcelId)
-                .map { element -> element.get(0) }.toFlowable()
+
+
+        var parcelReference: LocalParcelReference? = null
+
+        return dao.getParcelSync(parcelId)
+                .doOnSuccess {
+                    parcelReference = it
+                }
+                .flatMap {  (correosApi.getParcelStatus(parcelId))}
+                .map { element -> element[0] }
+                .doOnSuccess {
+                    parcelReference?.let { p ->
+                        p.ultimoEstado = it.eventos.last()
+                        p.lastChecked = Date().time
+                        var value = dao.saveParcel(p)
+                        Timber.w("Saving $p to database! $value saved")
+                    }
+                }
+                .toFlowable()
     }
 
 
     companion object {
         private var instance: CorreosRepositoryImpl? = null
 
-        fun getInstance(correosApi: CorreosApi): CorreosRepositoryImpl {
+        fun getInstance(correosApi: CorreosApi, correosDao: LocalParcelDao): CorreosRepositoryImpl {
             if (instance == null) {
-                instance = CorreosRepositoryImpl(correosApi)
+                instance = CorreosRepositoryImpl(correosApi, correosDao)
             }
             return instance!!
         }

@@ -57,19 +57,20 @@
                 android:textAllCaps="true"
                 tools:text="RF11232423415706W" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/single_spacing"
-                android:background="#d5d5d5" />
-
-
             <TextView
                 android:id="@+id/parcel_stance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/single_spacing"
                 tools:text="Enviado" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="@dimen/single_spacing"
+                android:layout_marginTop="@dimen/single_spacing"
+                android:background="#d5d5d5" />
+
 
             <TextView
                 style="?android:textAppearanceListItem"
@@ -79,26 +80,48 @@
                 android:text="@string/ultimo_estado_header"
                 android:visibility="gone" />
 
-            <LinearLayout
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginLeft="@dimen/single_spacing"
-                    android:layout_marginRight="@dimen/single_spacing"
-                    android:src="@drawable/ic_delivered" />
+                tools:visibility="visible">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:id="@+id/ultimo_estado"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="24dp"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintLeft_toLeftOf="parent"
+                    card_view:layout_constraintLeft_toRightOf="@id/parcel_progress"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    tools:text="Entregado en la casa de tu putam adre cuando el texto es y muy largo y tal y cual" />
+
+
+                <ProgressBar
+                    android:id="@+id/parcel_progress"
+                    android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:gravity="center_vertical"
-                    android:includeFontPadding="false"
-                    android:text="Entregado" />
-            </LinearLayout>
+                    android:indeterminate="true"
+                    android:visibility="visible"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintRight_toRightOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/last_checked"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="32dp"
+                    android:gravity="left"
+                    android:layout_marginTop="@dimen/single_spacing"
+                    android:textStyle="italic"
+                    card_view:layout_constraintLeft_toLeftOf="parent"
+                    card_view:layout_constraintRight_toRightOf="@id/parcel_progress"
+                    card_view:layout_constraintTop_toBottomOf="@id/ultimo_estado"
+                    tools:text="Ayer" />
+
+            </android.support.constraint.ConstraintLayout>
 
         </LinearLayout>
 

@@ -9,7 +9,9 @@ import kotlinx.android.synthetic.main.rv_parcel_item.view.*
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import android.view.MotionEvent
-
+import net.kelmer.correostracker.ext.isVisible
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 /**
@@ -45,13 +47,14 @@ class ParcelListAdapter constructor(
             parcel_name.text = parcel.parcelName
             parcel_code.text = parcel.code
 
+            ultimo_estado.text = parcel.ultimoEstado?.buildUltimoEstado() ?: "?"
+
             when (parcel.stance) {
                 LocalParcelReference.Stance.INCOMING -> {
                     parcel_stance.setText(R.string.incoming)
                 }
                 LocalParcelReference.Stance.OUTGOING -> {
                     parcel_stance.setText(R.string.outgoing)
-
                 }
             }
 
@@ -66,12 +69,32 @@ class ParcelListAdapter constructor(
                 clickListener.longPress(parcel)
                 true
             }
+
+            parcel_progress.isVisible = parcel.isLoading
+
+
+            var lastChecked = parcel.lastChecked
+
+            if(lastChecked != null && lastChecked > 0){
+                last_checked.text = context.getString(R.string.lastchecked, dateFormat.format(Date(lastChecked)))
+            }
+                last_checked.isVisible = lastChecked != null && lastChecked > 0
         }
 
     }
 
+
+    val dateFormat = SimpleDateFormat("dd/MM/yyy HH:mm:ss")
     fun updateItems(data: List<LocalParcelReference>) {
         items = data.toMutableList()
         notifyDataSetChanged()
+    }
+
+    fun setLoading(code: String, loading: Boolean) {
+        var filter = items.filter { it.code == code }
+        if(filter.isNotEmpty()) {
+            filter.first()?.isLoading = loading
+            notifyItemChanged(items.indexOf(filter.first()))
+        }
     }
 }

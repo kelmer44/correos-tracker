@@ -9,6 +9,8 @@ import timber.log.Timber
 
 class LocalParcelRepositoryImpl(val localParcelDao: LocalParcelDao) : LocalParcelRepository {
 
+
+    
     override fun getParcels() =
             localParcelDao.getParcels()
 

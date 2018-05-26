@@ -2,6 +2,10 @@ package net.kelmer.correostracker.data.model.remote
 
 
 data class CorreosApiParcel(val codEnvio: String,
+                            val largo: String,
+                            val ancho: String,
+                            val alto: String,
+                            val peso: String,
                             val eventos: List<CorreosApiEvent>){
 
 
