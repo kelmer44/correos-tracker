@@ -13,6 +13,7 @@ import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.BaseFragment
 import net.kelmer.correostracker.data.Result
 import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
+import net.kelmer.correostracker.data.repository.correos.CorreosException
 import net.kelmer.correostracker.ext.isVisible
 import net.kelmer.correostracker.ext.observe
 import timber.log.Timber
@@ -53,7 +54,14 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
                     loadParcelInformation(it.data)
                 }
                 is Result.Failure -> {
-                    Toast.makeText(context, "ERROR!",Toast.LENGTH_LONG).show()
+                    error_container.isVisible = true
+                    if(it.e is CorreosException) {
+                        error_text.text = it.e.message
+
+                    }
+                    else {
+                        error_text.text = getString(R.string.error_unrecognized)
+                    }
                     Timber.e(it.e, it.errorMessage)
                 }
             }

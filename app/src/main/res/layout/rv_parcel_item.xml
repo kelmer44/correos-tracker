@@ -32,12 +32,13 @@
                     android:id="@+id/parcel_name"
                     style="@style/Base.TextAppearance.AppCompat"
                     android:layout_width="match_parent"
-                    android:layout_height="24dp"
+                    android:minHeight="24dp"
+                    android:layout_height="wrap_content"
                     android:layout_toLeftOf="@id/more"
                     android:gravity="center_vertical"
                     android:textAllCaps="true"
                     android:textStyle="bold"
-                    tools:text="NOMBRE DEL PAQUETE" />
+                    tools:text="NOMBRE DEL PAQUETE asi un poco largo para que no quepa" />
 
                 <ImageView
                     android:id="@+id/more"
@@ -46,6 +47,13 @@
                     android:layout_alignParentRight="true"
                     android:background="@null"
                     android:src="@drawable/ic_more" />
+
+                <View
+                    android:id="@+id/more_clickablearea"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="48dp"
+                    android:clickable="true"
+                    android:layout_height="36dp"/>
             </RelativeLayout>
 
 
@@ -55,6 +63,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAllCaps="true"
+                android:maxLines="1"
+                android:ellipsize="end"
                 tools:text="RF11232423415706W" />
 
             <TextView
@@ -89,8 +99,9 @@
                     android:id="@+id/ultimo_estado"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
                     android:minHeight="24dp"
-                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintEnd_toStartOf="@+id/parcel_progress"
                     card_view:layout_constraintLeft_toLeftOf="parent"
                     card_view:layout_constraintLeft_toRightOf="@id/parcel_progress"
                     card_view:layout_constraintTop_toTopOf="parent"
@@ -112,10 +123,12 @@
                     android:id="@+id/last_checked"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="32dp"
-                    android:gravity="left"
+                    android:layout_marginEnd="8dp"
+                    android:paddingLeft="32dp"
                     android:layout_marginTop="@dimen/single_spacing"
+                    android:gravity="left"
                     android:textStyle="italic"
+                    card_view:layout_constraintEnd_toStartOf="@+id/parcel_progress"
                     card_view:layout_constraintLeft_toLeftOf="parent"
                     card_view:layout_constraintRight_toRightOf="@id/parcel_progress"
                     card_view:layout_constraintTop_toBottomOf="@id/ultimo_estado"

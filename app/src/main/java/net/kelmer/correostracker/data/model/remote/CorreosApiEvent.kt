@@ -10,7 +10,7 @@ data class CorreosApiEvent(val fecEvento: String,
 
 
 
-    fun buildUltimoEstado() = "$desTextoResumen en $unidad ($fecEvento - $horEvento)"
+    fun buildUltimoEstado() = "$desTextoResumen en $unidad"
 }
 
 //

@@ -23,6 +23,7 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix '.debug'
+            resValue("string", "PORT_NUMBER", "8081")
         }
         release {
             minifyEnabled false

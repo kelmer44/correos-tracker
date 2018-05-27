@@ -6,7 +6,8 @@ data class CorreosApiParcel(val codEnvio: String,
                             val ancho: String,
                             val alto: String,
                             val peso: String,
-                            val eventos: List<CorreosApiEvent>){
+                            val eventos: List<CorreosApiEvent>,
+                            val error: Error?){
 
 
     fun isDelivered(): Boolean = eventos.get(eventos.size-1).desTextoResumen.equals("Entregado")

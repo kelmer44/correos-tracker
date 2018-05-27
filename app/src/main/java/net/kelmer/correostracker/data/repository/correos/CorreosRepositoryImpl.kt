@@ -2,6 +2,7 @@ package net.kelmer.correostracker.data.repository.correos
 
 import android.arch.lifecycle.Transformations.map
 import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.internal.operators.single.SingleInternalHelper.toFlowable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
@@ -16,6 +17,7 @@ class CorreosRepositoryImpl(val correosApi: CorreosApi, val dao: LocalParcelDao)
 
     var cache: List<CorreosApiParcel>? = null
 
+
     override fun getParcelStatus(parcelId: String): Flowable<CorreosApiParcel> {
 
 
@@ -25,15 +27,26 @@ class CorreosRepositoryImpl(val correosApi: CorreosApi, val dao: LocalParcelDao)
                 .doOnSuccess {
                     parcelReference = it
                 }
-                .flatMap {  (correosApi.getParcelStatus(parcelId))}
+                .flatMap { (correosApi.getParcelStatus(parcelId)) }
                 .map { element -> element[0] }
+                .flatMap { element ->
+                    //Mapping errors to a proper exception
+                    if(element.error!=null && element.error.codError != "0"){
+                        Single.error(CorreosException(element.error.codError, element.error.desError))
+                    }
+                    else {
+                        Single.just(element)
+                    }
+                }
                 .doOnSuccess {
+
                     parcelReference?.let { p ->
                         p.ultimoEstado = it.eventos.last()
                         p.lastChecked = Date().time
                         var value = dao.saveParcel(p)
                         Timber.w("Saving $p to database! $value saved")
                     }
+
                 }
                 .toFlowable()
     }
