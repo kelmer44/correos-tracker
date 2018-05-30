@@ -42,7 +42,7 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
             }
         }
         viewModel.saveParcelLiveData.observe(this, {
-           activity.finish()
+           activity?.finish()
         })
 
     }

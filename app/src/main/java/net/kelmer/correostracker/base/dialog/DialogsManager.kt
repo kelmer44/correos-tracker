@@ -89,7 +89,7 @@ class DialogsManager(private val fragmentManager: FragmentManager) {
 
     fun setId(dialog: DialogFragment, id: String) {
         var args = if (dialog.arguments != null) dialog.arguments else Bundle(1)
-        args.putString(ARGUMENT_DIALOG_ID, id)
+        args?.putString(ARGUMENT_DIALOG_ID, id)
         dialog.arguments = args
     }
 

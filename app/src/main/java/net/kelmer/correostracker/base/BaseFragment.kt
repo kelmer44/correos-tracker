@@ -23,10 +23,11 @@ abstract class BaseFragment<V: ViewModel> : Fragment() {
 
     protected lateinit var viewModel: V
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater?.inflate(layoutId, container, false)
         return view
     }
+
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +40,7 @@ abstract class BaseFragment<V: ViewModel> : Fragment() {
 
     abstract fun injectDependencies(graph: ApplicationComponent)
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadUp()
         isReady = true
