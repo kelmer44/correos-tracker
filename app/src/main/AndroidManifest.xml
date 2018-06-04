@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
 
     <application
         android:name=".CorreosApp"
@@ -32,6 +34,15 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="bc22c0cdc157cb80f7cdfdb0b604a7b453fff59c" />
+
+        <receiver android:name="com.myapp.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
     </application>
+
+
 
 </manifest>

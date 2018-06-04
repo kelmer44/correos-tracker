@@ -5,6 +5,8 @@ import net.kelmer.correostracker.data.db.DbModule
 import net.kelmer.correostracker.data.network.ApiModule
 import net.kelmer.correostracker.data.repository.RepositoryModule
 import net.kelmer.correostracker.di.NetModule
+import net.kelmer.correostracker.di.ServiceComponent
+import net.kelmer.correostracker.di.ServiceModule
 import net.kelmer.correostracker.ui.create.CreateParcelComponent
 import net.kelmer.correostracker.ui.create.CreateParcelModule
 import net.kelmer.correostracker.ui.detail.DetailFragment
@@ -36,5 +38,6 @@ interface ApplicationComponent {
 
     fun plus(createParcelModule: CreateParcelModule): CreateParcelComponent
     fun plus(parcelDetailModule: ParcelDetailModule): ParcelDetailComponent
+    fun plus(serviceModule: ServiceModule) : ServiceComponent
 
 }
