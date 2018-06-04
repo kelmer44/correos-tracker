@@ -2,15 +2,18 @@ package net.kelmer.correostracker.data.repository.local
 
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import net.kelmer.correostracker.data.model.local.LocalParcelDao
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import timber.log.Timber
 
 
 class LocalParcelRepositoryImpl(val localParcelDao: LocalParcelDao) : LocalParcelRepository {
+    override fun getParcelsSingle(): Single<List<LocalParcelReference>> {
+        localParcelDao.getParcels()
+    }
 
 
-    
     override fun getParcels() =
             localParcelDao.getParcels()
 
