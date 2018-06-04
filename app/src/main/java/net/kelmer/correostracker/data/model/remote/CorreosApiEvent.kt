@@ -3,10 +3,10 @@ package net.kelmer.correostracker.data.model.remote
 data class CorreosApiEvent(val fecEvento: String,
                            val codEvento: String,
                            val horEvento: String,
-                           val fase: String,
+                           val fase: String? = "?",
                            val desTextoResumen: String,
                            val desTextoAmpliado: String,
-                           val unidad: String) {
+                           val unidad: String? = "?") {
 
 
 
@@ -24,4 +24,4 @@ data class CorreosApiEvent(val fecEvento: String,
 //"accionWeb": null,
 //"paramAccionWeb": null,
 //"codired": "1558394",
-//"unidad": "CTA SANTIAGO DE COMPOSTELA"
+//"unidad": "CTA SANTIAGO DE COMPOSTELA

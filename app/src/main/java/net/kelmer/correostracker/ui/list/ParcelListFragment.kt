@@ -42,32 +42,42 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
 
     private val clickListener = object: ParcelClickListener{
         override fun longPress(parcelReference: LocalParcelReference) {
-            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("ParcelCode", parcelReference.code)
             clipboard.primaryClip = clip
             Toast.makeText(context, getString(R.string.clipboard_copied), Toast.LENGTH_LONG).show()
         }
 
         override fun click(parcelReference: LocalParcelReference) {
-            startActivity(DetailActivity.newIntent(context, parcelReference.code))
+            var ctx = context
+            ctx?.let {
+
+                startActivity(DetailActivity.newIntent(ctx, parcelReference.code))
+            }
         }
 
         override fun dots(view: View, parcelReference: LocalParcelReference) {
-//            viewModel.deleteParcel(parcelReference)
-            val popup = PopupMenu(this@ParcelListFragment.context, view)
-            val inflater = popup.menuInflater
-            inflater.inflate(R.menu.parcel_menu, popup.menu)
-            popup.setOnMenuItemClickListener { item ->
-                //do your things in each of the following cases
-                when (item.itemId) {
-                    R.id.menu_delete -> {
-                        viewModel.deleteParcel(parcelReference)
-                        true
+//            viewModel.deleteParcel(parcelReference
+// )
+            var ctx = context
+
+            ctx?.let {
+                val popup = PopupMenu(ctx, view)
+                val inflater = popup.menuInflater
+                inflater.inflate(R.menu.parcel_menu, popup.menu)
+                popup.setOnMenuItemClickListener { item ->
+                    //do your things in each of the following cases
+                    when (item.itemId) {
+                        R.id.menu_delete -> {
+                            viewModel.deleteParcel(parcelReference)
+                            true
+                        }
+                        else -> false
                     }
-                    else -> false
                 }
+                popup.show()
             }
-            popup.show()
+
         }
 
         override fun update(parcelReference: LocalParcelReference) {

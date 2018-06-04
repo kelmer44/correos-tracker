@@ -35,7 +35,7 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
     override val viewModelClass: Class<ParcelDetailViewModel> = ParcelDetailViewModel::class.java
 
 
-    private val parcelCode by lazy { activity.intent.getStringExtra(DetailActivity.KEY_PARCELCODE) }
+    private val parcelCode by lazy { activity?.intent?.getStringExtra(DetailActivity.KEY_PARCELCODE) }
 
     override fun loadUp() {
         setHasOptionsMenu(true)
@@ -43,7 +43,7 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
         parcelStatusRecyclerView.layoutManager = linearLayoutManager
         parcelStatusRecyclerView.adapter = adapterRecyclerView
 
-        viewModel.getParcel(parcelCode)
+        viewModel.getParcel(parcelCode ?: "NONE")
         viewModel.parcel.observe(this, {
 
             it?.let {
@@ -77,13 +77,13 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         if(item.itemId == R.id.parcel_refresh) {
-            viewModel.getParcel(parcelCode)
+            viewModel.getParcel(parcelCode ?: "NONE")
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun loadParcelInformation(parcelInformation: ParcelDetailDTO) {
-        activity.toolbar.title = parcelInformation.name
+        activity?.toolbar?.title = parcelInformation.name
         adapterRecyclerView.updateStatus(parcelInformation.states)
         parcelStatusRecyclerView.scrollToPosition(adapterRecyclerView.itemCount -1 )
     }
