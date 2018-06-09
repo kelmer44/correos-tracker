@@ -17,18 +17,18 @@ class ParcelCheckerService : BaseService("ParcelChecker") {
 
     override fun onHandleIntent(p0: Intent?) {
 
-        var subscribe = localParcelRepository.getParcelsSingle()
-                .flatMap {
-                    it.forEach {
-                        correosRepository.getParcelStatus(it.code)
-
-                    }
-                    Single.just(it)
-                }
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .subscribe()
-        disposables.add(subscribe)
+//        var subscribe = localParcelRepository.getParcelsSingle()
+//                .flatMap {
+//                    it.forEach {
+//                        correosRepository.getParcelStatus(it.code)
+//
+//                    }
+//                    Single.just(it)
+//                }
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(Schedulers.io())
+//                .subscribe()
+//        disposables.add(subscribe)
     }
 
     @Inject

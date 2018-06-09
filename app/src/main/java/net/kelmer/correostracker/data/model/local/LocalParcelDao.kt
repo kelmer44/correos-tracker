@@ -21,7 +21,7 @@ interface LocalParcelDao {
     fun getParcelSync(code: String) : Single<LocalParcelReference>
 
     @Query("select * from LocalParcelReference ORDER BY parcelName ")
-    fun getParcelsSync(code: String) : Single<List<LocalParcelReference>>
+    fun getParcelsSync() : Single<List<LocalParcelReference>>
 
     @Insert(onConflict = REPLACE)
     fun saveParcel(parcel: LocalParcelReference) : Long
