@@ -26,11 +26,11 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
     override fun loadUp() {
         create_ok.setOnClickListener {
 
-
-
-            if(!TextUtils.isEmpty(parcel_name.text.toString()) && !TextUtils.isEmpty(parcel_code.text.toString())) {
-
-                var checkedRadioButtonId = stance_group.getCheckedRadioButtonId()
+            if(!TextUtils.isEmpty(parcel_code.text.toString())) {
+                if(TextUtils.isEmpty(parcel_name.text.toString())){
+                    parcel_name.text = parcel_code.text
+                }
+                var checkedRadioButtonId = stance_group.checkedRadioButtonId
                 var stance = when (checkedRadioButtonId){
                     R.id.stance_incoming -> LocalParcelReference.Stance.INCOMING
                     else -> LocalParcelReference.Stance.OUTGOING
@@ -40,10 +40,13 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
                 viewModel.addParcel(localParcelReference)
 
             }
+            else {
+                parcel_code_layout.error = getString(R.string.error_nocodigo)
+            }
         }
-        viewModel.saveParcelLiveData.observe(this, {
-           activity?.finish()
-        })
+        viewModel.saveParcelLiveData.observe(this) {
+            activity?.finish()
+        }
 
     }
 

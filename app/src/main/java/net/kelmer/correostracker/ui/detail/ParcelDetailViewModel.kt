@@ -28,13 +28,25 @@ class ParcelDetailViewModel : RxViewModel() {
 
 
     fun getParcel(parcelCode: String) {
-        localParcelRepository.getParcel(parcelCode)
+
+
+        correosRepository.getParcelStatus(parcelCode)
                 .zipWith(
-                        correosRepository.getParcelStatus(parcelCode)
-                                .withNetwork(networkInteractor),
-                        BiFunction<LocalParcelReference,CorreosApiParcel, ParcelDetailDTO>{
-                            localParcel, correosParcel ->
-                            ParcelDetailDTO(localParcel.parcelName, localParcel.code, correosParcel.eventos)
+                        localParcelRepository.getParcel(parcelCode)
+                        ,
+                        BiFunction<CorreosApiParcel,LocalParcelReference,ParcelDetailDTO>{
+                            correosParcel, localParcel ->
+                            ParcelDetailDTO(
+                                    localParcel.parcelName,
+                                    localParcel.code,
+                                    localParcel.ancho?: "",
+                                    localParcel.alto?: "",
+                                    localParcel.largo?: "",
+                                    localParcel.peso?: "",
+                                    localParcel.refCliente?:"",
+                                    localParcel.codProducto?:"",
+                                    localParcel.fechaCalculada?:"",
+                                    correosParcel.eventos)
                         }
 
                 )

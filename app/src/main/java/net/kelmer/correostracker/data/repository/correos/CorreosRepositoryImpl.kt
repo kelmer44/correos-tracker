@@ -43,6 +43,13 @@ class CorreosRepositoryImpl(val correosApi: CorreosApi, val dao: LocalParcelDao)
                     parcelReference?.let { p ->
                         p.ultimoEstado = it.eventos.last()
                         p.lastChecked = Date().time
+                        p.alto = it.alto
+                        p.ancho = it.ancho
+                        p.largo = it.largo
+                        p.codProducto = it.codProducto
+                        p.refCliente = it.refCliente
+                        p.peso = it.peso
+                        p.fechaCalculada = it.fechaCalculada
                         var value = dao.saveParcel(p)
                         Timber.w("Saving $p to database! $value saved")
                     }

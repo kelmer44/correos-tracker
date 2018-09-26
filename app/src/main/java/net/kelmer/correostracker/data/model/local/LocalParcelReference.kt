@@ -18,7 +18,14 @@ data class LocalParcelReference(
         var ultimoEstado: CorreosApiEvent? = null,
         @Ignore
         var isLoading: Boolean = false,
-        var lastChecked: Long? = -1) {
+        var lastChecked: Long? = -1,
+        var largo: String? = "",
+        var ancho: String? = "",
+        var alto: String? = "",
+        var peso: String? = "",
+        var refCliente: String? = "",
+        var codProducto: String? = "",
+        var fechaCalculada: String? = " ") {
 
 
     enum class Stance {

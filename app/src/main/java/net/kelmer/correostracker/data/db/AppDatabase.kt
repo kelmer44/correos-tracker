@@ -14,7 +14,7 @@ import net.kelmer.correostracker.data.model.local.StanceConverter
         entities = [
         (LocalParcelReference::class)
         ],
-        version = 4)
+        version = 5)
 @TypeConverters(StanceConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun localParcelDao(): LocalParcelDao

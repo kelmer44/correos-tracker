@@ -1,8 +1,6 @@
 package net.kelmer.correostracker
 
 import android.app.Application
-import com.crashlytics.android.Crashlytics
-import io.fabric.sdk.android.Fabric
 import net.kelmer.correostracker.data.db.DbModule
 import timber.log.Timber
 
