@@ -46,6 +46,7 @@
                 android:layout_width="match_parent"
                 android:hint="@string/parcel_name"
                 android:layout_height="wrap_content"
+                android:importantForAutofill="no"
                 app:errorEnabled="true">
 
                 <EditText
@@ -70,6 +71,7 @@
         android:id="@+id/parcel_code_layout"
         android:hint="@string/parcel_code"
         android:layout_width="match_parent"
+        android:importantForAutofill="no"
         android:layout_height="wrap_content"
         app:errorEnabled="true">
 
