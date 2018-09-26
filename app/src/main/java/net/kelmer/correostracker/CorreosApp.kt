@@ -17,14 +17,8 @@ class CorreosApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        initFabric()
         initDependencyGraph()
         setupTimber()
-    }
-
-    private fun initFabric() {
-
-        Fabric.with(this, Crashlytics())
     }
 
     private fun setupTimber() {

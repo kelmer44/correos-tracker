@@ -119,9 +119,6 @@ def extension = ext {
 
             //==================== Debug ====================
             'timber'       : 'com.jakewharton.timber:timber:4.1.2',
-            'crashlytics'  : [
-                    'core': "com.crashlytics.sdk.android:crashlytics:2.7.1@aar"
-            ],
             stetho         : [
                     core   : "com.facebook.stetho:stetho:$versions.stetho",
                     okhttp3: "com.facebook.stetho:stetho-okhttp3:$versions.stetho",

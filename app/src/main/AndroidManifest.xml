@@ -31,9 +31,9 @@
         <activity android:name=".ui.detail.DetailActivity"
             android:parentActivityName=".ui.list.ParcelListActivity">
         </activity>
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="bc22c0cdc157cb80f7cdfdb0b604a7b453fff59c" />
+        <!--<meta-data-->
+            <!--android:name="io.fabric.ApiKey"-->
+            <!--android:value="bc22c0cdc157cb80f7cdfdb0b604a7b453fff59c" />-->
 
         <receiver android:name="com.myapp.BootReceiver">
             <intent-filter>
