@@ -25,7 +25,8 @@ def extension = ext {
             //UI
             'coordinator'   : '0.3.3',
             'playServices'  : '11.0.4',
-            'kotlin'        : '1.2.21',
+            'kotlinPlugin'  : '1.3.11',
+            'kotlin'        : '1.2.41',
             'lifecycle'     : '1.1.1',
             'room'          : '1.0.0',
             'exoplayer'     : '2.6.1',
@@ -45,7 +46,7 @@ def extension = ext {
                     'constraint': "com.android.support.constraint:constraint-layout:1.0.2",
                     'grid'      : "com.android.support:gridlayout-v7:${versions.supportLibrary}",
                     'customtabs': "com.android.support:customtabs:${versions.supportLibrary}",
-                    'cardview' : "com.android.support:cardview-v7:${versions.supportLibrary}"
+                    'cardview'  : "com.android.support:cardview-v7:${versions.supportLibrary}"
 
             ],
 
@@ -133,7 +134,7 @@ def extension = ext {
             'youbora'      : [
                     'core': "com.npaw.youbora:youboralib:${versions.youbora}",
                     'exo' : "com.npaw.youbora.adapters:exoplayer2-adapter:${versions.youbora}",
-                    'util' : "com.npaw.youbora.utils:optionsutils:0.1.0"
+                    'util': "com.npaw.youbora.utils:optionsutils:0.1.0"
             ]
     ]
 
