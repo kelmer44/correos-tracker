@@ -10,7 +10,7 @@ data class CorreosApiEvent(val fecEvento: String,
 
 
 
-    fun buildUltimoEstado() = "$desTextoResumen en $unidad"
+    fun buildUltimoEstado() = if(!unidad.isNullOrBlank()) "$desTextoResumen en $unidad" else desTextoResumen
 }
 
 //
