@@ -9,14 +9,14 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/parcel_code_layout"
-        android:hint="@string/parcel_code"
         android:layout_width="match_parent"
-        android:importantForAutofill="no"
         android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="@string/parcel_code"
+        android:importantForAutofill="no"
         app:errorEnabled="true">
 
-        <EditText
-
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/parcel_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,70 +24,28 @@
             android:inputType="textCapCharacters"
             android:maxLines="1"
             android:text="" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/parcel_name_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:hint="@string/parcel_name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:importantForAutofill="no"
+        app:errorEnabled="false">
 
-        <FrameLayout
-            android:id="@+id/frameLayout"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginBottom="8dp"
-            android:visibility="gone"
-            android:clickable="true"
-            android:layout_marginEnd="@dimen/single_spacing"
-            android:foreground="?android:selectableItemBackground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/holo_red_dark" />
-        </FrameLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="top"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/frameLayout"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/parcel_name_layout"
-                android:layout_width="match_parent"
-                android:hint="@string/parcel_name"
-                android:layout_height="wrap_content"
-                android:importantForAutofill="no"
-                app:errorEnabled="false">
-
-                <EditText
-                    android:id="@+id/parcel_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:importantForAutofill="noExcludeDescendants"
-                    android:imeOptions="actionNext"
-                    android:inputType="textNoSuggestions|textCapSentences"
-                    android:maxLines="1"
-                    tools:targetApi="o" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-        </LinearLayout>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/parcel_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="noExcludeDescendants"
+            android:inputType="textNoSuggestions|textCapSentences"
+            android:maxLines="1"
+            tools:targetApi="o" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -109,15 +67,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="16dp"
-            android:paddingTop="16dp">
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
             <RadioButton
                 android:id="@+id/stance_incoming"
                 android:layout_width="wrap_content"
-                android:checked="true"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:checked="true"
                 android:text="@string/incoming" />
 
             <RadioButton
