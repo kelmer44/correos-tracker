@@ -57,8 +57,6 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
         }
 
         override fun dots(view: View, parcelReference: LocalParcelReference) {
-//            viewModel.deleteParcel(parcelReference
-// )
             var ctx = context
 
             ctx?.let {
@@ -95,7 +93,7 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
     override fun loadUp() {
         setupRecyclerView()
         viewModel.retrieveParcelList()
-        viewModel.parcelList.observe(this, {
+        viewModel.parcelList.observe(this) {
             it?.let { i ->
                 swipe_refresh.isRefreshing = i.inProgress
             }
@@ -108,9 +106,9 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                     Toast.makeText(context, "ERROR!!!", Toast.LENGTH_LONG).show()
                 }
             }
-        })
+        }
 
-        viewModel.deleteLiveData.observe(this, {
+        viewModel.deleteLiveData.observe(this) {
             when (it){
                 is Result.Success -> {
 
@@ -122,14 +120,14 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                     Toast.makeText(context, "ERROR DELETING!", Toast.LENGTH_LONG).show()
                 }
             }
-        })
+        }
 
 
-        viewModel.statusReports.observe(this, {
+        viewModel.statusReports.observe(this) {
             it?.let {
                 adapter.setLoading(it.codEnvio, false)
             }
-        })
+        }
     }
 
     private fun setupRecyclerView() {
@@ -138,7 +136,7 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
         rv_parcel_list.adapter = adapter
 
         swipe_refresh.setOnRefreshListener{
-            viewModel.retrieveParcelList()
+            viewModel.refresh(adapter.items)
         }
     }
 
