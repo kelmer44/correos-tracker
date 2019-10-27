@@ -14,9 +14,10 @@
         android:layout_gravity="center"
         android:clickable="true"
         android:foreground="?android:selectableItemBackground"
-        card_view:cardCornerRadius="2dp"
+        card_view:cardCornerRadius="8dp"
         card_view:cardElevation="2dp"
-        card_view:cardUseCompatPadding="true">
+        card_view:cardUseCompatPadding="true"
+        android:focusable="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,26 +35,23 @@
                     android:layout_width="match_parent"
                     android:minHeight="24dp"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/more"
+                    android:layout_toStartOf="@id/more"
                     android:gravity="center_vertical"
                     android:textAllCaps="true"
+                    android:maxLines="2"
+                    android:ellipsize="end"
                     android:textStyle="bold"
                     tools:text="NOMBRE DEL PAQUETE asi un poco largo para que no quepa" />
 
                 <ImageView
                     android:id="@+id/more"
                     android:layout_width="wrap_content"
-                    android:layout_height="24dp"
-                    android:layout_alignParentRight="true"
-                    android:background="@null"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/single_spacing"
+                    android:layout_alignParentEnd="true"
+                    android:background="?selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_more" />
 
-                <View
-                    android:id="@+id/more_clickablearea"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="48dp"
-                    android:clickable="true"
-                    android:layout_height="36dp"/>
             </RelativeLayout>
 
 
@@ -101,9 +99,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:minHeight="24dp"
+                    android:gravity="start"
+                    android:maxLines="2"
+                    android:ellipsize="end"
                     card_view:layout_constraintEnd_toStartOf="@+id/parcel_progress"
-                    card_view:layout_constraintLeft_toLeftOf="parent"
-                    card_view:layout_constraintLeft_toRightOf="@id/parcel_progress"
+                    card_view:layout_constraintStart_toStartOf="parent"
                     card_view:layout_constraintTop_toTopOf="parent"
                     tools:text="Entregado en la casa de tu putam adre cuando el texto es y muy largo y tal y cual" />
 
@@ -114,6 +114,7 @@
                     android:layout_height="24dp"
                     android:indeterminate="true"
                     android:visibility="visible"
+                    android:layout_marginEnd="@dimen/single_spacing"
                     card_view:layout_constraintBottom_toBottomOf="parent"
                     card_view:layout_constraintRight_toRightOf="parent"
                     card_view:layout_constraintTop_toTopOf="parent" />
@@ -129,8 +130,7 @@
                     android:gravity="left"
                     android:textStyle="italic"
                     card_view:layout_constraintEnd_toStartOf="@+id/parcel_progress"
-                    card_view:layout_constraintLeft_toLeftOf="parent"
-                    card_view:layout_constraintRight_toRightOf="@id/parcel_progress"
+                    card_view:layout_constraintStart_toStartOf="parent"
                     card_view:layout_constraintTop_toBottomOf="@id/ultimo_estado"
                     tools:text="Ayer" />
 

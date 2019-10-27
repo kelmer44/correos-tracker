@@ -61,7 +61,7 @@ class ParcelListAdapter constructor(
             parcel_cardview.setOnClickListener {
                 clickListener.click(parcel)
             }
-            more_clickablearea.setOnClickListener {
+            more.setOnClickListener {
                 clickListener.dots(more, parcel)
             }
 

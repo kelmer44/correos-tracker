@@ -22,8 +22,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
-
-
+import net.kelmer.correostracker.ext.isVisible
 
 
 /**
@@ -97,9 +96,9 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
             it?.let { i ->
                 swipe_refresh.isRefreshing = i.inProgress
             }
-
             when (it) {
                 is Result.Success -> {
+                    empty_state.isVisible = it.data.isEmpty()
                     adapter.updateItems(it.data)
                 }
                 is Result.Failure -> {
