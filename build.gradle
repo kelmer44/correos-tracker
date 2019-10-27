@@ -7,10 +7,10 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url 'https://maven.fabric.io/public' }
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.android.tools.build:gradle:3.5.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlinPlugin}"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:${versions.kotlinPlugin}"
         // NOTE: Do not place your application dependencies here; they belong
@@ -21,6 +21,7 @@ buildscript {
 allprojects {
     repositories {
         google()
+        mavenCentral()
         jcenter()
     }
 }

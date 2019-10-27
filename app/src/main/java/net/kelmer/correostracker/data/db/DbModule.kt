@@ -1,13 +1,13 @@
 package net.kelmer.correostracker.data.db
 
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import android.content.Context
 import dagger.Module
 import dagger.Provides
 import net.kelmer.correostracker.data.model.local.LocalParcelDao
 import javax.inject.Singleton
-import android.arch.persistence.db.SupportSQLiteDatabase
-import android.arch.persistence.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.room.migration.Migration
 
 
 

@@ -10,14 +10,14 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt' // Use experimental kapt implementation
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion versions.compileSdk
     defaultConfig {
         applicationId "net.kelmer.correostracker"
-        minSdkVersion 18
-        targetSdkVersion 26
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         debug {
@@ -29,6 +29,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+    buildToolsVersion = '29.0.2'
 }
 
 dependencies {
@@ -47,7 +52,7 @@ dependencies {
     //==================== Network ====================
     implementation deps.okhttp.logger
     implementation deps.retrofit.core
-    implementation deps.retrofit.gson
+    implementation deps.retrofit.moshi
     implementation deps.retrofit.rxjava
     //lifecycle
     implementation deps.lifecycle.runtime
@@ -62,12 +67,12 @@ dependencies {
     kapt deps.room.compiler
 
     //Rx
-    implementation deps.rx.core
     implementation deps.rx.android
     implementation deps.rx.kotlin
 
-    //Gson
-    implementation deps.gson
+
+    implementation deps.moshi.core
+    implementation deps.moshi.adapters
 
     //UI
     implementation deps.glide.glide

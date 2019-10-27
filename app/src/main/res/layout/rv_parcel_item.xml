@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/half_spacing">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/parcel_cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                 android:text="@string/ultimo_estado_header"
                 android:visibility="gone" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:visibility="visible">
@@ -134,10 +134,10 @@
                     card_view:layout_constraintTop_toBottomOf="@id/ultimo_estado"
                     tools:text="Ayer" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </FrameLayout>

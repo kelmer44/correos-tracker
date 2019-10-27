@@ -1,12 +1,12 @@
 package net.kelmer.correostracker.data.model.remote
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 
 data class CorreosApiParcel(val codEnvio: String,
                             val refCliente: String,
                             val codProducto: String,
-                            @SerializedName("fec_calculada")
+                            @Json(name="fec_calculada")
                             val fechaCalculada: String,
                             val largo: String,
                             val ancho: String,

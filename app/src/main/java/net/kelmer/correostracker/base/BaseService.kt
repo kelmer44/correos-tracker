@@ -4,7 +4,7 @@ import android.app.IntentService
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import android.support.annotation.UiThread
+import androidx.annotation.UiThread
 import net.kelmer.correostracker.CorreosApp
 import net.kelmer.correostracker.di.ServiceComponent
 import net.kelmer.correostracker.di.ServiceModule

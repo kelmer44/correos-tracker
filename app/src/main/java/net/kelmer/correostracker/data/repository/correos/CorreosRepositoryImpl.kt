@@ -1,6 +1,6 @@
 package net.kelmer.correostracker.data.repository.correos
 
-import android.arch.lifecycle.Transformations.map
+import androidx.lifecycle.Transformations.map
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.internal.operators.single.SingleInternalHelper.toFlowable

@@ -1,7 +1,7 @@
 package net.kelmer.correostracker.ui.list
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.ui.create.CreateActivity
