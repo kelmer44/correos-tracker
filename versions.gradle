@@ -45,7 +45,7 @@ def extension = ext {
             'stetho'          : "1.5.0",
             'timber'          : "4.1.2",
             'photoViewVersion': '2.0.0',
-
+            'material'      : '1.0.0'
     ]
 
     deps = [
@@ -127,6 +127,7 @@ def extension = ext {
                     'core'   : "com.android.support.test.espresso:espresso-core:${versions.espresso}",
                     'contrib': "com.android.support.test.espresso:espresso-contrib:${versions.espresso}",
             ],
+            'material'       : "com.google.android.material:material:${versions.material}",
     ]
 
 }

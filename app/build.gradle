@@ -85,7 +85,6 @@ dependencies {
     kapt deps.dagger.compiler
     implementation deps.dagger.runtime
 
-
     //==================== Debug ====================
     //Logging
     implementation deps.timber
