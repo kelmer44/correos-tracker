@@ -1,8 +1,8 @@
 package net.kelmer.correostracker.ui.list
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.PopupMenu
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.PopupMenu
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -44,7 +44,7 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
         override fun longPress(parcelReference: LocalParcelReference) {
             val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("ParcelCode", parcelReference.code)
-            clipboard.primaryClip = clip
+            clipboard.setPrimaryClip(clip)
             Toast.makeText(context, getString(R.string.clipboard_copied), Toast.LENGTH_LONG).show()
         }
 
@@ -137,6 +137,9 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
 
         swipe_refresh.setOnRefreshListener{
             viewModel.refresh(adapter.items)
+            adapter.items.forEach { p ->
+                adapter.setLoading(p.code, true)
+            }
         }
     }
 

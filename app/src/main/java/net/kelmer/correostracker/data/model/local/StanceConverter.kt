@@ -1,6 +1,6 @@
 package net.kelmer.correostracker.data.model.local
 
-import android.arch.persistence.room.TypeConverter
+import androidx.room.TypeConverter
 
 class StanceConverter {
     @TypeConverter

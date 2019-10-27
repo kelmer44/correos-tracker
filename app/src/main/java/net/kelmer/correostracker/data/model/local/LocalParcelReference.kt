@@ -1,6 +1,6 @@
 package net.kelmer.correostracker.data.model.local
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
 import java.util.*
 

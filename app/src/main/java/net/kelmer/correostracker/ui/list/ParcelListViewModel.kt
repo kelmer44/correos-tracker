@@ -1,6 +1,6 @@
 package net.kelmer.correostracker.ui.list
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import net.kelmer.correostracker.base.RxViewModel

@@ -3,10 +3,9 @@ package net.kelmer.correostracker.di
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import com.squareup.moshi.KotlinJsonAdapterFactory
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Rfc3339DateJsonAdapter
 import dagger.Module
 import dagger.Provides
 import net.kelmer.correostracker.util.NetworkInteractor
@@ -16,7 +15,9 @@ import okhttp3.ConnectionPool
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -47,7 +48,7 @@ open class NetModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient,
                         rxJavaCallAdapterFactory: RxJava2CallAdapterFactory,
-                        gsonConverterFactory: GsonConverterFactory
+                        gsonConverterFactory: MoshiConverterFactory
     ): Retrofit {
         return Retrofit.Builder()
                 .baseUrl("https://localizador.correos.es/canonico/")
@@ -59,10 +60,10 @@ open class NetModule {
 
     @Provides
     @Singleton
-    fun provideGson(): Gson {
-        val gsonBuilder = GsonBuilder()
-        return gsonBuilder.create()
-    }
+    fun provideMoshi(): Moshi = Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
+            .build()
 
     @Provides
     @Singleton
@@ -72,8 +73,8 @@ open class NetModule {
 
     @Provides
     @Singleton
-    fun provideGsonConverterFactory(gson: Gson): GsonConverterFactory {
-        return GsonConverterFactory.create(gson)
+    fun provideGsonConverterFactory(moshi: Moshi): MoshiConverterFactory {
+        return MoshiConverterFactory.create(moshi)
     }
 
     @Provides
