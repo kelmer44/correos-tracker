@@ -85,6 +85,8 @@ dependencies {
     kapt deps.dagger.compiler
     implementation deps.dagger.runtime
 
+    implementation deps.barcodeReader
+
 
     //==================== Debug ====================
     //Logging
