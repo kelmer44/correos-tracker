@@ -4,13 +4,12 @@ data class CorreosApiEvent(val fecEvento: String,
                            val codEvento: String,
                            val horEvento: String,
                            val fase: String? = "?",
-                           val desTextoResumen: String,
-                           val desTextoAmpliado: String,
+                           val desTextoResumen: String? = "",
+                           val desTextoAmpliado: String? = "",
                            val unidad: String? = "?") {
 
 
-
-    fun buildUltimoEstado() = if(!unidad.isNullOrBlank()) "$desTextoResumen en $unidad" else desTextoResumen
+    fun buildUltimoEstado() = if (!unidad.isNullOrBlank()) "$desTextoResumen en $unidad" else desTextoResumen
 }
 
 //

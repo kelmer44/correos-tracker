@@ -95,5 +95,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:text="@android:string/ok"
-        android:textColor="@color/colorAccent" />
+        android:textColor="@color/white" />
 </LinearLayout>

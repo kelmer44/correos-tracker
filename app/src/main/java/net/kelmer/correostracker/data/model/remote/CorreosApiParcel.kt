@@ -4,14 +4,14 @@ import com.squareup.moshi.Json
 
 
 data class CorreosApiParcel(val codEnvio: String,
-                            val refCliente: String,
-                            val codProducto: String,
+                            val refCliente: String? = null,
+                            val codProducto: String? = "",
                             @Json(name="fec_calculada")
                             val fechaCalculada: String,
-                            val largo: String,
-                            val ancho: String,
-                            val alto: String,
-                            val peso: String,
+                            val largo: String? = null,
+                            val ancho: String? = null,
+                            val alto: String? = null,
+                            val peso: String? = null,
                             val eventos: List<CorreosApiEvent>,
                             val error: Error?) {
 
