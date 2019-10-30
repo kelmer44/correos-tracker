@@ -8,11 +8,19 @@ buildscript {
         google()
         jcenter()
         mavenCentral()
+        maven {
+            url 'https://maven.fabric.io/public'
+        }
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlinPlugin}"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:${versions.kotlinPlugin}"
+        classpath 'com.google.gms:google-services:4.3.2'
+        // Add dependency
+        classpath 'io.fabric.tools:gradle:1.31.0'  // Crashlytics plugin
+
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }

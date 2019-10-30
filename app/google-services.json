@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "164062501580",
+    "firebase_url": "https://seguimiento-correos.firebaseio.com",
+    "project_id": "seguimiento-correos",
+    "storage_bucket": "seguimiento-correos.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:164062501580:android:b08537349306b410e24069",
+        "android_client_info": {
+          "package_name": "net.kelmer.correostracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "164062501580-ffmr5s6rhm4lku1uvrn4paso9euiime3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDB2drcqb71VAQa4ChOEGSP1BKyYb_pmKE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "164062501580-ffmr5s6rhm4lku1uvrn4paso9euiime3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:164062501580:android:acd6551c9fa585a5e24069",
+        "android_client_info": {
+          "package_name": "net.kelmer.correostracker.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "164062501580-ffmr5s6rhm4lku1uvrn4paso9euiime3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDB2drcqb71VAQa4ChOEGSP1BKyYb_pmKE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "164062501580-ffmr5s6rhm4lku1uvrn4paso9euiime3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
