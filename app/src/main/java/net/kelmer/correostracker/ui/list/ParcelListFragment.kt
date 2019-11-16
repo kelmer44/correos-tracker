@@ -22,6 +22,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
+import com.crashlytics.android.Crashlytics
 import net.kelmer.correostracker.ext.isVisible
 
 

@@ -1,6 +1,9 @@
 package net.kelmer.correostracker
 
 import android.app.Application
+import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.core.CrashlyticsCore
+import io.fabric.sdk.android.Fabric
 import net.kelmer.correostracker.data.db.DbModule
 import timber.log.Timber
 
@@ -16,7 +19,15 @@ class CorreosApp : Application() {
     override fun onCreate() {
         super.onCreate()
         initDependencyGraph()
+        initCrashlytics()
         setupTimber()
+    }
+
+    private fun initCrashlytics() {
+
+        Fabric.with(this, Crashlytics.Builder().core(CrashlyticsCore.Builder()
+                .disabled(BuildConfig.DEBUG)
+                .build()).build())
     }
 
     private fun setupTimber() {
