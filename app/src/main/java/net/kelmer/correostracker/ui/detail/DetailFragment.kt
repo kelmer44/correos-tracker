@@ -56,7 +56,11 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
             it?.let {
                 detail_loading.isVisible = it.inProgress
             }
+
             when (it) {
+                is Result.InProgress -> {
+                    error_container.isVisible = false
+                }
                 is Result.Success -> {
                     loadParcelInformation(it.data)
                 }

@@ -43,6 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:backgroundTint="@color/colorAccent"
         android:layout_gravity="center_vertical|start"
         android:layout_margin="@dimen/double_spacing"
         android:src="@drawable/ic_add_24dp"/>
