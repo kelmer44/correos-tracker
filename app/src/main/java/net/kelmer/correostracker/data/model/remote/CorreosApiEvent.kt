@@ -8,7 +8,7 @@ data class CorreosApiEvent(val fecEvento: String,
                            val desTextoAmpliado: String? = "",
                            val unidad: String? = "?") {
 
-
+    fun isEntregado() = desTextoResumen == "Entregado"
     fun buildUltimoEstado() = if (!unidad.isNullOrBlank()) "$desTextoResumen en $unidad" else desTextoResumen
 }
 

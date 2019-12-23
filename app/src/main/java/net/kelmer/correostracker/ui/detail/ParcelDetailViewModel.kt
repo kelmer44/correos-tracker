@@ -24,24 +24,22 @@ class ParcelDetailViewModel @Inject constructor(val localParcelRepository: Local
 
     fun getParcel(parcelCode: String) {
 
-
         correosRepository.getParcelStatus(parcelCode)
                 .zipWith(
                         localParcelRepository.getParcel(parcelCode)
                         ,
-                        BiFunction<CorreosApiParcel,LocalParcelReference,ParcelDetailDTO>{
-                            correosParcel, localParcel ->
+                        BiFunction<CorreosApiParcel, LocalParcelReference, ParcelDetailDTO> { correosParcel, localParcel ->
                             ParcelDetailDTO(
                                     localParcel.parcelName,
                                     localParcel.code,
-                                    localParcel.ancho?: "",
-                                    localParcel.alto?: "",
-                                    localParcel.largo?: "",
-                                    localParcel.peso?: "",
-                                    localParcel.refCliente?:"",
-                                    localParcel.codProducto?:"",
-                                    localParcel.fechaCalculada?:"",
-                                    correosParcel.eventos)
+                                    localParcel.ancho ?: "",
+                                    localParcel.alto ?: "",
+                                    localParcel.largo ?: "",
+                                    localParcel.peso ?: "",
+                                    localParcel.refCliente ?: "",
+                                    localParcel.codProducto ?: "",
+                                    localParcel.fechaCalculada ?: "",
+                                    correosParcel.eventos ?: emptyList())
                         }
 
                 )
@@ -50,14 +48,5 @@ class ParcelDetailViewModel @Inject constructor(val localParcelRepository: Local
                     parcel.value = it
                 })
                 .addTo(disposables)
-//                .subscribeOn(schedulerProvider.io())
-//                .observeOn(schedulerProvider.ui())
-//                .subscribe({
-//                    parcel.value = it
-//                }, {
-//                    error.value = true
-//                }
-//                )
-//                .addTo(disposables)
     }
 }

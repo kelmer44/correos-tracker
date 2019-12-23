@@ -38,6 +38,9 @@ open class NetModule {
             .cache(cache)
             //TODO connectionPool patch until Okttp3 3.10 was on air
             .connectionPool(ConnectionPool(0, 1, TimeUnit.NANOSECONDS))
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(5, TimeUnit.SECONDS)
             .apply {
                 loggingInterceptors.forEach {
                     addNetworkInterceptor(it)

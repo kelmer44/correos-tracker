@@ -13,7 +13,7 @@ import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.data.Result
 import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
-import net.kelmer.correostracker.data.repository.correos.CorreosException
+import net.kelmer.correostracker.data.network.exception.CorreosException
 import net.kelmer.correostracker.ext.isVisible
 import net.kelmer.correostracker.ext.observe
 import net.kelmer.correostracker.util.dimen
@@ -59,7 +59,6 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
                     error_container.isVisible = true
                     if (it.e is CorreosException) {
                         error_text.text = it.e.message
-
                     } else {
                         error_text.text = getString(R.string.error_unrecognized)
                     }

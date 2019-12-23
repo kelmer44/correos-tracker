@@ -4,12 +4,14 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.rv_detail_item.view.*
 import net.kelmer.correostracker.R
+import net.kelmer.correostracker.data.model.dto.ParcelDetailStatus
 import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
 
 
-class DetailTimelineAdapter: RecyclerView.Adapter<DetailTimelineAdapter.TimeLineViewHolder>() {
+class DetailTimelineAdapter : RecyclerView.Adapter<DetailTimelineAdapter.TimeLineViewHolder>() {
 
     private var statuses: List<CorreosApiEvent> = emptyList()
 
@@ -27,7 +29,7 @@ class DetailTimelineAdapter: RecyclerView.Adapter<DetailTimelineAdapter.TimeLine
         return TimeLineViewHolder(inflatedView)
     }
 
-    fun updateStatus(updatedList: List<CorreosApiEvent>){
+    fun updateStatus(updatedList: List<CorreosApiEvent>) {
         this.statuses = updatedList
         notifyDataSetChanged()
     }
@@ -38,6 +40,10 @@ class DetailTimelineAdapter: RecyclerView.Adapter<DetailTimelineAdapter.TimeLine
 
         fun bindStatus(status: CorreosApiEvent) {
             this.status = status
+            val faseNumber = status.fase?.toInt()
+            val fase = if (faseNumber != null) ParcelDetailStatus.Fase.fromFase(faseNumber) else ParcelDetailStatus.Fase.OTHER
+            view.time_marker.setMarker(ContextCompat.getDrawable(view.context,fase.drawable))
+
             view.text_timeline_title.text = status.desTextoResumen
             view.text_timeline_date.text = status.fecEvento
             view.text_timeline_time.text = status.horEvento

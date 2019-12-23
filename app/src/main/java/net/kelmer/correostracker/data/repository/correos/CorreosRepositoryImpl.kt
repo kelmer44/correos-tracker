@@ -1,15 +1,12 @@
 package net.kelmer.correostracker.data.repository.correos
 
-import androidx.lifecycle.Transformations.map
 import io.reactivex.Flowable
 import io.reactivex.Single
-import io.reactivex.internal.operators.single.SingleInternalHelper.toFlowable
-import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
 import net.kelmer.correostracker.data.model.local.LocalParcelDao
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.network.correos.CorreosApi
+import net.kelmer.correostracker.data.network.exception.CorreosException
 import timber.log.Timber
 import java.util.*
 
@@ -41,7 +38,7 @@ class CorreosRepositoryImpl(val correosApi: CorreosApi, val dao: LocalParcelDao)
                 .doOnSuccess {
 
                     parcelReference?.let { p ->
-                        p.ultimoEstado = it.eventos.last()
+                        p.ultimoEstado = it.eventos?.lastOrNull()
                         p.lastChecked = Date().time
                         p.alto = it.alto
                         p.ancho = it.ancho
