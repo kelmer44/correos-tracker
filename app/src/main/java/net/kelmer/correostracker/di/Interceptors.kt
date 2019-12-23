@@ -3,6 +3,7 @@ package net.kelmer.correostracker.di
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
+import net.kelmer.correostracker.di.qualifiers.NetworkLogger
 import okhttp3.Interceptor
 import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Singleton
@@ -18,7 +19,8 @@ open class Interceptors {
 //    @IntoSet
 //    fun provideStetho(): Interceptor = StethoInterceptor()
 
-    @NetworkLogger @Singleton
+    @NetworkLogger
+    @Singleton
     @Provides
     @IntoSet
     fun provideNetworkLogger(): Interceptor = HttpLoggingInterceptor().apply {

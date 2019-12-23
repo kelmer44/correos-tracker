@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import net.kelmer.correostracker.ApplicationComponent
+import net.kelmer.correostracker.di.application.ApplicationComponent
 import net.kelmer.correostracker.CorreosApp
 import timber.log.Timber
 

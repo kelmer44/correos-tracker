@@ -91,8 +91,12 @@ dependencies {
     // Add dependency
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
+    //DI
     kapt deps.dagger.compiler
+    kapt deps.dagger.androidprocessor
     implementation deps.dagger.runtime
+    implementation deps.dagger.android
+    implementation deps.dagger.androidsupport
 
     //==================== Debug ====================
     //Logging

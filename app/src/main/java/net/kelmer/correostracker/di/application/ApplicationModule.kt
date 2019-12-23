@@ -1,4 +1,4 @@
-package net.kelmer.correostracker
+package net.kelmer.correostracker.di.application
 
 import android.app.Application
 import android.content.Context
@@ -6,6 +6,7 @@ import android.content.res.Resources
 import android.view.LayoutInflater
 import dagger.Module
 import dagger.Provides
+import net.kelmer.correostracker.CorreosApp
 import net.kelmer.correostracker.util.AppSchedulerProvider
 import net.kelmer.correostracker.util.SchedulerProvider
 import javax.inject.Singleton

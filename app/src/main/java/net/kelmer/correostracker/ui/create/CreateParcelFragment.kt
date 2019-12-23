@@ -2,7 +2,7 @@ package net.kelmer.correostracker.ui.create
 
 import android.text.TextUtils
 import kotlinx.android.synthetic.main.fragment_create_parcel.*
-import net.kelmer.correostracker.ApplicationComponent
+import net.kelmer.correostracker.di.application.ApplicationComponent
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.BaseFragment
 import net.kelmer.correostracker.data.model.local.LocalParcelReference

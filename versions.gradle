@@ -94,6 +94,9 @@ def extension = ext {
             'dagger'         : [
                     'runtime'         : "com.google.dagger:dagger:${versions.dagger}",
                     'compiler'        : "com.google.dagger:dagger-compiler:${versions.dagger}",
+                    'android'         : "com.google.dagger:dagger-android:${versions.dagger}",
+                    'androidsupport'  : "com.google.dagger:dagger-android-support:${versions.dagger}",
+                    'androidprocessor': "com.google.dagger:dagger-android-processor:${versions.dagger}"
             ],
             'moshi'          : [
                     'core'    : "com.squareup.moshi:moshi-kotlin:${versions.moshi}",

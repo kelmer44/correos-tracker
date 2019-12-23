@@ -8,8 +8,7 @@ import android.view.MenuItem
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.*
-import kotlinx.android.synthetic.main.parcel_info.*
-import net.kelmer.correostracker.ApplicationComponent
+import net.kelmer.correostracker.di.application.ApplicationComponent
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.BaseFragment
 import net.kelmer.correostracker.data.Result
@@ -21,7 +20,6 @@ import net.kelmer.correostracker.util.dimen
 import net.kelmer.correostracker.util.peso
 import net.kelmer.correostracker.util.textOrElse
 import timber.log.Timber
-import android.view.LayoutInflater
 import android.widget.LinearLayout
 
 
