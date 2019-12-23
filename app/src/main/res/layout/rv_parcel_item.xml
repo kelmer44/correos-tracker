@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:clickable="true"
         android:foreground="?android:selectableItemBackground"
-        card_view:cardCornerRadius="4dp"
+        card_view:cardCornerRadius="2dp"
         card_view:cardElevation="2dp"
         card_view:cardUseCompatPadding="true"
         android:focusable="true">

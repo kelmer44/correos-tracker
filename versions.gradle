@@ -25,7 +25,6 @@ def extension = ext {
             'okHttp'          : '4.2.1',
             'retrofit'        : '2.6.3',
             'moshi'           : '1.9.2',
-            'glide'           : '4.8.0',
 
             //Rx
             'rxjava'          : '2.1.13',
@@ -41,11 +40,9 @@ def extension = ext {
             'coordinator'     : '0.3.3',
             'playServices'    : '16.0.0',
             'lifecycle'       : '1.1.0',
-            'room'            : '1.1.1',
+            'room'            : '2.1.0',
             'stetho'          : "1.5.1",
-            'timber'          : "4.1.2",
-            'photoViewVersion': '2.0.0',
-            'material'      : '1.0.0'
+            'timber'          : "4.1.2"
     ]
 
     deps = [
@@ -55,7 +52,7 @@ def extension = ext {
             'support'        : [
                     'v4'        : "androidx.legacy:legacy-support-v4:1.0.0",
                     'appCompat' : "androidx.appcompat:appcompat:1.1.0",
-                    'design'    : "com.google.android.material:material:1.1.0-beta02",
+                    'design'    : "com.google.android.material:material:1.2.0-alpha02",
                     'fragment'  : "androidx.fragment:fragment:1.0.0",
                     'vector'    : "androidx.vectordrawable:vectordrawable-animated:1.0.0",
                     'cardview'  : "androidx.cardview:cardview:1.0.0",
@@ -102,12 +99,6 @@ def extension = ext {
                     'core'    : "com.squareup.moshi:moshi-kotlin:${versions.moshi}",
                     'adapters': "com.squareup.moshi:moshi-adapters:${versions.moshi}"
             ],
-            //==================== UI ====================
-            'glide'          : [
-                    'glide'   : "com.github.bumptech.glide:glide:${versions.glide}",
-                    'okhttp3' : "com.github.bumptech.glide:okhttp3-integration:${versions.glide}@aar",
-                    'compiler': "com.github.bumptech.glide:compiler:${versions.glide}",
-            ],
 
             //==================== Debug ====================
             'timber'         : "com.jakewharton.timber:timber:${versions.timber}",
@@ -127,7 +118,6 @@ def extension = ext {
                     'core'   : "com.android.support.test.espresso:espresso-core:${versions.espresso}",
                     'contrib': "com.android.support.test.espresso:espresso-contrib:${versions.espresso}",
             ],
-            'material'       : "com.google.android.material:material:${versions.material}",
     ]
 
 }
