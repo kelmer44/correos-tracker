@@ -37,7 +37,6 @@ class ParcelCheckerService : BaseService("ParcelChecker") {
     lateinit var localParcelRepository: LocalParcelRepository
 
     override fun onCreate() {
-        getServiceComponent().inject(this)
         super.onCreate()
     }
 

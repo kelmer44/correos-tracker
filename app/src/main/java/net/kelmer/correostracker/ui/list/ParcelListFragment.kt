@@ -9,9 +9,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_parcel_list.*
-import net.kelmer.correostracker.di.application.ApplicationComponent
 import net.kelmer.correostracker.R
-import net.kelmer.correostracker.base.BaseFragment
+import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.data.Result
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.ext.observe
@@ -21,6 +20,8 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import net.kelmer.correostracker.ext.isVisible
+import net.kelmer.correostracker.ui.list.adapter.ParcelClickListener
+import net.kelmer.correostracker.ui.list.adapter.ParcelListAdapter
 
 
 /**
@@ -28,16 +29,12 @@ import net.kelmer.correostracker.ext.isVisible
  */
 class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
 
-    override fun injectDependencies(graph: ApplicationComponent) {
-        graph.injectTo(this)
-        graph.injectTo(viewModel)
-    }
 
     override val layoutId: Int = R.layout.fragment_parcel_list
     override val viewModelClass: Class<ParcelListViewModel> = ParcelListViewModel::class.java
 
 
-    private val clickListener = object: ParcelClickListener{
+    private val clickListener = object: ParcelClickListener {
         override fun longPress(parcelReference: LocalParcelReference) {
             val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("ParcelCode", parcelReference.code)
@@ -87,7 +84,7 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
         setHasOptionsMenu(true)
     }
 
-    override fun loadUp() {
+    override fun loadUp(savedInstanceState: Bundle?) {
         setupRecyclerView()
         viewModel.retrieveParcelList()
         viewModel.parcelList.observe(this) {

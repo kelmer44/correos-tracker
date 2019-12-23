@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.di
+package net.kelmer.correostracker.di.modules
 
 import dagger.Module
 import dagger.Provides

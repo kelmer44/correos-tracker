@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.di
+package net.kelmer.correostracker.di.modules
 
 import android.app.Application
 import android.content.Context
@@ -84,16 +84,6 @@ open class NetModule {
         val cacheSize = 10 * 1024 * 1024L
         return Cache(application.getCacheDir(), cacheSize)
     }
-
-    @Provides
-    @Singleton
-    fun provideConnectivityManager( context: Context): ConnectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-    @Provides
-    @Singleton
-    fun provideNetworkInteractor(networkInteractor: NetworkInteractorImpl): NetworkInteractor = networkInteractor
-
 
 
 }

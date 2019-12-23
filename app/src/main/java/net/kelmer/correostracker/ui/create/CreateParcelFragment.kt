@@ -1,10 +1,10 @@
 package net.kelmer.correostracker.ui.create
 
+import android.os.Bundle
 import android.text.TextUtils
 import kotlinx.android.synthetic.main.fragment_create_parcel.*
-import net.kelmer.correostracker.di.application.ApplicationComponent
 import net.kelmer.correostracker.R
-import net.kelmer.correostracker.base.BaseFragment
+import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.ext.observe
 
@@ -13,17 +13,9 @@ import net.kelmer.correostracker.ext.observe
  */
 class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
 
-    override fun injectDependencies(graph: ApplicationComponent) {
-        val component = graph.plus(CreateParcelModule())
-        component
-                .injectTo(this)
-        component
-                .injectTo(viewModel)
-    }
-
     override val viewModelClass = CreateParcelViewModel::class.java
 
-    override fun loadUp() {
+    override fun loadUp(savedInstanceState: Bundle?) {
         create_ok.setOnClickListener {
 
             if(!TextUtils.isEmpty(parcel_code.text.toString())) {

@@ -11,6 +11,7 @@ import io.fabric.sdk.android.Fabric
 import net.kelmer.correostracker.data.db.DbModule
 import net.kelmer.correostracker.di.application.ApplicationComponent
 import net.kelmer.correostracker.di.application.ApplicationModule
+import net.kelmer.correostracker.di.application.DaggerApplicationComponent
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -31,7 +32,6 @@ class CorreosApp : Application(), HasAndroidInjector {
     override fun onCreate() {
         super.onCreate()
         DaggerApplicationComponent.factory().create(this).inject(this)
-        initDependencyGraph()
         initCrashlytics()
         setupTimber()
         setupStetho()
@@ -52,11 +52,4 @@ class CorreosApp : Application(), HasAndroidInjector {
         Stetho.initializeWithDefaults(this)
     }
 
-    private fun initDependencyGraph() {
-        graph = DaggerApplicationComponent.builder()
-                .applicationModule(ApplicationModule(this))
-                .dbModule(DbModule(this))
-                .build()
-        graph.injectTo(this)
-    }
 }

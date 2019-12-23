@@ -4,21 +4,15 @@ import android.app.Application
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
 import net.kelmer.correostracker.CorreosApp
 import net.kelmer.correostracker.data.db.DbModule
 import net.kelmer.correostracker.data.network.ApiModule
 import net.kelmer.correostracker.data.repository.RepositoryModule
-import net.kelmer.correostracker.di.NetModule
-import net.kelmer.correostracker.di.ServiceComponent
-import net.kelmer.correostracker.di.ServiceModule
-import net.kelmer.correostracker.ui.create.CreateParcelComponent
-import net.kelmer.correostracker.ui.create.CreateParcelModule
-import net.kelmer.correostracker.ui.detail.DetailFragment
-import net.kelmer.correostracker.ui.detail.ParcelDetailComponent
-import net.kelmer.correostracker.ui.detail.ParcelDetailModule
-import net.kelmer.correostracker.ui.detail.ParcelDetailViewModel
-import net.kelmer.correostracker.ui.list.ParcelListFragment
-import net.kelmer.correostracker.ui.list.ParcelListViewModel
+import net.kelmer.correostracker.di.activity.ActivityBindings
+import net.kelmer.correostracker.di.fragment.FragmentBindings
+import net.kelmer.correostracker.di.modules.NetModule
+import net.kelmer.correostracker.di.viewModel.ViewModelBuilder
 import javax.inject.Singleton
 
 /**
@@ -27,17 +21,21 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [
     ApplicationModule::class,
+    AndroidSupportInjectionModule::class,
+    ViewModelBuilder::class,
     NetModule::class,
     DbModule::class,
     RepositoryModule::class,
-    ApiModule::class
+    ApiModule::class,
+    FragmentBindings::class,
+    ActivityBindings::class
 ])
 interface ApplicationComponent : AndroidInjector<CorreosApp> {
 
 
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance application: Application) : ApplicationComponent
+        fun create(@BindsInstance application: Application): ApplicationComponent
     }
 //
 //

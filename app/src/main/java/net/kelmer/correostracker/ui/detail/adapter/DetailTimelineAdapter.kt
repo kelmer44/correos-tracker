@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.ui.detail
+package net.kelmer.correostracker.ui.detail.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -15,12 +15,12 @@ class DetailTimelineAdapter: RecyclerView.Adapter<DetailTimelineAdapter.TimeLine
 
     override fun getItemCount() = statuses.size
 
-    override fun onBindViewHolder(holder: DetailTimelineAdapter.TimeLineViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TimeLineViewHolder, position: Int) {
         val status = statuses[position]
         holder.bindStatus(status)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailTimelineAdapter.TimeLineViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeLineViewHolder {
         val inflatedView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.rv_detail_item,
                         parent, false)

@@ -8,7 +8,7 @@ import net.kelmer.correostracker.data.model.local.LocalParcelDao
 import javax.inject.Singleton
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.room.migration.Migration
-
+import net.kelmer.correostracker.di.qualifiers.ForApplication
 
 
 /**
@@ -17,7 +17,7 @@ import androidx.room.migration.Migration
 
 
 @Module
-class DbModule(val context: Context) {
+class DbModule {
 
     companion object {
 
@@ -64,7 +64,7 @@ class DbModule(val context: Context) {
 
     @Provides
     @Singleton
-    fun provideAppDatabase() : AppDatabase {
+    fun provideAppDatabase(@ForApplication context: Context) : AppDatabase {
         return Room.databaseBuilder(context,
                 AppDatabase::class.java, "mycujoo-database")
                 .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)

@@ -1,14 +1,12 @@
-package net.kelmer.correostracker.ui.list
+package net.kelmer.correostracker.ui.list.adapter
 
 import androidx.recyclerview.widget.RecyclerView
-import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.rv_parcel_item.view.*
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
-import android.view.MotionEvent
 import net.kelmer.correostracker.ext.isVisible
 import java.text.SimpleDateFormat
 import java.util.*
