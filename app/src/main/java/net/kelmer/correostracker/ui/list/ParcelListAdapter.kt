@@ -91,7 +91,7 @@ class ParcelListAdapter constructor(
     }
 
     fun setLoading(code: String, loading: Boolean) {
-        var filter = items.filter { it.code == code }
+        val filter = items.filter { it.code == code }
         if(filter.isNotEmpty()) {
             filter.first()?.isLoading = loading
             notifyItemChanged(items.indexOf(filter.first()))
