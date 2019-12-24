@@ -1,5 +1,6 @@
 package net.kelmer.correostracker.ui.create
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -39,6 +40,7 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
             }
         }
         viewModel.saveParcelLiveData.observe(this) {
+            activity?.setResult(Activity.RESULT_OK)
             activity?.finish()
         }
         scanCodeButton.setOnClickListener {

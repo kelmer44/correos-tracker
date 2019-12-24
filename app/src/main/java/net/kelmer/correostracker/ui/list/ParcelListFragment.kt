@@ -19,6 +19,7 @@ import timber.log.Timber
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import net.kelmer.correostracker.ext.isVisible
 import net.kelmer.correostracker.ui.list.adapter.ParcelClickListener
 import net.kelmer.correostracker.ui.list.adapter.ParcelListAdapter
@@ -130,13 +131,16 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
         rv_parcel_list.adapter = adapter
 
         swipe_refresh.setOnRefreshListener{
-            viewModel.refresh(adapter.items)
-            adapter.items.forEach { p ->
-                adapter.setLoading(p.code, true)
-            }
+            refreshFromRemote()
         }
     }
 
+    private fun refreshFromRemote() {
+        viewModel.refresh(adapter.items)
+        adapter.items.forEach { p ->
+            adapter.setLoading(p.code, true)
+        }
+    }
 
     override fun onResume() {
         super.onResume()
@@ -160,4 +164,10 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
         }
         return true
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        refreshFromRemote()
+    }
+
 }
