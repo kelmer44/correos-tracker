@@ -5,16 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    tools:context=".ui.create.CreateActivity"
     android:padding="@dimen/double_spacing">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/parcel_code_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:hint="@string/parcel_code"
+        app:hintEnabled="true"
+        app:hintAnimationEnabled="true"
+        app:helperTextEnabled="false"
+        app:boxStrokeColor="@color/colorAccent"
+        app:hintTextColor="@color/colorAccent"
         android:importantForAutofill="no"
         app:errorEnabled="true">
+
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/parcel_code"
@@ -31,8 +38,10 @@
         android:id="@+id/parcel_name_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:boxStrokeColor="@color/colorAccent"
+        app:hintTextColor="@color/colorAccent"
         android:hint="@string/parcel_name"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:importantForAutofill="no"
         app:errorEnabled="false">
 
@@ -57,9 +66,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/double_spacing"
             android:text="@string/stance"
-            android:textColor="@color/colorAccent"
+            android:textAllCaps="true"
             android:textStyle="bold" />
 
         <RadioGroup
@@ -67,10 +76,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp">
+            android:paddingTop="@dimen/single_spacing"
+            android:paddingBottom="@dimen/single_spacing">
 
-            <RadioButton
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/stance_incoming"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -78,7 +87,7 @@
                 android:checked="true"
                 android:text="@string/incoming" />
 
-            <RadioButton
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/stance_outgoing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -90,7 +99,6 @@
 
     <Button
         android:id="@+id/create_ok"
-        style="?android:borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"

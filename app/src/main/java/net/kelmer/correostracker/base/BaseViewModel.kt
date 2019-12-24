@@ -11,7 +11,7 @@ import javax.inject.Inject
 /**
  * Created by gabriel on 25/03/2018.
  */
-abstract class RxViewModel : ViewModel() {
+abstract class BaseViewModel : ViewModel() {
 
     protected val disposables: CompositeDisposable = CompositeDisposable()
 

@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.di
+package net.kelmer.correostracker.di.service
 
 import dagger.Subcomponent
 import net.kelmer.correostracker.service.ParcelCheckerService

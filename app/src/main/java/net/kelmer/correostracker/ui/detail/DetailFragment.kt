@@ -1,5 +1,6 @@
 package net.kelmer.correostracker.ui.detail
 
+import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
@@ -8,43 +9,33 @@ import android.view.MenuItem
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.*
-import kotlinx.android.synthetic.main.parcel_info.*
-import net.kelmer.correostracker.ApplicationComponent
 import net.kelmer.correostracker.R
-import net.kelmer.correostracker.base.BaseFragment
+import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.data.Result
 import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
-import net.kelmer.correostracker.data.repository.correos.CorreosException
+import net.kelmer.correostracker.data.network.exception.CorreosException
 import net.kelmer.correostracker.ext.isVisible
 import net.kelmer.correostracker.ext.observe
 import net.kelmer.correostracker.util.dimen
 import net.kelmer.correostracker.util.peso
 import net.kelmer.correostracker.util.textOrElse
 import timber.log.Timber
-import android.view.LayoutInflater
 import android.widget.LinearLayout
+import net.kelmer.correostracker.ui.detail.adapter.DetailTimelineAdapter
 
 
 class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
-
-    private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(activity)
-    private val adapterRecyclerView: DetailTimelineAdapter = DetailTimelineAdapter()
-
-    override fun injectDependencies(graph: ApplicationComponent) {
-        val component = graph.plus(ParcelDetailModule())
-        component
-                .injectTo(this)
-        component
-                .injectTo(viewModel)
-    }
 
     override val layoutId: Int = R.layout.fragment_detail
     override val viewModelClass: Class<ParcelDetailViewModel> = ParcelDetailViewModel::class.java
 
 
+    private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(activity)
+    private val adapterRecyclerView: DetailTimelineAdapter = DetailTimelineAdapter()
+
     private val parcelCode by lazy { activity?.intent?.getStringExtra(DetailActivity.KEY_PARCELCODE) }
 
-    override fun loadUp() {
+    override fun loadUp(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
 
         parcelStatusRecyclerView.layoutManager = linearLayoutManager
@@ -56,7 +47,11 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
             it?.let {
                 detail_loading.isVisible = it.inProgress
             }
+
             when (it) {
+                is Result.InProgress -> {
+                    error_container.isVisible = false
+                }
                 is Result.Success -> {
                     loadParcelInformation(it.data)
                 }
@@ -64,7 +59,6 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
                     error_container.isVisible = true
                     if (it.e is CorreosException) {
                         error_text.text = it.e.message
-
                     } else {
                         error_text.text = getString(R.string.error_unrecognized)
                     }

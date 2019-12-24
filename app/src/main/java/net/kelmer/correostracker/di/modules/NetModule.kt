@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.di
+package net.kelmer.correostracker.di.modules
 
 import android.app.Application
 import android.content.Context
@@ -8,6 +8,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Rfc3339DateJsonAdapter
 import dagger.Module
 import dagger.Provides
+import net.kelmer.correostracker.di.qualifiers.NetworkLogger
 import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.NetworkInteractorImpl
 import okhttp3.Cache
@@ -37,6 +38,9 @@ open class NetModule {
             .cache(cache)
             //TODO connectionPool patch until Okttp3 3.10 was on air
             .connectionPool(ConnectionPool(0, 1, TimeUnit.NANOSECONDS))
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(5, TimeUnit.SECONDS)
             .apply {
                 loggingInterceptors.forEach {
                     addNetworkInterceptor(it)
@@ -83,16 +87,6 @@ open class NetModule {
         val cacheSize = 10 * 1024 * 1024L
         return Cache(application.getCacheDir(), cacheSize)
     }
-
-    @Provides
-    @Singleton
-    fun provideConnectivityManager( context: Context): ConnectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-    @Provides
-    @Singleton
-    fun provideNetworkInteractor(networkInteractor: NetworkInteractorImpl): NetworkInteractor = networkInteractor
-
 
 
 }

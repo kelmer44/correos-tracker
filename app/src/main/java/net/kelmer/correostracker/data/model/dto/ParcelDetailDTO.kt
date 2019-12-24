@@ -13,4 +13,11 @@ data class ParcelDetailDTO(val name: String,
                            val codProducto: String,
                            val fechaCalculada: String,
                            val states: List<CorreosApiEvent>)
+{
+
+
+
+
+    fun isDelivered(): Boolean = states.lastOrNull()?.isEntregado() ?: false
+}
 //                           val states: List<ParcelDetailStatus>)

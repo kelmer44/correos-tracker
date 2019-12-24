@@ -10,7 +10,7 @@
     <string name="incoming">Lo voy a recibir</string>
     <string name="outgoing">Lo he enviado</string>
     <string name="stance">Dirección</string>
-    <string name="lastchecked">Última comprobación:  %1$s</string>
+    <string name="lastchecked">Comprobado:  %1$s</string>
     <string name="error_unrecognized">Se produjo un error, por favor inténtalo más tarde.</string>
     <string name="masinfo_ref">Num. referencia:</string>
     <string name="masinfo_codproducto">Cod. Producto:</string>
@@ -22,4 +22,5 @@
     <string name="peso_placeholder">%1$s gr.</string>
     <string name="error_nocodigo">Por favor introduce el código de seguimiento.</string>
     <string name="emptystate_parcel_list">Todavía no has introducido ningún paquete.</string>
+    <string name="status_title">ESTADO</string>
 </resources>

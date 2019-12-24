@@ -3,7 +3,7 @@ package net.kelmer.correostracker.ui.list
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
-import net.kelmer.correostracker.base.RxViewModel
+import net.kelmer.correostracker.base.BaseViewModel
 import net.kelmer.correostracker.data.Result
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
@@ -17,17 +17,12 @@ import javax.inject.Inject
 /**
  * Created by gabriel on 25/03/2018.
  */
-class ParcelListViewModel : RxViewModel() {
+class ParcelListViewModel @Inject constructor(val localParcelRepository: LocalParcelRepository,
+                                              val parcelRepository: CorreosRepository) : BaseViewModel() {
 
     val parcelList: MutableLiveData<Result<List<LocalParcelReference>>> = MutableLiveData()
     val deleteLiveData: MutableLiveData<Result<Int>> = MutableLiveData()
 
-
-    @Inject
-    lateinit var localParcelRepository: LocalParcelRepository
-
-    @Inject
-    lateinit var parcelRepository: CorreosRepository
 
     fun retrieveParcelList() {
         localParcelRepository.getParcels()

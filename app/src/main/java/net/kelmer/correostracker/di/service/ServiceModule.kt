@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.di
+package net.kelmer.correostracker.di.service
 
 import android.app.Service
 import android.content.Context

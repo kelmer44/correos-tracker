@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.ui.list
+package net.kelmer.correostracker.ui.list.adapter
 
 import android.view.View
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
