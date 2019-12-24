@@ -1,12 +1,12 @@
 # correos-tracker
-Tracker para paquetes de correos
+Parcel tracker for correos.es
 
 Sample app with MVVM architecture using
 
 * RxJava2
-* Dagger 2
+* Dagger2/Dagger-Android
 * LiveData & ViewModel from Architecture Components
-* Room as Database
+* Room as Database provider
 
 <p align="center">
   <img alt="Demo screen" src="./device-2018-04-20-134010.png" width="250" />
