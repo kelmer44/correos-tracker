@@ -1,11 +1,13 @@
 package net.kelmer.correostracker.ui.list.adapter
 
+import android.text.format.DateUtils
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.rv_parcel_item.view.*
 import net.kelmer.correostracker.R
+import net.kelmer.correostracker.data.model.dto.ParcelDetailStatus
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.ext.isVisible
 import java.text.SimpleDateFormat
@@ -69,12 +71,20 @@ class ParcelListAdapter constructor(
             }
 
             parcel_progress.isVisible = parcel.isLoading
+            parcel_status.isVisible = !parcel.isLoading
 
+            val faseNumber = parcel.ultimoEstado?.fase?.toInt()
+            val fase = if (faseNumber != null) ParcelDetailStatus.Fase.fromFase(faseNumber) else ParcelDetailStatus.Fase.OTHER
+
+            parcel_status.setImageResource(fase.drawable)
 
             var lastChecked = parcel.lastChecked
 
             if(lastChecked != null && lastChecked > 0){
+//                val relativeText = DateUtils.getRelativeTimeSpanString(lastChecked, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
+//                last_checked.text = context.getString(R.string.lastchecked, relativeText)
                 last_checked.text = context.getString(R.string.lastchecked, dateFormat.format(Date(lastChecked)))
+
             }
                 last_checked.isVisible = lastChecked != null && lastChecked > 0
         }
@@ -91,7 +101,7 @@ class ParcelListAdapter constructor(
     fun setLoading(code: String, loading: Boolean) {
         val filter = items.filter { it.code == code }
         if(filter.isNotEmpty()) {
-            filter.first()?.isLoading = loading
+            filter.first().isLoading = loading
             notifyItemChanged(items.indexOf(filter.first()))
         }
     }

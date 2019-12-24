@@ -38,11 +38,13 @@ class DetailTimelineAdapter : RecyclerView.Adapter<DetailTimelineAdapter.TimeLin
         private var view: View = v
         private var status: CorreosApiEvent? = null
 
-        fun bindStatus(status: CorreosApiEvent) {
+        fun bindStatus(status: CorreosApiEvent, lastItem: Boolean = false, firstItem: Boolean = false) {
             this.status = status
             val faseNumber = status.fase?.toInt()
             val fase = if (faseNumber != null) ParcelDetailStatus.Fase.fromFase(faseNumber) else ParcelDetailStatus.Fase.OTHER
-            view.time_marker.setMarker(ContextCompat.getDrawable(view.context,fase.drawable))
+
+
+            view.time_marker.setMarker(ContextCompat.getDrawable(view.context, fase.drawable))
 
             view.text_timeline_title.text = status.desTextoResumen
             view.text_timeline_date.text = status.fecEvento

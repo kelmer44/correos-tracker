@@ -13,11 +13,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:clickable="true"
+        android:focusable="true"
         android:foreground="?android:selectableItemBackground"
         card_view:cardCornerRadius="2dp"
         card_view:cardElevation="2dp"
-        card_view:cardUseCompatPadding="true"
-        android:focusable="true">
+        card_view:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,50 +33,56 @@
                     android:id="@+id/parcel_name"
                     style="@style/Base.TextAppearance.AppCompat"
                     android:layout_width="match_parent"
-                    android:minHeight="24dp"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@id/more"
-                    android:gravity="center_vertical"
-                    android:textAllCaps="true"
-                    android:maxLines="2"
                     android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
+                    android:minHeight="24dp"
+                    android:textAllCaps="true"
                     android:textStyle="bold"
                     tools:text="NOMBRE DEL PAQUETE asi un poco largo para que no quepa" />
+
+                <TextView
+                    android:id="@+id/parcel_code"
+                    style="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/parcel_name"
+                    android:layout_toStartOf="@id/more"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textAllCaps="true"
+                    android:textSize="12sp"
+                    tools:text="RF11232423415706W" />
 
                 <ImageView
                     android:id="@+id/more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/single_spacing"
                     android:layout_alignParentEnd="true"
                     android:background="?selectableItemBackgroundBorderless"
+                    android:padding="@dimen/single_spacing"
                     android:src="@drawable/ic_more" />
 
             </RelativeLayout>
 
 
             <TextView
-                android:id="@+id/parcel_code"
-                style="@style/Base.TextAppearance.AppCompat.Body1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAllCaps="true"
-                android:maxLines="1"
-                android:ellipsize="end"
-                tools:text="RF11232423415706W" />
-
-            <TextView
                 android:id="@+id/parcel_stance"
                 android:layout_width="match_parent"
+                android:textSize="12sp"
+                android:textStyle="italic"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/single_spacing"
-                tools:text="Enviado" />
+                android:visibility="visible"
+                tools:text="Lo voy a recibir" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginBottom="@dimen/single_spacing"
                 android:layout_marginTop="@dimen/single_spacing"
+                android:layout_marginBottom="@dimen/single_spacing"
                 android:background="#d5d5d5" />
 
 
@@ -93,31 +99,62 @@
                 android:layout_height="wrap_content"
                 tools:visibility="visible">
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/status_title"
+                    style="@style/TextAppearance.AppCompat.Caption"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="@string/status_title"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent" />
+
+                <FrameLayout
+                    android:id="@+id/statusicon_container"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="@dimen/single_spacing"
+                    android:layout_marginTop="@dimen/single_spacing"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@id/status_title">
+
+
+                    <ImageView
+                        android:id="@+id/parcel_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_package"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                    <ProgressBar
+                        android:id="@+id/parcel_progress"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:indeterminate="true"
+                        android:visibility="visible"
+                        tools:visibility="gone" />
+
+                </FrameLayout>
+
+
                 <TextView
                     android:id="@+id/ultimo_estado"
+                    style="@style/Base.TextAppearance.AppCompat.Body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:minHeight="24dp"
-                    android:gravity="start"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    card_view:layout_constraintEnd_toStartOf="@+id/parcel_progress"
-                    card_view:layout_constraintStart_toStartOf="parent"
-                    card_view:layout_constraintTop_toTopOf="parent"
-                    tools:text="Entregado en la casa de tu putam adre cuando el texto es y muy largo y tal y cual" />
-
-
-                <ProgressBar
-                    android:id="@+id/parcel_progress"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:indeterminate="true"
-                    android:visibility="visible"
                     android:layout_marginEnd="@dimen/single_spacing"
-                    card_view:layout_constraintBottom_toBottomOf="parent"
-                    card_view:layout_constraintRight_toRightOf="parent"
-                    card_view:layout_constraintTop_toTopOf="parent" />
+                    android:ellipsize="end"
+                    android:gravity="start|center_vertical"
+                    android:maxLines="2"
+                    android:includeFontPadding="false"
+                    android:textSize="12sp"
+                    android:minHeight="24dp"
+                    android:layout_marginStart="@dimen/single_spacing"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintStart_toEndOf="@id/statusicon_container"
+                    card_view:layout_constraintTop_toTopOf="@id/statusicon_container"
+                    tools:text="Entregado en SANTIAGO DE COMPOSTELA" />
 
 
                 <TextView
@@ -125,14 +162,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:paddingLeft="32dp"
-                    android:layout_marginTop="@dimen/single_spacing"
-                    android:gravity="left"
+                    android:gravity="start"
+                    android:textSize="12sp"
                     android:textStyle="italic"
-                    card_view:layout_constraintEnd_toStartOf="@+id/parcel_progress"
-                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintStart_toStartOf="@id/ultimo_estado"
                     card_view:layout_constraintTop_toBottomOf="@id/ultimo_estado"
-                    tools:text="Ayer" />
+                    tools:text="Ultima comprobacion: Ayer a alas 23.00" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
