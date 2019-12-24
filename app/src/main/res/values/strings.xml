@@ -23,4 +23,5 @@
     <string name="error_nocodigo">Por favor introduce el código de seguimiento.</string>
     <string name="emptystate_parcel_list">Todavía no has introducido ningún paquete.</string>
     <string name="status_title">ESTADO</string>
+    <string name="scan_prompt">Escanea el código de barras</string>
 </resources>

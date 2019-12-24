@@ -1,7 +1,9 @@
 package net.kelmer.correostracker.ui.create
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.fragment_create_parcel.*
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
@@ -39,9 +41,31 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
         viewModel.saveParcelLiveData.observe(this) {
             activity?.finish()
         }
+        scanCodeButton.setOnClickListener {
+            tryToScanCode()
+        }
 
     }
 
+    private fun tryToScanCode() {
+        val integrator = IntentIntegrator.forSupportFragment(this)
+        integrator.setPrompt(getString(R.string.scan_prompt))
+        integrator.setBeepEnabled(false)
+        integrator.setBarcodeImageEnabled(true)
+        integrator.initiateScan()
+    }
+
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        val result =
+            IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        result.contents?.let {
+            parcel_code.setText(it)
+        }
+    }
 
     override val layoutId: Int = R.layout.fragment_create_parcel
 }
