@@ -98,6 +98,10 @@ dependencies {
     implementation deps.dagger.android
     implementation deps.dagger.androidsupport
 
+    //Barcode scanner
+    implementation deps.barcode.zxing
+    implementation deps.barcode.zxingandroid
+
     //==================== Debug ====================
     //Logging
     implementation deps.timber

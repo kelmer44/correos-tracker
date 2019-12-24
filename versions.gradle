@@ -103,6 +103,12 @@ def extension = ext {
                     'adapters': "com.squareup.moshi:moshi-adapters:${versions.moshi}"
             ],
 
+            //==================== Barcode ====================
+            'barcode'       : [
+                    'zxingandroid'    : "com.journeyapps:zxing-android-embedded:3.6.0",
+                    'zxing'                     : "com.google.zxing:core:3.3.0",
+            ],
+
             //==================== Debug ====================
             'timber'         : "com.jakewharton.timber:timber:${versions.timber}",
             'crashlytics'    : [

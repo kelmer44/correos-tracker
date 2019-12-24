@@ -5,45 +5,73 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.create.CreateActivity"
-    android:padding="@dimen/double_spacing">
+    android:padding="@dimen/double_spacing"
+    tools:context=".ui.create.CreateActivity">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/parcel_code_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/parcel_code"
-        app:hintEnabled="true"
-        app:hintAnimationEnabled="true"
-        app:helperTextEnabled="false"
-        app:boxStrokeColor="@color/colorAccent"
-        app:hintTextColor="@color/colorAccent"
-        android:importantForAutofill="no"
-        app:errorEnabled="true">
+        android:layout_height="wrap_content">
 
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/parcel_code"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/parcel_code_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:inputType="textCapCharacters"
-            android:maxLines="1"
-            android:text="" />
+            android:layout_marginEnd="8dp"
+            android:hint="@string/parcel_code"
+            android:importantForAutofill="no"
+            app:boxStrokeColor="@color/colorAccent"
+            app:errorEnabled="true"
+            app:helperTextEnabled="false"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/scanCodeButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/parcel_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="textCapCharacters"
+                android:maxLines="1"
+                android:text="" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/scanCodeButton"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:backgroundTint="@color/colorAccent"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:icon="@drawable/ic_photo_camera_24dp"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/parcel_code_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/parcel_code_layout" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/parcel_name_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:boxStrokeColor="@color/colorAccent"
-        app:hintTextColor="@color/colorAccent"
         android:hint="@string/parcel_name"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:importantForAutofill="no"
-        app:errorEnabled="false">
+        app:boxStrokeColor="@color/colorAccent"
+        app:errorEnabled="false"
+        app:hintTextColor="@color/colorAccent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/parcel_name"
