@@ -21,12 +21,12 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
     override fun loadUp(savedInstanceState: Bundle?) {
         create_ok.setOnClickListener {
 
-            if(!TextUtils.isEmpty(parcel_code.text.toString())) {
-                if(TextUtils.isEmpty(parcel_name.text.toString())){
+            if (!TextUtils.isEmpty(parcel_code.text.toString())) {
+                if (TextUtils.isEmpty(parcel_name.text.toString())) {
                     parcel_name.text = parcel_code.text
                 }
                 var checkedRadioButtonId = stance_group.checkedRadioButtonId
-                var stance = when (checkedRadioButtonId){
+                var stance = when (checkedRadioButtonId) {
                     R.id.stance_incoming -> LocalParcelReference.Stance.INCOMING
                     else -> LocalParcelReference.Stance.OUTGOING
                 }
@@ -34,8 +34,7 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
                 var localParcelReference = LocalParcelReference(parcel_code.text.toString(), parcel_name.text.toString(), stance, null)
                 viewModel.addParcel(localParcelReference)
 
-            }
-            else {
+            } else {
                 parcel_code_layout.error = getString(R.string.error_nocodigo)
             }
         }
@@ -43,9 +42,11 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
             activity?.setResult(Activity.RESULT_OK)
             activity?.finish()
         }
-        scanCodeButton.setOnClickListener {
-            tryToScanCode()
-        }
+
+        parcel_code_layout
+                .setEndIconOnClickListener {
+                    tryToScanCode()
+                }
 
     }
 
@@ -58,12 +59,12 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
     }
 
     override fun onActivityResult(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?
+            requestCode: Int,
+            resultCode: Int,
+            data: Intent?
     ) {
         val result =
-            IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+                IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         result.contents?.let {
             parcel_code.setText(it)
         }

@@ -17,7 +17,6 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:hint="@string/parcel_code"
             android:importantForAutofill="no"
             app:boxStrokeColor="@color/colorAccent"
@@ -27,7 +26,9 @@
             app:hintEnabled="true"
             app:hintTextColor="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/scanCodeButton"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_barcode"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -43,21 +44,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/scanCodeButton"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:backgroundTint="@color/colorAccent"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            app:icon="@drawable/ic_photo_camera_24dp"
-            app:iconGravity="textStart"
-            app:iconPadding="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/parcel_code_layout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/parcel_code_layout" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -70,7 +56,7 @@
         android:hint="@string/parcel_name"
         android:importantForAutofill="no"
         app:boxStrokeColor="@color/colorAccent"
-        app:errorEnabled="false"
+        app:errorEnabled="true"
         app:hintTextColor="@color/colorAccent">
 
         <com.google.android.material.textfield.TextInputEditText
