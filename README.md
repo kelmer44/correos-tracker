@@ -1,5 +1,5 @@
-# correos-tracker
-Parcel tracker for correos.es
+# Seguimiento Correos
+Parcel tracker for http://correos.es
 
 Sample app with MVVM architecture using
 
