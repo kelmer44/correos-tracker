@@ -23,6 +23,7 @@ import timber.log.Timber
 import android.widget.LinearLayout
 import com.crashlytics.android.Crashlytics
 import net.kelmer.correostracker.ui.detail.adapter.DetailTimelineAdapter
+import net.kelmer.correostracker.util.NetworkInteractor
 
 
 class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
@@ -58,16 +59,25 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
                 }
                 is Result.Failure -> {
                     error_container.isVisible = true
-                    if (it.e is CorreosException) {
-                        Crashlytics.log("Controlled Exception Error $parcelCode")
-                        Crashlytics.logException(it.e)
-                        error_text.text = it.e.message
-                    } else {
-                        Crashlytics.log("Unknown Error $parcelCode")
-                        Crashlytics.logException(it.e)
-                        error_text.text = getString(R.string.error_unrecognized)
-                    }
                     Timber.e(it.e, it.errorMessage)
+                    when (it.e) {
+                        is CorreosException -> {
+                            Crashlytics.log("Controlled Exception Error $parcelCode")
+                            Crashlytics.logException(it.e)
+                            error_text.text = it.e.message
+                        }
+                        is NetworkInteractor.NetworkUnavailableException -> {
+                            Crashlytics.log("Controlled Exception Error $parcelCode")
+                            Crashlytics.logException(it.e)
+                            error_text.text = getString(R.string.error_no_network)
+                        }
+                        else -> {
+                            Crashlytics.log("Unknown Error $parcelCode")
+                            Crashlytics.logException(it.e)
+                            error_text.text = getString(R.string.error_unrecognized)
+                        }
+                    }
+
                 }
             }
         }
@@ -121,7 +131,7 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
             var ref = parent.findViewById<TextView>(R.id.masinfo_ref)
             var fecha = parent.findViewById<TextView>(R.id.masinfo_fechaestimada)
             var orElse = "N/A"
-            if(parcel.refCliente=="referencia"){
+            if (parcel.refCliente == "referencia") {
                 parcel.refCliente = ""
             }
 

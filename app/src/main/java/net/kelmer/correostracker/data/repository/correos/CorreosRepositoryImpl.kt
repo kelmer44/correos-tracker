@@ -7,6 +7,7 @@ import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.network.correos.CorreosApi
 import net.kelmer.correostracker.data.network.exception.CorreosException
+import net.kelmer.correostracker.data.network.exception.CorreosExceptionFactory
 import timber.log.Timber
 import java.util.*
 
@@ -29,7 +30,7 @@ class CorreosRepositoryImpl(val correosApi: CorreosApi, val dao: LocalParcelDao)
                 .flatMap { element ->
                     //Mapping errors to a proper exception
                     if(element.error!=null && element.error.codError != "0"){
-                        Single.error(CorreosException(element.error.codError, element.error.desError))
+                        Single.error(CorreosExceptionFactory.byCode(element.error.codError, element.error.desError))
                     }
                     else {
                         Single.just(element)

@@ -25,4 +25,5 @@
     <string name="status_title">ESTADO</string>
     <string name="scan_prompt">Escanea el código de barras</string>
     <string name="status_unknown">Estado desconocido</string>
+    <string name="error_no_network">No hay conexión a internet</string>
 </resources>
