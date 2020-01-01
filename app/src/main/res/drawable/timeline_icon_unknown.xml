@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/timeline_circle" />
+    <item android:drawable="@drawable/timeline_circle_unknown" />
     <item
         android:bottom="@dimen/inset_icon"
         android:left="@dimen/inset_icon"
         android:right="@dimen/inset_icon"
         android:top="@dimen/inset_icon"
-        android:drawable="@drawable/ic_computer_white"
+        android:drawable="@drawable/ic_questionmark"
         />
 </layer-list>

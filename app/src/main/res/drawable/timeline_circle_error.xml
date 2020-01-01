@@ -4,7 +4,7 @@
     android:shape="oval">
 
     <solid
-        android:color="@color/colorAccent"/>
+        android:color="@color/stage_error"/>
 
     <size
         android:width="120dp"

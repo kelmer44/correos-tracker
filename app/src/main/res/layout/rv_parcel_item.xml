@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,9 +15,9 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:selectableItemBackground"
-        card_view:cardCornerRadius="2dp"
-        card_view:cardElevation="2dp"
-        card_view:cardUseCompatPadding="true">
+        app:cardCornerRadius="2dp"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -90,7 +90,6 @@
                 style="?android:textAppearanceListItem"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/single_spacing"
                 android:text="@string/ultimo_estado_header"
                 android:visibility="gone" />
 
@@ -99,31 +98,22 @@
                 android:layout_height="wrap_content"
                 tools:visibility="visible">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/status_title"
-                    style="@style/TextAppearance.AppCompat.Caption"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:text="@string/status_title"
-                    card_view:layout_constraintStart_toStartOf="parent"
-                    card_view:layout_constraintEnd_toEndOf="parent"
-                    card_view:layout_constraintTop_toTopOf="parent" />
 
                 <FrameLayout
                     android:id="@+id/statusicon_container"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:layout_marginEnd="@dimen/single_spacing"
-                    android:layout_marginTop="@dimen/single_spacing"
-                    card_view:layout_constraintStart_toStartOf="parent"
-                    card_view:layout_constraintTop_toBottomOf="@id/status_title">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
 
 
                     <ImageView
                         android:id="@+id/parcel_status"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_package"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/timeline_icon_reparto"
                         android:visibility="gone"
                         tools:visibility="visible" />
 
@@ -143,17 +133,17 @@
                     style="@style/Base.TextAppearance.AppCompat.Body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/single_spacing"
                     android:ellipsize="end"
-                    android:gravity="start|center_vertical"
+                    android:gravity="start|top"
                     android:maxLines="2"
                     android:includeFontPadding="false"
                     android:textSize="12sp"
-                    android:minHeight="24dp"
                     android:layout_marginStart="@dimen/single_spacing"
-                    card_view:layout_constraintEnd_toEndOf="parent"
-                    card_view:layout_constraintStart_toEndOf="@id/statusicon_container"
-                    card_view:layout_constraintTop_toTopOf="@id/statusicon_container"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/statusicon_container"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/last_checked"
+                    app:layout_constraintVertical_chainStyle="packed"
                     tools:text="Entregado en SANTIAGO DE COMPOSTELA" />
 
 
@@ -161,13 +151,14 @@
                     android:id="@+id/last_checked"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
                     android:gravity="start"
                     android:textSize="12sp"
                     android:textStyle="italic"
-                    card_view:layout_constraintEnd_toEndOf="parent"
-                    card_view:layout_constraintStart_toStartOf="@id/ultimo_estado"
-                    card_view:layout_constraintTop_toBottomOf="@id/ultimo_estado"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/ultimo_estado"
+                    app:layout_constraintTop_toBottomOf="@id/ultimo_estado"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
                     tools:text="Ultima comprobacion: Ayer a alas 23.00" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

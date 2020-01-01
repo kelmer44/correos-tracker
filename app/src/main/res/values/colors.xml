@@ -13,4 +13,12 @@
     <color name="divider">#BDBDBD</color>
     <color name="white">#fff</color>
 
+
+    <color name="stage_unknown">#DDDDDD</color>
+    <color name="stage_error">#E02020</color>
+    <color name="stage_delivering">#0091FF</color>
+    <color name="stage_delivered">#6DD400</color>
+
 </resources>
+
+

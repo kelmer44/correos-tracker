@@ -47,7 +47,7 @@ class ParcelListAdapter constructor(
             parcel_name.text = parcel.parcelName
             parcel_code.text = parcel.code
 
-            ultimo_estado.text = parcel.ultimoEstado?.buildUltimoEstado() ?: "?"
+            ultimo_estado.text = parcel.ultimoEstado?.buildUltimoEstado() ?: context.getString(R.string.status_unknown)
 
             when (parcel.stance) {
                 LocalParcelReference.Stance.INCOMING -> {

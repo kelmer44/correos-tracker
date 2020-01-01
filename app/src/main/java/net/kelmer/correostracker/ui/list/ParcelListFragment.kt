@@ -35,7 +35,7 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
     override val viewModelClass: Class<ParcelListViewModel> = ParcelListViewModel::class.java
 
 
-    private val clickListener = object: ParcelClickListener {
+    private val clickListener = object : ParcelClickListener {
         override fun longPress(parcelReference: LocalParcelReference) {
             val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("ParcelCode", parcelReference.code)
@@ -104,7 +104,7 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
         }
 
         viewModel.deleteLiveData.observe(this) {
-            when (it){
+            when (it) {
                 is Result.Success -> {
 
                     Timber.w("Deleted ${it.data} elements!!")
@@ -118,9 +118,9 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
         }
 
 
-        viewModel.statusReports.observe(this) {
-            it?.let {
-                adapter.setLoading(it.codEnvio, false)
+        viewModel.statusReports.observe(this) { parcel ->
+            parcel?.codEnvio?.let { codigo ->
+                adapter.setLoading(codigo, false)
             }
         }
     }
@@ -130,7 +130,7 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
         rv_parcel_list.layoutManager = llm
         rv_parcel_list.adapter = adapter
 
-        swipe_refresh.setOnRefreshListener{
+        swipe_refresh.setOnRefreshListener {
             refreshFromRemote()
         }
     }

@@ -1,6 +1,6 @@
 def versionMajor = 1
-def versionMinor = 5
-def versionPatch = 1
+def versionMinor = 6
+def versionPatch = 0
 def versionBuild = 0 // bump for dogfood builds, public betas, etc.
 
 
@@ -105,8 +105,8 @@ dependencies {
     //==================== Debug ====================
     //Logging
     implementation deps.timber
-    debugImplementation deps.stetho.core
-    debugImplementation deps.stetho.okhttp3
+    implementation deps.stetho.core
+    implementation deps.stetho.okhttp3
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
 
 

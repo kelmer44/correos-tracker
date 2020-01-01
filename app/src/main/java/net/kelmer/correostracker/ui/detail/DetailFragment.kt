@@ -21,6 +21,7 @@ import net.kelmer.correostracker.util.peso
 import net.kelmer.correostracker.util.textOrElse
 import timber.log.Timber
 import android.widget.LinearLayout
+import com.crashlytics.android.Crashlytics
 import net.kelmer.correostracker.ui.detail.adapter.DetailTimelineAdapter
 
 
@@ -58,8 +59,12 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
                 is Result.Failure -> {
                     error_container.isVisible = true
                     if (it.e is CorreosException) {
+                        Crashlytics.log("Controlled Exception Error $parcelCode")
+                        Crashlytics.logException(it.e)
                         error_text.text = it.e.message
                     } else {
+                        Crashlytics.log("Unknown Error $parcelCode")
+                        Crashlytics.logException(it.e)
                         error_text.text = getString(R.string.error_unrecognized)
                     }
                     Timber.e(it.e, it.errorMessage)

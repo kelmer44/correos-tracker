@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         app:line="@color/colorPrimary"
         app:lineSize="3dp"
-        app:marker="@drawable/timeline_circle"
+        app:marker="@drawable/timeline_circle_unknown"
         app:markerSize="32dp" />
 
     <androidx.cardview.widget.CardView
@@ -65,7 +65,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:textStyle="bold"
                 android:textColor="@android:color/black"
                 tools:text="Order Successfully Completed" />
 
@@ -74,6 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:textSize="12sp"
                 android:layout_marginBottom="4dp"
                 android:textColor="@android:color/darker_gray"
                 tools:text="The order was successfully completed and the process is finished" />

@@ -21,7 +21,7 @@
         <ImageView
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:src="@drawable/ic_error_black_24dp"
+            android:src="@drawable/ic_error"
             android:tint="@color/colorAccent"
             android:layout_marginBottom="@dimen/double_spacing"/>
 

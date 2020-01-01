@@ -11,6 +11,8 @@ import dagger.Provides
 import net.kelmer.correostracker.di.qualifiers.NetworkLogger
 import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.NetworkInteractorImpl
+import net.kelmer.correostracker.util.adapter.SingleToArray
+import net.kelmer.correostracker.util.adapter.SingleToArrayAdapter
 import okhttp3.Cache
 import okhttp3.ConnectionPool
 import okhttp3.Interceptor
@@ -66,6 +68,7 @@ open class NetModule {
     @Singleton
     fun provideMoshi(): Moshi = Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
+            .add(SingleToArrayAdapter.FACTORY)
             .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
             .build()
 
