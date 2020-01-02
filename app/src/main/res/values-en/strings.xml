@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Seguimiento de correos</string>
+    <string name="clipboard_copied">The code has been copied to the clipboard.</string>
+    <string name="delete">Remove</string>
+    <string name="emptystate_parcel_list">You have not entered a track and trace yet.</string>
+    <string name="error_no_network">No internet connection.</string>
+    <string name="error_nocodigo">Please enter the tracking number.</string>
+    <string name="error_unrecognized">There was an error, please try again later.</string>
+    <string name="incoming">Incoming</string>
+    <string name="lastchecked">Last checked: %1$s</string>
+    <string name="masinfo_codproducto">Product code:</string>
+    <string name="masinfo_dimensiones">Dimensions:</string>
+    <string name="masinfo_disclaimer">* NOTE: This date is provided by Correos and should never be taken as reliable data.</string>
+    <string name="masinfo_fechaestimada">Estimated Date*:</string>
+    <string name="masinfo_peso">Weight:</string>
+    <string name="masinfo_ref">Ref. number:</string>
+    <string name="outgoing">Outgoing</string>
+    <string name="parcel_code">Tracking code</string>
+    <string name="parcel_name">Parcel name (optional)</string>
+    <string name="refresh">Update</string>
+    <string name="refresh_all">Update all</string>
+    <string name="scan_prompt">Bar code scan</string>
+    <string name="stance">Address</string>
+    <string name="status_title">STATUS</string>
+    <string name="status_unknown">Unknown status</string>
+    <string name="ultimo_estado_header">Last status</string>
+</resources>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Seguimiento de correos</string>
     <string name="parcel_name">Nombre del paquete (opcional)</string>
@@ -18,8 +19,8 @@
     <string name="masinfo_peso">Peso:</string>
     <string name="masinfo_fechaestimada">Fecha Estimada*:</string>
     <string name="masinfo_disclaimer">*NOTA: La fecha calculada es estimada por correos y en ningún momento debe tomarse como dato fiable.</string>
-    <string name="dimensiones_placeholder" translatable="false"> %1$sx%2$sx%3$s</string>
-    <string name="peso_placeholder" translatable="false">%1$s gr.</string>
+    <string name="dimensiones_placeholder"> %1$sx%2$sx%3$s</string>
+    <string name="peso_placeholder">%1$s gr.</string>
     <string name="error_nocodigo">Por favor introduce el código de seguimiento.</string>
     <string name="emptystate_parcel_list">Todavía no has introducido ningún paquete.</string>
     <string name="status_title">ESTADO</string>
