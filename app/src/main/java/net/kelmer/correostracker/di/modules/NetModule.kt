@@ -42,7 +42,7 @@ open class NetModule {
             .connectionPool(ConnectionPool(0, 1, TimeUnit.NANOSECONDS))
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
-            .connectTimeout(5, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS)
             .apply {
                 loggingInterceptors.forEach {
                     addNetworkInterceptor(it)
