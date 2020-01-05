@@ -26,4 +26,5 @@
     <string name="scan_prompt">Escanea el código de barras</string>
     <string name="status_unknown">Estado desconocido</string>
     <string name="error_no_network">No hay conexión a internet</string>
+    <string name="create_parcel_only_correos">* Solo paquetes de Correos España o Correos Express</string>
 </resources>
