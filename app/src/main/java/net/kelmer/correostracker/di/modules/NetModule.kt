@@ -40,8 +40,6 @@ open class NetModule {
     fun provideOkHttpClient(cache: Cache, @NetworkLogger loggingInterceptors: Set<@JvmSuppressWildcards
     Interceptor>): OkHttpClient = OkHttpClient.Builder()
             .cache(cache)
-            //TODO connectionPool patch until Okttp3 3.10 was on air
-            .connectionPool(ConnectionPool(0, 1, TimeUnit.NANOSECONDS))
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
             .connectTimeout(10, TimeUnit.SECONDS)

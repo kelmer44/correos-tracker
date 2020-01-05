@@ -25,6 +25,7 @@
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
             app:hintTextColor="@color/colorAccent"
+            app:helperText="*Solo paquetes de Correos España o Correos Express"
             app:layout_constraintBottom_toBottomOf="parent"
             app:endIconMode="custom"
             app:endIconDrawable="@drawable/ic_barcode"

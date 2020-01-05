@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.rv_detail_item.view.*
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.data.model.dto.ParcelDetailStatus
 import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
+import net.kelmer.correostracker.ext.isVisible
 
 
 class DetailTimelineAdapter : RecyclerView.Adapter<DetailTimelineAdapter.TimeLineViewHolder>() {
@@ -50,6 +51,7 @@ class DetailTimelineAdapter : RecyclerView.Adapter<DetailTimelineAdapter.TimeLin
             view.text_timeline_date.text = status.fecEvento
             view.text_timeline_time.text = status.horEvento
             view.text_timeline_description.text = status.desTextoAmpliado
+            view.location_container.isVisible = !status.unidad.isNullOrBlank()
             view.text_timeline_location.text = status.unidad
         }
 
