@@ -4,17 +4,31 @@ import com.squareup.moshi.Json
 import net.kelmer.correostracker.util.adapter.SingleToArray
 
 
-data class CorreosApiParcel(val codEnvio: String? = null,
-                            val refCliente: String? = null,
-                            val codProducto: String? = "",
+data class CorreosApiParcel(var codEnvio: String? = null,
+                            var refCliente: String? = null,
+                            var codProducto: String? = "",
                             @Json(name="fec_calculada")
-                            val fechaCalculada: String?,
-                            val largo: String? = null,
-                            val ancho: String? = null,
-                            val alto: String? = null,
-                            val peso: String? = null,
-                            @SingleToArray val eventos: List<CorreosApiEvent>? = emptyList(),
-                            val error: Error?) {
+                            var fechaCalculada: String?,
+                            var largo: String? = null,
+                            var ancho: String? = null,
+                            var alto: String? = null,
+                            var peso: String? = null,
+                            var eventos: List<CorreosApiEvent>? = emptyList(),
+                            var error: Error?) {
 
+    companion object {
+
+        fun allNull() = CorreosApiParcel(null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+                )
+    }
 
 }

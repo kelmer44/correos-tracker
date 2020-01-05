@@ -8,9 +8,11 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Rfc3339DateJsonAdapter
 import dagger.Module
 import dagger.Provides
+import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.di.qualifiers.NetworkLogger
 import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.NetworkInteractorImpl
+import net.kelmer.correostracker.util.adapter.CorreosApiParcelAdapter
 import net.kelmer.correostracker.util.adapter.SingleToArray
 import net.kelmer.correostracker.util.adapter.SingleToArrayAdapter
 import okhttp3.Cache
@@ -66,11 +68,13 @@ open class NetModule {
 
     @Provides
     @Singleton
-    fun provideMoshi(): Moshi = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .add(SingleToArrayAdapter.FACTORY)
-            .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
-            .build()
+    fun provideMoshi(): Moshi =
+            Moshi.Builder()
+                    .add(KotlinJsonAdapterFactory())
+//            .add(SingleToArrayAdapter.FACTORY)
+                    .add(CorreosApiParcelAdapter.FACTORY)
+                    .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
+                    .build()
 
     @Provides
     @Singleton

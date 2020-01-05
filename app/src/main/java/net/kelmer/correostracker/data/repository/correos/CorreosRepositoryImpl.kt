@@ -29,8 +29,9 @@ class CorreosRepositoryImpl(val correosApi: CorreosApi, val dao: LocalParcelDao)
                 .map { element -> element[0] }
                 .flatMap { element ->
                     //Mapping errors to a proper exception
-                    if(element.error!=null && element.error.codError != "0"){
-                        Single.error(CorreosExceptionFactory.byCode(element.error.codError, element.error.desError))
+                    val error = element.error
+                    if(error !=null && error.codError != "0"){
+                        Single.error(CorreosExceptionFactory.byCode(error.codError, error.desError))
                     }
                     else {
                         Single.just(element)
