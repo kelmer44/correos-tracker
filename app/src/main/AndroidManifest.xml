@@ -35,6 +35,10 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="bc22c0cdc157cb80f7cdfdb0b604a7b453fff59c" />
+        <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            android:authorities="net.kelmer.correostracker.debug.workmanager-init"
+            android:enabled="false" />
 
 
     </application>

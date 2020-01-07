@@ -1,6 +1,7 @@
 package net.kelmer.correostracker.ui.list
 
 import androidx.lifecycle.MutableLiveData
+import androidx.work.ListenableWorker
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import net.kelmer.correostracker.base.BaseViewModel
@@ -50,19 +51,32 @@ class ParcelListViewModel @Inject constructor(val localParcelRepository: LocalPa
 
 
     fun refresh(items: MutableList<LocalParcelReference>) {
-        items.forEachIndexed { i, p ->
-            parcelRepository.getParcelStatus(p.code)
-                    .withNetwork(networkInteractor)
-                    .subscribeOn(schedulerProvider.io())
-                    .observeOn(schedulerProvider.ui())
-                    .subscribeBy(onError = {
-                        Timber.e(it, "Could not update $i : ${it.message}")
-                    },
-                            onNext = {
-                                statusReports.value = it
-                            })
-                    .addTo(disposables)
-        }
+//        items.forEachIndexed { i, p ->
+//            parcelRepository.getParcelStatus(p.code)
+//                    .withNetwork(networkInteractor)
+//                    .subscribeOn(schedulerProvider.io())
+//                    .observeOn(schedulerProvider.ui())
+//                    .subscribeBy(onError = {
+//                        Timber.e(it, "Could not update $i : ${it.message}")
+//                    },
+//                            onNext = {
+//                                statusReports.value = it
+//                            })
+//                    .addTo(disposables)
+//        }
+//        localParcelRepository.getParcels()
+//                .flatMapIterable {
+//                    it
+//                }
+//                .map {
+////                    Timber.d("Parcel poll checking parcel with code ${it.code}")
+////                    correosRepository.getParcelStatus(it.code)
+//                }
+//                .toList()
+//                .map { ListenableWorker.Result.success() }
+//                .onErrorReturn {
+//                    ListenableWorker.Result.failure()
+//                }
     }
 
 

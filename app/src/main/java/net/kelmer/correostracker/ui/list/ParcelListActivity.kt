@@ -10,6 +10,7 @@ import net.kelmer.correostracker.ui.create.CreateActivity
 
 class ParcelListActivity : BaseActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -20,13 +21,14 @@ class ParcelListActivity : BaseActivity() {
 
         fab.setOnClickListener {
             startActivityForResult(CreateActivity.newIntent(this),
-                REQ_CREATE_PARCEL)
+                    REQ_CREATE_PARCEL)
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == REQ_CREATE_PARCEL && resultCode == Activity.RESULT_OK){
+        if (requestCode == REQ_CREATE_PARCEL && resultCode == Activity.RESULT_OK) {
             for (fragment in supportFragmentManager.fragments) {
                 fragment.onActivityResult(requestCode, resultCode, data)
             }
