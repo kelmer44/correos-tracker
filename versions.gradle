@@ -22,7 +22,7 @@ def extension = ext {
             'fabric'          : '2.9.5',
 
             //Net
-            'okHttp'          : '4.2.1',
+            'okHttp'          : '4.3.0',
             'retrofit'        : '2.6.3',
             'moshi'           : '1.9.2',
 

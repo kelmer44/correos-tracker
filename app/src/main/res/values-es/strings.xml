@@ -19,12 +19,11 @@
     <string name="masinfo_peso">Peso:</string>
     <string name="masinfo_fechaestimada">Fecha Estimada*:</string>
     <string name="masinfo_disclaimer">*NOTA: La fecha calculada es estimada por correos y en ningún momento debe tomarse como dato fiable.</string>
-    <string name="dimensiones_placeholder"> %1$sx%2$sx%3$s</string>
-    <string name="peso_placeholder">%1$s gr.</string>
     <string name="error_nocodigo">Por favor introduce el código de seguimiento.</string>
     <string name="emptystate_parcel_list">Todavía no has introducido ningún paquete.</string>
     <string name="status_title">ESTADO</string>
     <string name="scan_prompt">Escanea el código de barras</string>
     <string name="status_unknown">Estado desconocido</string>
     <string name="error_no_network">No hay conexión a internet</string>
+    <string name="create_parcel_only_correos">* Solo paquetes de Correos España o Correos Express</string>
 </resources>
