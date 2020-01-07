@@ -63,6 +63,7 @@ dependencies {
     implementation deps.lifecycle.runtime
     implementation deps.lifecycle.extensions
     implementation deps.lifecycle.reactivestreams
+    implementation deps.lifecycle.worker
     kapt deps.lifecycle.compiler
 
 
