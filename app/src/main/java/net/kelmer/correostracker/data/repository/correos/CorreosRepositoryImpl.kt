@@ -6,18 +6,16 @@ import net.kelmer.correostracker.data.model.local.LocalParcelDao
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.network.correos.CorreosApi
-import net.kelmer.correostracker.data.network.exception.CorreosException
 import net.kelmer.correostracker.data.network.exception.CorreosExceptionFactory
 import timber.log.Timber
 import java.util.*
 
-class CorreosRepositoryImpl(val correosApi: CorreosApi, val dao: LocalParcelDao) : CorreosRepository {
-
-    var cache: List<CorreosApiParcel>? = null
-
+class CorreosRepositoryImpl(
+    val correosApi: CorreosApi,
+    val dao: LocalParcelDao
+) : CorreosRepository {
 
     override fun getParcelStatus(parcelId: String): Flowable<CorreosApiParcel> {
-
 
         var parcelReference: LocalParcelReference? = null
 
