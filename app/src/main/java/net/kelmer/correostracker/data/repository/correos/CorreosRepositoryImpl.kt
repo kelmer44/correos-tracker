@@ -13,11 +13,7 @@ import java.util.*
 
 class CorreosRepositoryImpl(val correosApi: CorreosApi, val dao: LocalParcelDao) : CorreosRepository {
 
-    var cache: List<CorreosApiParcel>? = null
-
-
-    override fun getParcelStatus(parcelId: String): Flowable<CorreosApiParcel> {
-
+    override fun getParcelStatus(parcelId: String): Single<CorreosApiParcel> {
 
         var parcelReference: LocalParcelReference? = null
 
@@ -25,20 +21,22 @@ class CorreosRepositoryImpl(val correosApi: CorreosApi, val dao: LocalParcelDao)
                 .doOnSuccess {
                     parcelReference = it
                 }
-                .flatMap { (correosApi.getParcelStatus(parcelId)) }
-                .map { element -> element[0] }
+                .flatMap {
+                    correosApi.getParcelStatus(parcelId)
+                }
+                .map {
+                    it.first()
+                }
                 .flatMap { element ->
                     //Mapping errors to a proper exception
                     val error = element.error
-                    if(error !=null && error.codError != "0"){
+                    if (error != null && error.codError != "0") {
                         Single.error(CorreosExceptionFactory.byCode(error.codError, error.desError))
-                    }
-                    else {
+                    } else {
                         Single.just(element)
                     }
                 }
                 .doOnSuccess {
-
                     parcelReference?.let { p ->
                         p.ultimoEstado = it.eventos?.lastOrNull()
                         p.lastChecked = Date().time
@@ -54,7 +52,6 @@ class CorreosRepositoryImpl(val correosApi: CorreosApi, val dao: LocalParcelDao)
                     }
 
                 }
-                .toFlowable()
     }
 
 

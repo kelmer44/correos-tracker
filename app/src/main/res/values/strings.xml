@@ -27,4 +27,9 @@
     <string name="status_unknown">Estado desconocido</string>
     <string name="error_no_network">No hay conexión a internet</string>
     <string name="create_parcel_only_correos">* Solo paquetes de Correos España o Correos Express</string>
+    <string name="new_event_single">New event on parcel %1$s!</string>
+    <string name="new_events_multiple">New events on %1$d parcels!</string>
+    <string name="notification_title">Status change</string>
+    <string name="channel_name">Status updates</string>
+    <string name="channel_description">Get status updates of your parcels</string>
 </resources>

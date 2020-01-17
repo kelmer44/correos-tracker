@@ -27,4 +27,7 @@
     <string name="ultimo_estado_header">Last status</string>
     <string name="dimensiones_placeholder" translatable="false">%1$sx%2$sx%3$s</string>
     <string name="create_parcel_only_correos">* Only codes from Correos España or Correos Express</string>
+    <string name="new_event_single">New event on parcel %1$s!</string>
+    <string name="new_events_multiple">New events on %1$d parcels!</string>
+    <string name="notification_title">Status change</string>
 </resources>

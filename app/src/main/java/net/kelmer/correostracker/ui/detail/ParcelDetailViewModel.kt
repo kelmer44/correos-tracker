@@ -25,7 +25,8 @@ class ParcelDetailViewModel @Inject constructor(val localParcelRepository: Local
     fun getParcel(parcelCode: String) {
 
         correosRepository.getParcelStatus(parcelCode)
-                .compose(networkInteractor.flowable())
+                .compose(networkInteractor.single())
+                .toFlowable()
                 .zipWith(
                         localParcelRepository.getParcel(parcelCode)
                         ,
