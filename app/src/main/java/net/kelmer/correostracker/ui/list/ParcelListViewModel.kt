@@ -64,7 +64,7 @@ class ParcelListViewModel @Inject constructor(val localParcelRepository: LocalPa
                     .subscribeBy(onError = {
                         Timber.e(it, "Could not update $i : ${it.message}")
                     },
-                            onNext = {
+                            onSuccess = {
                                 statusReports.value = it
                             })
                     .addTo(disposables)
@@ -76,7 +76,7 @@ class ParcelListViewModel @Inject constructor(val localParcelRepository: LocalPa
         localParcelRepository.getParcels()
                 .firstOrError()
                 .flattenAsFlowable { it }
-                .flatMap { local ->
+                .flatMapSingle{ local ->
                     Timber.d("Parcel poll checking parcel with code ${local.code}")
                     parcelRepository.getParcelStatus(local.code)
                             .map {

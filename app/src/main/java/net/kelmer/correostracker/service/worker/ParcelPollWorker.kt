@@ -41,7 +41,7 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
         Timber.w("Parcel poll worker $this here trying to do some work!")
         return parcelRepository.getParcelsSingle()
                 .flattenAsFlowable { it  }
-                .flatMap { local ->
+                .flatMapSingle { local ->
                     Timber.d("Parcel poll checking parcel with code ${local.code}")
                     correosRepository.getParcelStatus(local.code)
                             .map {
@@ -53,9 +53,9 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
                             .doOnError {
                                 Timber.w("Error emitting from innger single")
                             }
-//                            .doOnSuccess {
-//                                Timber.i("Success emitting from inner single")
-//                            }
+                            .doOnSuccess {
+                                Timber.i("Success emitting from inner single")
+                            }
                 }
                 .toList()
                 .doOnSuccess {
