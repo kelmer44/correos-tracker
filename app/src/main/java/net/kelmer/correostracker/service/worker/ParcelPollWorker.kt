@@ -27,7 +27,7 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
                                    appContext: Context, workerParams: WorkerParameters) : RxWorker(appContext, workerParams) {
 
 
-    companion object{
+    companion object {
         val CHANNEL_ID = CorreosApp::class.java.simpleName + ".notification_status_changes"
     }
 
@@ -46,20 +46,23 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
                     Timber.d("Parcel poll checking parcel with code ${local.code}")
                     correosRepository.getParcelStatus(local.code)
                             .map {
-                                Pair(local, it)
+                                ParcelStatusComparator(local, it)
+                            }
+                            .onErrorReturn {
+                                ParcelStatusComparator(local, null)
                             }
                 }
                 .toList()
                 .doOnSuccess {
-
                     val newEvents = getNewEvents(it)
-
+                    Timber.d("Parcel poll got new Events: ${newEvents}")
                     buildNotification(newEvents)
                 }
                 .map {
                     Result.success()
                 }
                 .onErrorReturn {
+                    Timber.e(it, "Failure on worker!")
                     Result.failure()
                 }
     }
@@ -86,15 +89,17 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
         }
     }
 
-    private fun getNewEvents(it: MutableList<Pair<LocalParcelReference, CorreosApiParcel>>): MutableList<NewEventInfo> {
+    private fun getNewEvents(it: MutableList<ParcelStatusComparator>): MutableList<NewEventInfo> {
         val newEvents = mutableListOf<NewEventInfo>()
         it.forEach {
-            val previousParcel = it.first
-            val currentParcel = it.second
-            val ultimoEstado = previousParcel.ultimoEstado
-            val last = currentParcel.eventos?.last()
-            if ((ultimoEstado != null && last != null) && ultimoEstado != last) {
-                newEvents.add(NewEventInfo(previousParcel.code, previousParcel.parcelName, ultimoEstado))
+            val previousParcel = it.previous
+            val currentParcel = it.new
+            if (currentParcel != null) {
+                val ultimoEstado = previousParcel.ultimoEstado
+                val last = currentParcel.eventos?.last()
+                if ((ultimoEstado != null && last != null) && ultimoEstado != last) {
+                    newEvents.add(NewEventInfo(previousParcel.code, previousParcel.parcelName, ultimoEstado))
+                }
             }
         }
         return newEvents
@@ -112,6 +117,7 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
     }
 
 
+    data class ParcelStatusComparator(val previous: LocalParcelReference, val new: CorreosApiParcel?)
     data class NewEventInfo(val codEnvio: String, val nameEnvio: String, val event: CorreosApiEvent)
 
 

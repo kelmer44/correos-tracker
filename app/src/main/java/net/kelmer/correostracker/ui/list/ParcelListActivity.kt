@@ -37,12 +37,12 @@ class ParcelListActivity : BaseActivity() {
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
 
-//
-//        val uploadWorker = PeriodicWorkRequest.Builder(
-//                ParcelPollWorker::class.java, 15, TimeUnit.MINUTES)
-//                .setConstraints(constraints)
-//                .build()
-//        WorkManager.getInstance(this).enqueueUniquePeriodicWork(PARCEL_CHECKER_WORKREQUEST, ExistingPeriodicWorkPolicy.REPLACE, uploadWorker)
+
+        val uploadWorker = PeriodicWorkRequest.Builder(
+                ParcelPollWorker::class.java, 15, TimeUnit.MINUTES)
+                .setConstraints(constraints)
+                .build()
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(PARCEL_CHECKER_WORKREQUEST, ExistingPeriodicWorkPolicy.REPLACE, uploadWorker)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
