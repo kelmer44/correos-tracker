@@ -7,6 +7,7 @@ import androidx.work.ListenableWorker
 import androidx.work.RxWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.subscribeBy
 import net.kelmer.correostracker.CorreosApp
@@ -38,11 +39,9 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
 
     override fun createWork(): Single<Result> {
         Timber.w("Parcel poll worker $this here trying to do some work!")
-        return parcelRepository.getParcels()
-                .flatMapIterable {
-                    it
-                }
-                .flatMapSingle { local ->
+        return parcelRepository.getParcelsSingle()
+                .flattenAsFlowable { it  }
+                .flatMap { local ->
                     Timber.d("Parcel poll checking parcel with code ${local.code}")
                     correosRepository.getParcelStatus(local.code)
                             .map {
@@ -51,6 +50,12 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
                             .onErrorReturn {
                                 ParcelStatusComparator(local, null)
                             }
+                            .doOnError {
+                                Timber.w("Error emitting from innger single")
+                            }
+//                            .doOnSuccess {
+//                                Timber.i("Success emitting from inner single")
+//                            }
                 }
                 .toList()
                 .doOnSuccess {
