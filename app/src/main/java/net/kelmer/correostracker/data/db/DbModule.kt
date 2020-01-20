@@ -62,7 +62,7 @@ class DbModule {
 
         val MIGRATION_5_6: Migration = object : Migration(5,6) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN notify INTEGER DEFAULT 1")
+                database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN notify INTEGER NOT NULL DEFAULT 1")
 
             }
         }
