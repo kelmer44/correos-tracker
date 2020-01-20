@@ -25,7 +25,8 @@ data class LocalParcelReference(
         var peso: String? = "",
         var refCliente: String? = "",
         var codProducto: String? = "",
-        var fechaCalculada: String? = " ") {
+        var fechaCalculada: String? = " ",
+        var notify: Boolean = true) {
 
 
     enum class Stance {

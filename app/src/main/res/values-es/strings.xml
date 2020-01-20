@@ -29,4 +29,8 @@
     <string name="new_event_single">¡Nuevo estado en el paquete %1$s!</string>
     <string name="new_events_multiple">¡Nuevo estado en %1$d paquetes!</string>
     <string name="notification_title">Cambio de estado</string>
+    <string name="channel_name">Actualizaciones de estado</string>
+    <string name="channel_description">Obtén actualizaciones de estado de tus paquetes.</string>
+    <string name="menu_disable_notifications">Desactivar alertas</string>
+    <string name="menu_enable_notifications">Activar alertas</string>
 </resources>

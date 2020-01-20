@@ -59,6 +59,14 @@ class DbModule {
 
             }
         }
+
+        val MIGRATION_5_6: Migration = object : Migration(5,6) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN notify INTEGER DEFAULT 1")
+
+            }
+        }
+
     }
 
 
@@ -67,7 +75,7 @@ class DbModule {
     fun provideAppDatabase(@ForApplication context: Context) : AppDatabase {
         return Room.databaseBuilder(context,
                 AppDatabase::class.java, "mycujoo-database")
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
                 .build()
     }
 

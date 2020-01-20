@@ -58,11 +58,20 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                 val popup = PopupMenu(ctx, view)
                 val inflater = popup.menuInflater
                 inflater.inflate(R.menu.parcel_menu, popup.menu)
+                popup.menu.findItem(R.id.menu_enable_notifications).isVisible = !parcelReference.notify
                 popup.setOnMenuItemClickListener { item ->
                     //do your things in each of the following cases
                     when (item.itemId) {
                         R.id.menu_delete -> {
                             viewModel.deleteParcel(parcelReference)
+                            true
+                        }
+                        R.id.menu_enable_notifications -> {
+                            viewModel.enableNotifications(parcelReference.code)
+                            true
+                        }
+                        R.id.menu_disable_notifications -> {
+                            viewModel.disableNotifications(parcelReference.code)
                             true
                         }
                         else -> false

@@ -10,7 +10,7 @@ import timber.log.Timber
 
 class LocalParcelRepositoryImpl(val localParcelDao: LocalParcelDao) : LocalParcelRepository {
     override fun getParcelsSingle(): Single<List<LocalParcelReference>> {
-        return localParcelDao.getParcelsSync()
+        return localParcelDao.getNotifiableParcels()
     }
 
 

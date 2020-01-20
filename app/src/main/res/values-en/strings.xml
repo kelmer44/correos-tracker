@@ -30,4 +30,8 @@
     <string name="new_event_single">New event on parcel %1$s!</string>
     <string name="new_events_multiple">New events on %1$d parcels!</string>
     <string name="notification_title">Status change</string>
+    <string name="channel_description">Get status updates of your parcels</string>
+    <string name="channel_name">Status updates</string>
+    <string name="menu_disable_notifications">Disable notifications</string>
+    <string name="menu_enable_notifications">Enable notifications</string>
 </resources>
