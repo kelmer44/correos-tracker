@@ -8,7 +8,14 @@ import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import timber.log.Timber
 
 
-class LocalParcelRepositoryImpl(val localParcelDao: LocalParcelDao) : LocalParcelRepository {
+class LocalParcelRepositoryImpl(private val localParcelDao: LocalParcelDao) : LocalParcelRepository {
+    override fun setNotify(code: String, enable: Boolean) {
+        if(enable)
+            localParcelDao.enableNotifications(code)
+        else
+            localParcelDao.disableNotifications(code)
+    }
+
     override fun getParcelsSingle(): Single<List<LocalParcelReference>> {
         return localParcelDao.getNotifiableParcels()
     }

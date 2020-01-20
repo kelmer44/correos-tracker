@@ -34,4 +34,5 @@
     <string name="channel_name">Status updates</string>
     <string name="menu_disable_notifications">Disable notifications</string>
     <string name="menu_enable_notifications">Enable notifications</string>
+    <string name="parcel_status_alerts">Enable notifications</string>
 </resources>

@@ -23,8 +23,8 @@ import javax.inject.Inject
 /**
  * Created by gabriel on 25/03/2018.
  */
-class ParcelListViewModel @Inject constructor(val localParcelRepository: LocalParcelRepository,
-                                              val parcelRepository: CorreosRepository) : BaseViewModel() {
+class ParcelListViewModel @Inject constructor(private val localParcelRepository: LocalParcelRepository,
+                                              private val parcelRepository: CorreosRepository) : BaseViewModel() {
 
     val parcelList: MutableLiveData<Result<List<LocalParcelReference>>> = MutableLiveData()
     val deleteLiveData: MutableLiveData<Result<Int>> = MutableLiveData()
@@ -129,11 +129,11 @@ class ParcelListViewModel @Inject constructor(val localParcelRepository: LocalPa
     }
 
     fun enableNotifications(code: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        localParcelRepository.setNotify(code, true)
     }
 
     fun disableNotifications(code: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        localParcelRepository.setNotify(code, false)
     }
 
 

@@ -34,4 +34,5 @@
     <string name="channel_description">Get status updates of your parcels</string>
     <string name="menu_enable_notifications">Enable notifications</string>
     <string name="menu_disable_notifications">Disable notifications</string>
+    <string name="parcel_status_alerts">Activar notificaciones</string>
 </resources>

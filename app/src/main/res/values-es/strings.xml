@@ -33,4 +33,5 @@
     <string name="channel_description">Obtén actualizaciones de estado de tus paquetes.</string>
     <string name="menu_disable_notifications">Desactivar alertas</string>
     <string name="menu_enable_notifications">Activar alertas</string>
+    <string name="parcel_status_alerts">Activar notificaciones</string>
 </resources>

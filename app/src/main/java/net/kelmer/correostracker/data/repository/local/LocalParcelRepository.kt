@@ -16,4 +16,5 @@ interface LocalParcelRepository {
     fun getParcel(code: String): Flowable<LocalParcelReference>
     fun saveParcel(parcel: LocalParcelReference) : Completable
     fun deleteParcel(parcel: LocalParcelReference) : Observable<Int>
+    fun setNotify(code: String, enable: Boolean)
 }

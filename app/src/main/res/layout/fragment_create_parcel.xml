@@ -20,15 +20,15 @@
             android:hint="@string/parcel_code"
             android:importantForAutofill="no"
             app:boxStrokeColor="@color/colorAccent"
+            app:endIconDrawable="@drawable/ic_barcode"
+            app:endIconMode="custom"
             app:errorEnabled="true"
+            app:helperText="*Solo paquetes de Correos España o Correos Express"
             app:helperTextEnabled="false"
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
             app:hintTextColor="@color/colorAccent"
-            app:helperText="*Solo paquetes de Correos España o Correos Express"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:endIconMode="custom"
-            app:endIconDrawable="@drawable/ic_barcode"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -46,7 +46,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -57,7 +56,6 @@
         android:hint="@string/parcel_name"
         android:importantForAutofill="no"
         app:boxStrokeColor="@color/colorAccent"
-        app:errorEnabled="true"
         app:hintTextColor="@color/colorAccent">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -75,8 +73,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:orientation="vertical">
+
+        <Switch
+            android:id="@+id/parcel_status_alerts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:layout_marginTop="@dimen/double_spacing"
+            android:text="@string/parcel_status_alerts"
+             />
+
 
         <TextView
             android:layout_width="match_parent"
