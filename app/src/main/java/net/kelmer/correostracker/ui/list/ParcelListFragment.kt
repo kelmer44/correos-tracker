@@ -59,6 +59,7 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                 val inflater = popup.menuInflater
                 inflater.inflate(R.menu.parcel_menu, popup.menu)
                 popup.menu.findItem(R.id.menu_enable_notifications).isVisible = !parcelReference.notify
+                popup.menu.findItem(R.id.menu_disable_notifications).isVisible = parcelReference.notify
                 popup.setOnMenuItemClickListener { item ->
                     //do your things in each of the following cases
                     when (item.itemId) {

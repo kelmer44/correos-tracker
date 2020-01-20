@@ -47,7 +47,8 @@ class ParcelListAdapter constructor(
             parcel_name.text = parcel.parcelName
             parcel_code.text = parcel.code
 
-            ultimo_estado.text = parcel.ultimoEstado?.buildUltimoEstado() ?: context.getString(R.string.status_unknown)
+            ultimo_estado.text = parcel.ultimoEstado?.buildUltimoEstado()
+                    ?: context.getString(R.string.status_unknown)
 
             when (parcel.stance) {
                 LocalParcelReference.Stance.INCOMING -> {
@@ -80,13 +81,13 @@ class ParcelListAdapter constructor(
 
             var lastChecked = parcel.lastChecked
 
-            if(lastChecked != null && lastChecked > 0){
+            if (lastChecked != null && lastChecked > 0) {
 //                val relativeText = DateUtils.getRelativeTimeSpanString(lastChecked, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
 //                last_checked.text = context.getString(R.string.lastchecked, relativeText)
                 last_checked.text = context.getString(R.string.lastchecked, dateFormat.format(Date(lastChecked)))
 
             }
-                last_checked.isVisible = lastChecked != null && lastChecked > 0
+            last_checked.isVisible = lastChecked != null && lastChecked > 0
         }
 
     }
@@ -100,7 +101,7 @@ class ParcelListAdapter constructor(
 
     fun setLoading(code: String, loading: Boolean) {
         val filter = items.filter { it.code == code }
-        if(filter.isNotEmpty()) {
+        if (filter.isNotEmpty()) {
             filter.first().isLoading = loading
             notifyItemChanged(items.indexOf(filter.first()))
         }

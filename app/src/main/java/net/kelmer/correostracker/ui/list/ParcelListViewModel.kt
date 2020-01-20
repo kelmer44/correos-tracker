@@ -130,10 +130,20 @@ class ParcelListViewModel @Inject constructor(private val localParcelRepository:
 
     fun enableNotifications(code: String) {
         localParcelRepository.setNotify(code, true)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribeBy(onError = {
+                    Timber.i(it,"Errror");
+                }, onComplete = {})
     }
 
     fun disableNotifications(code: String) {
         localParcelRepository.setNotify(code, false)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribeBy(onError = {
+                    Timber.i(it,"Errror");
+                }, onComplete = {})
     }
 
 

@@ -9,11 +9,14 @@ import timber.log.Timber
 
 
 class LocalParcelRepositoryImpl(private val localParcelDao: LocalParcelDao) : LocalParcelRepository {
-    override fun setNotify(code: String, enable: Boolean) {
-        if(enable)
+    override fun setNotify(code: String, enable: Boolean): Completable {
+        return if (enable) {
             localParcelDao.enableNotifications(code)
-        else
+        } else {
             localParcelDao.disableNotifications(code)
+        }
+
+
     }
 
     override fun getParcelsSingle(): Single<List<LocalParcelReference>> {
@@ -28,13 +31,13 @@ class LocalParcelRepositoryImpl(private val localParcelDao: LocalParcelDao) : Lo
 
     override fun saveParcel(parcel: LocalParcelReference): Completable {
 
-       return Completable.fromAction { localParcelDao.saveParcel(parcel) }
+        return Completable.fromAction { localParcelDao.saveParcel(parcel) }
 
     }
 
     override fun deleteParcel(parcel: LocalParcelReference): Observable<Int> {
         Timber.e("Requested deletion of $parcel")
-        return Observable.fromCallable{ localParcelDao.deleteParcel(parcel)}
+        return Observable.fromCallable { localParcelDao.deleteParcel(parcel) }
     }
 
     companion object {

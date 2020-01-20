@@ -85,9 +85,9 @@ def extension = ext {
 
             ],
             'room'       : [
-                    "runtime" : "android.arch.persistence.room:runtime:${versions.room}",
-                    "compiler": "android.arch.persistence.room:compiler:${versions.room}",
-                    "rx"      : "android.arch.persistence.room:rxjava2:${versions.room}"
+                    "runtime" : "androidx.room:room-runtime:${versions.room}",
+                    "compiler": "androidx.room:room-compiler:${versions.room}",
+                    "rx"      : "androidx.room:room-rxjava2:${versions.room}"
             ],
 
             'rx'         : [
