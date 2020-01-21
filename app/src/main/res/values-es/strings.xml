@@ -26,7 +26,7 @@
     <string name="status_unknown">Estado desconocido</string>
     <string name="error_no_network">No hay conexión a internet</string>
     <string name="create_parcel_only_correos">* Solo paquetes de Correos España o Correos Express</string>
-    <string name="new_event_single">¡Nuevo estado en el paquete %1$s!</string>
+    <string name="new_event_single">¡Nuevo estado en el paquete %1$s : %2$s!</string>
     <string name="new_events_multiple">¡Nuevo estado en %1$d paquetes!</string>
     <string name="notification_title">Cambio de estado</string>
     <string name="channel_name">Actualizaciones de estado</string>
@@ -34,4 +34,7 @@
     <string name="menu_disable_notifications">Desactivar alertas</string>
     <string name="menu_enable_notifications">Activar alertas</string>
     <string name="parcel_status_alerts">Activar notificaciones</string>
+    <string name="feature_dialog_title">Novedades</string>
+    <string name="feature_dialog_content"><![CDATA[<ul><li>Llevábais tiempo pidiéndolo y ya está disponible: ahora recibirás alertas cada vez que uno de tus paquetes cambie de estado</li></ul>]]></string>
+    <string name="feature_dialog_opensource">Esta app es gratuita y open source y no tiene anuncios. Si quieres contribuir con el proyecto haz una donación a través de Kofi:</string>
 </resources>

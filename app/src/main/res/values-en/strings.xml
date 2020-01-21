@@ -27,7 +27,7 @@
     <string name="ultimo_estado_header">Last status</string>
     <string name="dimensiones_placeholder" translatable="false">%1$sx%2$sx%3$s</string>
     <string name="create_parcel_only_correos">* Only codes from Correos España or Correos Express</string>
-    <string name="new_event_single">New event on parcel %1$s!</string>
+    <string name="new_event_single">New event on parcel %1$s: %2$s!</string>
     <string name="new_events_multiple">New events on %1$d parcels!</string>
     <string name="notification_title">Status change</string>
     <string name="channel_description">Get status updates of your parcels</string>
@@ -35,4 +35,7 @@
     <string name="menu_disable_notifications">Disable notifications</string>
     <string name="menu_enable_notifications">Enable notifications</string>
     <string name="parcel_status_alerts">Enable notifications</string>
+    <string name="feature_dialog_title">New features</string>
+    <string name="feature_dialog_content"><![CDATA[<ul><li>Llevábais tiempo pidiéndolo y ya está disponible: ahora recibirás alertas cada vez que uno de tus paquetes cambie de estado</li></ul>]]></string>
+    <string name="feature_dialog_opensource">This app is free, open-source and add-free. If you wish to contribute with the project feel free to donate with a ko-fi:</string>
 </resources>

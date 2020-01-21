@@ -20,7 +20,10 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import net.kelmer.correostracker.ext.isVisible
+import net.kelmer.correostracker.ui.featuredialog.featureBlurbDialog
 import net.kelmer.correostracker.ui.list.adapter.ParcelClickListener
 import net.kelmer.correostracker.ui.list.adapter.ParcelListAdapter
 
@@ -133,6 +136,16 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                 adapter.setLoading(codigo, false)
             }
         }
+        featureBlurbDialog(requireContext(),
+                R.string.feature_dialog_title,
+                R.string.feature_dialog_content,
+                android.R.string.ok,
+                {
+                },
+                {
+
+                }).show()
+
     }
 
     private fun setupRecyclerView() {

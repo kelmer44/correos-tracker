@@ -22,6 +22,11 @@ import net.kelmer.correostracker.di.worker.ChildWorkerFactory
 import okhttp3.internal.notify
 import timber.log.Timber
 import javax.inject.Inject
+import net.kelmer.correostracker.di.service.ServiceModule_ContextFactory.context
+import android.app.PendingIntent
+import android.content.Intent
+import net.kelmer.correostracker.ui.list.ParcelListActivity
+
 
 class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
                                    val correosRepository: CorreosRepository,
@@ -75,18 +80,34 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
     private fun buildNotification(newEvents: List<NewEventInfo>) {
         if (newEvents.isNotEmpty()) {
             val text = if (newEvents.size == 1) {
-                applicationContext.getString(R.string.new_event_single, newEvents.first().nameEnvio)
+                applicationContext.getString(R.string.new_event_single, newEvents.first().nameEnvio, newEvents.first().event.desTextoResumen)
             } else {
                 applicationContext.getString(R.string.new_events_multiple, newEvents.size)
             }
 
-            var notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+
+            val notificationIntent = Intent(applicationContext, ParcelListActivity::class.java)
+
+            notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+
+            val intent = PendingIntent.getActivity(applicationContext, 0,
+                    notificationIntent, 0)
+
+
+            val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_delivery)
                     .setContentTitle(applicationContext.getString(R.string.notification_title))
                     .setContentText(text)
                     .setStyle(NotificationCompat.BigTextStyle()
                             .bigText(text))
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT).build()
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setContentIntent(intent)
+                    .build()
+
+
+
+
+
             with(NotificationManagerCompat.from(applicationContext)) {
                 // notificationId is a unique int for each notification that you must define
                 notify(NotificationID.id, notification)
