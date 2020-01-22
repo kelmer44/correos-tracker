@@ -17,7 +17,7 @@ class ParcelCheckerService : BaseService("ParcelChecker") {
 
     override fun onHandleIntent(p0: Intent?) {
 
-//        var subscribe = localParcelRepository.getParcelsSingle()
+//        var subscribe = localParcelRepository.getNotifiableParcels()
 //                .flatMap {
 //                    it.forEach {
 //                        correosRepository.getParcelStatus(it.code)

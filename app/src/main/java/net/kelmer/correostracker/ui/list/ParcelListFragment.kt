@@ -20,7 +20,12 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import net.kelmer.correostracker.ext.isVisible
+import net.kelmer.correostracker.ui.featuredialog.featureBlurbDialog
 import net.kelmer.correostracker.ui.list.adapter.ParcelClickListener
 import net.kelmer.correostracker.ui.list.adapter.ParcelListAdapter
 
@@ -58,11 +63,21 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                 val popup = PopupMenu(ctx, view)
                 val inflater = popup.menuInflater
                 inflater.inflate(R.menu.parcel_menu, popup.menu)
+                popup.menu.findItem(R.id.menu_enable_notifications).isVisible = !parcelReference.notify
+                popup.menu.findItem(R.id.menu_disable_notifications).isVisible = parcelReference.notify
                 popup.setOnMenuItemClickListener { item ->
                     //do your things in each of the following cases
                     when (item.itemId) {
                         R.id.menu_delete -> {
                             viewModel.deleteParcel(parcelReference)
+                            true
+                        }
+                        R.id.menu_enable_notifications -> {
+                            viewModel.enableNotifications(parcelReference.code)
+                            true
+                        }
+                        R.id.menu_disable_notifications -> {
+                            viewModel.disableNotifications(parcelReference.code)
                             true
                         }
                         else -> false
@@ -123,6 +138,7 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                 adapter.setLoading(codigo, false)
             }
         }
+
     }
 
     private fun setupRecyclerView() {
@@ -160,6 +176,20 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                 adapter.items.forEachIndexed { i, p ->
                     adapter.setLoading(p.code, true)
                 }
+            }
+            R.id.app_about -> {
+                featureBlurbDialog(requireContext(),
+                        R.string.feature_dialog_title,
+                        android.R.string.ok,
+                        {
+                        },
+                        {
+                            val url = "https://ko-fi.com/kelmer"
+                            val i = Intent(Intent.ACTION_VIEW)
+                            i.data = Uri.parse(url)
+                            startActivity(i)
+                        }).show()
+
             }
         }
         return true

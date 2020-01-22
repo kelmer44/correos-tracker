@@ -13,6 +13,7 @@ import net.kelmer.correostracker.di.activity.ActivityBindings
 import net.kelmer.correostracker.di.fragment.FragmentBindings
 import net.kelmer.correostracker.di.modules.NetModule
 import net.kelmer.correostracker.di.viewModel.ViewModelBuilder
+import net.kelmer.correostracker.service.worker.ParcelPollModule
 import javax.inject.Singleton
 
 /**
@@ -21,6 +22,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [
     ApplicationModule::class,
+    ParcelPollModule::class,
     AndroidSupportInjectionModule::class,
     ViewModelBuilder::class,
     NetModule::class,

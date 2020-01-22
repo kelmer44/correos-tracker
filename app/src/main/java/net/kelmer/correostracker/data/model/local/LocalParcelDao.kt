@@ -2,6 +2,7 @@ package net.kelmer.correostracker.data.model.local
 
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 
@@ -12,21 +13,29 @@ import io.reactivex.Single
 interface LocalParcelDao {
 
     @Query("select * from LocalParcelReference ORDER BY parcelName ")
-    fun getParcels() : Flowable<List<LocalParcelReference>>
+    fun getParcels(): Flowable<List<LocalParcelReference>>
 
     @Query("select * from LocalParcelReference where code = :code")
-    fun getParcel(code: String) : Flowable<LocalParcelReference>
+    fun getParcel(code: String): Flowable<LocalParcelReference>
 
     @Query("select * from LocalParcelReference where code = :code")
-    fun getParcelSync(code: String) : Single<LocalParcelReference>
+    fun getParcelSync(code: String): Single<LocalParcelReference>
 
-    @Query("select * from LocalParcelReference ORDER BY parcelName ")
-    fun getParcelsSync() : Single<List<LocalParcelReference>>
+    @Query("select * from LocalParcelReference where notify = 1 ORDER BY parcelName ")
+    fun getNotifiableParcels(): Single<List<LocalParcelReference>>
+
+    @Update
+    fun updateParcel(parcel: LocalParcelReference) : Completable
+
+    @Query("update LocalParcelReference set notify = 0 where code = :code")
+    fun disableNotifications(code: String): Completable
+
+    @Query("update LocalParcelReference set notify = 1 where code = :code")
+    fun enableNotifications(code: String): Completable
 
     @Insert(onConflict = REPLACE)
-    fun saveParcel(parcel: LocalParcelReference) : Long
-
+    fun saveParcel(parcel: LocalParcelReference): Long
 
     @Delete
-    fun deleteParcel(parcel: LocalParcelReference) : Int
+    fun deleteParcel(parcel: LocalParcelReference): Int
 }

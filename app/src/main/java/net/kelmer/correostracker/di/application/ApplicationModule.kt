@@ -47,6 +47,9 @@ class ApplicationModule {
     fun provideNetworkInteractor(networkInteractor: NetworkInteractorImpl): NetworkInteractor = networkInteractor
 
 
+}
 
+@Module
+abstract class ApplicationModuleBinds {
 
 }
