@@ -19,7 +19,7 @@ class LocalParcelRepositoryImpl(private val localParcelDao: LocalParcelDao) : Lo
 
     }
 
-    override fun getParcelsSingle(): Single<List<LocalParcelReference>> {
+    override fun getNotifiableParcels(): Single<List<LocalParcelReference>> {
         return localParcelDao.getNotifiableParcels()
     }
 

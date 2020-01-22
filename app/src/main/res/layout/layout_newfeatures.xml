@@ -9,10 +9,11 @@
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/dialog_no_button"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:background="?selectableItemBackgroundBorderless"
         android:src="@drawable/ic_close_dialog"
+        android:layout_margin="@dimen/single_spacing"
         android:tint="@color/divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,39 +22,46 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/dialog_title"
         style="@style/FeatureTitle"
-        android:textColor="#444"
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/double_spacing"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/dialog_no_button"
+        app:layout_constraintBottom_toBottomOf="@id/dialog_no_button"
         tools:text="Novedades" />
-
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/dialog_text"
-        style="@style/Base.TextAppearance.AppCompat.Body1"
+    <View
+        android:id="@+id/first_divider"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/double_spacing"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/single_spacing"
+        android:background="@color/divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dialog_no_button"
-        tools:text="Check out the passionate souls who are into coffee, food, wine or art. Choose the Experts you like and let them guide you to new experiences." />
+        app:layout_constraintTop_toBottomOf="@id/dialog_no_button"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dialog_list"
+        android:layout_width="match_parent"
+        android:scrollbars="vertical"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:layout_height="192dp"
+        tools:listitem="@layout/rv_feature"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/first_divider" />
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="@dimen/double_spacing"
         android:background="@color/divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dialog_text" />
+        app:layout_constraintTop_toBottomOf="@id/dialog_list" />
 
     <LinearLayout
         android:id="@+id/begging_layer"

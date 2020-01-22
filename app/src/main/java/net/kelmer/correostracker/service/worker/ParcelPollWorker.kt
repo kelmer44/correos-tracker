@@ -5,11 +5,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.ListenableWorker
 import androidx.work.RxWorker
-import androidx.work.Worker
 import androidx.work.WorkerParameters
-import io.reactivex.Flowable
 import io.reactivex.Single
-import io.reactivex.rxkotlin.subscribeBy
 import net.kelmer.correostracker.CorreosApp
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
@@ -17,14 +14,12 @@ import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.repository.correos.CorreosRepository
 import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
-import net.kelmer.correostracker.di.qualifiers.ForApplication
 import net.kelmer.correostracker.di.worker.ChildWorkerFactory
-import okhttp3.internal.notify
 import timber.log.Timber
 import javax.inject.Inject
-import net.kelmer.correostracker.di.service.ServiceModule_ContextFactory.context
 import android.app.PendingIntent
 import android.content.Intent
+import com.crashlytics.android.Crashlytics
 import net.kelmer.correostracker.ui.list.ParcelListActivity
 
 
@@ -44,7 +39,7 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
 
     override fun createWork(): Single<Result> {
         Timber.w("Parcel poll worker $this here trying to do some work!")
-        return parcelRepository.getParcelsSingle()
+        return parcelRepository.getNotifiableParcels()
                 .flattenAsFlowable { it  }
                 .flatMapSingle { local ->
                     Timber.d("Parcel poll checking parcel with code ${local.code}")
@@ -72,6 +67,7 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
                     Result.success()
                 }
                 .onErrorReturn {
+                    Crashlytics.logException(it)
                     Timber.e(it, "Failure on worker!")
                     Result.failure()
                 }
@@ -102,6 +98,7 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
                             .bigText(text))
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setContentIntent(intent)
+                    .setAutoCancel(true)
                     .build()
 
 
