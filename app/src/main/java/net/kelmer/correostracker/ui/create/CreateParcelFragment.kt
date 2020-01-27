@@ -28,13 +28,12 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
                 if (TextUtils.isEmpty(parcel_name.text.toString())) {
                     parcel_name.text = parcel_code.text
                 }
-                var checkedRadioButtonId = stance_group.checkedRadioButtonId
-                var stance = when (checkedRadioButtonId) {
+                val stance = when (stance_group.checkedRadioButtonId) {
                     R.id.stance_incoming -> LocalParcelReference.Stance.INCOMING
                     else -> LocalParcelReference.Stance.OUTGOING
                 }
-
-                var localParcelReference = LocalParcelReference(parcel_code.text.toString(), parcel_name.text.toString(), stance, null)
+                val notify = parcel_status_alerts.isChecked
+                val localParcelReference = LocalParcelReference(parcel_code.text.toString(), parcel_name.text.toString(), stance, null, notify = notify)
                 viewModel.addParcel(localParcelReference)
 
             } else {

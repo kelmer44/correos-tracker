@@ -8,10 +8,20 @@ import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import timber.log.Timber
 
 
-class LocalParcelRepositoryImpl(val localParcelDao: LocalParcelDao) : LocalParcelRepository {
-//    override fun getParcelsSingle(): Single<List<LocalParcelReference>> {
-//        return localParcelDao.getParcels()
-//    }
+class LocalParcelRepositoryImpl(private val localParcelDao: LocalParcelDao) : LocalParcelRepository {
+    override fun setNotify(code: String, enable: Boolean): Completable {
+        return if (enable) {
+            localParcelDao.enableNotifications(code)
+        } else {
+            localParcelDao.disableNotifications(code)
+        }
+
+
+    }
+
+    override fun getNotifiableParcels(): Single<List<LocalParcelReference>> {
+        return localParcelDao.getNotifiableParcels()
+    }
 
 
     override fun getParcels() =
@@ -21,13 +31,13 @@ class LocalParcelRepositoryImpl(val localParcelDao: LocalParcelDao) : LocalParce
 
     override fun saveParcel(parcel: LocalParcelReference): Completable {
 
-       return Completable.fromAction { localParcelDao.saveParcel(parcel) }
+        return Completable.fromAction { localParcelDao.saveParcel(parcel) }
 
     }
 
     override fun deleteParcel(parcel: LocalParcelReference): Observable<Int> {
         Timber.e("Requested deletion of $parcel")
-        return Observable.fromCallable{ localParcelDao.deleteParcel(parcel)}
+        return Observable.fromCallable { localParcelDao.deleteParcel(parcel) }
     }
 
     companion object {

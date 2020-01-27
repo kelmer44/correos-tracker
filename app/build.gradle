@@ -1,6 +1,6 @@
 def versionMajor = 1
-def versionMinor = 6
-def versionPatch = 5
+def versionMinor = 7
+def versionPatch = 1
 def versionBuild = 0 // bump for dogfood builds, public betas, etc.
 
 
@@ -12,6 +12,14 @@ apply plugin: "io.fabric"
 
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('/Users/kelmer/dev/keys/correos')
+            storePassword 'gsd36680'
+            keyAlias = 'kelmer'
+            keyPassword 'gsd36680'
+        }
+    }
     compileSdkVersion versions.compileSdk
     defaultConfig {
         applicationId "net.kelmer.correostracker"
@@ -21,6 +29,7 @@ android {
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        signingConfig signingConfigs.release
 
 
     }
@@ -30,6 +39,7 @@ android {
             resValue("string", "PORT_NUMBER", "8081")
         }
         release {
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -63,6 +73,7 @@ dependencies {
     implementation deps.lifecycle.runtime
     implementation deps.lifecycle.extensions
     implementation deps.lifecycle.reactivestreams
+    implementation deps.lifecycle.worker
     kapt deps.lifecycle.compiler
 
 

@@ -4,4 +4,5 @@
     <dimen name="single_spacing">8dp</dimen>
     <dimen name="half_spacing">4dp</dimen>
     <dimen name="inset_icon">8dp</dimen>
+    <dimen name="triple_spacing">24dp</dimen>
 </resources>

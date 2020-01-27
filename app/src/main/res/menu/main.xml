@@ -9,4 +9,13 @@
         app:showAsAction="always"
         android:title="@string/refresh_all"/>
 
+
+    <item
+        android:id="@+id/app_about"
+        android:icon="@drawable/ic_info_black_24dp"
+        android:visible="true"
+        app:showAsAction="never"
+        android:title="@string/about"/>
+
+
 </menu>
