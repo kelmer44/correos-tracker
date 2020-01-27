@@ -119,9 +119,9 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
             val currentParcel = it.new
             if (currentParcel != null) {
                 val ultimoEstado = previousParcel.ultimoEstado
-                val last = currentParcel.eventos?.last()
-                if ((ultimoEstado != null) && ultimoEstado != last) {
-                    newEvents.add(NewEventInfo(previousParcel.code, previousParcel.parcelName, ultimoEstado))
+                val last = currentParcel.eventos?.lastOrNull()
+                if ((ultimoEstado != null && last!=null) && ultimoEstado != last) {
+                    newEvents.add(NewEventInfo(previousParcel.code, previousParcel.parcelName, last))
                 }
             }
         }
