@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/correos-tracker.iml" filepath="$PROJECT_DIR$/.idea/correos-tracker.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mock-server/mock-server.iml" filepath="$PROJECT_DIR$/mock-server/mock-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="correos-tracker/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/correos-tracker.iml" filepath="$PROJECT_DIR$/.idea/correos-tracker.iml" group="correos-tracker" />
+      <module fileurl="file://$PROJECT_DIR$/mock-server/mock-server.iml" filepath="$PROJECT_DIR$/mock-server/mock-server.iml" group="correos-tracker/mock-server" />
     </modules>
   </component>
 </project>

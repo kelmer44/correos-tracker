@@ -43,4 +43,5 @@
     <string name="changes_1_6_2">Ahora puedes introducir tus paquetes escaneando el código de barras de tu recibo</string>
     <string name="changes_1_6_5">Soporte para paquetes de Correos Express</string>
     <string name="changes_1_7_0">Llevábais tiempo pidiéndolo y ya está disponible: ahora recibirás alertas cada vez que uno de tus paquetes cambie de estado</string>
+    <string name="changes_1_7_2">Corregido bug que hacía que no se mostrasen las notificaciones en algunos móviles.</string>
 </resources>
