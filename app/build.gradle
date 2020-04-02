@@ -12,14 +12,7 @@ apply plugin: "io.fabric"
 
 
 android {
-    signingConfigs {
-        release {
-            storeFile file('/Users/kelmer/dev/keys/correos')
-            storePassword 'gsd36680'
-            keyAlias = 'kelmer'
-            keyPassword 'gsd36680'
-        }
-    }
+
     compileSdkVersion versions.compileSdk
     defaultConfig {
         applicationId "net.kelmer.correostracker"
@@ -29,9 +22,6 @@ android {
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        signingConfig signingConfigs.release
-
-
     }
     buildTypes {
         debug {
