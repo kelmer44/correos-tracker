@@ -43,7 +43,9 @@
     <string name="changes_1_7_0">Llevábais tiempo pidiéndolo y ya está disponible: ahora recibirás alertas cada vez que uno de tus paquetes cambie de estado</string>
     <string name="create_parcel_error_codigo">El código introducido no parece ser reconocido por Correos. ¿Estás seguro de querer guardarlo?</string>
     <string name="changes_1_7_2">Corregido bug que hacía que no se mostrasen las notificaciones en algunos móviles.</string>
+    <string name="changes_1_8_0">Incorporado buscador de paquetes.</string>
     <string name="create_parcel_error_codigo_title">Código incorrecto</string>
     <string name="delete_confirm_title">Eliminar paquete</string>
     <string name="delete_confirm_desc">¿Estás seguro de que deseas eliminar el paquete seleccionado?</string>
+    <string name="search">Filtrar</string>
 </resources>
