@@ -42,4 +42,6 @@
     <string name="changes_1_6_2">Enter your parcels by scanning the barcode in the receipt</string>
     <string name="changes_1_6_5">Correos Express support</string>
     <string name="changes_1_7_0">You asked for it and now it\'s here: you can now receive alerts whenever one of your parcels has a status update.</string>
+    <string name="create_parcel_error_codigo">The entered code is not recognized by Correos. Please enter a valid code.</string>
+    <string name="changes_1_7_2">Fixed bug preventing notifications to be displayed on certain devices.</string>
 </resources>

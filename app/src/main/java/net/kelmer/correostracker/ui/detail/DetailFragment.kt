@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.*
@@ -126,7 +127,10 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
             parent.findViewById<LinearLayout>(R.id.fecha_estimada_container)?.isVisible = !parcel.fechaCalculada.isNullOrEmpty()
 
             var peso = parent.findViewById<TextView>(R.id.masinfo_peso)
-            var dimensiones = parent.findViewById<TextView>(R.id.masinfo_dimensiones)
+            var dimenContainer = parent.findViewById<LinearLayout>(R.id.dimen_container)
+            var height = parent.findViewById<TextView>(R.id.masinfo_height)
+            var width = parent.findViewById<TextView>(R.id.masinfo_width)
+            var depth = parent.findViewById<TextView>(R.id.masinfo_depth)
             var codProducto = parent.findViewById<TextView>(R.id.masinfo_codproducto)
             var ref = parent.findViewById<TextView>(R.id.masinfo_ref)
             var fecha = parent.findViewById<TextView>(R.id.masinfo_fechaestimada)
@@ -139,7 +143,15 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
 
 
             peso?.peso(parcel.peso, orElse)
-            dimensiones?.dimen(parcel.largo, parcel.ancho, parcel.alto, orElse)
+            if(parcel.containsDimensions()){
+                height?.textOrElse(parcel.alto, orElse)
+                width?.textOrElse(parcel.ancho, orElse)
+                depth?.textOrElse(parcel.largo, orElse)
+
+                dimenContainer.visibility = View.VISIBLE
+            }else{
+                dimenContainer.visibility = View.GONE
+            }
             codProducto?.textOrElse(parcel.codProducto, orElse)
             ref?.textOrElse(parcel.refCliente, orElse)
             fecha?.textOrElse(parcel.fechaCalculada, orElse)

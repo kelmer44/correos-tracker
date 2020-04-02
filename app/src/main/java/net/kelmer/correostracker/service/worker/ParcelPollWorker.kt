@@ -91,7 +91,7 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
 
 
             val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_delivery)
+                    .setSmallIcon(R.drawable.ic_reparto)
                     .setContentTitle(applicationContext.getString(R.string.notification_title))
                     .setContentText(text)
                     .setStyle(NotificationCompat.BigTextStyle()
@@ -100,9 +100,6 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
                     .setContentIntent(intent)
                     .setAutoCancel(true)
                     .build()
-
-
-
 
 
             with(NotificationManagerCompat.from(applicationContext)) {

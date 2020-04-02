@@ -4,11 +4,14 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.widget.Toast
 import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.fragment_create_parcel.*
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
+import net.kelmer.correostracker.data.Result
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
+import net.kelmer.correostracker.data.network.exception.WrongCodeException
 import net.kelmer.correostracker.ext.observe
 
 /**
@@ -38,8 +41,24 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
             }
         }
         viewModel.saveParcelLiveData.observe(this) {
-            activity?.setResult(Activity.RESULT_OK)
-            activity?.finish()
+            it?.let {
+                when(it){
+                    is Result.Success -> {
+                        activity?.setResult(Activity.RESULT_OK)
+                        activity?.finish()
+                    }
+                    is Result.Failure -> {
+                        (it.e as? WrongCodeException)?.let {
+                            Toast.makeText(context,
+                                    getString(R.string.create_parcel_error_codigo),
+                                    Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    }
+                    else -> {}
+                }
+
+            }
         }
 
         parcel_code_layout
