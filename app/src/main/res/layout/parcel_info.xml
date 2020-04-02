@@ -60,68 +60,6 @@
                 tools:text="PQ" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/dimen_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/single_spacing"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/masinfo_dimensiones"
-                android:textAllCaps="true"
-                android:textStyle="bold" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:layout_marginStart="8dp">
-
-                <ImageView
-                    android:id="@+id/box"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/ic_box"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-                <TextView
-                    android:id="@+id/masinfo_height"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@+id/box"
-                    app:layout_constraintTop_toTopOf="@+id/box"
-                    app:layout_constraintEnd_toStartOf="@+id/box"
-                    android:layout_marginEnd="8dp"
-                    tools:text="height"/>
-
-                <TextView
-                    android:id="@+id/masinfo_width"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="width"
-                    app:layout_constraintStart_toStartOf="@id/masinfo_height"
-                    app:layout_constraintEnd_toEndOf="@+id/box"
-                    app:layout_constraintTop_toBottomOf="@+id/box"/>
-
-                <TextView
-                    android:id="@+id/masinfo_depth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/box"
-                    app:layout_constraintStart_toEndOf="@+id/masinfo_width"
-                    android:layout_marginStart="8dp"
-                    tools:text="depth"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
-
 
         <LinearLayout
             android:id="@+id/peso_container"
@@ -171,13 +109,89 @@
                 tools:text="Num. referencia: " />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/dimen_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/single_spacing"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/masinfo_dimensiones"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/masinfo_dimensiones"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/single_spacing"
+                android:layout_weight="3"
+                tools:text="40x50x30" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:visibility="gone"
+                android:layout_weight="3">
+
+                <ImageView
+                    android:id="@+id/box"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_box"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0" />
+
+                <TextView
+                    android:id="@+id/masinfo_height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/box"
+                    app:layout_constraintEnd_toStartOf="@+id/box"
+                    app:layout_constraintTop_toTopOf="@+id/box"
+                    tools:text="height" />
+
+                <TextView
+                    android:id="@+id/masinfo_width"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/single_spacing"
+                    app:layout_constraintEnd_toEndOf="@+id/box"
+                    app:layout_constraintStart_toStartOf="@id/masinfo_height"
+                    app:layout_constraintTop_toBottomOf="@+id/box"
+                    tools:text="width" />
+
+                <TextView
+                    android:id="@+id/masinfo_depth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/box"
+                    app:layout_constraintStart_toEndOf="@+id/box"
+                    app:layout_constraintTop_toBottomOf="@+id/box"
+                    tools:text="depth" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/disclaimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/single_spacing"
+            android:layout_marginStart="@dimen/single_spacing"
+            android:layout_marginTop="@dimen/double_spacing"
+            android:layout_marginEnd="@dimen/single_spacing"
             android:gravity="center"
             android:text="@string/masinfo_disclaimer"
             android:textSize="12sp" />

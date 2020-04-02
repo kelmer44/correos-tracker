@@ -27,7 +27,7 @@
     <string name="status_unknown">Estado desconocido</string>
     <string name="error_no_network">No hay conexión a internet</string>
     <string name="create_parcel_only_correos">* Solo paquetes de Correos España o Correos Express</string>
-    <string name="create_parcel_error_codigo">El código introducido no es reconocido por Correos. Por favor, introduzca un código válido. </string>
+    <string name="create_parcel_error_codigo">El código introducido no parece ser reconocido por Correos. ¿Estás seguro de querer guardarlo?</string>
     <string name="new_event_single">New event on parcel %1$s: %2$s!</string>
     <string name="new_events_multiple">New events on %1$d parcels!</string>
     <string name="notification_title">Status change</string>
@@ -44,4 +44,5 @@
     <string name="changes_1_6_5">Soporte para paquetes de Correos Express</string>
     <string name="changes_1_7_0">Llevábais tiempo pidiéndolo y ya está disponible: ahora recibirás alertas cada vez que uno de tus paquetes cambie de estado</string>
     <string name="changes_1_7_2">Corregido bug que hacía que no se mostrasen las notificaciones en algunos móviles.</string>
+    <string name="create_parcel_error_codigo_title">Código incorrecto</string>
 </resources>

@@ -6,9 +6,15 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
 import com.google.zxing.integration.android.IntentIntegrator
-import kotlinx.android.synthetic.main.fragment_create_parcel.*
+import kotlinx.android.synthetic.main.fragment_create_parcel.create_ok
+import kotlinx.android.synthetic.main.fragment_create_parcel.parcel_code
+import kotlinx.android.synthetic.main.fragment_create_parcel.parcel_code_layout
+import kotlinx.android.synthetic.main.fragment_create_parcel.parcel_name
+import kotlinx.android.synthetic.main.fragment_create_parcel.parcel_status_alerts
+import kotlinx.android.synthetic.main.fragment_create_parcel.stance_group
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
+import net.kelmer.correostracker.customviews.ConfirmDialog
 import net.kelmer.correostracker.data.Result
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.network.exception.WrongCodeException
@@ -42,20 +48,28 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
         }
         viewModel.saveParcelLiveData.observe(this) {
             it?.let {
-                when(it){
+                when (it) {
                     is Result.Success -> {
                         activity?.setResult(Activity.RESULT_OK)
                         activity?.finish()
                     }
                     is Result.Failure -> {
                         (it.e as? WrongCodeException)?.let {
+
+                            ConfirmDialog.confirmDialog(requireContext(),
+                                    R.string.create_parcel_error_codigo_title,
+                                    R.string.create_parcel_error_codigo) {
+
+
+                            }
                             Toast.makeText(context,
                                     getString(R.string.create_parcel_error_codigo),
                                     Toast.LENGTH_LONG)
-                                .show()
+                                    .show()
                         }
                     }
-                    else -> {}
+                    else -> {
+                    }
                 }
 
             }
