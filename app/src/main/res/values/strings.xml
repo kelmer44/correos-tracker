@@ -47,4 +47,5 @@
     <string name="create_parcel_error_codigo_title">Código incorrecto</string>
     <string name="delete_confirm_title">Eliminar paquete</string>
     <string name="delete_confirm_desc">¿Estás seguro de que deseas eliminar el paquete seleccionado?</string>
+    <string name="search">Filter</string>
 </resources>
