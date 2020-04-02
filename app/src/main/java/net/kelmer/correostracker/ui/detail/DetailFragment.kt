@@ -1,15 +1,20 @@
 package net.kelmer.correostracker.ui.detail
 
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
-import kotlinx.android.synthetic.main.activity_detail.*
-import kotlinx.android.synthetic.main.fragment_detail.*
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.crashlytics.android.Crashlytics
+import kotlinx.android.synthetic.main.activity_detail.toolbar
+import kotlinx.android.synthetic.main.fragment_detail.detail_loading
+import kotlinx.android.synthetic.main.fragment_detail.error_container
+import kotlinx.android.synthetic.main.fragment_detail.error_text
+import kotlinx.android.synthetic.main.fragment_detail.parcelStatusRecyclerView
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.data.Result
@@ -17,14 +22,11 @@ import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
 import net.kelmer.correostracker.data.network.exception.CorreosException
 import net.kelmer.correostracker.ext.isVisible
 import net.kelmer.correostracker.ext.observe
-import net.kelmer.correostracker.util.dimen
+import net.kelmer.correostracker.ui.detail.adapter.DetailTimelineAdapter
+import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.peso
 import net.kelmer.correostracker.util.textOrElse
 import timber.log.Timber
-import android.widget.LinearLayout
-import com.crashlytics.android.Crashlytics
-import net.kelmer.correostracker.ui.detail.adapter.DetailTimelineAdapter
-import net.kelmer.correostracker.util.NetworkInteractor
 
 
 class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
@@ -126,15 +128,16 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
             parent.findViewById<TextView>(R.id.disclaimer)?.isVisible = !parcel.fechaCalculada.isNullOrEmpty()
             parent.findViewById<LinearLayout>(R.id.fecha_estimada_container)?.isVisible = !parcel.fechaCalculada.isNullOrEmpty()
 
-            var peso = parent.findViewById<TextView>(R.id.masinfo_peso)
-            var dimenContainer = parent.findViewById<LinearLayout>(R.id.dimen_container)
-            var height = parent.findViewById<TextView>(R.id.masinfo_height)
-            var width = parent.findViewById<TextView>(R.id.masinfo_width)
-            var depth = parent.findViewById<TextView>(R.id.masinfo_depth)
-            var codProducto = parent.findViewById<TextView>(R.id.masinfo_codproducto)
-            var ref = parent.findViewById<TextView>(R.id.masinfo_ref)
-            var fecha = parent.findViewById<TextView>(R.id.masinfo_fechaestimada)
-            var orElse = "N/A"
+            val peso = parent.findViewById<TextView>(R.id.masinfo_peso)
+            val dimenContainer = parent.findViewById<LinearLayout>(R.id.dimen_container)
+            val height = parent.findViewById<TextView>(R.id.masinfo_height)
+            val width = parent.findViewById<TextView>(R.id.masinfo_width)
+            val depth = parent.findViewById<TextView>(R.id.masinfo_depth)
+            val dimensiones = parent.findViewById<TextView>(R.id.masinfo_dimensiones)
+            val codProducto = parent.findViewById<TextView>(R.id.masinfo_codproducto)
+            val ref = parent.findViewById<TextView>(R.id.masinfo_ref)
+            val fecha = parent.findViewById<TextView>(R.id.masinfo_fechaestimada)
+            val orElse = "N/A"
             if (parcel.refCliente == "referencia") {
                 parcel.refCliente = ""
             }
@@ -143,13 +146,13 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
 
 
             peso?.peso(parcel.peso, orElse)
-            if(parcel.containsDimensions()){
+            if (parcel.containsDimensions()) {
                 height?.textOrElse(parcel.alto, orElse)
                 width?.textOrElse(parcel.ancho, orElse)
                 depth?.textOrElse(parcel.largo, orElse)
-
+                dimensiones.text = getString(R.string.dimensiones_placeholder, parcel.alto, parcel.ancho, parcel.largo)
                 dimenContainer.visibility = View.VISIBLE
-            }else{
+            } else {
                 dimenContainer.visibility = View.GONE
             }
             codProducto?.textOrElse(parcel.codProducto, orElse)

@@ -1,15 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/colorSurface">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/search_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:paddingTop="@dimen/half_spacing"
+        android:paddingBottom="@dimen/half_spacing"
+        app:cardCornerRadius="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/half_spacing"
+            android:layout_marginBottom="@dimen/half_spacing"
+            app:iconifiedByDefault="false"
+            app:queryHint="Filtrar paquetes" />
+    </com.google.android.material.card.MaterialCardView>
+
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_view_container">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_parcel_list"
@@ -22,15 +49,15 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <TextView
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
-        android:layout_margin="@dimen/double_spacing"
         android:id="@+id/empty_state"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/emptystate_parcel_list" />
+        android:layout_margin="@dimen/double_spacing"
+        android:gravity="center"
+        android:text="@string/emptystate_parcel_list"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

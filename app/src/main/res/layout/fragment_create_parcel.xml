@@ -52,6 +52,7 @@
         android:id="@+id/parcel_name_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/single_spacing"
         android:layout_height="wrap_content"
         android:hint="@string/parcel_name"
         android:importantForAutofill="no"
@@ -119,7 +120,7 @@
         </RadioGroup>
     </LinearLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/create_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

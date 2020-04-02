@@ -55,7 +55,7 @@ class ParcelListViewModel @Inject constructor(private val localParcelRepository:
     val statusReports: MutableLiveData<CorreosApiParcel> = MutableLiveData()
 
 
-    fun refresh(items: MutableList<LocalParcelReference>) {
+    fun refresh(items: List<LocalParcelReference>) {
         items.forEachIndexed { i, p ->
             parcelRepository.getParcelStatus(p.code)
                     .withNetwork(networkInteractor)
