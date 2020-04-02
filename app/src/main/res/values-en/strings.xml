@@ -44,4 +44,7 @@
     <string name="changes_1_7_0">You asked for it and now it\'s here: you can now receive alerts whenever one of your parcels has a status update.</string>
     <string name="create_parcel_error_codigo">The entered code does not seem to be recognized by Correos. Are you sure you want to continue?</string>
     <string name="changes_1_7_2">Fixed bug preventing notifications to be displayed on certain devices.</string>
+    <string name="create_parcel_error_codigo_title">Invalid code</string>
+    <string name="delete_confirm_title">Remove parcel</string>
+    <string name="delete_confirm_desc">Are you sure you want to remove the selected parcel?</string>
 </resources>

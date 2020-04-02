@@ -24,6 +24,7 @@ import android.net.Uri
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import net.kelmer.correostracker.customviews.ConfirmDialog
 import net.kelmer.correostracker.ext.isVisible
 import net.kelmer.correostracker.ui.featuredialog.featureBlurbDialog
 import net.kelmer.correostracker.ui.list.adapter.ParcelClickListener
@@ -69,7 +70,11 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                     //do your things in each of the following cases
                     when (item.itemId) {
                         R.id.menu_delete -> {
-                            viewModel.deleteParcel(parcelReference)
+                            ConfirmDialog.confirmDialog(requireContext(),
+                                    R.string.delete_confirm_title,
+                                    R.string.delete_confirm_desc){
+                                viewModel.deleteParcel(parcelReference)
+                            }
                             true
                         }
                         R.id.menu_enable_notifications -> {
