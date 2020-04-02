@@ -59,6 +59,7 @@ fun featureBlurbDialog(
     featureList.adapter = FeatureListAdapter().apply {
 
         setList(listOf(
+                FeatureListAdapter.Feature("1.8.0", R.string.changes_1_8_0),
                 FeatureListAdapter.Feature("1.7.2", R.string.changes_1_7_2),
                 FeatureListAdapter.Feature("1.7.0", R.string.changes_1_7_0),
                 FeatureListAdapter.Feature("1.6.5", R.string.changes_1_6_5),
