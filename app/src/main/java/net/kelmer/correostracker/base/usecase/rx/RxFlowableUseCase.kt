@@ -1,7 +1,9 @@
 package net.kelmer.correostracker.base.usecase.rx
 
+import androidx.lifecycle.LiveData
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.subscribeBy
+import net.kelmer.correostracker.base.usecase.UseCase
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.ext.toResult
 

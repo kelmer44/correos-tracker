@@ -1,5 +1,6 @@
 package net.kelmer.correostracker.ui.list
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.work.ListenableWorker
 import io.reactivex.rxkotlin.addTo
@@ -13,29 +14,23 @@ import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
 import net.kelmer.correostracker.ext.toResult
 import net.kelmer.correostracker.ext.withNetwork
 import net.kelmer.correostracker.service.worker.ParcelPollWorker
+import net.kelmer.correostracker.usecases.list.GetParcelListUseCase
 import timber.log.Timber
 import javax.inject.Inject
 
 /**
  * Created by gabriel on 25/03/2018.
  */
-class ParcelListViewModel @Inject constructor(private val localParcelRepository: LocalParcelRepository,
-                                              private val parcelRepository: CorreosRepository) : BaseViewModel() {
+class ParcelListViewModel @Inject constructor(
+        private val getParcelListUseCase: GetParcelListUseCase,
+        private val localParcelRepository: LocalParcelRepository,
+        private val parcelRepository: CorreosRepository) : BaseViewModel(getParcelListUseCase) {
 
-    val parcelList: MutableLiveData<Resource<List<LocalParcelReference>>> = MutableLiveData()
+    private val _parcelList: MutableLiveData<Resource<List<LocalParcelReference>>> = MutableLiveData()
+    fun getParcelList() = _parcelList
+    fun retrieveParcelList() = getParcelListUseCase(Unit, _parcelList)
+
     val deleteLiveData: MutableLiveData<Resource<Int>> = MutableLiveData()
-
-
-    fun retrieveParcelList() {
-        localParcelRepository.getParcels()
-                .toResult(schedulerProvider)
-                .subscribeBy(
-                        onNext = {
-                            parcelList.value = it
-                        }
-                ).addTo(disposables)
-    }
-
     fun deleteParcel(parcelReference: LocalParcelReference) {
         localParcelRepository.deleteParcel(parcelReference)
                 .toResult(schedulerProvider)
@@ -72,7 +67,7 @@ class ParcelListViewModel @Inject constructor(private val localParcelRepository:
         localParcelRepository.getParcels()
                 .firstOrError()
                 .flattenAsFlowable { it }
-                .flatMapSingle{ local ->
+                .flatMapSingle { local ->
                     Timber.d("Parcel poll checking parcel with code ${local.code}")
                     parcelRepository.getParcelStatus(local.code)
                             .map {
@@ -86,7 +81,7 @@ class ParcelListViewModel @Inject constructor(private val localParcelRepository:
                 .doOnSuccess {
                     val newEvents = getNewEvents(it)
                     Timber.d("Parcel poll got new Events: ${newEvents}")
-//                    buildNotification(newEvents)
+                    //                    buildNotification(newEvents)
                 }
                 .map {
                     ListenableWorker.Result.success()
@@ -129,7 +124,7 @@ class ParcelListViewModel @Inject constructor(private val localParcelRepository:
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribeBy(onError = {
-                    Timber.i(it,"Errror");
+                    Timber.i(it, "Errror");
                 }, onComplete = {})
     }
 
@@ -138,7 +133,7 @@ class ParcelListViewModel @Inject constructor(private val localParcelRepository:
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribeBy(onError = {
-                    Timber.i(it,"Errror");
+                    Timber.i(it, "Errror");
                 }, onComplete = {})
     }
 

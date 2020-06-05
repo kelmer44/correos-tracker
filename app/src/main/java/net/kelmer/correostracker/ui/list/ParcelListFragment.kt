@@ -15,6 +15,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuItemCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.crashlytics.android.Crashlytics
 import kotlinx.android.synthetic.main.fragment_parcel_list.empty_state
 import kotlinx.android.synthetic.main.fragment_parcel_list.rv_parcel_list
 import kotlinx.android.synthetic.main.fragment_parcel_list.swipe_refresh
@@ -23,6 +24,7 @@ import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.customviews.ConfirmDialog
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
+import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.ext.isVisible
 import net.kelmer.correostracker.ext.observe
 import net.kelmer.correostracker.ui.detail.DetailActivity
@@ -73,7 +75,7 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                         R.id.menu_delete -> {
                             ConfirmDialog.confirmDialog(requireContext(),
                                     R.string.delete_confirm_title,
-                                    R.string.delete_confirm_desc){
+                                    R.string.delete_confirm_desc) {
                                 viewModel.deleteParcel(parcelReference)
                             }
                             true
@@ -109,20 +111,19 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
     override fun loadUp(savedInstanceState: Bundle?) {
         setupRecyclerView()
         viewModel.retrieveParcelList()
-        viewModel.parcelList.observe(this) {
-            it?.let { i ->
-                swipe_refresh.isRefreshing = i.inProgress()
-            }
-            when (it) {
-                is Resource.Success -> {
-                    empty_state.isVisible = it.data.isEmpty()
-                    adapter.updateItems(it.data)
-                    adapter.filter(searchView?.query?.toString() ?: "")
-                }
-                is Resource.Failure -> {
-                    Toast.makeText(context, "ERROR!!!", Toast.LENGTH_LONG).show()
-                }
-            }
+        viewModel.getParcelList().observe(this) { resource ->
+            swipe_refresh.isRefreshing = resource.inProgress()
+            resource.resolve(
+                    onSuccess = {
+                        empty_state.isVisible = it.isEmpty()
+                        adapter.updateItems(it)
+                        adapter.filter(searchView?.query?.toString() ?: "")
+                    },
+                    onError = {
+                        Crashlytics.logException(it)
+                        Toast.makeText(context, "ERROR!!!", Toast.LENGTH_LONG).show()
+                    }
+            )
         }
 
         viewModel.deleteLiveData.observe(this) {

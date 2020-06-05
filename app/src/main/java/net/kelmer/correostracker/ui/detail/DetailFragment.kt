@@ -20,6 +20,7 @@ import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
 import net.kelmer.correostracker.data.network.exception.CorreosException
+import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.ext.isVisible
 import net.kelmer.correostracker.ext.observe
 import net.kelmer.correostracker.ui.detail.adapter.DetailTimelineAdapter
@@ -46,43 +47,33 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
         parcelStatusRecyclerView.layoutManager = linearLayoutManager
         parcelStatusRecyclerView.adapter = adapterRecyclerView
 
-        viewModel.getParcel(parcelCode ?: "NONE")
-        viewModel.parcel.observe(this) {
-
-            it?.let {
-                detail_loading.isVisible = it.inProgress()
-            }
-
-            when (it) {
-                is Resource.InProgress -> {
-                    error_container.isVisible = false
-                }
-                is Resource.Success -> {
-                    loadParcelInformation(it.data)
-                }
-                is Resource.Failure -> {
-                    error_container.isVisible = true
-                    it.log()
-                    when (it.exception) {
-                        is CorreosException -> {
-                            Crashlytics.log("Controlled Exception Error $parcelCode")
-                            Crashlytics.logException(it.exception)
-                            error_text.text = it.message
+        viewModel.getParcel(parcelCode ?: "NONE").observe(this) { resource ->
+            detail_loading.isVisible = resource.inProgress()
+            resource.resolve(
+                    onError = {
+                        error_container.isVisible = true
+                        Timber.e(it)
+                        when (it) {
+                            is CorreosException -> {
+                                Crashlytics.log("Controlled Exception Error $parcelCode")
+                                Crashlytics.logException(it)
+                                error_text.text = it.message
+                            }
+                            is NetworkInteractor.NetworkUnavailableException -> {
+                                Crashlytics.log("Controlled Exception Error $parcelCode")
+                                Crashlytics.logException(it)
+                                error_text.text = getString(R.string.error_no_network)
+                            }
+                            else -> {
+                                Crashlytics.log("Unknown Error $parcelCode")
+                                Crashlytics.logException(it)
+                                error_text.text = getString(R.string.error_unrecognized)
+                            }
                         }
-                        is NetworkInteractor.NetworkUnavailableException -> {
-                            Crashlytics.log("Controlled Exception Error $parcelCode")
-                            Crashlytics.logException(it.exception)
-                            error_text.text = getString(R.string.error_no_network)
-                        }
-                        else -> {
-                            Crashlytics.log("Unknown Error $parcelCode")
-                            Crashlytics.logException(it.exception)
-                            error_text.text = getString(R.string.error_unrecognized)
-                        }
-                    }
-
-                }
-            }
+                    },
+                    onSuccess = {
+                        loadParcelInformation(it)
+                    })
         }
     }
 

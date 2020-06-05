@@ -26,8 +26,9 @@ abstract class UseCase<in P, R> {
         return liveCallback
     }
 
+    open fun dispose() {}
+
 }
 
-
 operator fun <R> UseCase<Unit, R>.invoke(): LiveData<Resource<R>> = this(Unit)
-operator fun <R> UseCase<Unit, R>.invoke(result: MutableLiveData<Resource<R>>) = this(kotlin.Unit, result)
+operator fun <R> UseCase<Unit, R>.invoke(result: MutableLiveData<Resource<R>>) = this(Unit, result)

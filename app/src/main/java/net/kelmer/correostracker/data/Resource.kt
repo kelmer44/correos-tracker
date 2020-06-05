@@ -44,3 +44,14 @@ fun <T> Resource<T>.successOr(fallback: T): T {
     return (this as? Resource.Success<T>)?.data ?: fallback
 }
 
+
+fun <T> Resource<T>.resolve(onError: (E: Throwable) -> Unit = {}, onSuccess: (T) -> Unit = {}) {
+    when (this) {
+        is Resource.Success -> {
+            onSuccess(data)
+        }
+        is Resource.Failure -> {
+            onError(exception)
+        }
+    }
+}

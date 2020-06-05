@@ -4,12 +4,17 @@ import androidx.lifecycle.MutableLiveData
 import io.reactivex.disposables.Disposable
 import net.kelmer.correostracker.base.usecase.UseCase
 import net.kelmer.correostracker.data.Resource
+import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.SchedulerProvider
 import javax.inject.Inject
 
 abstract class RxUseCase <in P, R> : UseCase<P, R>() {
     @Inject
     lateinit var schedulerProvider: SchedulerProvider
+    @Inject
+    lateinit var networkInteractor: NetworkInteractor
+
+
     private var disposable: Disposable? = null
 
     abstract fun execute(params: P, onNext: ((Resource<R>) -> Unit))
@@ -26,7 +31,7 @@ abstract class RxUseCase <in P, R> : UseCase<P, R>() {
         return this
     }
 
-    fun dispose() {
+    override fun dispose() {
         disposable?.dispose()
         disposable = null
     }
