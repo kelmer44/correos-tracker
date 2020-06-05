@@ -5,7 +5,7 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import net.kelmer.correostracker.base.BaseViewModel
-import net.kelmer.correostracker.data.Result
+import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
@@ -19,7 +19,7 @@ class ParcelDetailViewModel @Inject constructor(val localParcelRepository: Local
                                                 val correosRepository: CorreosRepository) : BaseViewModel() {
 
 
-    val parcel: MutableLiveData<Result<ParcelDetailDTO>> = MutableLiveData()
+    val parcel: MutableLiveData<Resource<ParcelDetailDTO>> = MutableLiveData()
 
 
     fun getParcel(parcelCode: String) {

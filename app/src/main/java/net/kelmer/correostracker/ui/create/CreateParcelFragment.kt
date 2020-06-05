@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_create_parcel.stance_group
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.customviews.ConfirmDialog
-import net.kelmer.correostracker.data.Result
+import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.network.exception.WrongCodeException
 import net.kelmer.correostracker.ext.observe
@@ -49,12 +49,12 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
         viewModel.saveParcelLiveData.observe(this) {
             it?.let {
                 when (it) {
-                    is Result.Success -> {
+                    is Resource.Success -> {
                         activity?.setResult(Activity.RESULT_OK)
                         activity?.finish()
                     }
-                    is Result.Failure -> {
-                        (it.e as? WrongCodeException)?.let {
+                    is Resource.Failure -> {
+                        (it.exception as? WrongCodeException)?.let {
 
                             ConfirmDialog.confirmDialog(requireContext(),
                                     R.string.create_parcel_error_codigo_title,

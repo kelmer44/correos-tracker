@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_parcel_list.swipe_refresh
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.customviews.ConfirmDialog
-import net.kelmer.correostracker.data.Result
+import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.ext.isVisible
 import net.kelmer.correostracker.ext.observe
@@ -111,15 +111,15 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
         viewModel.retrieveParcelList()
         viewModel.parcelList.observe(this) {
             it?.let { i ->
-                swipe_refresh.isRefreshing = i.inProgress
+                swipe_refresh.isRefreshing = i.inProgress()
             }
             when (it) {
-                is Result.Success -> {
+                is Resource.Success -> {
                     empty_state.isVisible = it.data.isEmpty()
                     adapter.updateItems(it.data)
                     adapter.filter(searchView?.query?.toString() ?: "")
                 }
-                is Result.Failure -> {
+                is Resource.Failure -> {
                     Toast.makeText(context, "ERROR!!!", Toast.LENGTH_LONG).show()
                 }
             }
@@ -127,13 +127,13 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
 
         viewModel.deleteLiveData.observe(this) {
             when (it) {
-                is Result.Success -> {
+                is Resource.Success -> {
 
                     Timber.w("Deleted ${it.data} elements!!")
                     adapter.notifyDataSetChanged()
                     rv_parcel_list.invalidate()
                 }
-                is Result.Failure -> {
+                is Resource.Failure -> {
                     Toast.makeText(context, "ERROR DELETING!", Toast.LENGTH_LONG).show()
                 }
             }

@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_detail.error_text
 import kotlinx.android.synthetic.main.fragment_detail.parcelStatusRecyclerView
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
-import net.kelmer.correostracker.data.Result
+import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
 import net.kelmer.correostracker.data.network.exception.CorreosException
 import net.kelmer.correostracker.ext.isVisible
@@ -50,33 +50,33 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
         viewModel.parcel.observe(this) {
 
             it?.let {
-                detail_loading.isVisible = it.inProgress
+                detail_loading.isVisible = it.inProgress()
             }
 
             when (it) {
-                is Result.InProgress -> {
+                is Resource.InProgress -> {
                     error_container.isVisible = false
                 }
-                is Result.Success -> {
+                is Resource.Success -> {
                     loadParcelInformation(it.data)
                 }
-                is Result.Failure -> {
+                is Resource.Failure -> {
                     error_container.isVisible = true
-                    Timber.e(it.e, it.errorMessage)
-                    when (it.e) {
+                    it.log()
+                    when (it.exception) {
                         is CorreosException -> {
                             Crashlytics.log("Controlled Exception Error $parcelCode")
-                            Crashlytics.logException(it.e)
-                            error_text.text = it.e.message
+                            Crashlytics.logException(it.exception)
+                            error_text.text = it.message
                         }
                         is NetworkInteractor.NetworkUnavailableException -> {
                             Crashlytics.log("Controlled Exception Error $parcelCode")
-                            Crashlytics.logException(it.e)
+                            Crashlytics.logException(it.exception)
                             error_text.text = getString(R.string.error_no_network)
                         }
                         else -> {
                             Crashlytics.log("Unknown Error $parcelCode")
-                            Crashlytics.logException(it.e)
+                            Crashlytics.logException(it.exception)
                             error_text.text = getString(R.string.error_unrecognized)
                         }
                     }

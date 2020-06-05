@@ -1,21 +1,17 @@
 package net.kelmer.correostracker.ui.list
 
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.work.ListenableWorker
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
-import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.BaseViewModel
-import net.kelmer.correostracker.data.Result
+import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.repository.correos.CorreosRepository
 import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
 import net.kelmer.correostracker.ext.toResult
 import net.kelmer.correostracker.ext.withNetwork
-import net.kelmer.correostracker.service.worker.NotificationID
 import net.kelmer.correostracker.service.worker.ParcelPollWorker
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,8 +22,8 @@ import javax.inject.Inject
 class ParcelListViewModel @Inject constructor(private val localParcelRepository: LocalParcelRepository,
                                               private val parcelRepository: CorreosRepository) : BaseViewModel() {
 
-    val parcelList: MutableLiveData<Result<List<LocalParcelReference>>> = MutableLiveData()
-    val deleteLiveData: MutableLiveData<Result<Int>> = MutableLiveData()
+    val parcelList: MutableLiveData<Resource<List<LocalParcelReference>>> = MutableLiveData()
+    val deleteLiveData: MutableLiveData<Resource<Int>> = MutableLiveData()
 
 
     fun retrieveParcelList() {
