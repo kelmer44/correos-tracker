@@ -35,9 +35,9 @@ class LocalParcelRepositoryImpl(private val localParcelDao: LocalParcelDao) : Lo
 
     }
 
-    override fun deleteParcel(parcel: LocalParcelReference): Observable<Int> {
+    override fun deleteParcel(parcel: LocalParcelReference): Completable {
         Timber.e("Requested deletion of $parcel")
-        return Observable.fromCallable { localParcelDao.deleteParcel(parcel) }
+        return localParcelDao.deleteParcel(parcel)
     }
 
     companion object {

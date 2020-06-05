@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.fragment_parcel_list.swipe_refresh
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.customviews.ConfirmDialog
-import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.ext.isVisible
@@ -126,18 +125,17 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
             )
         }
 
-        viewModel.deleteLiveData.observe(this) {
-            when (it) {
-                is Resource.Success -> {
-
-                    Timber.w("Deleted ${it.data} elements!!")
-                    adapter.notifyDataSetChanged()
-                    rv_parcel_list.invalidate()
-                }
-                is Resource.Failure -> {
-                    Toast.makeText(context, "ERROR DELETING!", Toast.LENGTH_LONG).show()
-                }
-            }
+        viewModel.getDeleteResult().observe(this) { resource ->
+            resource.resolve(
+                    onError = {
+                        Toast.makeText(context, "ERROR DELETING!", Toast.LENGTH_LONG).show()
+                    },
+                    onSuccess = {
+                        Timber.w("Deleted $it elements!!")
+                        adapter.notifyDataSetChanged()
+                        rv_parcel_list.invalidate()
+                    }
+            )
         }
 
 

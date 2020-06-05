@@ -14,6 +14,7 @@ import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
 import net.kelmer.correostracker.ext.toResult
 import net.kelmer.correostracker.ext.withNetwork
 import net.kelmer.correostracker.service.worker.ParcelPollWorker
+import net.kelmer.correostracker.usecases.delete.DeleteParcelUseCase
 import net.kelmer.correostracker.usecases.list.GetParcelListUseCase
 import timber.log.Timber
 import javax.inject.Inject
@@ -23,6 +24,7 @@ import javax.inject.Inject
  */
 class ParcelListViewModel @Inject constructor(
         private val getParcelListUseCase: GetParcelListUseCase,
+        private val deleteParcelUseCase: DeleteParcelUseCase,
         private val localParcelRepository: LocalParcelRepository,
         private val parcelRepository: CorreosRepository) : BaseViewModel(getParcelListUseCase) {
 
@@ -30,16 +32,10 @@ class ParcelListViewModel @Inject constructor(
     fun getParcelList() = _parcelList
     fun retrieveParcelList() = getParcelListUseCase(Unit, _parcelList)
 
-    val deleteLiveData: MutableLiveData<Resource<Int>> = MutableLiveData()
+    private val _deleteLiveData: MutableLiveData<Resource<Unit>> = MutableLiveData()
+    fun getDeleteResult() = _deleteLiveData
     fun deleteParcel(parcelReference: LocalParcelReference) {
-        localParcelRepository.deleteParcel(parcelReference)
-                .toResult(schedulerProvider)
-                .subscribeBy(
-                        onNext = {
-                            deleteLiveData.value = it
-                        }
-                )
-                .addTo(disposables)
+        deleteParcelUseCase(DeleteParcelUseCase.Params(parcelReference), _deleteLiveData)
     }
 
 
