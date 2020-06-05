@@ -4,7 +4,7 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
-import net.kelmer.correostracker.data.Result
+import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.SchedulerProvider
 
@@ -12,44 +12,40 @@ import net.kelmer.correostracker.util.SchedulerProvider
  * Created by gabriel on 08/02/2018.
  */
 
-fun <T> Flowable<T>.toResult(schedulerProvider: SchedulerProvider): Flowable<Result<T>> {
+fun <T> Flowable<T>.toResult(schedulerProvider: SchedulerProvider): Flowable<Resource<T>> {
     return compose { item ->
         item
-                .map { Result.success(it) }
-                .onErrorReturn { e -> Result.failure(e.message ?: "unknown", e) }
+                .map { Resource.success(it) }
+                .onErrorReturn { e -> Resource.failure(e, e.message ?: "unknown" ) }
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
-                .startWith(Result.inProgress())
+                .startWith(Resource.inProgress())
     }
 }
 
-fun <T> Single<T>.toResult(schedulerProvider: SchedulerProvider): Observable<Result<T>> {
+fun <T> Single<T>.toResult(schedulerProvider: SchedulerProvider): Observable<Resource<T>> {
     return toObservable().toResult(schedulerProvider)
 }
 
 
-fun <T> Observable<T>.toResult(schedulerProvider: SchedulerProvider): Observable<Result<T>> {
+fun <T> Observable<T>.toResult(schedulerProvider: SchedulerProvider): Observable<Resource<T>> {
     return compose { item ->
         item
-                .map { Result.success(it) }
-
+                .map { Resource.success(it) }
                 .onErrorReturn { e ->
-                    if (e is NetworkInteractor.NetworkUnavailableException)
-                        Result.networkUnavailable(e)
-                    else
-                        Result.failure(e.message ?: "unknown", e)
+                    Resource.failure(e)
                 }
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
-                .startWith(Result.inProgress())
+                .startWith(Resource.inProgress())
     }
 }
 
 
-fun <T> Completable.toResult(schedulerProvider: SchedulerProvider): Observable<Result<T>> {
+fun <T> Completable.toResult(schedulerProvider: SchedulerProvider): Observable<Resource<T>> {
     return toObservable<T>().toResult(schedulerProvider)
 }
 
 
-fun <T> Flowable<T>.withNetwork(networkInteractor: NetworkInteractor)  = apply { networkInteractor.hasNetworkConnectionCompletable().andThen(this) }
-fun <T> Single<T>.withNetwork(networkInteractor: NetworkInteractor)  = apply { networkInteractor.hasNetworkConnectionCompletable().andThen(this) }
+fun <T> Flowable<T>.withNetwork(networkInteractor: NetworkInteractor) = apply { networkInteractor.hasNetworkConnectionCompletable().andThen(this) }
+fun <T> Single<T>.withNetwork(networkInteractor: NetworkInteractor) = apply { networkInteractor.hasNetworkConnectionCompletable().andThen(this) }

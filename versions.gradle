@@ -42,7 +42,7 @@ def extension = ext {
             'lifecycle'     : '2.2.0',
             'room'          : '2.2.4',
             'stetho'        : "1.5.1",
-            'timber'        : "4.1.2",
+            'timber'        : "4.7.1",
             'worker'  : "2.3.4"
     ]
 
