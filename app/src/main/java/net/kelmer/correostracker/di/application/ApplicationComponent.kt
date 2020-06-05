@@ -9,7 +9,6 @@ import net.kelmer.correostracker.CorreosApp
 import net.kelmer.correostracker.data.db.DbModule
 import net.kelmer.correostracker.data.network.ApiModule
 import net.kelmer.correostracker.data.repository.RepositoryModule
-import net.kelmer.correostracker.data.usecases.UseCasesModule
 import net.kelmer.correostracker.di.activity.ActivityBindings
 import net.kelmer.correostracker.di.fragment.FragmentBindings
 import net.kelmer.correostracker.di.modules.NetModule
@@ -31,8 +30,7 @@ import javax.inject.Singleton
     RepositoryModule::class,
     ApiModule::class,
     FragmentBindings::class,
-    ActivityBindings::class,
-    UseCasesModule::class
+    ActivityBindings::class
 ])
 interface ApplicationComponent : AndroidInjector<CorreosApp> {
 

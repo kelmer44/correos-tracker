@@ -9,6 +9,7 @@ import net.kelmer.correostracker.base.BaseViewModel
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
+import net.kelmer.correostracker.data.network.exception.WrongCodeException
 import net.kelmer.correostracker.data.repository.correos.CorreosRepository
 import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
 import net.kelmer.correostracker.ext.withNetwork
@@ -50,7 +51,12 @@ class ParcelListViewModel @Inject constructor(
                     .subscribeOn(schedulerProvider.io())
                     .observeOn(schedulerProvider.ui())
                     .subscribeBy(onError = {
-                        Timber.e(it, "Could not update $i : ${it.message}")
+                        if(it is WrongCodeException){
+                            Timber.w("Wrong code: ${p.code}!")
+                        }
+                        else {
+                            Timber.e(it, "Could not update $i : ${it.message}")
+                        }
                     },
                             onSuccess = {
                                 statusReports.value = it

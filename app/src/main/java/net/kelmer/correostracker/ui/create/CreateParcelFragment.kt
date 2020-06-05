@@ -17,8 +17,11 @@ import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.customviews.ConfirmDialog
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
+import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.network.exception.WrongCodeException
+import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.ext.observe
+import timber.log.Timber
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -26,6 +29,29 @@ import net.kelmer.correostracker.ext.observe
 class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
 
     override val viewModelClass = CreateParcelViewModel::class.java
+
+
+    private val observeResult: (Resource<LocalParcelReference>) -> Unit = { resource ->
+        resource.resolve(
+                onSuccess = {
+                    Timber.i("Parcel ${it.code} created!")
+                    activity?.setResult(Activity.RESULT_OK)
+                    activity?.finish()
+                },
+                onError = {
+                    Timber.e(it)
+                    (it as? WrongCodeException)?.let {
+                        ConfirmDialog.confirmDialog(requireContext(),
+                                R.string.create_parcel_error_codigo_title,
+                                R.string.create_parcel_error_codigo) {
+                        }
+                        Toast.makeText(context,
+                                getString(R.string.create_parcel_error_codigo),
+                                Toast.LENGTH_LONG)
+                                .show()
+                    }
+                })
+    }
 
     override fun loadUp(savedInstanceState: Bundle?) {
         create_ok.setOnClickListener {
@@ -40,38 +66,10 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
                 }
                 val notify = parcel_status_alerts.isChecked
                 val localParcelReference = LocalParcelReference(parcel_code.text.toString(), parcel_name.text.toString(), stance, null, notify = notify)
-                viewModel.addParcel(localParcelReference)
+                viewModel.addParcel(localParcelReference).observe(viewLifecycleOwner, observeResult)
 
             } else {
                 parcel_code_layout.error = getString(R.string.error_nocodigo)
-            }
-        }
-        viewModel.saveParcelLiveData.observe(this) {
-            it?.let {
-                when (it) {
-                    is Resource.Success -> {
-                        activity?.setResult(Activity.RESULT_OK)
-                        activity?.finish()
-                    }
-                    is Resource.Failure -> {
-                        (it.exception as? WrongCodeException)?.let {
-
-                            ConfirmDialog.confirmDialog(requireContext(),
-                                    R.string.create_parcel_error_codigo_title,
-                                    R.string.create_parcel_error_codigo) {
-
-
-                            }
-                            Toast.makeText(context,
-                                    getString(R.string.create_parcel_error_codigo),
-                                    Toast.LENGTH_LONG)
-                                    .show()
-                        }
-                    }
-                    else -> {
-                    }
-                }
-
             }
         }
 

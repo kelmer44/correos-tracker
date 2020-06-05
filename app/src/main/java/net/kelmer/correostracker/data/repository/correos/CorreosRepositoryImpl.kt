@@ -11,19 +11,21 @@ import timber.log.Timber
 import java.util.*
 class CorreosRepositoryImpl(val correosApi: CorreosApi, val dao: LocalParcelDao) : CorreosRepository {
 
+    override fun retrieveParcel(parcelCode: String) : Single<CorreosApiParcel>{
+        return correosApi.getParcelStatus(parcelCode)
+                .map {
+                    it.first()
+                }
+    }
+
     override fun getParcelStatus(parcelId: String): Single<CorreosApiParcel> {
-
         var parcelReference: LocalParcelReference? = null
-
         return dao.getParcelSync(parcelId)
                 .doOnSuccess {
                     parcelReference = it
                 }
                 .flatMap {
-                    correosApi.getParcelStatus(parcelId)
-                }
-                .map {
-                    it.first()
+                    retrieveParcel(parcelId)
                 }
                 .flatMap { element ->
                     //Mapping errors to a proper exception

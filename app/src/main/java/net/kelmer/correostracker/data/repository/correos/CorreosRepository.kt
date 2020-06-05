@@ -4,6 +4,7 @@ import io.reactivex.Flowable
 import io.reactivex.Single
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 
-interface CorreosRepository{
+interface CorreosRepository {
+    fun retrieveParcel(parcelCode: String) : Single<CorreosApiParcel>
     fun getParcelStatus(parcelId: String): Single<CorreosApiParcel>
 }
