@@ -1,38 +1,20 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <!-- Base application theme. -->
 
-    <style name="AppTheme" parent="AppTheme.Base">
-
+    <style name="Widget.CorreosTracker.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">?colorSecondary</item>
+        <item name="hintTextColor">?colorSecondary</item>
+        <item name="hintAnimationEnabled">true</item>
+        <item name="hintEnabled">true</item>
     </style>
-    <style name="AppTheme.Base" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-
-
-        <item name="colorSecondary">@color/colorAccent</item>
-        <item name="colorOnSecondary">@color/white</item>
-
-        <item name="android:colorPrimary">@color/colorPrimary</item>
-        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="android:colorAccent">@color/colorAccent</item>
-
-        <item name="android:borderlessButtonStyle">@style/AppTheme.Button</item>
-        <item name="android:buttonStyle">@style/AppTheme.Button</item>
-
-    </style>
-
 
     <style name="AppTheme.Button" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:backgroundTint">@color/colorAccent</item>
-        <item name="backgroundTint">@color/colorAccent</item>
+        <item name="android:backgroundTint">@color/secondary</item>
+        <item name="backgroundTint">@color/secondary</item>
     </style>
 
     <style name="FeatureTitle" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">16sp</item>
         <item name="android:textAllCaps">true</item>
-
     </style>
 </resources>
