@@ -51,14 +51,19 @@
         <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.CorreosTracker.LargeComponent
         </item>
 
+        <item name="android:statusBarColor" tools:ignore="NewApi">@color/primaryVariant</item>
 
         <!--Component styles-->
         <item name="textInputStyle">@style/Widget.CorreosTracker.TextInputLayout</item>
+        <item name="appBarLayoutStyle">@style/Widget.MaterialComponents.AppBarLayout.Primary</item>
+        <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.Primary</item>
+        <item name="searchViewStyle">@style/Widget.Soulpicks.SearchView</item>
+        <item name="android:searchViewStyle">@style/Widget.Soulpicks.SearchView</item>
     </style>
 
     <!-- Base stuff for windows, statusbars, stuff not related to the app itself -->
     <style name="Base.Theme.CorreosTrackerThemeBuilder" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:statusBarColor" tools:ignore="NewApi">@color/primaryVariant</item>
+
 <!--        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>-->
 <!--        <item name="android:navigationBarColor" tools:ignore="NewApi">-->
 <!--            ?android:attr/colorBackground-->
