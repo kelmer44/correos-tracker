@@ -8,6 +8,8 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Rfc3339DateJsonAdapter
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.di.qualifiers.NetworkLogger
 import net.kelmer.correostracker.util.NetworkInteractor
@@ -32,7 +34,7 @@ import javax.inject.Singleton
 @Module(
         includes = [Interceptors::class]
 )
-
+@InstallIn(ApplicationComponent::class)
 open class NetModule {
 
     @Provides

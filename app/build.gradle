@@ -9,6 +9,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt' // Use experimental kapt implementation
 apply plugin: "io.fabric"
+apply plugin: 'dagger.hilt.android.plugin'
 
 
 android {
@@ -38,6 +39,9 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
     buildToolsVersion = '29.0.2'
 }
 
@@ -63,6 +67,7 @@ dependencies {
     implementation deps.lifecycle.runtime
     implementation deps.lifecycle.extensions
     implementation deps.lifecycle.reactivestreams
+    implementation deps.lifecycle.viewmodel
     implementation deps.lifecycle.worker
     kapt deps.lifecycle.compiler
 
@@ -93,11 +98,10 @@ dependencies {
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     //DI
-    kapt deps.dagger.compiler
-    kapt deps.dagger.androidprocessor
-    implementation deps.dagger.runtime
-    implementation deps.dagger.android
-    implementation deps.dagger.androidsupport
+    implementation deps.daggerhilt.android
+    kapt deps.daggerhilt.android_compiler
+    kapt deps.daggerhilt.compiler
+    implementation deps.daggerhilt.viewmodel
 
     //Barcode scanner
     implementation deps.barcode.zxing
@@ -108,8 +112,6 @@ dependencies {
     implementation deps.timber
     implementation deps.stetho.core
     implementation deps.stetho.okhttp3
-    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
-
 
     //Test
     testImplementation deps.junit

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.work.*
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.activity.BaseActivity
@@ -13,12 +14,11 @@ import net.kelmer.correostracker.ui.create.CreateActivity
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ParcelListActivity : BaseActivity() {
-
 
     @Inject
     lateinit var myWorkerFactory: MyWorkerFactory
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

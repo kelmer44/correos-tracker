@@ -8,15 +8,16 @@ import net.kelmer.correostracker.data.model.local.LocalParcelDao
 import javax.inject.Singleton
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.room.migration.Migration
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import net.kelmer.correostracker.di.qualifiers.ForApplication
 
 
 /**
  * Created by gabriel on 25/03/2018.
  */
-
-
 @Module
+@InstallIn(ApplicationComponent::class)
 class DbModule {
 
     companion object {

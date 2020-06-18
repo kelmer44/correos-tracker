@@ -1,5 +1,6 @@
 package net.kelmer.correostracker.ui.list
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.work.ListenableWorker
@@ -23,7 +24,7 @@ import javax.inject.Inject
 /**
  * Created by gabriel on 25/03/2018.
  */
-class ParcelListViewModel @Inject constructor(
+class ParcelListViewModel @ViewModelInject constructor(
         private val getParcelListUseCase: GetParcelListUseCase,
         private val deleteParcelUseCase: DeleteParcelUseCase,
         private val switchNotificationsUseCase: SwitchNotificationsUseCase,

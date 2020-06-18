@@ -5,17 +5,11 @@ import androidx.fragment.app.Fragment
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.FragmentComponent
 
-@Module(includes= [CommonFragmentModule::class])
+@Module
+@InstallIn(FragmentComponent::class)
 abstract class FragmentModule<T: Fragment> {
 
-    @Binds
-    abstract fun bindsFragment(fragment: T) : Fragment
-
-    @Module
-    companion object {
-        @JvmStatic
-        @Provides
-        fun providesActivity(fragment: Fragment): AppCompatActivity = fragment.requireActivity() as AppCompatActivity
-    }
 }

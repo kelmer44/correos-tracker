@@ -5,7 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import com.google.zxing.integration.android.IntentIntegrator
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_create_parcel.create_ok
 import kotlinx.android.synthetic.main.fragment_create_parcel.parcel_code
 import kotlinx.android.synthetic.main.fragment_create_parcel.parcel_code_layout
@@ -26,10 +28,11 @@ import timber.log.Timber
 /**
  * Created by gabriel on 25/03/2018.
  */
-class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
+@AndroidEntryPoint
+class CreateParcelFragment : BaseFragment(R.layout.fragment_create_parcel) {
 
-    override val viewModelClass = CreateParcelViewModel::class.java
 
+    private val viewModel : CreateParcelViewModel by viewModels()
 
     private val observeResult: (Resource<LocalParcelReference>) -> Unit = { resource ->
         resource.resolve(
@@ -100,5 +103,4 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
         }
     }
 
-    override val layoutId: Int = R.layout.fragment_create_parcel
 }

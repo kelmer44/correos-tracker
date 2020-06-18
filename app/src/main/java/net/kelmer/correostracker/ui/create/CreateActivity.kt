@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import dagger.Module
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_create.*
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.activity.BaseActivity
@@ -14,6 +15,7 @@ import net.kelmer.correostracker.ui.detail.DetailActivity
 /**
  * Created by gabriel on 25/03/2018.
  */
+@AndroidEntryPoint
 class CreateActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

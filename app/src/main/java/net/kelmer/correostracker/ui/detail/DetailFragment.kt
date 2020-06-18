@@ -8,8 +8,10 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.crashlytics.android.Crashlytics
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_detail.toolbar
 import kotlinx.android.synthetic.main.fragment_detail.detail_loading
 import kotlinx.android.synthetic.main.fragment_detail.error_container
@@ -30,11 +32,10 @@ import net.kelmer.correostracker.util.textOrElse
 import timber.log.Timber
 
 
-class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
+@AndroidEntryPoint
+class DetailFragment : BaseFragment(R.layout.fragment_detail) {
 
-    override val layoutId: Int = R.layout.fragment_detail
-    override val viewModelClass: Class<ParcelDetailViewModel> = ParcelDetailViewModel::class.java
-
+    private val viewModel : ParcelDetailViewModel by viewModels()
 
     private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(activity)
     private val adapterRecyclerView: DetailTimelineAdapter = DetailTimelineAdapter()

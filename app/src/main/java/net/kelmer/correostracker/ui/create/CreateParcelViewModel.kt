@@ -1,5 +1,6 @@
 package net.kelmer.correostracker.ui.create
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import net.kelmer.correostracker.base.BaseViewModel
 import net.kelmer.correostracker.data.Resource
@@ -11,7 +12,7 @@ import javax.inject.Inject
 /**
  * Created by gabriel on 25/03/2018.
  */
-class CreateParcelViewModel @Inject constructor(
+class CreateParcelViewModel @ViewModelInject constructor(
         private val createParcelUseCase: CreateParcelUseCase
 ) : BaseViewModel() {
 

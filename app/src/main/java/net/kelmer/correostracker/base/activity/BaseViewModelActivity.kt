@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import dagger.android.AndroidInjection
 import net.kelmer.correostracker.base.BaseViewModel
 import timber.log.Timber
 import javax.inject.Inject

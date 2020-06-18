@@ -31,17 +31,18 @@ import net.kelmer.correostracker.ui.featuredialog.featureBlurbDialog
 import net.kelmer.correostracker.ui.list.adapter.ParcelClickListener
 import net.kelmer.correostracker.ui.list.adapter.ParcelListAdapter
 import timber.log.Timber
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 
 
 /**
  * Created by gabriel on 25/03/2018.
  */
-class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
+@AndroidEntryPoint
+class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
 
 
-    override val layoutId: Int = R.layout.fragment_parcel_list
-    override val viewModelClass: Class<ParcelListViewModel> = ParcelListViewModel::class.java
-
+    private val viewModel: ParcelListViewModel by viewModels()
 
     private val clickListener = object : ParcelClickListener {
         override fun longPress(parcelReference: LocalParcelReference) {

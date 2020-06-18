@@ -7,6 +7,8 @@ import android.net.ConnectivityManager
 import android.view.LayoutInflater
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import net.kelmer.correostracker.CorreosApp
 import net.kelmer.correostracker.di.qualifiers.ForApplication
 import net.kelmer.correostracker.util.AppSchedulerProvider
@@ -19,6 +21,7 @@ import javax.inject.Singleton
  * Created by gabriel on 25/03/2018.
  */
 @Module
+@InstallIn(ApplicationComponent::class)
 class ApplicationModule {
 
 
@@ -46,10 +49,5 @@ class ApplicationModule {
     @Singleton
     fun provideNetworkInteractor(networkInteractor: NetworkInteractorImpl): NetworkInteractor = networkInteractor
 
-
-}
-
-@Module
-abstract class ApplicationModuleBinds {
 
 }
