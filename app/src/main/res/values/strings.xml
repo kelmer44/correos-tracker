@@ -49,4 +49,5 @@
     <string name="delete_confirm_title">Eliminar paquete</string>
     <string name="delete_confirm_desc">¿Estás seguro de que deseas eliminar el paquete seleccionado?</string>
     <string name="search">Filter</string>
+    <string name="code_helper_text">*Solo paquetes de Correos España o Correos Express</string>
 </resources>

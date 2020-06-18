@@ -14,20 +14,15 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/parcel_code_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/parcel_code"
             android:importantForAutofill="no"
-            app:boxStrokeColor="@color/colorAccent"
             app:endIconDrawable="@drawable/ic_barcode"
             app:endIconMode="custom"
             app:errorEnabled="true"
-            app:helperText="*Solo paquetes de Correos España o Correos Express"
+            app:helperText="@string/code_helper_text"
             app:helperTextEnabled="false"
-            app:hintAnimationEnabled="true"
-            app:hintEnabled="true"
-            app:hintTextColor="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,14 +45,12 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/parcel_name_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/single_spacing"
         android:layout_height="wrap_content"
         android:hint="@string/parcel_name"
         android:importantForAutofill="no"
-        app:boxStrokeColor="@color/colorAccent"
-        app:hintTextColor="@color/colorAccent">
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/parcel_name"

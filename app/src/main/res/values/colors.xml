@@ -1,23 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#FFC107</color>
-    <color name="colorPrimaryDark">#FFA000</color>
-    <color name="colorAccent">#536DFE</color>
+    <!--Color-->
 
+    <!--Material uses an organized approach to applying color by -->
+    <!--providing a set of attributes which define semantically named -->
+    <!--colors for generalized UI concepts such as backgrounds, -->
+    <!--surfaces, type and icons. Using these attributes throughout -->
+    <!--your app makes it easy to change a single color, or the -->
+    <!--entire theme, and have those changes cascade through the interface.-->
+
+    <!--Color is customized by overriding Material Components color -->
+    <!--attributes with custom color values. In this project, your theme’s -->
+    <!--color attributes are already overridden with default values -->
+    <!--defined in this file, colors.xml. This file holds the color palette -->
+    <!--for both light and dark themes of the Material baseline (default) -->
+    <!--theme. Next to each color is a comment describing the semantic theme -->
+    <!--color attribute which the palette color maps to.-->
+
+    <!--Replace the colors here with your own brand's palette and ensure -->
+    <!--they are applied as desired in both light and dark theme -->
+    <!--(values/themes.xml and values-night/themes.xml). For more -->
+    <!--information on color palettes and their application color -->
+    <!--theme attributes, see https://www.youtube.com/watch?v=Owkf8DhAOSo-->
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
 
     <color name="primary_light">#FFECB3</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#757575</color>
     <color name="icons">#212121</color>
     <color name="divider">#BDBDBD</color>
-    <color name="white">#fff</color>
 
 
     <color name="stage_unknown">#DDDDDD</color>
     <color name="stage_error">#E02020</color>
     <color name="stage_delivering">#0091FF</color>
     <color name="stage_delivered">#6DD400</color>
+
+
+        <!--Color palette-->
+
+        <color name="scarlet">#D0021B</color>
+        <color name="backgroundGray">#f9f9f9</color>
+
+        <color name="surfaceDark">#1C1C1E</color>
+        <color name="enforceSurfaceColor">#2b2b2e</color>
+        <color name="onSurfaceDark">#CCCCCC</color>
+
+
+        <!-- GRAYS - TO BE REVIEWED -->
+        <color name="steel">#6f7b91</color>
+        <color name="label">#113260</color>
+        <color name="lightGray">#eeeeee</color>
+        <color name="gray">#d7d7d7</color>
+        <color name="shimmer">@color/gray</color>
+
+
+        <color name="primary900">#ff6f00</color>
+        <color name="primary800">#ff8f00</color>
+        <color name="primary700">#ffa000</color>
+        <color name="primary600">#ffb300</color>
+        <color name="primary500">#ffc107</color>
+        <color name="primary400">#ffca28</color>
+        <color name="primary300">#ffd54f</color>
+        <color name="primary200">#ffe082</color>
+        <color name="primary100">#ffecb3</color>
+        <color name="primary050">#fff8e1</color>
+
+
+        <color name="secondary900">#0014be</color>
+        <color name="secondary800">#002ed7</color>
+        <color name="secondary700">#0e3be2</color>
+        <color name="secondary600">#2146ef</color>
+        <color name="secondary500">#2650fb</color>
+        <color name="secondary400">#536dfe</color>
+        <color name="secondary300">#7789ff</color>
+        <color name="secondary200">#a2abff</color>
+        <color name="secondary100">#c8ccfe</color>
+        <color name="secondary050">#e9ebff</color>
+
+
+        <color name="primary">@color/primary500</color>
+        <color name="primaryVariant">@color/primary700</color>
+
+
+        <color name="secondary">@color/secondary400</color>
+        <color name="secondaryVariant">@color/secondary500</color>
+
+
+        <color name="background">@color/backgroundGray</color>
+        <color name="surface">@color/white</color>
+        <color name="error">@color/scarlet</color>
+        <color name="onPrimary">@color/white</color>
+        <color name="onSecondary">@color/black</color>
+        <color name="onBackground">@color/black</color>
+        <color name="onSurface">@color/black</color>
+        <color name="onError">@color/white</color>
+
+
+
+        <color name="chipBorder">@color/gray</color>
+        <color name="iconColor">@color/steel</color>
+
+
 
 </resources>
 
