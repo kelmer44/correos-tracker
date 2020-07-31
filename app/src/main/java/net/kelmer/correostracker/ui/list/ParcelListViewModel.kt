@@ -46,13 +46,13 @@ class ParcelListViewModel @Inject constructor(
     val statusReports: MutableLiveData<CorreosApiParcel> = MutableLiveData()
     fun refresh(items: List<LocalParcelReference>) {
         items.forEachIndexed { i, p ->
-            parcelRepository.getParcelStatus(p.code)
+            parcelRepository.getParcelStatus(p.trackingCode)
                     .withNetwork(networkInteractor)
                     .subscribeOn(schedulerProvider.io())
                     .observeOn(schedulerProvider.ui())
                     .subscribeBy(onError = {
                         if(it is WrongCodeException){
-                            Timber.w("Wrong code: ${p.code}!")
+                            Timber.w("Wrong code: ${p.trackingCode}!")
                         }
                         else {
                             Timber.e(it, "Could not update $i : ${it.message}")

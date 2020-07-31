@@ -35,7 +35,7 @@ class CreateParcelFragment : BaseFragment<CreateParcelViewModel>() {
     private val observeResult: (Resource<LocalParcelReference>) -> Unit = { resource ->
         resource.resolve(
                 onSuccess = {
-                    Timber.i("Parcel ${it.code} created!")
+                    Timber.i("Parcel ${it.trackingCode} created!")
                     activity?.setResult(Activity.RESULT_OK)
                     activity?.finish()
                 },

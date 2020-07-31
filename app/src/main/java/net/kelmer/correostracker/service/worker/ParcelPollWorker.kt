@@ -42,8 +42,8 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
         return parcelRepository.getNotifiableParcels()
                 .flattenAsFlowable { it  }
                 .flatMapSingle { local ->
-                    Timber.d("Parcel poll checking parcel with code ${local.code}")
-                    correosRepository.getParcelStatus(local.code)
+                    Timber.d("Parcel poll checking parcel with code ${local.trackingCode}")
+                    correosRepository.getParcelStatus(local.trackingCode)
                             .map {
                                 ParcelStatusComparator(local, it)
                             }
@@ -118,7 +118,7 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
                 val ultimoEstado = previousParcel.ultimoEstado
                 val last = currentParcel.eventos?.lastOrNull()
                 if ((ultimoEstado != null && last!=null) && ultimoEstado != last) {
-                    newEvents.add(NewEventInfo(previousParcel.code, previousParcel.parcelName, last))
+                    newEvents.add(NewEventInfo(previousParcel.trackingCode, previousParcel.parcelName, last))
                 }
             }
         }
