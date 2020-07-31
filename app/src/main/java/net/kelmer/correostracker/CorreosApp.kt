@@ -14,9 +14,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import io.fabric.sdk.android.Fabric
-import net.kelmer.correostracker.data.db.DbModule
 import net.kelmer.correostracker.di.application.ApplicationComponent
-import net.kelmer.correostracker.di.application.ApplicationModule
 import net.kelmer.correostracker.di.application.DaggerApplicationComponent
 import net.kelmer.correostracker.di.worker.MyWorkerFactory
 import net.kelmer.correostracker.service.worker.ParcelPollWorker
@@ -31,7 +29,8 @@ class CorreosApp : Application(), HasAndroidInjector {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
-    @Inject lateinit var myWorkerFactory: MyWorkerFactory
+    @Inject
+    lateinit var myWorkerFactory: MyWorkerFactory
 
 
     override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
@@ -89,7 +88,9 @@ class CorreosApp : Application(), HasAndroidInjector {
     }
 
     private fun setupStetho() {
-        Stetho.initializeWithDefaults(this)
+        if (BuildConfig.DEBUG) {
+            Stetho.initializeWithDefaults(this)
+        }
     }
 
 }
