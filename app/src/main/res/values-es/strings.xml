@@ -35,7 +35,7 @@
     <string name="menu_enable_notifications">Activar alertas</string>
     <string name="parcel_status_alerts">Activar notificaciones</string>
     <string name="feature_dialog_title">Últimas novedades</string>
-    <string name="feature_dialog_opensource">Esta app es gratuita y open source y no tiene anuncios. Si quieres contribuir con el proyecto haz una donación a través de Kofi:</string>
+    <string name="feature_dialog_opensource">Esta app NO tiene afiliación alguna con la Sociedad Estatal Correos y Telégrafos, S.A. sino que ha sido creada por un desarrollador independiente. Seguimiento Correos es gratuita y open source y no tiene anuncios. Si quieres contribuir con el proyecto haz una donación a través de Kofi:</string>
     <string name="about">Acerca de</string>
     <string name="changes_1_6_0">Soporte para tema oscuro</string>
     <string name="changes_1_6_2">Ahora puedes introducir tus paquetes escaneando el código de barras de tu recibo</string>
@@ -48,4 +48,6 @@
     <string name="delete_confirm_title">Eliminar paquete</string>
     <string name="delete_confirm_desc">¿Estás seguro de que deseas eliminar el paquete seleccionado?</string>
     <string name="search">Filtrar</string>
+    <string name="code_helper_text">*Solo paquetes de Correos España o Correos Express</string>
+    <string name="changes_1_9_0">Se permiten varios paquetes con el mismo número de seguimiento.</string>
 </resources>
