@@ -11,6 +11,7 @@ import java.util.*
 data class LocalParcelReference(
         @PrimaryKey(autoGenerate = false)
         var code: String = "",
+        var trackingCode: String = "",
         var parcelName: String = "",
         @TypeConverters(StanceConverter::class)
         var stance: Stance = Stance.INCOMING,

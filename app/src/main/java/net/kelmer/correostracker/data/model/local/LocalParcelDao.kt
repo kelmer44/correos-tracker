@@ -38,4 +38,7 @@ interface LocalParcelDao {
 
     @Delete
     fun deleteParcel(parcel: LocalParcelReference): Completable
+
+    @Query("select * from LocalParcelReference where code = :code")
+    fun getParcelSequential(code: String): LocalParcelReference
 }

@@ -45,6 +45,11 @@ android {
         targetCompatibility = 1.8
     }
     buildToolsVersion = '29.0.2'
+
+    sourceSets {
+        // Adds exported schema location as test app assets.
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+    }
 }
 
 dependencies {
@@ -75,6 +80,7 @@ dependencies {
 
     //Room
     implementation deps.room.runtime
+    androidTestImplementation deps.room.testing
     implementation deps.room.rx
     kapt deps.room.compiler
 
@@ -125,6 +131,7 @@ dependencies {
 
     androidTestImplementation deps.espresso.core
     androidTestImplementation deps.junit
+    androidTestImplementation deps.atsl.core
 
 }
 
