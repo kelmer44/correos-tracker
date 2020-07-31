@@ -23,9 +23,9 @@ def extension = ext {
             'fabric'        : '2.9.5',
 
             //Net
-            'okHttp'        : '4.4.0',
-            'retrofit'      : '2.7.2',
-            'moshi'         : '1.9.2',
+            'okHttp'          : '4.7.2',
+            'retrofit'        : '2.9.0',
+            'moshi'           : '1.9.2',
 
             //Rx
             'rxjava'        : '2.2.19',

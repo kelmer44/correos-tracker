@@ -9,16 +9,16 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
+        style="?appBarLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:fitsSystemWindows="true">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
+            style="?toolbarStyle"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+            android:layout_height="?attr/actionBarSize"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
@@ -29,7 +29,6 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
         <fragment
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:name="net.kelmer.correostracker.ui.list.ParcelListFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -42,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_gravity="center_vertical|start"
         android:layout_margin="@dimen/double_spacing"
         android:src="@drawable/ic_add_24dp"/>

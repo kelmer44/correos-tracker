@@ -9,7 +9,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import net.kelmer.correostracker.CorreosApp
 import net.kelmer.correostracker.di.qualifiers.ForApplication
 import net.kelmer.correostracker.util.AppSchedulerProvider
 import net.kelmer.correostracker.util.NetworkInteractor

@@ -11,10 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        style="?appBarLayoutStyle">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
+            style="?toolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
