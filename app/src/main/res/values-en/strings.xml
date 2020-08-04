@@ -35,7 +35,7 @@
     <string name="menu_enable_notifications">Enable notifications</string>
     <string name="parcel_status_alerts">Enable notifications</string>
     <string name="feature_dialog_title">New features</string>
-    <string name="feature_dialog_opensource">This app has no affiliation with Sociedad Estatal Correos y Telegrafos, S.A. and has been created by an independent developer. It is free, open-source and add-free. If you wish to contribute feel free to donate with a ko-fi:</string>
+    <string name="feature_dialog_opensource">This app has no affiliation with Sociedad Estatal Correos y Telegrafos, S.A. and has been created by an independent developer. It is free, open-source and add-free.</string>
     <string name="about">About</string>
     <string name="changes_1_6_0">Dark Theme support</string>
     <string name="changes_1_6_2">Enter your parcels by scanning the barcode in the receipt</string>
@@ -50,4 +50,5 @@
     <string name="search">Filter</string>
     <string name="code_helper_text">*Only parcels from Correos or Correos Express</string>
     <string name="changes_1_9_0">Multiple items with same tracking code now allowed.</string>
+    <string name="feature_dialog_opensource_contribute">If you wish to contribute feel free to donate with a ko-fi:</string>
 </resources>

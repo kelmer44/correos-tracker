@@ -54,7 +54,6 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
         override fun click(parcelReference: LocalParcelReference) {
             var ctx = context
             ctx?.let {
-
                 startActivity(DetailActivity.newIntent(ctx, parcelReference.trackingCode))
             }
         }
@@ -109,6 +108,12 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
 
     override fun loadUp(savedInstanceState: Bundle?) {
         setupRecyclerView()
+
+        if (!viewModel.showFeature()) {
+            showFeature()
+            viewModel.setShownFeature()
+        }
+
         viewModel.retrieveParcelList()
         viewModel.getParcelList().observe(this) { resource ->
             swipe_refresh.isRefreshing = resource.inProgress()
@@ -199,21 +204,25 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                 }
             }
             R.id.app_about -> {
-                featureBlurbDialog(requireContext(),
-                        R.string.feature_dialog_title,
-                        android.R.string.ok,
-                        {
-                        },
-                        {
-                            val url = "https://ko-fi.com/kelmer"
-                            val i = Intent(Intent.ACTION_VIEW)
-                            i.data = Uri.parse(url)
-                            startActivity(i)
-                        }).show()
 
+                showFeature()
             }
         }
         return true
+    }
+
+    private fun showFeature() {
+        featureBlurbDialog(requireContext(),
+                R.string.feature_dialog_title,
+                android.R.string.ok,
+                {
+                },
+                {
+                    val url = "https://ko-fi.com/kelmer"
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }).show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

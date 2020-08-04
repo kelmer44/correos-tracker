@@ -2,12 +2,16 @@ package net.kelmer.correostracker.di.application
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.view.LayoutInflater
 import dagger.Module
 import dagger.Provides
+import net.kelmer.correostracker.BuildConfig
 import net.kelmer.correostracker.CorreosApp
+import net.kelmer.correostracker.data.prefs.SharedPrefsManager
+import net.kelmer.correostracker.data.prefs.SharedPrefsManagerImpl
 import net.kelmer.correostracker.di.qualifiers.ForApplication
 import net.kelmer.correostracker.util.AppSchedulerProvider
 import net.kelmer.correostracker.util.NetworkInteractor
@@ -46,6 +50,19 @@ class ApplicationModule {
     @Singleton
     fun provideNetworkInteractor(networkInteractor: NetworkInteractorImpl): NetworkInteractor = networkInteractor
 
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(@ForApplication app: Context): SharedPreferences {
+        val sharedPrefsId  = "SEG_CORREOS_" + if (BuildConfig.DEBUG) "_DEBUG" else ""
+        return app.getSharedPreferences(sharedPrefsId, Context.MODE_PRIVATE)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferencesManager(sharedPreferences: SharedPreferences) : SharedPrefsManager {
+        return SharedPrefsManagerImpl(sharedPreferences)
+    }
 
 }
 
