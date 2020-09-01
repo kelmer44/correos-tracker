@@ -1,6 +1,6 @@
 def versionMajor = 1
-def versionMinor = 8
-def versionPatch = 2
+def versionMinor = 9
+def versionPatch = 0
 def versionBuild = 0 // bump for dogfood builds, public betas, etc.
 
 
@@ -22,6 +22,12 @@ android {
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation":
+                                      "$projectDir/schemas".toString()]
+            }
+        }
     }
     buildTypes {
         debug {
@@ -39,6 +45,11 @@ android {
         targetCompatibility = 1.8
     }
     buildToolsVersion = '29.0.2'
+
+    sourceSets {
+        // Adds exported schema location as test app assets.
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+    }
 }
 
 dependencies {
@@ -69,6 +80,7 @@ dependencies {
 
     //Room
     implementation deps.room.runtime
+    androidTestImplementation deps.room.testing
     implementation deps.room.rx
     kapt deps.room.compiler
 
@@ -119,6 +131,7 @@ dependencies {
 
     androidTestImplementation deps.espresso.core
     androidTestImplementation deps.junit
+    androidTestImplementation deps.atsl.core
 
 }
 

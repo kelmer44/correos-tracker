@@ -46,7 +46,7 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
     private val clickListener = object : ParcelClickListener {
         override fun longPress(parcelReference: LocalParcelReference) {
             val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("ParcelCode", parcelReference.code)
+            val clip = ClipData.newPlainText("ParcelCode", parcelReference.trackingCode)
             clipboard.setPrimaryClip(clip)
             Toast.makeText(context, getString(R.string.clipboard_copied), Toast.LENGTH_LONG).show()
         }
@@ -54,8 +54,7 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
         override fun click(parcelReference: LocalParcelReference) {
             var ctx = context
             ctx?.let {
-
-                startActivity(DetailActivity.newIntent(ctx, parcelReference.code))
+                startActivity(DetailActivity.newIntent(ctx, parcelReference.trackingCode))
             }
         }
 
@@ -80,11 +79,11 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                             true
                         }
                         R.id.menu_enable_notifications -> {
-                            viewModel.enableNotifications(parcelReference.code)
+                            viewModel.enableNotifications(parcelReference.trackingCode)
                             true
                         }
                         R.id.menu_disable_notifications -> {
-                            viewModel.disableNotifications(parcelReference.code)
+                            viewModel.disableNotifications(parcelReference.trackingCode)
                             true
                         }
                         else -> false
@@ -109,6 +108,12 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
 
     override fun loadUp(savedInstanceState: Bundle?) {
         setupRecyclerView()
+
+        if (!viewModel.showFeature()) {
+            showFeature()
+            viewModel.setShownFeature()
+        }
+
         viewModel.retrieveParcelList()
         viewModel.getParcelList().observe(this) { resource ->
             swipe_refresh.isRefreshing = resource.inProgress()
@@ -160,7 +165,7 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
     private fun refreshFromRemote() {
         viewModel.refresh(adapter.getAllItems())
         adapter.getAllItems().forEach { p ->
-            adapter.setLoading(p.code, true)
+            adapter.setLoading(p.trackingCode, true)
         }
     }
 
@@ -195,25 +200,29 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
             R.id.app_refresh_all -> {
                 viewModel.refresh(adapter.getAllItems())
                 adapter.getAllItems().forEachIndexed { i, p ->
-                    adapter.setLoading(p.code, true)
+                    adapter.setLoading(p.trackingCode, true)
                 }
             }
             R.id.app_about -> {
-                featureBlurbDialog(requireContext(),
-                        R.string.feature_dialog_title,
-                        android.R.string.ok,
-                        {
-                        },
-                        {
-                            val url = "https://ko-fi.com/kelmer"
-                            val i = Intent(Intent.ACTION_VIEW)
-                            i.data = Uri.parse(url)
-                            startActivity(i)
-                        }).show()
 
+                showFeature()
             }
         }
         return true
+    }
+
+    private fun showFeature() {
+        featureBlurbDialog(requireContext(),
+                R.string.feature_dialog_title,
+                android.R.string.ok,
+                {
+                },
+                {
+                    val url = "https://ko-fi.com/kelmer"
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }).show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

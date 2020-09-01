@@ -2,7 +2,6 @@ package net.kelmer.correostracker.ui.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.work.ListenableWorker
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import net.kelmer.correostracker.base.BaseViewModel
@@ -10,10 +9,9 @@ import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.network.exception.WrongCodeException
+import net.kelmer.correostracker.data.prefs.SharedPrefsManager
 import net.kelmer.correostracker.data.repository.correos.CorreosRepository
-import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
 import net.kelmer.correostracker.ext.withNetwork
-import net.kelmer.correostracker.service.worker.ParcelPollWorker
 import net.kelmer.correostracker.usecases.delete.DeleteParcelUseCase
 import net.kelmer.correostracker.usecases.list.GetParcelListUseCase
 import net.kelmer.correostracker.usecases.notifications.SwitchNotificationsUseCase
@@ -27,7 +25,8 @@ class ParcelListViewModel @Inject constructor(
         private val getParcelListUseCase: GetParcelListUseCase,
         private val deleteParcelUseCase: DeleteParcelUseCase,
         private val switchNotificationsUseCase: SwitchNotificationsUseCase,
-        private val parcelRepository: CorreosRepository)
+        private val parcelRepository: CorreosRepository,
+        private val sharedPrefsManager: SharedPrefsManager)
     : BaseViewModel(
         getParcelListUseCase,
         deleteParcelUseCase,
@@ -46,15 +45,14 @@ class ParcelListViewModel @Inject constructor(
     val statusReports: MutableLiveData<CorreosApiParcel> = MutableLiveData()
     fun refresh(items: List<LocalParcelReference>) {
         items.forEachIndexed { i, p ->
-            parcelRepository.getParcelStatus(p.code)
+            parcelRepository.getParcelStatus(p.trackingCode)
                     .withNetwork(networkInteractor)
                     .subscribeOn(schedulerProvider.io())
                     .observeOn(schedulerProvider.ui())
                     .subscribeBy(onError = {
-                        if(it is WrongCodeException){
-                            Timber.w("Wrong code: ${p.code}!")
-                        }
-                        else {
+                        if (it is WrongCodeException) {
+                            Timber.w("Wrong code: ${p.trackingCode}!")
+                        } else {
                             Timber.e(it, "Could not update $i : ${it.message}")
                         }
                     },
@@ -65,69 +63,20 @@ class ParcelListViewModel @Inject constructor(
         }
     }
 
-
-//    fun test() {
-//        localParcelRepository.getParcels()
-//                .firstOrError()
-//                .flattenAsFlowable { it }
-//                .flatMapSingle { local ->
-//                    Timber.d("Parcel poll checking parcel with code ${local.code}")
-//                    parcelRepository.getParcelStatus(local.code)
-//                            .map {
-//                                ParcelPollWorker.ParcelStatusComparator(local, it)
-//                            }
-//                            .onErrorReturn {
-//                                ParcelPollWorker.ParcelStatusComparator(local, null)
-//                            }
-//                }
-//                .toList()
-//                .doOnSuccess {
-//                    val newEvents = getNewEvents(it)
-//                    Timber.d("Parcel poll got new Events: ${newEvents}")
-//                    //                    buildNotification(newEvents)
-//                }
-//                .map {
-//                    ListenableWorker.Result.success()
-//                }
-//                .onErrorReturn {
-//                    Timber.e(it, "Failure on worker!")
-//                    ListenableWorker.Result.failure()
-//                }
-//                .subscribeOn(schedulerProvider.io())
-//                .observeOn(schedulerProvider.ui())
-//                .subscribeBy(
-//                        onError = {
-//
-//                        },
-//                        onSuccess = {
-//
-//                        }
-//                ).addTo(disposables)
-//    }
-
-
-//    private fun getNewEvents(it: MutableList<ParcelPollWorker.ParcelStatusComparator>): MutableList<ParcelPollWorker.NewEventInfo> {
-//        val newEvents = mutableListOf<ParcelPollWorker.NewEventInfo>()
-//        it.forEach {
-//            val previousParcel = it.previous
-//            val currentParcel = it.new
-//            if (currentParcel != null) {
-//                val ultimoEstado = previousParcel.ultimoEstado
-//                val last = currentParcel.eventos?.last()
-//                if ((ultimoEstado != null && last != null) && ultimoEstado != last) {
-//                    newEvents.add(ParcelPollWorker.NewEventInfo(previousParcel.code, previousParcel.parcelName, ultimoEstado))
-//                }
-//            }
-//        }
-//        return newEvents
-//    }
-
     fun enableNotifications(code: String): LiveData<Resource<String>> {
         return switchNotificationsUseCase(SwitchNotificationsUseCase.Params(code, true))
     }
 
     fun disableNotifications(code: String): LiveData<Resource<String>> {
         return switchNotificationsUseCase(SwitchNotificationsUseCase.Params(code, false))
+    }
+
+    fun showFeature(): Boolean {
+        return sharedPrefsManager.hasSeenFeatureBlurb()
+    }
+
+    fun setShownFeature() {
+        sharedPrefsManager.setSeenFeatureBlurb()
     }
 
 

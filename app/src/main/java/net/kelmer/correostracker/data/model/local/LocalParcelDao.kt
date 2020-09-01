@@ -15,10 +15,10 @@ interface LocalParcelDao {
     @Query("select * from LocalParcelReference ORDER BY parcelName ")
     fun getParcels(): Flowable<List<LocalParcelReference>>
 
-    @Query("select * from LocalParcelReference where code = :code")
+    @Query("select * from LocalParcelReference where trackingCode = :code")
     fun getParcel(code: String): Flowable<LocalParcelReference>
 
-    @Query("select * from LocalParcelReference where code = :code")
+    @Query("select * from LocalParcelReference where trackingCode = :code")
     fun getParcelSync(code: String): Single<LocalParcelReference>
 
     @Query("select * from LocalParcelReference where notify = 1 ORDER BY parcelName ")
@@ -27,10 +27,10 @@ interface LocalParcelDao {
     @Update
     fun updateParcel(parcel: LocalParcelReference) : Completable
 
-    @Query("update LocalParcelReference set notify = 0 where code = :code")
+    @Query("update LocalParcelReference set notify = 0 where trackingCode = :code")
     fun disableNotifications(code: String): Completable
 
-    @Query("update LocalParcelReference set notify = 1 where code = :code")
+    @Query("update LocalParcelReference set notify = 1 where trackingCode = :code")
     fun enableNotifications(code: String): Completable
 
     @Insert(onConflict = REPLACE)
@@ -38,4 +38,7 @@ interface LocalParcelDao {
 
     @Delete
     fun deleteParcel(parcel: LocalParcelReference): Completable
+
+    @Query("select * from LocalParcelReference where trackingCode = :code")
+    fun getParcelSequential(code: String): LocalParcelReference
 }

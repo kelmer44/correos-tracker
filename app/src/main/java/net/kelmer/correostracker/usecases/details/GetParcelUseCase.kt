@@ -31,7 +31,7 @@ class GetParcelUseCase @Inject constructor(val localParcelRepository: LocalParce
                         BiFunction<CorreosApiParcel, LocalParcelReference, ParcelDetailDTO> { correosParcel, localParcel ->
                             ParcelDetailDTO(
                                     localParcel.parcelName,
-                                    localParcel.code,
+                                    localParcel.trackingCode,
                                     localParcel.ancho ?: "",
                                     localParcel.alto ?: "",
                                     localParcel.largo ?: "",
