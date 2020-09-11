@@ -5,4 +5,6 @@ interface SharedPrefsManager {
     fun hasSeenFeatureBlurb(): Boolean
     fun setSeenFeatureBlurb()
     fun clear()
+    fun setPreferredTheme(mode: ThemeMode)
+    fun getPreferredTheme(): ThemeMode
 }

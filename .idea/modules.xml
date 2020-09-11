@@ -4,6 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="correos-tracker/app" />
       <module fileurl="file://$PROJECT_DIR$/.idea/correos-tracker.iml" filepath="$PROJECT_DIR$/.idea/correos-tracker.iml" group="correos-tracker" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/correos-tracker-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/correos-tracker-app.iml" group="correos-tracker/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mock-server/correos-tracker-mock-server.iml" filepath="$PROJECT_DIR$/.idea/modules/mock-server/correos-tracker-mock-server.iml" group="correos-tracker/mock-server" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dev-correos-tracker.iml" filepath="$PROJECT_DIR$/.idea/modules/dev-correos-tracker.iml" group="correos-tracker" />
       <module fileurl="file://$PROJECT_DIR$/mock-server/mock-server.iml" filepath="$PROJECT_DIR$/mock-server/mock-server.iml" group="correos-tracker/mock-server" />
     </modules>
   </component>

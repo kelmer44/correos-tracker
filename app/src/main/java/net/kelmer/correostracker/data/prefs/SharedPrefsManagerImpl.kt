@@ -4,11 +4,12 @@ import android.content.SharedPreferences
 import com.squareup.moshi.Moshi
 import javax.inject.Inject
 
-class SharedPrefsManagerImpl  @Inject constructor(
+class SharedPrefsManagerImpl @Inject constructor(
         private val sharedPreferences: SharedPreferences
-): SharedPrefsManager {
+) : SharedPrefsManager {
     companion object {
         private const val FEATURE_SEEN = "C_FEATURE_SEEN"
+        private const val PREFERRED_THEME_MODE = "C_PREFERRED_THEME"
     }
 
     override fun hasSeenFeatureBlurb(): Boolean {
@@ -17,6 +18,14 @@ class SharedPrefsManagerImpl  @Inject constructor(
 
     override fun setSeenFeatureBlurb() {
         set(FEATURE_SEEN, true)
+    }
+
+    override fun getPreferredTheme(): ThemeMode {
+        return ThemeMode.fromIdx(get(PREFERRED_THEME_MODE, 0))
+    }
+
+    override fun setPreferredTheme(mode: ThemeMode) {
+        set(PREFERRED_THEME_MODE, mode.idx)
     }
 
     /**

@@ -14,4 +14,4 @@ fun <T> LiveData<T>.observe(owner: LifecycleOwner, observer: (T) -> Unit) =
 
 
 fun <X, Y> LiveData<X>.map(transformer: (X) -> Y): LiveData<Y> =
-        Transformations.map(this, { transformer(it) })
+        Transformations.map(this) { transformer(it) }
