@@ -8,6 +8,7 @@
         android:id="@+id/menu_disable_notifications"
         android:icon="@drawable/ic_delete_black_24dp"
         android:title="@string/menu_disable_notifications"/>
+
     <item
         android:id="@+id/menu_delete"
         android:icon="@drawable/ic_delete_black_24dp"

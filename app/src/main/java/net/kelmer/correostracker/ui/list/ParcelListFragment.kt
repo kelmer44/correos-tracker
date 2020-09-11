@@ -30,6 +30,7 @@ import net.kelmer.correostracker.ui.detail.DetailActivity
 import net.kelmer.correostracker.ui.featuredialog.featureBlurbDialog
 import net.kelmer.correostracker.ui.list.adapter.ParcelClickListener
 import net.kelmer.correostracker.ui.list.adapter.ParcelListAdapter
+import net.kelmer.correostracker.ui.themedialog.themeSelectionDialog
 import timber.log.Timber
 
 
@@ -203,8 +204,12 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                     adapter.setLoading(p.trackingCode, true)
                 }
             }
+            R.id.app_theme -> {
+                themeSelectionDialog(requireContext()) {
+                    Timber.i("Theme selected: $it")
+                }.show()
+            }
             R.id.app_about -> {
-
                 showFeature()
             }
         }
