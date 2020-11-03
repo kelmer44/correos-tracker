@@ -12,7 +12,6 @@ class SharedPrefsManagerImpl @Inject constructor(
 ) : SharedPrefsManager {
     companion object {
         private const val FEATURE_SEEN = "C_FEATURE_SEEN"
-        private const val PREFERRED_THEME_MODE = "C_PREFERRED_THEME"
         private const val PREFERENCE_NIGHT_MODE = "preference_night_mode"
         private const val PREFERENCE_NIGHT_MODE_DEF_VAL = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     }
