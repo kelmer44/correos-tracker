@@ -57,4 +57,5 @@
     <string name="theme_dark">Oscuro</string>
     <string name="theme_system">Igual que el sistema</string>
     <string name="theme_title">Elige un tema</string>
+    <string name="copy">Copiar</string>
 </resources>

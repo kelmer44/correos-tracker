@@ -31,6 +31,7 @@ import net.kelmer.correostracker.ui.featuredialog.featureBlurbDialog
 import net.kelmer.correostracker.ui.list.adapter.ParcelClickListener
 import net.kelmer.correostracker.ui.list.adapter.ParcelListAdapter
 import net.kelmer.correostracker.ui.themedialog.themeSelectionDialog
+import net.kelmer.correostracker.util.copyToClipboard
 import timber.log.Timber
 
 
@@ -45,10 +46,7 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
 
     private val clickListener = object : ParcelClickListener {
         override fun longPress(parcelReference: LocalParcelReference) {
-            val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("ParcelCode", parcelReference.trackingCode)
-            clipboard.setPrimaryClip(clip)
-            Toast.makeText(context, getString(R.string.clipboard_copied), Toast.LENGTH_LONG).show()
+            context?.copyToClipboard(parcelReference.trackingCode)
         }
 
         override fun click(parcelReference: LocalParcelReference) {
@@ -166,6 +164,9 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
         viewModel.refresh(adapter.getAllItems())
         adapter.getAllItems().forEach { p ->
             adapter.setLoading(p.trackingCode, true)
+        }
+        if (adapter.getAllItems().isEmpty()) {
+            swipe_refresh.isRefreshing = false
         }
     }
 
