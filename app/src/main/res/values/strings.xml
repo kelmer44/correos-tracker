@@ -58,4 +58,5 @@
     <string name="theme_system">Igual que el sistema</string>
     <string name="theme_title">Elige un tema</string>
     <string name="copy">Copiar</string>
+    <string name="changes_1_9_5">Dark theme config</string>
 </resources>

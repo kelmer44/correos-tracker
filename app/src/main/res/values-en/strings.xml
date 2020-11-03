@@ -57,4 +57,5 @@
     <string name="theme_system">Same as system</string>
     <string name="theme_title">Theme</string>
     <string name="copy">Copy to clipboard</string>
+    <string name="changes_1_9_5">Option to choose theme from main menu.</string>
 </resources>

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
+import net.kelmer.correostracker.BuildConfig
 import net.kelmer.correostracker.base.BaseViewModel
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
@@ -75,11 +76,11 @@ class ParcelListViewModel @Inject constructor(
     }
 
     fun showFeature(): Boolean {
-        return sharedPrefsManager.hasSeenFeatureBlurb()
+        return sharedPrefsManager.hasSeenFeatureBlurb(BuildConfig.VERSION_CODE)
     }
 
     fun setShownFeature() {
-        sharedPrefsManager.setSeenFeatureBlurb()
+        sharedPrefsManager.setSeenFeatureBlurb(BuildConfig.VERSION_CODE)
     }
 
 
