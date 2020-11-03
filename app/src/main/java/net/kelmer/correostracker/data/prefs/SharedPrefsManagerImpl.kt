@@ -1,6 +1,9 @@
 package net.kelmer.correostracker.data.prefs
 
 import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.squareup.moshi.Moshi
 import javax.inject.Inject
 
@@ -10,7 +13,53 @@ class SharedPrefsManagerImpl @Inject constructor(
     companion object {
         private const val FEATURE_SEEN = "C_FEATURE_SEEN"
         private const val PREFERRED_THEME_MODE = "C_PREFERRED_THEME"
+        private const val PREFERENCE_NIGHT_MODE = "preference_night_mode"
+        private const val PREFERENCE_NIGHT_MODE_DEF_VAL = AppCompatDelegate.MODE_NIGHT_NO
     }
+
+    val nightMode: Int
+        get() = sharedPreferences.getInt(PREFERENCE_NIGHT_MODE, PREFERENCE_NIGHT_MODE_DEF_VAL)
+
+    private val _nightModeLive: MutableLiveData<Int> = MutableLiveData()
+    override val nightModeLive: LiveData<Int>
+        get() = _nightModeLive
+
+    override var isDarkTheme: Boolean = false
+        get() = nightMode == AppCompatDelegate.MODE_NIGHT_YES
+        set(value) {
+            sharedPreferences.edit().putInt(
+                    PREFERENCE_NIGHT_MODE,
+                    if (value) {
+                        AppCompatDelegate.MODE_NIGHT_YES
+                    } else {
+                        AppCompatDelegate.MODE_NIGHT_NO
+                    }
+            ).apply()
+            field = value
+        }
+
+
+    private val _isDarkThemeLive: MutableLiveData<Boolean> = MutableLiveData()
+    override val isDarkThemeLive: LiveData<Boolean>
+        get() = _isDarkThemeLive
+
+    private val preferenceChangedListener =
+            SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
+                when (key) {
+                    PREFERENCE_NIGHT_MODE -> {
+                        _nightModeLive.value = nightMode
+                        _isDarkThemeLive.value = isDarkTheme
+                    }
+                }
+            }
+
+    init {
+        _nightModeLive.value = nightMode
+        _isDarkThemeLive.value = isDarkTheme
+
+        sharedPreferences.registerOnSharedPreferenceChangeListener(preferenceChangedListener)
+    }
+
 
     override fun hasSeenFeatureBlurb(): Boolean {
         return get(FEATURE_SEEN, false)

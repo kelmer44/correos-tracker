@@ -9,7 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.android.synthetic.main.activity_detail.toolbar
 import kotlinx.android.synthetic.main.fragment_detail.detail_loading
 import kotlinx.android.synthetic.main.fragment_detail.error_container
@@ -17,12 +17,10 @@ import kotlinx.android.synthetic.main.fragment_detail.error_text
 import kotlinx.android.synthetic.main.fragment_detail.parcelStatusRecyclerView
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
-import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
 import net.kelmer.correostracker.data.network.exception.CorreosException
 import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.ext.isVisible
-import net.kelmer.correostracker.ext.observe
 import net.kelmer.correostracker.ui.detail.adapter.DetailTimelineAdapter
 import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.peso
@@ -55,18 +53,18 @@ class DetailFragment : BaseFragment<ParcelDetailViewModel>() {
                         Timber.e(it)
                         when (it) {
                             is CorreosException -> {
-                                Crashlytics.log("Controlled Exception Error $parcelCode")
-                                Crashlytics.logException(it)
+                                FirebaseCrashlytics.getInstance().log("Controlled Exception Error $parcelCode")
+                                FirebaseCrashlytics.getInstance().recordException(it)
                                 error_text.text = it.message
                             }
                             is NetworkInteractor.NetworkUnavailableException -> {
-                                Crashlytics.log("Controlled Exception Error $parcelCode")
-                                Crashlytics.logException(it)
+                                FirebaseCrashlytics.getInstance().log("Controlled Exception Error $parcelCode")
+                                FirebaseCrashlytics.getInstance().recordException(it)
                                 error_text.text = getString(R.string.error_no_network)
                             }
                             else -> {
-                                Crashlytics.log("Unknown Error $parcelCode")
-                                Crashlytics.logException(it)
+                                FirebaseCrashlytics.getInstance().log("Unknown Error $parcelCode")
+                                FirebaseCrashlytics.getInstance().recordException(it)
                                 error_text.text = getString(R.string.error_unrecognized)
                             }
                         }

@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 
-/**
+/**z
  * Created by gabriel on 25/03/2018.
  */
 class ParcelListAdapter constructor(

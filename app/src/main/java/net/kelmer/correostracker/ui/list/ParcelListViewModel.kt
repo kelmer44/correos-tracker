@@ -32,6 +32,8 @@ class ParcelListViewModel @Inject constructor(
         deleteParcelUseCase,
         switchNotificationsUseCase) {
 
+    val isDarkThemeLive = sharedPrefsManager.isDarkThemeLive
+
     private val _parcelList: MutableLiveData<Resource<List<LocalParcelReference>>> = MutableLiveData()
     fun getParcelList() = _parcelList
     fun retrieveParcelList() = getParcelListUseCase(Unit, _parcelList)
@@ -49,16 +51,18 @@ class ParcelListViewModel @Inject constructor(
                     .withNetwork(networkInteractor)
                     .subscribeOn(schedulerProvider.io())
                     .observeOn(schedulerProvider.ui())
-                    .subscribeBy(onError = {
-                        if (it is WrongCodeException) {
-                            Timber.w("Wrong code: ${p.trackingCode}!")
-                        } else {
-                            Timber.e(it, "Could not update $i : ${it.message}")
-                        }
-                    },
+                    .subscribeBy(
+                            onError = {
+                                if (it is WrongCodeException) {
+                                    Timber.w("Wrong code: ${p.trackingCode}!")
+                                } else {
+                                    Timber.e(it, "Could not update $i : ${it.message}")
+                                }
+                            },
                             onSuccess = {
                                 statusReports.value = it
-                            })
+                            }
+                    )
                     .addTo(disposables)
         }
     }
@@ -79,5 +83,9 @@ class ParcelListViewModel @Inject constructor(
         sharedPrefsManager.setSeenFeatureBlurb()
     }
 
+
+    fun setTheme(dark: Boolean) {
+        sharedPrefsManager.isDarkTheme = dark
+    }
 
 }

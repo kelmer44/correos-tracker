@@ -19,7 +19,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import android.app.PendingIntent
 import android.content.Intent
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import net.kelmer.correostracker.ui.list.ParcelListActivity
 
 
@@ -67,7 +67,7 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
                     Result.success()
                 }
                 .onErrorReturn {
-                    Crashlytics.logException(it)
+                    FirebaseCrashlytics.getInstance().recordException(it)
                     Timber.e(it, "Failure on worker!")
                     Result.failure()
                 }

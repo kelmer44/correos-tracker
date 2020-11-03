@@ -7,6 +7,7 @@ import androidx.work.*
 import kotlinx.android.synthetic.main.activity_main.*
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.activity.BaseActivity
+import net.kelmer.correostracker.data.prefs.SharedPrefsManager
 import net.kelmer.correostracker.di.worker.MyWorkerFactory
 import net.kelmer.correostracker.service.worker.ParcelPollWorker
 import net.kelmer.correostracker.ui.create.CreateActivity
@@ -19,6 +20,9 @@ class ParcelListActivity : BaseActivity() {
     @Inject
     lateinit var myWorkerFactory: MyWorkerFactory
 
+
+    @Inject
+    lateinit var sharedPrefsManager: SharedPrefsManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +47,10 @@ class ParcelListActivity : BaseActivity() {
                 .setConstraints(constraints)
                 .build()
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(PARCEL_CHECKER_WORKREQUEST, ExistingPeriodicWorkPolicy.REPLACE, uploadWorker)
+
+        sharedPrefsManager.nightModeLive.observe(this){
+            delegate.localNightMode = it
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

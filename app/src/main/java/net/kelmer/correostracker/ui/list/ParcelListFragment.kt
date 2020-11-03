@@ -15,7 +15,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuItemCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.android.synthetic.main.fragment_parcel_list.empty_state
 import kotlinx.android.synthetic.main.fragment_parcel_list.rv_parcel_list
 import kotlinx.android.synthetic.main.fragment_parcel_list.swipe_refresh
@@ -23,9 +23,9 @@ import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.customviews.ConfirmDialog
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
+import net.kelmer.correostracker.data.prefs.ThemeMode
 import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.ext.isVisible
-import net.kelmer.correostracker.ext.observe
 import net.kelmer.correostracker.ui.detail.DetailActivity
 import net.kelmer.correostracker.ui.featuredialog.featureBlurbDialog
 import net.kelmer.correostracker.ui.list.adapter.ParcelClickListener
@@ -43,7 +43,6 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
     override val layoutId: Int = R.layout.fragment_parcel_list
     override val viewModelClass: Class<ParcelListViewModel> = ParcelListViewModel::class.java
 
-
     private val clickListener = object : ParcelClickListener {
         override fun longPress(parcelReference: LocalParcelReference) {
             val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -53,14 +52,14 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
         }
 
         override fun click(parcelReference: LocalParcelReference) {
-            var ctx = context
+            val ctx = context
             ctx?.let {
                 startActivity(DetailActivity.newIntent(ctx, parcelReference.trackingCode))
             }
         }
 
         override fun dots(view: View, parcelReference: LocalParcelReference) {
-            var ctx = context
+            val ctx = context
 
             ctx?.let {
                 val popup = PopupMenu(ctx, view)
@@ -116,7 +115,7 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
         }
 
         viewModel.retrieveParcelList()
-        viewModel.getParcelList().observe(this) { resource ->
+        viewModel.getParcelList().observe(viewLifecycleOwner) { resource ->
             swipe_refresh.isRefreshing = resource.inProgress()
             resource.resolve(
                     onSuccess = {
@@ -125,13 +124,13 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                         adapter.filter(searchView?.query?.toString() ?: "")
                     },
                     onError = {
-                        Crashlytics.logException(it)
+                        FirebaseCrashlytics.getInstance().recordException(it)
                         Toast.makeText(context, "ERROR!!!", Toast.LENGTH_LONG).show()
                     }
             )
         }
 
-        viewModel.getDeleteResult().observe(this) { resource ->
+        viewModel.getDeleteResult().observe(viewLifecycleOwner) { resource ->
             resource.resolve(
                     onError = {
                         Toast.makeText(context, "ERROR DELETING!", Toast.LENGTH_LONG).show()
@@ -206,7 +205,10 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
             }
             R.id.app_theme -> {
                 themeSelectionDialog(requireContext()) {
-                    Timber.i("Theme selected: $it")
+                    //                    Timber.i("Theme selected: $it")
+
+                    viewModel.setTheme(it == ThemeMode.DARK)
+
                 }.show()
             }
             R.id.app_about -> {
