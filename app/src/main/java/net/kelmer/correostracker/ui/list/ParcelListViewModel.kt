@@ -76,11 +76,11 @@ class ParcelListViewModel @Inject constructor(
     }
 
     fun showFeature(): Boolean {
-        return sharedPrefsManager.hasSeenFeatureBlurb(BuildConfig.VERSION_CODE)
+        return sharedPrefsManager.hasSeenFeatureBlurb(BuildConfig.VERSION_NAME)
     }
 
     fun setShownFeature() {
-        sharedPrefsManager.setSeenFeatureBlurb(BuildConfig.VERSION_CODE)
+        sharedPrefsManager.setSeenFeatureBlurb(BuildConfig.VERSION_NAME)
     }
 
 

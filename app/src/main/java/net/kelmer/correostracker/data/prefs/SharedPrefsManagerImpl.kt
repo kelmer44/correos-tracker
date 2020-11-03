@@ -44,12 +44,12 @@ class SharedPrefsManagerImpl @Inject constructor(
     }
 
 
-    override fun hasSeenFeatureBlurb(versionCode: Int): Boolean {
-        return get(FEATURE_SEEN + "_" + versionCode, false)
+    override fun hasSeenFeatureBlurb(versionName: String): Boolean {
+        return get(FEATURE_SEEN + "_" + versionName, false)
     }
 
-    override fun setSeenFeatureBlurb(versionCode: Int) {
-        set(FEATURE_SEEN + "_" + versionCode, true)
+    override fun setSeenFeatureBlurb(versionName: String) {
+        set(FEATURE_SEEN + "_" + versionName, true)
     }
 
     /**
