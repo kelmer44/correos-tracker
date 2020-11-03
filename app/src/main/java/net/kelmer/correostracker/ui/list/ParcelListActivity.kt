@@ -48,7 +48,7 @@ class ParcelListActivity : BaseActivity() {
                 .build()
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(PARCEL_CHECKER_WORKREQUEST, ExistingPeriodicWorkPolicy.REPLACE, uploadWorker)
 
-        sharedPrefsManager.nightModeLive.observe(this){
+        sharedPrefsManager.themeModeLive.observe(this){
             delegate.localNightMode = it
         }
     }

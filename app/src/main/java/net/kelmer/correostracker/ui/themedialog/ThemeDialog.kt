@@ -26,7 +26,7 @@ fun themeSelectionDialog(
         context.getString(it.stringRes)
     }.toTypedArray()
     builder.setItems(animals) { dialog, which ->
-        listener(ThemeMode.fromIdx(which))
+        listener(ThemeMode.fromPosition(which))
     }
 
     // create and show the alert dialog

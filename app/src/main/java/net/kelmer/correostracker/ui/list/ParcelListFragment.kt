@@ -206,8 +206,7 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
             R.id.app_theme -> {
                 themeSelectionDialog(requireContext()) {
                     //                    Timber.i("Theme selected: $it")
-
-                    viewModel.setTheme(it == ThemeMode.DARK)
+                    viewModel.setTheme(it.code)
 
                 }.show()
             }

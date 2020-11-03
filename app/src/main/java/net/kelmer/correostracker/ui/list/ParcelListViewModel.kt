@@ -32,7 +32,6 @@ class ParcelListViewModel @Inject constructor(
         deleteParcelUseCase,
         switchNotificationsUseCase) {
 
-    val isDarkThemeLive = sharedPrefsManager.isDarkThemeLive
 
     private val _parcelList: MutableLiveData<Resource<List<LocalParcelReference>>> = MutableLiveData()
     fun getParcelList() = _parcelList
@@ -84,8 +83,8 @@ class ParcelListViewModel @Inject constructor(
     }
 
 
-    fun setTheme(dark: Boolean) {
-        sharedPrefsManager.isDarkTheme = dark
+    fun setTheme(theme: Int) {
+        sharedPrefsManager.themeMode = theme
     }
 
 }
