@@ -3,6 +3,7 @@ package net.kelmer.correostracker.ui.list
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.work.*
 import kotlinx.android.synthetic.main.activity_main.*
 import net.kelmer.correostracker.R
@@ -49,7 +50,7 @@ class ParcelListActivity : BaseActivity() {
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(PARCEL_CHECKER_WORKREQUEST, ExistingPeriodicWorkPolicy.REPLACE, uploadWorker)
 
         sharedPrefsManager.themeModeLive.observe(this){
-            delegate.localNightMode = it
+            AppCompatDelegate.setDefaultNightMode(it)
         }
     }
 
