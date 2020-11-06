@@ -52,4 +52,12 @@
     <string name="search">Filter</string>
     <string name="code_helper_text">*Solo paquetes de Correos España o Correos Express</string>
     <string name="changes_1_9_0" >Se permiten varios paquetes con el mismo número de seguimiento.</string>
+    <string name="menu_theme">Tema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_system">Igual que el sistema</string>
+    <string name="theme_title">Elige un tema</string>
+    <string name="copy">Copiar</string>
+    <string name="changes_1_9_5">Dark theme config</string>
+    <string name="visit_us_github">Visítanos en github</string>
 </resources>

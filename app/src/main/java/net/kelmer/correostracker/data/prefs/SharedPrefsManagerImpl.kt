@@ -1,22 +1,55 @@
 package net.kelmer.correostracker.data.prefs
 
 import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.squareup.moshi.Moshi
 import javax.inject.Inject
 
-class SharedPrefsManagerImpl  @Inject constructor(
+class SharedPrefsManagerImpl @Inject constructor(
         private val sharedPreferences: SharedPreferences
-): SharedPrefsManager {
+) : SharedPrefsManager {
     companion object {
         private const val FEATURE_SEEN = "C_FEATURE_SEEN"
+        private const val PREFERENCE_NIGHT_MODE = "preference_night_mode"
+        private const val PREFERENCE_NIGHT_MODE_DEF_VAL = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     }
 
-    override fun hasSeenFeatureBlurb(): Boolean {
-        return get(FEATURE_SEEN, false)
+    private val _themeModeLive: MutableLiveData<Int> = MutableLiveData()
+    override val themeModeLive: LiveData<Int>
+        get() = _themeModeLive
+
+    override var themeMode: Int = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        get() = sharedPreferences.getInt(PREFERENCE_NIGHT_MODE, PREFERENCE_NIGHT_MODE_DEF_VAL)
+        set(value) {
+            sharedPreferences.edit().putInt(
+                    PREFERENCE_NIGHT_MODE, value
+            ).apply()
+            field = value
+        }
+
+    private val preferenceChangedListener =
+            SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
+                when (key) {
+                    PREFERENCE_NIGHT_MODE -> {
+                        _themeModeLive.value = themeMode
+                    }
+                }
+            }
+
+    init {
+        _themeModeLive.value = themeMode
+        sharedPreferences.registerOnSharedPreferenceChangeListener(preferenceChangedListener)
     }
 
-    override fun setSeenFeatureBlurb() {
-        set(FEATURE_SEEN, true)
+
+    override fun hasSeenFeatureBlurb(versionName: String): Boolean {
+        return get(FEATURE_SEEN + "_" + versionName, false)
+    }
+
+    override fun setSeenFeatureBlurb(versionName: String) {
+        set(FEATURE_SEEN + "_" + versionName, true)
     }
 
     /**

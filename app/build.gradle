@@ -1,14 +1,13 @@
 def versionMajor = 1
 def versionMinor = 9
-def versionPatch = 1
+def versionPatch = 7
 def versionBuild = 0 // bump for dogfood builds, public betas, etc.
-
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt' // Use experimental kapt implementation
-apply plugin: "io.fabric"
+apply plugin: 'com.google.firebase.crashlytics'
 
 
 android {
@@ -44,7 +43,7 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
-    buildToolsVersion = '29.0.2'
+    buildToolsVersion = '29.0.3'
 
     sourceSets {
         // Adds exported schema location as test app assets.
@@ -96,13 +95,13 @@ dependencies {
     implementation 'com.github.vipulasri:timelineview:1.0.6'
 
     // Check for v11.4.2 or higher
-    implementation 'com.google.firebase:firebase-core:17.2.1'
+    implementation 'com.google.firebase:firebase-core:18.0.0'
 
     // (Recommended) Add Analytics
-    implementation 'com.google.firebase:firebase-analytics:17.2.1'
+    implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
+    implementation 'com.google.firebase:firebase-analytics:18.0.0'
 
     // Add dependency
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     //DI
     kapt deps.dagger.compiler

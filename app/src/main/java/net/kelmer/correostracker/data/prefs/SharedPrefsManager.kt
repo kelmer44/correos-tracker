@@ -1,8 +1,11 @@
 package net.kelmer.correostracker.data.prefs
 
-interface SharedPrefsManager {
+import androidx.lifecycle.LiveData
 
-    fun hasSeenFeatureBlurb(): Boolean
-    fun setSeenFeatureBlurb()
+interface SharedPrefsManager {
+    fun hasSeenFeatureBlurb(versionName: String): Boolean
+    fun setSeenFeatureBlurb(versionName: String)
     fun clear()
+    var themeMode: Int
+    val themeModeLive: LiveData<Int>
 }

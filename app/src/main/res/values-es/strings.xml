@@ -51,4 +51,12 @@
     <string name="code_helper_text">*Solo paquetes de Correos España o Correos Express</string>
     <string name="changes_1_9_0">Se permiten varios paquetes con el mismo número de seguimiento.</string>
     <string name="feature_dialog_opensource_contribute">Si quieres contribuir con el proyecto haz una donación a través de Kofi:</string>
+    <string name="menu_theme">Tema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_system">Igual al sistema</string>
+    <string name="theme_title">Tema</string>
+    <string name="copy">Copiar al portapapeles</string>
+    <string name="changes_1_9_5">Ahora se puede escoger el tema desde el menú principal.</string>
+    <string name="visit_us_github">Visítanos en github:</string>
 </resources>

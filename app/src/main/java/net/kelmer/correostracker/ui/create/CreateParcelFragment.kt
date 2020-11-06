@@ -20,7 +20,6 @@ import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.network.exception.WrongCodeException
 import net.kelmer.correostracker.data.resolve
-import net.kelmer.correostracker.ext.observe
 import timber.log.Timber
 import java.util.UUID
 

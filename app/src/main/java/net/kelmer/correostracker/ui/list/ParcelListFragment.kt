@@ -15,7 +15,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuItemCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.android.synthetic.main.fragment_parcel_list.empty_state
 import kotlinx.android.synthetic.main.fragment_parcel_list.rv_parcel_list
 import kotlinx.android.synthetic.main.fragment_parcel_list.swipe_refresh
@@ -23,13 +23,15 @@ import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.customviews.ConfirmDialog
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
+import net.kelmer.correostracker.data.prefs.ThemeMode
 import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.ext.isVisible
-import net.kelmer.correostracker.ext.observe
 import net.kelmer.correostracker.ui.detail.DetailActivity
 import net.kelmer.correostracker.ui.featuredialog.featureBlurbDialog
 import net.kelmer.correostracker.ui.list.adapter.ParcelClickListener
 import net.kelmer.correostracker.ui.list.adapter.ParcelListAdapter
+import net.kelmer.correostracker.ui.themedialog.themeSelectionDialog
+import net.kelmer.correostracker.util.copyToClipboard
 import timber.log.Timber
 
 
@@ -42,24 +44,20 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
     override val layoutId: Int = R.layout.fragment_parcel_list
     override val viewModelClass: Class<ParcelListViewModel> = ParcelListViewModel::class.java
 
-
     private val clickListener = object : ParcelClickListener {
         override fun longPress(parcelReference: LocalParcelReference) {
-            val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("ParcelCode", parcelReference.trackingCode)
-            clipboard.setPrimaryClip(clip)
-            Toast.makeText(context, getString(R.string.clipboard_copied), Toast.LENGTH_LONG).show()
+            context?.copyToClipboard(parcelReference.trackingCode)
         }
 
         override fun click(parcelReference: LocalParcelReference) {
-            var ctx = context
+            val ctx = context
             ctx?.let {
                 startActivity(DetailActivity.newIntent(ctx, parcelReference.trackingCode))
             }
         }
 
         override fun dots(view: View, parcelReference: LocalParcelReference) {
-            var ctx = context
+            val ctx = context
 
             ctx?.let {
                 val popup = PopupMenu(ctx, view)
@@ -115,7 +113,7 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
         }
 
         viewModel.retrieveParcelList()
-        viewModel.getParcelList().observe(this) { resource ->
+        viewModel.getParcelList().observe(viewLifecycleOwner) { resource ->
             swipe_refresh.isRefreshing = resource.inProgress()
             resource.resolve(
                     onSuccess = {
@@ -124,13 +122,13 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                         adapter.filter(searchView?.query?.toString() ?: "")
                     },
                     onError = {
-                        Crashlytics.logException(it)
+                        FirebaseCrashlytics.getInstance().recordException(it)
                         Toast.makeText(context, "ERROR!!!", Toast.LENGTH_LONG).show()
                     }
             )
         }
 
-        viewModel.getDeleteResult().observe(this) { resource ->
+        viewModel.getDeleteResult().observe(viewLifecycleOwner) { resource ->
             resource.resolve(
                     onError = {
                         Toast.makeText(context, "ERROR DELETING!", Toast.LENGTH_LONG).show()
@@ -166,6 +164,9 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
         viewModel.refresh(adapter.getAllItems())
         adapter.getAllItems().forEach { p ->
             adapter.setLoading(p.trackingCode, true)
+        }
+        if (adapter.getAllItems().isEmpty()) {
+            swipe_refresh.isRefreshing = false
         }
     }
 
@@ -203,8 +204,14 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                     adapter.setLoading(p.trackingCode, true)
                 }
             }
-            R.id.app_about -> {
+            R.id.app_theme -> {
+                themeSelectionDialog(requireContext()) {
+                    //                    Timber.i("Theme selected: $it")
+                    viewModel.setTheme(it.code)
 
+                }.show()
+            }
+            R.id.app_about -> {
                 showFeature()
             }
         }
@@ -212,17 +219,19 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
     }
 
     private fun showFeature() {
-        featureBlurbDialog(requireContext(),
-                R.string.feature_dialog_title,
-                android.R.string.ok,
-                {
+        featureBlurbDialog(
+                context = requireContext(),
+                titleText = R.string.feature_dialog_title,
+                okText = android.R.string.ok,
+                okListener = {
                 },
-                {
-                    val url = "https://ko-fi.com/kelmer"
+                githubListener =  {
+                    val url = "https://github.com/kelmer44/correos-tracker"
                     val i = Intent(Intent.ACTION_VIEW)
                     i.data = Uri.parse(url)
                     startActivity(i)
-                }).show()
+                },
+                ).show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

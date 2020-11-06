@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
+import net.kelmer.correostracker.BuildConfig
 import net.kelmer.correostracker.base.BaseViewModel
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
@@ -32,6 +33,7 @@ class ParcelListViewModel @Inject constructor(
         deleteParcelUseCase,
         switchNotificationsUseCase) {
 
+
     private val _parcelList: MutableLiveData<Resource<List<LocalParcelReference>>> = MutableLiveData()
     fun getParcelList() = _parcelList
     fun retrieveParcelList() = getParcelListUseCase(Unit, _parcelList)
@@ -49,16 +51,18 @@ class ParcelListViewModel @Inject constructor(
                     .withNetwork(networkInteractor)
                     .subscribeOn(schedulerProvider.io())
                     .observeOn(schedulerProvider.ui())
-                    .subscribeBy(onError = {
-                        if (it is WrongCodeException) {
-                            Timber.w("Wrong code: ${p.trackingCode}!")
-                        } else {
-                            Timber.e(it, "Could not update $i : ${it.message}")
-                        }
-                    },
+                    .subscribeBy(
+                            onError = {
+                                if (it is WrongCodeException) {
+                                    Timber.w("Wrong code: ${p.trackingCode}!")
+                                } else {
+                                    Timber.e(it, "Could not update $i : ${it.message}")
+                                }
+                            },
                             onSuccess = {
                                 statusReports.value = it
-                            })
+                            }
+                    )
                     .addTo(disposables)
         }
     }
@@ -72,12 +76,16 @@ class ParcelListViewModel @Inject constructor(
     }
 
     fun showFeature(): Boolean {
-        return sharedPrefsManager.hasSeenFeatureBlurb()
+        return sharedPrefsManager.hasSeenFeatureBlurb(BuildConfig.VERSION_NAME)
     }
 
     fun setShownFeature() {
-        sharedPrefsManager.setSeenFeatureBlurb()
+        sharedPrefsManager.setSeenFeatureBlurb(BuildConfig.VERSION_NAME)
     }
 
+
+    fun setTheme(theme: Int) {
+        sharedPrefsManager.themeMode = theme
+    }
 
 }

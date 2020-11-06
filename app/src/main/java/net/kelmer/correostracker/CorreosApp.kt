@@ -7,13 +7,11 @@ import android.content.Context
 import android.os.Build
 import androidx.work.Configuration
 import androidx.work.WorkManager
-import com.crashlytics.android.Crashlytics
-import com.crashlytics.android.core.CrashlyticsCore
 import com.facebook.stetho.Stetho
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import io.fabric.sdk.android.Fabric
 import net.kelmer.correostracker.di.application.ApplicationComponent
 import net.kelmer.correostracker.di.application.DaggerApplicationComponent
 import net.kelmer.correostracker.di.worker.MyWorkerFactory
@@ -77,10 +75,7 @@ class CorreosApp : Application(), HasAndroidInjector {
     }
 
     private fun initCrashlytics() {
-
-        Fabric.with(this, Crashlytics.Builder().core(CrashlyticsCore.Builder()
-                .disabled(BuildConfig.DEBUG)
-                .build()).build())
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
     }
 
     private fun setupTimber() {
