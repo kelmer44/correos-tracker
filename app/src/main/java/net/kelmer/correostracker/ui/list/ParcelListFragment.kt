@@ -219,17 +219,19 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
     }
 
     private fun showFeature() {
-        featureBlurbDialog(requireContext(),
-                R.string.feature_dialog_title,
-                android.R.string.ok,
-                {
+        featureBlurbDialog(
+                context = requireContext(),
+                titleText = R.string.feature_dialog_title,
+                okText = android.R.string.ok,
+                okListener = {
                 },
-                {
-                    val url = "https://ko-fi.com/kelmer"
+                githubListener =  {
+                    val url = "https://github.com/kelmer44/correos-tracker"
                     val i = Intent(Intent.ACTION_VIEW)
                     i.data = Uri.parse(url)
                     startActivity(i)
-                }).show()
+                },
+                ).show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

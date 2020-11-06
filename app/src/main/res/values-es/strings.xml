@@ -58,4 +58,5 @@
     <string name="theme_title">Tema</string>
     <string name="copy">Copiar al portapapeles</string>
     <string name="changes_1_9_5">Ahora se puede escoger el tema desde el menú principal.</string>
+    <string name="visit_us_github">Visítanos en github:</string>
 </resources>
