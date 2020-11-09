@@ -6,14 +6,18 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.google.zxing.integration.android.IntentIntegrator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_create_parcel.create_ok
+import kotlinx.android.synthetic.main.fragment_create_parcel.create_toolbar
 import kotlinx.android.synthetic.main.fragment_create_parcel.parcel_code
 import kotlinx.android.synthetic.main.fragment_create_parcel.parcel_code_layout
 import kotlinx.android.synthetic.main.fragment_create_parcel.parcel_name
 import kotlinx.android.synthetic.main.fragment_create_parcel.parcel_status_alerts
 import kotlinx.android.synthetic.main.fragment_create_parcel.stance_group
+import kotlinx.android.synthetic.main.fragment_parcel_list.list_toolbar
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.customviews.ConfirmDialog
@@ -57,6 +61,9 @@ class CreateParcelFragment : BaseFragment(R.layout.fragment_create_parcel) {
     }
 
     override fun loadUp(savedInstanceState: Bundle?) {
+        NavigationUI.setupWithNavController(create_toolbar, findNavController())
+
+
         create_ok.setOnClickListener {
 
             if (!TextUtils.isEmpty(parcel_code.text.toString())) {

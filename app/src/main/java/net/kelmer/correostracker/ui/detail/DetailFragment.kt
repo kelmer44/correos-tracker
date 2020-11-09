@@ -12,11 +12,15 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_detail.toolbar
+import kotlinx.android.synthetic.main.fragment_create_parcel.create_toolbar
 import kotlinx.android.synthetic.main.fragment_detail.detail_loading
+import kotlinx.android.synthetic.main.fragment_detail.detail_toolbar
 import kotlinx.android.synthetic.main.fragment_detail.error_container
 import kotlinx.android.synthetic.main.fragment_detail.error_text
 import kotlinx.android.synthetic.main.fragment_detail.parcelStatusRecyclerView
@@ -46,6 +50,9 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
 
     override fun loadUp(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
+
+        NavigationUI.setupWithNavController(detail_toolbar, findNavController())
+
         parcelStatusRecyclerView.layoutManager = linearLayoutManager
         parcelStatusRecyclerView.adapter = timelineAdapter
 

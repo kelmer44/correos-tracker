@@ -14,32 +14,12 @@
         android:fitsSystemWindows="true">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/detail_toolbar"
             style="?toolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/half_spacing"
-            android:gravity="center"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:visibility="gone"
-            tools:text="CD0CXK0000TDGDSFG15706H" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/half_spacing"
-            android:gravity="center"
-            android:textAllCaps="true"
-            android:visibility="gone"
-            tools:text="Saliente"
-
-            />
     </com.google.android.material.appbar.AppBarLayout>
 
     <RelativeLayout

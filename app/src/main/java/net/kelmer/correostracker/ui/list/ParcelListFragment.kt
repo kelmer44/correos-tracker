@@ -32,8 +32,10 @@ import timber.log.Timber
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_list.fab
+import kotlinx.android.synthetic.main.fragment_parcel_list.list_toolbar
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.ui.create.CreateActivity
 
@@ -111,6 +113,8 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
             findNavController().navigate(ParcelListFragmentDirections.actionParcelListFragmentToCreateParcelFragment())
         }
 
+
+        NavigationUI.setupWithNavController(list_toolbar, findNavController())
 
 
         if (!viewModel.showFeature()) {

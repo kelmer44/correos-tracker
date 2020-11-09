@@ -14,7 +14,7 @@
         android:fitsSystemWindows="true">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/list_toolbar"
             style="?toolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize" />
