@@ -8,12 +8,12 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import dagger.hilt.android.AndroidEntryPoint
+import net.kelmer.correostracker.CorreosApp
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.activity.BaseActivity
 import net.kelmer.correostracker.data.prefs.SharedPrefsManager
 import net.kelmer.correostracker.di.worker.MyWorkerFactory
 import net.kelmer.correostracker.service.worker.ParcelPollWorker
-import net.kelmer.correostracker.ui.list.ParcelListActivity
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -43,7 +43,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                 ParcelPollWorker::class.java, 15, TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 .build()
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(ParcelListActivity.PARCEL_CHECKER_WORKREQUEST, ExistingPeriodicWorkPolicy.REPLACE, uploadWorker)
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(CorreosApp.PARCEL_CHECKER_WORKREQUEST, ExistingPeriodicWorkPolicy.REPLACE, uploadWorker)
 
         sharedPrefsManager.themeModeLive.observe(this){
             AppCompatDelegate.setDefaultNightMode(it)

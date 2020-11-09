@@ -28,27 +28,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.list.ParcelListActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
-
-        <activity
-            android:name=".ui.create.CreateActivity"
-            android:parentActivityName=".ui.list.ParcelListActivity" />
-
-        <activity
-            android:name=".ui.detail.DetailActivity"
-            android:parentActivityName=".ui.list.ParcelListActivity" />
         <provider
             tools:replace="android:authorities"
             android:name="androidx.work.impl.WorkManagerInitializer"
             android:authorities="@string/workmanager"
             android:enabled="false" />
-
 
     </application>
 

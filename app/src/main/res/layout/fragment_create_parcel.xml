@@ -14,6 +14,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <androidx.appcompat.widget.Toolbar
+            app:title="@string/app_name"
             android:id="@+id/create_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -25,8 +26,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/app_bar"
         android:orientation="vertical"
-        android:padding="@dimen/double_spacing"
-        tools:context=".ui.create.CreateActivity">
+        android:padding="@dimen/double_spacing">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

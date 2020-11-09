@@ -3,9 +3,6 @@ package net.kelmer.correostracker.ui.list
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
@@ -22,7 +19,6 @@ import net.kelmer.correostracker.customviews.ConfirmDialog
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.ext.isVisible
-import net.kelmer.correostracker.ui.detail.DetailActivity
 import net.kelmer.correostracker.ui.featuredialog.featureBlurbDialog
 import net.kelmer.correostracker.ui.list.adapter.ParcelClickListener
 import net.kelmer.correostracker.ui.list.adapter.ParcelListAdapter
@@ -30,14 +26,12 @@ import net.kelmer.correostracker.ui.themedialog.themeSelectionDialog
 import net.kelmer.correostracker.util.copyToClipboard
 import timber.log.Timber
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_list.fab
 import kotlinx.android.synthetic.main.fragment_parcel_list.list_toolbar
 import net.kelmer.correostracker.data.Resource
-import net.kelmer.correostracker.ui.create.CreateActivity
 
 
 /**

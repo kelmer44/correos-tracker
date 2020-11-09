@@ -66,7 +66,6 @@ class CreateParcelFragment : BaseFragment(R.layout.fragment_create_parcel) {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
     }
     override fun setupToolbar() {
-        //Do nothing
     }
 
     override fun loadUp(savedInstanceState: Bundle?) {

@@ -105,8 +105,8 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
     var alertDialog: AlertDialog? = null
 
     private fun loadParcelInformation(parcel: ParcelDetailDTO) {
-        activity?.toolbar?.title = parcel.name
-        activity?.toolbar?.subtitle = parcel.code
+        detail_toolbar.title = parcel.name
+        detail_toolbar.subtitle = parcel.code
         timelineAdapter.updateStatus(parcel.states)
         parcelStatusRecyclerView.scrollToPosition(timelineAdapter.itemCount - 1)
 
