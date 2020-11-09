@@ -16,11 +16,10 @@ import net.kelmer.correostracker.ui.detail.DetailActivity
  * Created by gabriel on 25/03/2018.
  */
 @AndroidEntryPoint
-class CreateActivity : BaseActivity() {
+class CreateActivity : BaseActivity(R.layout.activity_create) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

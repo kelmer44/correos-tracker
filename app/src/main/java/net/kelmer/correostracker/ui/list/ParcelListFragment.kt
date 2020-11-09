@@ -30,8 +30,12 @@ import net.kelmer.correostracker.ui.themedialog.themeSelectionDialog
 import net.kelmer.correostracker.util.copyToClipboard
 import timber.log.Timber
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_list.fab
 import net.kelmer.correostracker.data.Resource
+import net.kelmer.correostracker.ui.create.CreateActivity
 
 
 /**
@@ -39,7 +43,6 @@ import net.kelmer.correostracker.data.Resource
  */
 @AndroidEntryPoint
 class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
-
 
     private val viewModel: ParcelListViewModel by viewModels()
 
@@ -49,10 +52,8 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
         }
 
         override fun click(parcelReference: LocalParcelReference) {
-            val ctx = context
-            ctx?.let {
-                startActivity(DetailActivity.newIntent(ctx, parcelReference.trackingCode))
-            }
+            val action = ParcelListFragmentDirections.actionParcelListFragmentToDetailFragment(parcelReference.trackingCode)
+            findNavController().navigate(action)
         }
 
         override fun dots(view: View, parcelReference: LocalParcelReference) {
@@ -106,12 +107,18 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
     override fun loadUp(savedInstanceState: Bundle?) {
         setupRecyclerView()
 
+        fab.setOnClickListener {
+            findNavController().navigate(ParcelListFragmentDirections.actionParcelListFragmentToCreateParcelFragment())
+        }
+
+
+
         if (!viewModel.showFeature()) {
             showFeature()
             viewModel.setShownFeature()
         }
 
-        viewModel.retrieveParcelList()
+        //        viewModel.retrieveParcelList()
         viewModel.getParcelList().observe(viewLifecycleOwner) { resource ->
             swipe_refresh.isRefreshing = resource.inProgress()
             resource.resolve(

@@ -9,6 +9,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt' // Use experimental kapt implementation
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
 
 
 android {
@@ -79,6 +81,8 @@ dependencies {
     implementation deps.lifecycle.reactivestreams
     implementation deps.lifecycle.viewmodel
     implementation deps.lifecycle.worker
+    implementation deps.navigation.fragment
+    implementation deps.navigation.ui
     kapt deps.lifecycle.compiler
 
 

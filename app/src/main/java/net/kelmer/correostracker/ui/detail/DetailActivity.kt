@@ -18,11 +18,10 @@ import net.kelmer.correostracker.ui.list.ParcelListActivity
  * Created by gabriel on 25/03/2018.
  */
 @AndroidEntryPoint
-class DetailActivity : BaseActivity() {
+class DetailActivity : BaseActivity(R.layout.activity_detail) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

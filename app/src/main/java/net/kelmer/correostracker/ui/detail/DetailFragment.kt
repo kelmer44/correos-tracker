@@ -164,7 +164,7 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
 
 
     companion object {
-        const val KEY_PARCELCODE = "PARCEL_CODE"
+        const val KEY_PARCELCODE = "parcel_code"
 
         fun newInstance(code: String): DetailFragment {
             return DetailFragment().apply {

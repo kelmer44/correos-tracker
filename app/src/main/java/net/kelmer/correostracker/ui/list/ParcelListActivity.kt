@@ -6,6 +6,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.work.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_list.fab
+import kotlinx.android.synthetic.main.activity_list.toolbar
 import kotlinx.android.synthetic.main.activity_main.*
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.activity.BaseActivity
@@ -17,7 +19,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ParcelListActivity : BaseActivity() {
+class ParcelListActivity : BaseActivity(R.layout.activity_list) {
 
     @Inject
     lateinit var myWorkerFactory: MyWorkerFactory
@@ -28,8 +30,6 @@ class ParcelListActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_main)
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(true)

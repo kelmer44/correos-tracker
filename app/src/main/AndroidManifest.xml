@@ -18,12 +18,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CorreosTracker"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.list.ParcelListActivity">
+
+
+        <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.list.ParcelListActivity">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
 
         <activity
