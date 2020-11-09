@@ -135,24 +135,6 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
             )
         }
 
-        viewModel.statusReports.observe(viewLifecycleOwner) { resource ->
-            when (resource) {
-                is Resource.Success -> {
-                    val codigo = resource.data?.codEnvio
-                    if (codigo != null) {
-                        Timber.i("Status report for $codigo")
-                        adapter.setLoading(codigo, false)
-                    }
-                }
-                is Resource.Failure -> {
-                    Timber.e(resource.exception, resource.message)
-                }
-                else -> {
-
-                }
-            }
-        }
-
     }
 
     override fun bind(view: View) = FragmentParcelListBinding.bind(view)
@@ -178,10 +160,7 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
         toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.app_refresh_all -> {
-                    viewModel.refresh(adapter.getAllItems())
-                    adapter.getAllItems().forEachIndexed { i, p ->
-                        adapter.setLoading(p.trackingCode, true)
-                    }
+                    refreshFromRemote()
                 }
                 R.id.app_theme -> {
                     themeSelectionDialog(requireContext()) {
@@ -211,17 +190,9 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
 
     private fun refreshFromRemote() {
         viewModel.refresh(adapter.getAllItems())
-        adapter.getAllItems().forEach { p ->
-            adapter.setLoading(p.trackingCode, true)
-        }
         if (adapter.getAllItems().isEmpty()) {
             binding?.swipeRefresh?.isRefreshing = false
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.retrieveParcelList()
     }
 
     var searchView: SearchView? = null

@@ -1,0 +1,154 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 8,
+    "identityHash": "8c7fbbe0858ecb8e7a2a75ceec8aedd8",
+    "entities": [
+      {
+        "tableName": "LocalParcelReference",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`code` TEXT NOT NULL, `trackingCode` TEXT NOT NULL, `parcelName` TEXT NOT NULL, `stance` INTEGER NOT NULL, `lastChecked` INTEGER, `largo` TEXT, `ancho` TEXT, `alto` TEXT, `peso` TEXT, `refCliente` TEXT, `codProducto` TEXT, `fechaCalculada` TEXT, `notify` INTEGER NOT NULL, `updateStatus` INTEGER NOT NULL, `fecEvento` TEXT, `codEvento` TEXT, `horEvento` TEXT, `fase` TEXT, `desTextoResumen` TEXT, `desTextoAmpliado` TEXT, `unidad` TEXT, PRIMARY KEY(`code`))",
+        "fields": [
+          {
+            "fieldPath": "code",
+            "columnName": "code",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "trackingCode",
+            "columnName": "trackingCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parcelName",
+            "columnName": "parcelName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stance",
+            "columnName": "stance",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastChecked",
+            "columnName": "lastChecked",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "largo",
+            "columnName": "largo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ancho",
+            "columnName": "ancho",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "alto",
+            "columnName": "alto",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "peso",
+            "columnName": "peso",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "refCliente",
+            "columnName": "refCliente",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "codProducto",
+            "columnName": "codProducto",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fechaCalculada",
+            "columnName": "fechaCalculada",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "notify",
+            "columnName": "notify",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updateStatus",
+            "columnName": "updateStatus",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ultimoEstado.fecEvento",
+            "columnName": "fecEvento",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ultimoEstado.codEvento",
+            "columnName": "codEvento",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ultimoEstado.horEvento",
+            "columnName": "horEvento",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ultimoEstado.fase",
+            "columnName": "fase",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ultimoEstado.desTextoResumen",
+            "columnName": "desTextoResumen",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ultimoEstado.desTextoAmpliado",
+            "columnName": "desTextoAmpliado",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ultimoEstado.unidad",
+            "columnName": "unidad",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "code"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8c7fbbe0858ecb8e7a2a75ceec8aedd8')"
+    ]
+  }
+}

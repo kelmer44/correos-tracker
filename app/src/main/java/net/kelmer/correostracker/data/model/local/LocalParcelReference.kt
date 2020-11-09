@@ -23,8 +23,6 @@ data class LocalParcelReference(
         var stance: Stance = Stance.INCOMING,
         @Embedded
         var ultimoEstado: CorreosApiEvent? = null,
-        @Ignore
-        var isLoading: Boolean = false,
         var lastChecked: Long? = -1,
         var largo: String? = "",
         var ancho: String? = "",
@@ -33,8 +31,18 @@ data class LocalParcelReference(
         var refCliente: String? = "",
         var codProducto: String? = "",
         var fechaCalculada: String? = " ",
-        var notify: Boolean = true) {
+        var notify: Boolean = true,
+        @TypeConverters(UpdateStatusConverter::class)
+        var updateStatus: UpdateStatus
+) {
 
+
+    enum class UpdateStatus {
+        UNKNOWN,
+        OK,
+        INPROGRESS,
+        ERROR
+    }
 
     enum class Stance {
         OUTGOING,

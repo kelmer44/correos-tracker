@@ -42,7 +42,7 @@ class ParcelListViewModel @ViewModelInject constructor(
 
     private val _parcelList: MutableLiveData<Resource<List<LocalParcelReference>>> = MutableLiveData()
     val parcelList: LiveData<Resource<List<LocalParcelReference>>> = _parcelList
-    fun retrieveParcelList() = getParcelListUseCase(Unit, _parcelList)
+    private fun retrieveParcelList() = getParcelListUseCase(Unit, _parcelList)
 
     init {
         retrieveParcelList()
@@ -62,7 +62,7 @@ class ParcelListViewModel @ViewModelInject constructor(
         deleteParcelUseCase(DeleteParcelUseCase.Params(parcelReference), _deleteLiveData)
     }
 
-    val statusReports: MutableLiveData<Resource<CorreosApiParcel>> = MutableLiveData()
+    private val statusReports: MutableLiveData<Resource<CorreosApiParcel>> = MutableLiveData()
     fun refresh(items: List<LocalParcelReference>) {
         Timber.i("REF - Refresh called!")
         statusReportsUpdatesUseCase(StatusReportsUpdatesUseCase.Params(items), statusReports)

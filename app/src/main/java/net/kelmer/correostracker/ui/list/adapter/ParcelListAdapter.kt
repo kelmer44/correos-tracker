@@ -76,13 +76,19 @@ class ParcelListAdapter constructor(
                 true
             }
 
-            binding.parcelProgress.isVisible = parcel.isLoading
-            binding.parcelStatus.isVisible = !parcel.isLoading
+            binding.parcelProgress.isVisible = parcel.updateStatus == LocalParcelReference.UpdateStatus.INPROGRESS
+            binding.parcelStatus.isVisible = parcel.updateStatus != LocalParcelReference.UpdateStatus.INPROGRESS
 
             val faseNumber = parcel.ultimoEstado?.fase?.toInt()
             val fase = if (faseNumber != null) ParcelDetailStatus.Fase.fromFase(faseNumber) else ParcelDetailStatus.Fase.OTHER
 
-            binding.parcelStatus.setImageResource(fase.drawable)
+
+            if(parcel.updateStatus == LocalParcelReference.UpdateStatus.OK) {
+                binding.parcelStatus.setImageResource(fase.drawable)
+            }
+            else if (parcel.updateStatus == LocalParcelReference.UpdateStatus.ERROR){
+                binding.parcelStatus.setImageResource(R.drawable.ic_error_red)
+            }
 
             var lastChecked = parcel.lastChecked
 
@@ -113,13 +119,13 @@ class ParcelListAdapter constructor(
         notifyDataSetChanged()
     }
 
-    fun setLoading(code: String, loading: Boolean) {
-        val filter = allItems.filter { it.trackingCode == code }
-        if (filter.isNotEmpty()) {
-            filter.first().isLoading = loading
-            notifyItemChanged(allItems.indexOf(filter.first()))
-        }
-    }
+//    fun setLoading(code: String, loading: Boolean) {
+//        val filter = allItems.filter { it.trackingCode == code }
+//        if (filter.isNotEmpty()) {
+//            filter.first().isLoading = loading
+//            notifyItemChanged(allItems.indexOf(filter.first()))
+//        }
+//    }
 
     fun getAllItems(): List<LocalParcelReference> = allItems
 }

@@ -80,7 +80,7 @@ class CreateParcelFragment : BaseFragment<FragmentCreateParcelBinding>(R.layout.
                     else -> LocalParcelReference.Stance.OUTGOING
                 }
                 val notify = binding.parcelStatusAlerts.isChecked
-                val localParcelReference = LocalParcelReference(UUID.randomUUID().toString(), binding.parcelCode.text.toString(), binding.parcelCode.text.toString(), stance, null, notify = notify)
+                val localParcelReference = LocalParcelReference(UUID.randomUUID().toString(), binding.parcelCode.text.toString(), binding.parcelCode.text.toString(), stance, null, notify = notify, updateStatus = LocalParcelReference.UpdateStatus.UNKNOWN)
                 viewModel.addParcel(localParcelReference).observe(viewLifecycleOwner, observeResult)
 
             } else {

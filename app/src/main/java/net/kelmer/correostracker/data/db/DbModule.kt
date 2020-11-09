@@ -74,6 +74,14 @@ class DbModule {
                 database.execSQL("UPDATE LocalParcelReference SET code = 'MIGRATED_' || code")
             }
         }
+
+        val MIGRATION_7_8: Migration = object : Migration(7,8) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN statusCode INTEGER NOT NULL DEFAULT 0")
+                database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN isLoading INTEGER NOT NULL DEFAULT 0")
+            }
+        }
+
     }
 
 
@@ -82,7 +90,7 @@ class DbModule {
     fun provideAppDatabase(@ForApplication context: Context) : AppDatabase {
         return Room.databaseBuilder(context,
                 AppDatabase::class.java, "mycujoo-database")
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8)
                 .build()
     }
 

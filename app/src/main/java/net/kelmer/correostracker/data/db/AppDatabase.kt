@@ -6,6 +6,7 @@ import androidx.room.TypeConverters
 import net.kelmer.correostracker.data.model.local.LocalParcelDao
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.local.StanceConverter
+import net.kelmer.correostracker.data.model.local.UpdateStatusConverter
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -14,8 +15,8 @@ import net.kelmer.correostracker.data.model.local.StanceConverter
         entities = [
         (LocalParcelReference::class)
         ],
-        version = 7)
-@TypeConverters(StanceConverter::class)
+        version = 8)
+@TypeConverters(StanceConverter::class, UpdateStatusConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun localParcelDao(): LocalParcelDao
 }
