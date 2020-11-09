@@ -91,7 +91,6 @@ dependencies {
     //==================== Support Library ====================
     implementation deps.support.appCompat
     implementation deps.support.design
-    implementation deps.support.v4
     implementation deps.support.fragment
     implementation deps.support.constraint
     implementation deps.support.vector
@@ -102,12 +101,12 @@ dependencies {
     implementation deps.retrofit.core
     implementation deps.retrofit.moshi
     implementation deps.retrofit.rxjava
+
     //lifecycle
     implementation deps.lifecycle.runtime
-    implementation deps.lifecycle.extensions
-    implementation deps.lifecycle.reactivestreams
     implementation deps.lifecycle.viewmodel
     implementation deps.lifecycle.worker
+
     implementation deps.navigation.fragment
     implementation deps.navigation.ui
     kapt deps.lifecycle.compiler
@@ -132,7 +131,6 @@ dependencies {
 
     // Check for v11.4.2 or higher
     implementation 'com.google.firebase:firebase-core:18.0.0'
-    implementation 'androidx.annotation:annotation:1.1.0'
 
     // (Recommended) Add Analytics
     implementation 'com.google.firebase:firebase-crashlytics:17.2.2'

@@ -84,7 +84,6 @@ class CorreosApp : Application() {
     }
 
     companion object {
-        const val REQ_CREATE_PARCEL = 101
         const val PARCEL_CHECKER_WORKREQUEST = "PARCEL-CHECKER"
     }
 

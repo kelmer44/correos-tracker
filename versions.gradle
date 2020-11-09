@@ -56,7 +56,6 @@ def extension = ext {
             'kotlin'     : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}",
             //==================== Support Library ====================
             'support'    : [
-                    'v4'        : "androidx.legacy:legacy-support-v4:1.0.0",
                     'appCompat' : "androidx.appcompat:appcompat:1.1.0",
                     'design'    : "com.google.android.material:material:1.2.0-alpha06",
                     'fragment'  : "androidx.fragment:fragment-ktx:1.2.2",
@@ -87,10 +86,8 @@ def extension = ext {
             //==================== Structure ====================
             'lifecycle'  : [
                     'runtime'        : "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycle}",
-                    'extensions'     : "androidx.lifecycle:lifecycle-extensions:${versions.lifecycle}",
                     'viewmodel'      : "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}",
                     'compiler'       : "androidx.lifecycle:lifecycle-compiler:${versions.lifecycle}",
-                    'reactivestreams': "androidx.lifecycle:lifecycle-reactivestreams-ktx:${versions.lifecycle}",
                     'coretesting'    : "android.arch.core:core-testing:${versions.lifecycle}",
                     'worker'         : "androidx.work:work-rxjava2:${versions.worker}"
 
