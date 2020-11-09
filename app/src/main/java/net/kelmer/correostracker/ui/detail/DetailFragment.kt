@@ -109,13 +109,13 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             timelineAdapter.updateStatus(parcel.states)
             it.parcelStatusRecyclerView.scrollToPosition(timelineAdapter.itemCount - 1)
 
-            var ctx = context
+            val ctx = context
             if (ctx != null) {
 
                 val inflater = this.layoutInflater
                 val parent = inflater.inflate(R.layout.parcel_info, null)
 
-                var dialog = AlertDialog.Builder(ctx)
+                val dialog = AlertDialog.Builder(ctx)
                         .setTitle(parcel.name)
                         .setPositiveButton(getString(android.R.string.ok)) { p0, p1 -> p0.dismiss() }
                         .setView(parent)

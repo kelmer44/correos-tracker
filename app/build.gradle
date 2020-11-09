@@ -11,6 +11,26 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
 
+def gitSha() {
+    def p = 'git rev-parse --short HEAD'.execute([], project.rootDir)
+    p.waitFor()
+    if (p.exitValue() != 0) {
+        throw new RuntimeException(p.errorStream.text)
+    }
+
+    return p.text.trim()
+}
+
+def gitTimestamp() {
+    def p = 'git log -n 1 --format=%at'.execute([], rootDir)
+    p.waitFor()
+    if (p.exitValue() != 0) {
+        throw new RuntimeException(p.errorStream.text)
+    }
+
+    return p.text.trim()
+}
+
 
 android {
 
@@ -21,14 +41,18 @@ android {
         targetSdkVersion versions.targetSdk
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+
+        buildConfigField 'String', 'GIT_SHA', "\"${gitSha()}\""
+        buildConfigField 'long', 'GIT_TIMESTAMP', "${gitTimestamp()}L"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += ["room.schemaLocation":
                                       "$projectDir/schemas".toString()]
             }
         }
+
     }
     buildTypes {
         debug {
@@ -108,6 +132,7 @@ dependencies {
 
     // Check for v11.4.2 or higher
     implementation 'com.google.firebase:firebase-core:18.0.0'
+    implementation 'androidx.annotation:annotation:1.1.0'
 
     // (Recommended) Add Analytics
     implementation 'com.google.firebase:firebase-crashlytics:17.2.2'

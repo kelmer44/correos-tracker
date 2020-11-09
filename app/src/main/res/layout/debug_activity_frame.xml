@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<net.kelmer.correostracker.ui.debug.views.DebugDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/debug_drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/debug_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+    <net.kelmer.correostracker.ui.debug.views.NonConsumingScrimInsetsFrameLayout
+        android:id="@+id/debug_drawer"
+        android:layout_width="290dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:fitsSystemWindows="true">
+
+
+        <fragment
+            android:id="@+id/debug_fragment"
+            android:name="net.kelmer.correostracker.ui.debug.DebugFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </net.kelmer.correostracker.ui.debug.views.NonConsumingScrimInsetsFrameLayout>
+</net.kelmer.correostracker.ui.debug.views.DebugDrawerLayout>

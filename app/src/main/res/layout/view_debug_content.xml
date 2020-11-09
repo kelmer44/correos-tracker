@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:columnCount="2"
+    android:padding="12dp"
+    tools:ignore="HardcodedText">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_columnSpan="2"
+        android:layout_gravity="start|fill_horizontal"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical|end"
+            android:orientation="vertical">
+
+            <TextView
+                style="@android:style/TextAppearance.Holo.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name" />
+
+            <TextView
+                style="@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/development_settings" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@mipmap/ic_launcher" />
+    </LinearLayout>
+
+
+    <!-- BUILD INFORMATION SECTION -->
+
+    <TextView
+        style="@style/DebugDrawer.Header"
+        android:layout_width="0dp"
+        android:layout_columnSpan="2"
+        android:layout_gravity="start|fill_horizontal"
+        android:text="Build Information" />
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="Name" />
+
+    <TextView
+        android:id="@+id/debug_build_name"
+        style="@style/DebugDrawer.RowValue"
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal" />
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="Code" />
+
+    <TextView
+        android:id="@+id/debug_build_code"
+        style="@style/DebugDrawer.RowValue"
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal" />
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="SHA" />
+
+    <TextView
+        android:id="@+id/debug_build_sha"
+        style="@style/DebugDrawer.RowValue"
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal" />
+
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="Date" />
+
+    <TextView
+        android:id="@+id/debug_build_date"
+        style="@style/DebugDrawer.RowValue"
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal" />
+
+    <!-- NETWORK SECTION -->
+
+    <TextView
+
+        style="@style/DebugDrawer.Header"
+        android:layout_width="0dp"
+
+        android:layout_columnSpan="2"
+        android:layout_gravity="start|fill_horizontal"
+        android:text="Network"
+        android:visibility="gone" />
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="Current Endpoint"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/endpoint_txt"
+        style="@style/DebugDrawer.RowValue"
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal"
+        android:text="Here's the current endpoint"
+        android:visibility="gone" />
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="Endpoint"
+        android:visibility="gone" />
+
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/endpoint_combo"
+        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+        android:layout_width="0dp"
+        android:layout_height="?listPreferredItemHeight"
+        android:layout_gravity="start|center_vertical|fill_horizontal"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:spinnerMode="dialog"
+        android:text="NEW PREVIEW TEXT"
+        android:visibility="gone"
+        tools:listitem="@android:layout/simple_spinner_item" />
+
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text=""
+        android:visibility="gone" />
+
+
+    <Button
+        android:id="@+id/endpoint_clear"
+        style="@style/DebugDrawer.RowValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:ellipsize="marquee"
+        android:text="Clear"
+        android:visibility="gone">
+
+
+    </Button>
+    <!--<LinearLayout-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_gravity="start|center_vertical|fill_horizontal"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:visibility="gone">-->
+
+    <!--<Spinner-->
+    <!--android:placeId="@+placeId/debug_network_endpoint"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1" />-->
+
+    <!--<ImageButton-->
+    <!--android:placeId="@+placeId/debug_network_endpoint_edit"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginStart="4dp"-->
+    <!--android:background="?android:attr/actionBarItemBackground"-->
+    <!--android:visibility="gone"-->
+    <!--app:srcCompat="@drawable/ic_edit_black_24dp" />-->
+    <!--</LinearLayout>-->
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="Delay"
+        android:visibility="gone" />
+
+    <Spinner
+
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal"
+        android:visibility="gone" />
+
+    <TextView
+
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="Variance"
+        android:visibility="gone" />
+
+    <Spinner
+
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal"
+        android:visibility="gone" />
+
+    <TextView
+
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="Failure"
+        android:visibility="gone" />
+
+    <Spinner
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal"
+        android:visibility="gone" />
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="Error"
+        android:visibility="gone" />
+
+    <Spinner
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal"
+        android:visibility="gone" />
+
+    <Space
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:visibility="gone" />
+
+    <Spinner
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal"
+        android:visibility="gone" />
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="Proxy"
+        android:visibility="gone" />
+
+    <Spinner
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal"
+        android:visibility="gone" />
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="Logging"
+        android:visibility="gone" />
+
+    <Spinner
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal"
+        android:visibility="gone" />
+
+
+
+
+    <!-- LOGGING SECTION -->
+
+    <TextView
+        style="@style/DebugDrawer.Header"
+        android:layout_width="0dp"
+        android:layout_columnSpan="2"
+        android:layout_gravity="start|fill_horizontal"
+        android:text="Logs"
+        android:visibility="visible" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/debug_showlogs"
+        style="@style/DebugDrawer.RowValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_columnSpan="2"
+        android:layout_gravity="start|fill_horizontal"
+        android:text="Show logs"
+        android:visibility="visible" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/debug_leak"
+        style="@style/DebugDrawer.RowValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_columnSpan="2"
+        android:layout_gravity="start|fill_horizontal"
+        android:text="Enable leak analysis"
+        android:visibility="gone" />
+
+
+    <!-- DEVICE INFORMATION SECTION -->
+
+    <TextView
+        style="@style/DebugDrawer.Header"
+        android:layout_width="0dp"
+        android:layout_columnSpan="2"
+        android:layout_gravity="start|fill_horizontal"
+        android:text="Device Information" />
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="Make" />
+
+    <TextView
+        android:id="@+id/debug_device_make"
+        style="@style/DebugDrawer.RowValue"
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal" />
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="Model" />
+
+    <TextView
+        android:id="@+id/debug_device_model"
+        style="@style/DebugDrawer.RowValue"
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal" />
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="Resolution" />
+
+    <TextView
+        android:id="@+id/debug_device_resolution"
+        style="@style/DebugDrawer.RowValue"
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal" />
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="Density" />
+
+    <TextView
+        android:id="@+id/debug_device_density"
+        style="@style/DebugDrawer.RowValue"
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal" />
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="1 dp is" />
+
+    <TextView
+        android:id="@+id/debug_device_1dp"
+        style="@style/DebugDrawer.RowValue"
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal" />
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="Inches" />
+
+    <TextView
+        android:id="@+id/debug_device_inches"
+        style="@style/DebugDrawer.RowValue"
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal" />
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="Is Tablet?" />
+
+    <TextView
+        android:id="@+id/debug_device_istablet"
+        style="@style/DebugDrawer.RowValue"
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal" />
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="Release" />
+
+    <TextView
+        android:id="@+id/debug_device_release"
+        style="@style/DebugDrawer.RowValue"
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal" />
+
+    <TextView
+        style="@style/DebugDrawer.RowTitle"
+        android:layout_gravity="start|center_vertical"
+        android:text="API" />
+
+    <TextView
+        android:id="@+id/debug_device_api"
+        style="@style/DebugDrawer.RowValue"
+        android:layout_width="0dp"
+        android:layout_gravity="start|center_vertical|fill_horizontal" />
+
+
+</GridLayout>

@@ -15,8 +15,8 @@ def extension = ext {
 
             'buildTools'    : '29.0.0',
             'supportLibrary': '1.0.0',
-            'daggerHilt'    : '2.28-alpha',
-            'daggerhiltext' : '1.0.0-alpha01',
+            'daggerHilt'    : '2.29-alpha',
+            'daggerhiltext' : '1.0.0-alpha02',
 
             'kotlin'        : '1.4.10',
 

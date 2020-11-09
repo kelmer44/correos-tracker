@@ -10,6 +10,7 @@ import androidx.work.WorkManager
 import com.facebook.stetho.Stetho
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.HiltAndroidApp
+import net.kelmer.correostracker.di.debug.LumberYard
 import net.kelmer.correostracker.di.worker.MyWorkerFactory
 import net.kelmer.correostracker.service.worker.ParcelPollWorker
 import timber.log.Timber
@@ -21,6 +22,9 @@ import javax.inject.Inject
 @HiltAndroidApp
 class CorreosApp : Application() {
 
+
+    @Inject
+    lateinit var lumberYard : LumberYard
 
     @Inject
     lateinit var myWorkerFactory: MyWorkerFactory
@@ -66,7 +70,11 @@ class CorreosApp : Application() {
     }
 
     private fun setupTimber() {
-        Timber.plant(Timber.DebugTree())
+        if(BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+            Timber.plant(lumberYard.tree())
+        }
+
     }
 
     private fun setupStetho() {
