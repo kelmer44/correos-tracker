@@ -1,8 +1,5 @@
 package net.kelmer.correostracker.ui.list
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -23,7 +20,6 @@ import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.customviews.ConfirmDialog
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
-import net.kelmer.correostracker.data.prefs.ThemeMode
 import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.ext.isVisible
 import net.kelmer.correostracker.ui.detail.DetailActivity
@@ -35,6 +31,7 @@ import net.kelmer.correostracker.util.copyToClipboard
 import timber.log.Timber
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import net.kelmer.correostracker.data.Resource
 
 
 /**
@@ -144,9 +141,21 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
         }
 
 
-        viewModel.statusReports.observe(this) { parcel ->
-            parcel?.codEnvio?.let { codigo ->
-                adapter.setLoading(codigo, false)
+        viewModel.statusReports.observe(this) { resource ->
+            when (resource) {
+                is Resource.Success -> {
+                    val codigo = resource.data?.codEnvio
+                    if (codigo != null) {
+                        Timber.i("Status report for $codigo")
+                        adapter.setLoading(codigo, false)
+                    }
+                }
+                is Resource.Failure -> {
+                    Timber.e(resource.exception, resource.message)
+                }
+                else -> {
+
+                }
             }
         }
 
@@ -163,6 +172,8 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
     }
 
     private fun refreshFromRemote() {
+
+
         viewModel.refresh(adapter.getAllItems())
         adapter.getAllItems().forEach { p ->
             adapter.setLoading(p.trackingCode, true)
@@ -227,13 +238,13 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
                 okText = android.R.string.ok,
                 okListener = {
                 },
-                githubListener =  {
+                githubListener = {
                     val url = "https://github.com/kelmer44/correos-tracker"
                     val i = Intent(Intent.ACTION_VIEW)
                     i.data = Uri.parse(url)
                     startActivity(i)
                 },
-                ).show()
+        ).show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

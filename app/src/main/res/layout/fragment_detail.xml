@@ -1,38 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:orientation="vertical">
 
 
     <LinearLayout
         android:id="@+id/error_container"
-        android:visibility="gone"
-        tools:visibility="visible"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_margin="@dimen/double_spacing"
-        android:layout_centerInParent="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/double_spacing"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <ImageView
             android:layout_width="64dp"
             android:layout_height="64dp"
+            android:layout_marginBottom="@dimen/double_spacing"
             android:src="@drawable/ic_error"
-            android:tint="?colorSecondary"
-            android:layout_marginBottom="@dimen/double_spacing"/>
+            android:tint="?colorSecondary" />
 
         <TextView
             android:id="@+id/error_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            tools:text="Error: Paquete no encontrado comeme los cojones y ya veras que vbien."
-            />
-
+            tools:text="Error: Paquete no encontrado lorem ipsum dolor sit amet." />
 
     </LinearLayout>
 
@@ -40,12 +38,13 @@
         android:id="@+id/parcelStatusRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipToPadding="false"
         android:paddingLeft="@dimen/single_spacing"
-        android:paddingRight="@dimen/single_spacing"
-        android:clipToPadding="false"/>
+        android:paddingRight="@dimen/single_spacing" />
+
     <ProgressBar
+        android:id="@+id/detail_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:id="@+id/detail_loading"/>
+        android:layout_centerInParent="true" />
 </RelativeLayout>

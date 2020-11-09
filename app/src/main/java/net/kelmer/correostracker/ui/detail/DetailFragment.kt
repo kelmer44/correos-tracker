@@ -1,5 +1,7 @@
 package net.kelmer.correostracker.ui.detail
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -35,25 +37,19 @@ import timber.log.Timber
 @AndroidEntryPoint
 class DetailFragment : BaseFragment(R.layout.fragment_detail) {
 
-    private val viewModel : ParcelDetailViewModel by viewModels()
+    private val viewModel: ParcelDetailViewModel by viewModels()
 
     private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(activity)
-    private val adapterRecyclerView: DetailTimelineAdapter = DetailTimelineAdapter()
+    private val timelineAdapter: DetailTimelineAdapter = DetailTimelineAdapter()
 
-    private val parcelCode by lazy { activity?.intent?.getStringExtra(DetailActivity.KEY_PARCELCODE) }
+    private val parcelCode = arguments?.getString(KEY_PARCELCODE) ?: ""
 
     override fun loadUp(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
-
         parcelStatusRecyclerView.layoutManager = linearLayoutManager
-        parcelStatusRecyclerView.adapter = adapterRecyclerView
+        parcelStatusRecyclerView.adapter = timelineAdapter
 
-        getParcel(parcelCode ?: "NONE")
-    }
-
-
-    private fun getParcel(code: String){
-        viewModel.getParcel(code).observe(this) { resource ->
+        viewModel.statusResult.observe(this) { resource ->
             detail_loading.isVisible = resource.inProgress()
             resource.resolve(
                     onError = {
@@ -66,7 +62,7 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
                                 error_text.text = it.message
                             }
                             is NetworkInteractor.NetworkUnavailableException -> {
-                                FirebaseCrashlytics.getInstance().log("Controlled Exception Error $parcelCode")
+                                FirebaseCrashlytics.getInstance().log("Controlled Network Unavailable Exception Error $parcelCode")
                                 FirebaseCrashlytics.getInstance().recordException(it)
                                 error_text.text = getString(R.string.error_no_network)
                             }
@@ -93,7 +89,7 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
 
         when (item.itemId) {
             R.id.parcel_refresh -> {
-                getParcel(parcelCode ?: "NONE")
+                viewModel.refresh()
             }
             R.id.parcel_info -> {
                 alertDialog?.show()
@@ -108,8 +104,8 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
     private fun loadParcelInformation(parcel: ParcelDetailDTO) {
         activity?.toolbar?.title = parcel.name
         activity?.toolbar?.subtitle = parcel.code
-        adapterRecyclerView.updateStatus(parcel.states)
-        parcelStatusRecyclerView.scrollToPosition(adapterRecyclerView.itemCount - 1)
+        timelineAdapter.updateStatus(parcel.states)
+        parcelStatusRecyclerView.scrollToPosition(timelineAdapter.itemCount - 1)
 
         var ctx = context
         if (ctx != null) {
@@ -164,7 +160,19 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
             }
             alertDialog = dialog
         }
+    }
 
+
+    companion object {
+        const val KEY_PARCELCODE = "PARCEL_CODE"
+
+        fun newInstance(code: String): DetailFragment {
+            return DetailFragment().apply {
+                arguments = Bundle().apply {
+                    putString(KEY_PARCELCODE, code)
+                }
+            }
+        }
     }
 
 }
