@@ -23,6 +23,8 @@ import timber.log.Timber
 import java.util.UUID
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import androidx.navigation.NavOptions
+import androidx.navigation.NavOptionsBuilder
 import net.kelmer.correostracker.databinding.FragmentCreateParcelBinding
 
 /**
@@ -39,7 +41,7 @@ class CreateParcelFragment : BaseFragment<FragmentCreateParcelBinding>(R.layout.
                 onSuccess = {
                     Timber.i("Parcel ${it.trackingCode} created!")
                     hideKeyboardFrom(requireContext(), requireView())
-                    findNavController().navigate(R.id.nav_graph)
+                    findNavController().popBackStack(R.id.parcelListFragment, false)
                 },
                 onError = {
                     Timber.e(it)
@@ -80,7 +82,7 @@ class CreateParcelFragment : BaseFragment<FragmentCreateParcelBinding>(R.layout.
                     else -> LocalParcelReference.Stance.OUTGOING
                 }
                 val notify = binding.parcelStatusAlerts.isChecked
-                val localParcelReference = LocalParcelReference(UUID.randomUUID().toString(), binding.parcelCode.text.toString(), binding.parcelCode.text.toString(), stance, null, notify = notify, updateStatus = LocalParcelReference.UpdateStatus.UNKNOWN)
+                val localParcelReference = LocalParcelReference(UUID.randomUUID().toString(), binding.parcelCode.text.toString(), binding.parcelName.text.toString(), stance, null, notify = notify, updateStatus = LocalParcelReference.UpdateStatus.UNKNOWN)
                 viewModel.addParcel(localParcelReference).observe(viewLifecycleOwner, observeResult)
 
             } else {

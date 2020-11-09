@@ -2,6 +2,8 @@ package net.kelmer.correostracker.data.repository.correos
 
 import io.reactivex.Flowable
 import io.reactivex.Single
+import net.kelmer.correostracker.BuildConfig
+import net.kelmer.correostracker.BuildConfig.DEBUG
 import net.kelmer.correostracker.data.model.local.LocalParcelDao
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
@@ -24,7 +26,7 @@ class CorreosRepositoryImpl(val correosApi: CorreosApi, val dao: LocalParcelDao)
         var parcelReference: LocalParcelReference? = null
         return dao.getParcelSync(parcelId)
 
-                .delay((0..1000L).random(), TimeUnit.MILLISECONDS)
+                .delay(if (BuildConfig.DEBUG) (0..1000L).random() else 0, TimeUnit.MILLISECONDS)
                 .doOnSuccess {
                     parcelReference = it
                 }

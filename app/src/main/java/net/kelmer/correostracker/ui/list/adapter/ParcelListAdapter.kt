@@ -83,18 +83,15 @@ class ParcelListAdapter constructor(
             val fase = if (faseNumber != null) ParcelDetailStatus.Fase.fromFase(faseNumber) else ParcelDetailStatus.Fase.OTHER
 
 
-            if(parcel.updateStatus == LocalParcelReference.UpdateStatus.OK) {
+            if (parcel.updateStatus == LocalParcelReference.UpdateStatus.OK) {
                 binding.parcelStatus.setImageResource(fase.drawable)
-            }
-            else if (parcel.updateStatus == LocalParcelReference.UpdateStatus.ERROR){
+            } else if (parcel.updateStatus == LocalParcelReference.UpdateStatus.ERROR) {
                 binding.parcelStatus.setImageResource(R.drawable.ic_error_red)
             }
 
             var lastChecked = parcel.lastChecked
 
             if (lastChecked != null && lastChecked > 0) {
-                //                val relativeText = DateUtils.getRelativeTimeSpanString(lastChecked, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
-                //                last_checked.text = context.getString(R.string.lastchecked, relativeText)
                 binding.lastChecked.text = context.getString(R.string.lastchecked, dateFormat.format(Date(lastChecked)))
 
             }
@@ -119,13 +116,6 @@ class ParcelListAdapter constructor(
         notifyDataSetChanged()
     }
 
-//    fun setLoading(code: String, loading: Boolean) {
-//        val filter = allItems.filter { it.trackingCode == code }
-//        if (filter.isNotEmpty()) {
-//            filter.first().isLoading = loading
-//            notifyItemChanged(allItems.indexOf(filter.first()))
-//        }
-//    }
 
     fun getAllItems(): List<LocalParcelReference> = allItems
 }

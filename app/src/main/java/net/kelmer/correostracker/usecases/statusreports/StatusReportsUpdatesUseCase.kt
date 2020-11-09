@@ -18,29 +18,31 @@ import javax.inject.Inject
 class StatusReportsUpdatesUseCase @Inject constructor(
         private val localParcelRepository: LocalParcelRepository,
         private val parcelRepository: CorreosRepository
-) : RxUseCase<StatusReportsUpdatesUseCase.Params, CorreosApiParcel>() {
+) : RxUseCase<Unit, CorreosApiParcel>() {
 
-    data class Params(val items: List<LocalParcelReference>)
+    override fun execute(params: Unit, onNext: (Resource<CorreosApiParcel>) -> Unit) {
 
-
-    override fun execute(params: Params, onNext: (Resource<CorreosApiParcel>) -> Unit) {
-        val map = params.items.mapIndexed { idx, item ->
-            item.updateStatus = LocalParcelReference.UpdateStatus.INPROGRESS
-            localParcelRepository.saveParcel(item)
-                    .andThen(
-                            parcelRepository.getParcelStatus(item.trackingCode)
-                    )
-                    .doOnSubscribe {
-                        Timber.w("Subscribed")
+        localParcelRepository.getParcels().firstOrError()
+                .onErrorReturnItem(emptyList())
+                .toFlowable().flatMap {
+                    val map = it.mapIndexed { idx, item ->
+                        item.updateStatus = LocalParcelReference.UpdateStatus.INPROGRESS
+                        localParcelRepository.saveParcel(item)
+                                .andThen(
+                                        parcelRepository.getParcelStatus(item.trackingCode)
+                                )
+                                .doOnSubscribe {
+                                    Timber.w("Subscribed")
+                                }
+                                .map {
+                                    Resource.success(it)
+                                }
+                                .onErrorReturn {
+                                    Resource.failure(it)
+                                }
                     }
-                    .map {
-                        Resource.success(it)
-                    }
-                    .onErrorReturn {
-                        Resource.failure(it)
-                    }
-        }
-        Single.merge(map)
+                    Single.merge(map)
+                }
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribeBy(onNext = onNext)

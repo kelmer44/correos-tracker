@@ -189,7 +189,7 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
     }
 
     private fun refreshFromRemote() {
-        viewModel.refresh(adapter.getAllItems())
+        viewModel.refresh()
         if (adapter.getAllItems().isEmpty()) {
             binding?.swipeRefresh?.isRefreshing = false
         }

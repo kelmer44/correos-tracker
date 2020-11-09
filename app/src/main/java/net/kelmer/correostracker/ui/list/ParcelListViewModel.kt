@@ -43,16 +43,11 @@ class ParcelListViewModel @ViewModelInject constructor(
     private val _parcelList: MutableLiveData<Resource<List<LocalParcelReference>>> = MutableLiveData()
     val parcelList: LiveData<Resource<List<LocalParcelReference>>> = _parcelList
     private fun retrieveParcelList() = getParcelListUseCase(Unit, _parcelList)
+    private val statusReports: MutableLiveData<Resource<CorreosApiParcel>> = MutableLiveData()
 
     init {
         retrieveParcelList()
-        val mediatorLiveData = MediatorLiveData<List<LocalParcelReference>>()
-        mediatorLiveData.addSource(_parcelList) {
-            Timber.i("REF - Emission from parcel list: $it")
-            if (it is Resource.Success) {
-                refresh(it.data)
-            }
-        }
+        refresh()
     }
 
 
@@ -62,10 +57,9 @@ class ParcelListViewModel @ViewModelInject constructor(
         deleteParcelUseCase(DeleteParcelUseCase.Params(parcelReference), _deleteLiveData)
     }
 
-    private val statusReports: MutableLiveData<Resource<CorreosApiParcel>> = MutableLiveData()
-    fun refresh(items: List<LocalParcelReference>) {
+    fun refresh() {
         Timber.i("REF - Refresh called!")
-        statusReportsUpdatesUseCase(StatusReportsUpdatesUseCase.Params(items), statusReports)
+        statusReportsUpdatesUseCase(Unit, statusReports)
     }
 
     fun enableNotifications(code: String): LiveData<Resource<String>> {
