@@ -4,18 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.rv_parcel_item.view.last_checked
-import kotlinx.android.synthetic.main.rv_parcel_item.view.more
-import kotlinx.android.synthetic.main.rv_parcel_item.view.parcel_cardview
-import kotlinx.android.synthetic.main.rv_parcel_item.view.parcel_code
-import kotlinx.android.synthetic.main.rv_parcel_item.view.parcel_name
-import kotlinx.android.synthetic.main.rv_parcel_item.view.parcel_progress
-import kotlinx.android.synthetic.main.rv_parcel_item.view.parcel_stance
-import kotlinx.android.synthetic.main.rv_parcel_item.view.parcel_status
-import kotlinx.android.synthetic.main.rv_parcel_item.view.ultimo_estado
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.data.model.dto.ParcelDetailStatus
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
+import net.kelmer.correostracker.databinding.RvParcelItemBinding
 import net.kelmer.correostracker.ext.isVisible
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -26,7 +18,7 @@ import java.util.Date
  */
 class ParcelListAdapter constructor(
         private val clickListener: ParcelClickListener
-) : RecyclerView.Adapter<ParcelListAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ParcelListAdapter.ParcelListViewHolder>() {
 
 
     private var allItems = mutableListOf<LocalParcelReference>()
@@ -37,66 +29,70 @@ class ParcelListAdapter constructor(
             filteredItems.size
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.rv_parcel_item, parent, false)
-        return ViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParcelListViewHolder {
+        return ParcelListViewHolder.create(parent)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ParcelListViewHolder, position: Int) {
         holder.bind(filteredItems[position], clickListener)
     }
 
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ParcelListViewHolder(private val binding: RvParcelItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        private val dateFormat = SimpleDateFormat("dd/MM/yyy HH:mm:ss")
+
+        companion object {
+            fun create(parent: ViewGroup) = ParcelListViewHolder(RvParcelItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        }
 
         fun bind(parcel: LocalParcelReference,
                  clickListener: ParcelClickListener) = with(itemView) {
 
-            parcel_name.text = parcel.parcelName
-            parcel_code.text = parcel.trackingCode
+            binding.parcelName.text = parcel.parcelName
+            binding.parcelCode.text = parcel.trackingCode
 
-            ultimo_estado.text = parcel.ultimoEstado?.buildUltimoEstado()
+            binding.ultimoEstado.text = parcel.ultimoEstado?.buildUltimoEstado()
                     ?: context.getString(R.string.status_unknown)
 
             when (parcel.stance) {
                 LocalParcelReference.Stance.INCOMING -> {
-                    parcel_stance.setText(R.string.incoming)
+                    binding.parcelStance.setText(R.string.incoming)
                 }
                 LocalParcelReference.Stance.OUTGOING -> {
-                    parcel_stance.setText(R.string.outgoing)
+                    binding.parcelStance.setText(R.string.outgoing)
                 }
             }
 
-            parcel_cardview.setOnClickListener {
+            binding.parcelCardview.setOnClickListener {
                 clickListener.click(parcel)
             }
-            more.setOnClickListener {
-                clickListener.dots(more, parcel)
+            binding.more.setOnClickListener {
+                clickListener.dots(binding.more, parcel)
             }
 
-            parcel_cardview.setOnLongClickListener {
+            binding.parcelCardview.setOnLongClickListener {
                 clickListener.longPress(parcel)
                 true
             }
 
-            parcel_progress.isVisible = parcel.isLoading
-            parcel_status.isVisible = !parcel.isLoading
+            binding.parcelProgress.isVisible = parcel.isLoading
+            binding.parcelStatus.isVisible = !parcel.isLoading
 
             val faseNumber = parcel.ultimoEstado?.fase?.toInt()
             val fase = if (faseNumber != null) ParcelDetailStatus.Fase.fromFase(faseNumber) else ParcelDetailStatus.Fase.OTHER
 
-            parcel_status.setImageResource(fase.drawable)
+            binding.parcelStatus.setImageResource(fase.drawable)
 
             var lastChecked = parcel.lastChecked
 
             if (lastChecked != null && lastChecked > 0) {
                 //                val relativeText = DateUtils.getRelativeTimeSpanString(lastChecked, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
                 //                last_checked.text = context.getString(R.string.lastchecked, relativeText)
-                last_checked.text = context.getString(R.string.lastchecked, dateFormat.format(Date(lastChecked)))
+                binding.lastChecked.text = context.getString(R.string.lastchecked, dateFormat.format(Date(lastChecked)))
 
             }
-            last_checked.isVisible = lastChecked != null && lastChecked > 0
+            binding.lastChecked.isVisible = lastChecked != null && lastChecked > 0
         }
 
     }
@@ -112,7 +108,6 @@ class ParcelListAdapter constructor(
         notifyDataSetChanged()
     }
 
-    val dateFormat = SimpleDateFormat("dd/MM/yyy HH:mm:ss")
     fun updateItems(data: List<LocalParcelReference>) {
         allItems = data.toMutableList()
         notifyDataSetChanged()

@@ -1,11 +1,10 @@
 def versionMajor = 1
 def versionMinor = 9
 def versionPatch = 7
-def versionBuild = 0 // bump for dogfood builds, public betas, etc.
+def versionBuild = 0
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt' // Use experimental kapt implementation
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'com.google.firebase.crashlytics'
@@ -50,6 +49,10 @@ android {
         jvmTarget = '1.8'
     }
     buildToolsVersion = '29.0.3'
+
+    buildFeatures {
+        viewBinding true
+    }
 
     sourceSets {
         // Adds exported schema location as test app assets.

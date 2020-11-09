@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -18,18 +19,12 @@ import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_detail.toolbar
-import kotlinx.android.synthetic.main.fragment_create_parcel.create_toolbar
-import kotlinx.android.synthetic.main.fragment_detail.detail_loading
-import kotlinx.android.synthetic.main.fragment_detail.detail_toolbar
-import kotlinx.android.synthetic.main.fragment_detail.error_container
-import kotlinx.android.synthetic.main.fragment_detail.error_text
-import kotlinx.android.synthetic.main.fragment_detail.parcelStatusRecyclerView
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
 import net.kelmer.correostracker.data.network.exception.CorreosException
 import net.kelmer.correostracker.data.resolve
+import net.kelmer.correostracker.databinding.FragmentDetailBinding
 import net.kelmer.correostracker.ext.isVisible
 import net.kelmer.correostracker.ui.detail.adapter.DetailTimelineAdapter
 import net.kelmer.correostracker.util.NetworkInteractor
@@ -40,7 +35,7 @@ import timber.log.Timber
 
 
 @AndroidEntryPoint
-class DetailFragment : BaseFragment(R.layout.fragment_detail) {
+class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
 
     private val viewModel: ParcelDetailViewModel by viewModels()
 
@@ -50,36 +45,36 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
     private val args : DetailFragmentArgs by navArgs()
 
 
-    override fun loadUp(savedInstanceState: Bundle?) {
-        NavigationUI.setupWithNavController(detail_toolbar, findNavController())
-        setupToolbar()
+    override fun loadUp(binding: FragmentDetailBinding, savedInstanceState: Bundle?) {
+        NavigationUI.setupWithNavController(binding.detailToolbar, findNavController())
+        setupToolbar(binding.detailToolbar)
 
         Timber.v("Loading details for parcel ${args.parcelCode}")
 
-        parcelStatusRecyclerView.layoutManager = linearLayoutManager
-        parcelStatusRecyclerView.adapter = timelineAdapter
+        binding.parcelStatusRecyclerView.layoutManager = linearLayoutManager
+        binding.parcelStatusRecyclerView.adapter = timelineAdapter
 
         viewModel.statusResult.observe(this) { resource ->
-            detail_loading.isVisible = resource.inProgress()
+            binding.detailLoading.isVisible = resource.inProgress()
             resource.resolve(
                     onError = {
-                        error_container.isVisible = true
+                        binding.errorContainer.isVisible = true
                         Timber.e(it)
                         when (it) {
                             is CorreosException -> {
                                 FirebaseCrashlytics.getInstance().log("Controlled Exception Error ${args.parcelCode}")
                                 FirebaseCrashlytics.getInstance().recordException(it)
-                                error_text.text = it.message
+                                binding.errorText.text = it.message
                             }
                             is NetworkInteractor.NetworkUnavailableException -> {
                                 FirebaseCrashlytics.getInstance().log("Controlled Network Unavailable Exception Error ${args.parcelCode}")
                                 FirebaseCrashlytics.getInstance().recordException(it)
-                                error_text.text = getString(R.string.error_no_network)
+                                binding.errorText.text = getString(R.string.error_no_network)
                             }
                             else -> {
                                 FirebaseCrashlytics.getInstance().log("Unknown Error ${args.parcelCode}")
                                 FirebaseCrashlytics.getInstance().recordException(it)
-                                error_text.text = getString(R.string.error_unrecognized)
+                                binding.errorText.text = getString(R.string.error_unrecognized)
                             }
                         }
                     },
@@ -90,9 +85,9 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
     }
 
 
-    override fun setupToolbar() {
-        detail_toolbar.inflateMenu(R.menu.menu_detail)
-        detail_toolbar.setOnMenuItemClickListener { item ->
+    override fun setupToolbar(toolbar: Toolbar) {
+        toolbar.inflateMenu(R.menu.menu_detail)
+        toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.parcel_refresh -> {
                     viewModel.refresh()
@@ -108,64 +103,67 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
     var alertDialog: AlertDialog? = null
 
     private fun loadParcelInformation(parcel: ParcelDetailDTO) {
-        detail_toolbar.title = parcel.name
-        detail_toolbar.subtitle = parcel.code
-        timelineAdapter.updateStatus(parcel.states)
-        parcelStatusRecyclerView.scrollToPosition(timelineAdapter.itemCount - 1)
+        binding?.let {
+            it.detailToolbar.title = parcel.name
+            it.detailToolbar.subtitle = parcel.code
+            timelineAdapter.updateStatus(parcel.states)
+            it.parcelStatusRecyclerView.scrollToPosition(timelineAdapter.itemCount - 1)
 
-        var ctx = context
-        if (ctx != null) {
+            var ctx = context
+            if (ctx != null) {
 
-            val inflater = this.layoutInflater
-            val parent = inflater.inflate(R.layout.parcel_info, null)
+                val inflater = this.layoutInflater
+                val parent = inflater.inflate(R.layout.parcel_info, null)
 
-            var dialog = AlertDialog.Builder(ctx)
-                    .setTitle(parcel.name)
-                    .setPositiveButton(getString(android.R.string.ok)) { p0, p1 -> p0.dismiss() }
-                    .setView(parent)
-                    .create()
+                var dialog = AlertDialog.Builder(ctx)
+                        .setTitle(parcel.name)
+                        .setPositiveButton(getString(android.R.string.ok)) { p0, p1 -> p0.dismiss() }
+                        .setView(parent)
+                        .create()
 
-            parent.findViewById<TextView>(R.id.disclaimer)?.isVisible = !parcel.fechaCalculada.isNullOrEmpty()
-            parent.findViewById<LinearLayout>(R.id.fecha_estimada_container)?.isVisible = !parcel.fechaCalculada.isNullOrEmpty()
+                parent.findViewById<TextView>(R.id.disclaimer)?.isVisible = !parcel.fechaCalculada.isNullOrEmpty()
+                parent.findViewById<LinearLayout>(R.id.fecha_estimada_container)?.isVisible = !parcel.fechaCalculada.isNullOrEmpty()
 
-            val peso = parent.findViewById<TextView>(R.id.masinfo_peso)
-            val dimenContainer = parent.findViewById<LinearLayout>(R.id.dimen_container)
-            val height = parent.findViewById<TextView>(R.id.masinfo_height)
-            val width = parent.findViewById<TextView>(R.id.masinfo_width)
-            val depth = parent.findViewById<TextView>(R.id.masinfo_depth)
-            val dimensiones = parent.findViewById<TextView>(R.id.masinfo_dimensiones)
-            val codProducto = parent.findViewById<TextView>(R.id.masinfo_codproducto)
-            val ref = parent.findViewById<TextView>(R.id.masinfo_ref)
-            val fecha = parent.findViewById<TextView>(R.id.masinfo_fechaestimada)
-            val code = parent.findViewById<TextView>(R.id.masinfo_code)
-            val copy = parent.findViewById<ImageView>(R.id.masinfo_copy)
+                val peso = parent.findViewById<TextView>(R.id.masinfo_peso)
+                val dimenContainer = parent.findViewById<LinearLayout>(R.id.dimen_container)
+                val height = parent.findViewById<TextView>(R.id.masinfo_height)
+                val width = parent.findViewById<TextView>(R.id.masinfo_width)
+                val depth = parent.findViewById<TextView>(R.id.masinfo_depth)
+                val dimensiones = parent.findViewById<TextView>(R.id.masinfo_dimensiones)
+                val codProducto = parent.findViewById<TextView>(R.id.masinfo_codproducto)
+                val ref = parent.findViewById<TextView>(R.id.masinfo_ref)
+                val fecha = parent.findViewById<TextView>(R.id.masinfo_fechaestimada)
+                val code = parent.findViewById<TextView>(R.id.masinfo_code)
+                val copy = parent.findViewById<ImageView>(R.id.masinfo_copy)
 
-            val orElse = "N/A"
-            if (parcel.refCliente == "referencia") {
-                parcel.refCliente = ""
+                val orElse = "N/A"
+                if (parcel.refCliente == "referencia") {
+                    parcel.refCliente = ""
+                }
+
+                code.text = parcel.code
+
+                peso?.peso(parcel.peso, orElse)
+                if (parcel.containsDimensions()) {
+                    height?.textOrElse(parcel.alto, orElse)
+                    width?.textOrElse(parcel.ancho, orElse)
+                    depth?.textOrElse(parcel.largo, orElse)
+                    dimensiones.text = getString(R.string.dimensiones_placeholder, parcel.alto, parcel.ancho, parcel.largo)
+                    dimenContainer.visibility = View.VISIBLE
+                } else {
+                    dimenContainer.visibility = View.GONE
+                }
+                codProducto?.textOrElse(parcel.codProducto, orElse)
+                ref?.textOrElse(parcel.refCliente, orElse)
+                fecha?.textOrElse(parcel.fechaCalculada, orElse)
+
+                copy.setOnClickListener {
+                    context?.copyToClipboard(parcel.code)
+                }
+                alertDialog = dialog
             }
-
-            code.text = parcel.code
-
-            peso?.peso(parcel.peso, orElse)
-            if (parcel.containsDimensions()) {
-                height?.textOrElse(parcel.alto, orElse)
-                width?.textOrElse(parcel.ancho, orElse)
-                depth?.textOrElse(parcel.largo, orElse)
-                dimensiones.text = getString(R.string.dimensiones_placeholder, parcel.alto, parcel.ancho, parcel.largo)
-                dimenContainer.visibility = View.VISIBLE
-            } else {
-                dimenContainer.visibility = View.GONE
-            }
-            codProducto?.textOrElse(parcel.codProducto, orElse)
-            ref?.textOrElse(parcel.refCliente, orElse)
-            fecha?.textOrElse(parcel.fechaCalculada, orElse)
-
-            copy.setOnClickListener {
-                context?.copyToClipboard(parcel.code)
-            }
-            alertDialog = dialog
         }
+
     }
 
 
@@ -180,5 +178,7 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
             }
         }
     }
+
+    override fun bind(view: View): FragmentDetailBinding = FragmentDetailBinding.bind(view)
 
 }

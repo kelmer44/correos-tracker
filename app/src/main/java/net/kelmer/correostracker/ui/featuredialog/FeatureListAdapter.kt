@@ -5,18 +5,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.rv_feature.view.*
 import net.kelmer.correostracker.R
+import net.kelmer.correostracker.databinding.RvFeatureBinding
 
-class FeatureListAdapter : RecyclerView.Adapter<FeatureListAdapter.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.rv_feature, parent, false))
+class FeatureListAdapter : RecyclerView.Adapter<FeatureListAdapter.FeatureListViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeatureListViewHolder {
+        return FeatureListViewHolder.create(parent)
     }
 
     override fun getItemCount(): Int = list.size
 
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FeatureListViewHolder, position: Int) {
         holder.bind(list[position])
     }
 
@@ -29,11 +29,18 @@ class FeatureListAdapter : RecyclerView.Adapter<FeatureListAdapter.ViewHolder>()
     private val list: MutableList<Feature> = mutableListOf()
 
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class FeatureListViewHolder(private val binding: RvFeatureBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        companion object {
+            fun create(parent: ViewGroup): FeatureListViewHolder {
+                return  FeatureListViewHolder(RvFeatureBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+            }
+        }
+
 
         fun bind(feature: Feature) = with(itemView) {
-            feature_text.text = itemView.context.getString(feature.text)
-            feature_version.text = feature.version
+            binding.featureText.text = itemView.context.getString(feature.text)
+            binding.featureVersion.text = feature.version
         }
     }
 

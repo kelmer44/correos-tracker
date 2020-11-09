@@ -2,13 +2,11 @@ package net.kelmer.correostracker.ui.detail.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import kotlinx.android.synthetic.main.rv_detail_item.view.*
-import net.kelmer.correostracker.R
 import net.kelmer.correostracker.data.model.dto.ParcelDetailStatus
 import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
+import net.kelmer.correostracker.databinding.RvDetailItemBinding
 import net.kelmer.correostracker.ext.isVisible
 
 
@@ -24,10 +22,7 @@ class DetailTimelineAdapter : RecyclerView.Adapter<DetailTimelineAdapter.TimeLin
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeLineViewHolder {
-        val inflatedView = LayoutInflater.from(parent.context)
-                .inflate(R.layout.rv_detail_item,
-                        parent, false)
-        return TimeLineViewHolder(inflatedView)
+        return TimeLineViewHolder.create(parent)
     }
 
     fun updateStatus(updatedList: List<CorreosApiEvent>) {
@@ -35,24 +30,30 @@ class DetailTimelineAdapter : RecyclerView.Adapter<DetailTimelineAdapter.TimeLin
         notifyDataSetChanged()
     }
 
-    class TimeLineViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        private var view: View = v
+    class TimeLineViewHolder(val binding: RvDetailItemBinding) : RecyclerView.ViewHolder(binding.root) {
         private var status: CorreosApiEvent? = null
 
-        fun bindStatus(status: CorreosApiEvent, lastItem: Boolean = false, firstItem: Boolean = false) {
+        companion object {
+            fun create(parent: ViewGroup): TimeLineViewHolder {
+                val inflatedView = RvDetailItemBinding.inflate(LayoutInflater.from(parent.context),
+                        parent, false)
+                return TimeLineViewHolder(inflatedView)
+            }
+        }
+
+        fun bindStatus(status: CorreosApiEvent) {
             this.status = status
             val faseNumber = status.fase?.toInt()
             val fase = if (faseNumber != null) ParcelDetailStatus.Fase.fromFase(faseNumber) else ParcelDetailStatus.Fase.OTHER
 
+            binding.timeMarker.setMarker(ContextCompat.getDrawable(binding.root.context, fase.drawable))
 
-            view.time_marker.setMarker(ContextCompat.getDrawable(view.context, fase.drawable))
-
-            view.text_timeline_title.text = status.desTextoResumen
-            view.text_timeline_date.text = status.fecEvento
-            view.text_timeline_time.text = status.horEvento
-            view.text_timeline_description.text = status.desTextoAmpliado
-            view.location_container.isVisible = !status.unidad.isNullOrBlank()
-            view.text_timeline_location.text = status.unidad
+            binding.textTimelineTitle.text = status.desTextoResumen
+            binding.textTimelineDate.text = status.fecEvento
+            binding.textTimelineTime.text = status.horEvento
+            binding.textTimelineDescription.text = status.desTextoAmpliado
+            binding.locationContainer.isVisible = !status.unidad.isNullOrBlank()
+            binding.textTimelineLocation.text = status.unidad
         }
 
     }

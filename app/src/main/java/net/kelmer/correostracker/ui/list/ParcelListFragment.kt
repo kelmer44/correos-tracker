@@ -7,12 +7,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.MenuItemCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import kotlinx.android.synthetic.main.fragment_parcel_list.empty_state
-import kotlinx.android.synthetic.main.fragment_parcel_list.rv_parcel_list
-import kotlinx.android.synthetic.main.fragment_parcel_list.swipe_refresh
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.customviews.ConfirmDialog
@@ -29,16 +27,15 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_list.fab
-import kotlinx.android.synthetic.main.fragment_parcel_list.list_toolbar
 import net.kelmer.correostracker.data.Resource
+import net.kelmer.correostracker.databinding.FragmentParcelListBinding
 
 
 /**
  * Created by gabriel on 25/03/2018.
  */
 @AndroidEntryPoint
-class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
+class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.fragment_parcel_list) {
 
     private val viewModel: ParcelListViewModel by viewModels()
 
@@ -95,14 +92,13 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
 
     private val adapter = ParcelListAdapter(clickListener)
 
-    override fun loadUp(savedInstanceState: Bundle?) {
+    override fun loadUp(binding: FragmentParcelListBinding, savedInstanceState: Bundle?) {
 
-        NavigationUI.setupWithNavController(list_toolbar, findNavController())
+        NavigationUI.setupWithNavController(binding.listToolbar, findNavController())
+        setupToolbar(binding.listToolbar)
+        setupRecyclerView(binding)
 
-        setupToolbar()
-        setupRecyclerView()
-
-        fab.setOnClickListener {
+        binding.fab.setOnClickListener {
             findNavController().navigate(ParcelListFragmentDirections.actionParcelListFragmentToCreateParcelFragment())
         }
 
@@ -112,10 +108,10 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
         }
 
         viewModel.parcelList.observe(viewLifecycleOwner) { resource ->
-            swipe_refresh.isRefreshing = resource.inProgress()
+            binding.swipeRefresh.isRefreshing = resource.inProgress()
             resource.resolve(
                     onSuccess = {
-                        empty_state.isVisible = it.isEmpty()
+                        binding.emptyState.isVisible = it.isEmpty()
                         adapter.updateItems(it)
                         adapter.filter(searchView?.query?.toString() ?: "")
                     },
@@ -134,7 +130,7 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
                     onSuccess = {
                         Timber.w("Deleted $it elements!!")
                         adapter.notifyDataSetChanged()
-                        rv_parcel_list.invalidate()
+                        binding.rvParcelList.invalidate()
                     }
             )
         }
@@ -159,10 +155,12 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
 
     }
 
-    override fun setupToolbar() {
+    override fun bind(view: View) = FragmentParcelListBinding.bind(view)
 
-        list_toolbar.inflateMenu(R.menu.menu_list)
-        val searchViewItem = list_toolbar.menu.findItem(R.id.app_search)
+    override fun setupToolbar(toolbar: Toolbar) {
+
+        toolbar.inflateMenu(R.menu.menu_list)
+        val searchViewItem = toolbar.menu.findItem(R.id.app_search)
         searchView = MenuItemCompat.getActionView(searchViewItem) as SearchView
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -177,7 +175,7 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
             }
         })
 
-        list_toolbar.setOnMenuItemClickListener { item ->
+        toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.app_refresh_all -> {
                     viewModel.refresh(adapter.getAllItems())
@@ -201,12 +199,12 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
 
     }
 
-    private fun setupRecyclerView() {
+    private fun setupRecyclerView(binding: FragmentParcelListBinding) {
         val llm = LinearLayoutManager(context)
-        rv_parcel_list.layoutManager = llm
-        rv_parcel_list.adapter = adapter
+        binding.rvParcelList.layoutManager = llm
+        binding.rvParcelList.adapter = adapter
 
-        swipe_refresh.setOnRefreshListener {
+        binding.swipeRefresh.setOnRefreshListener {
             refreshFromRemote()
         }
     }
@@ -217,7 +215,7 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
             adapter.setLoading(p.trackingCode, true)
         }
         if (adapter.getAllItems().isEmpty()) {
-            swipe_refresh.isRefreshing = false
+            binding?.swipeRefresh?.isRefreshing = false
         }
     }
 
@@ -242,11 +240,6 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
                     startActivity(i)
                 },
         ).show()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        refreshFromRemote()
     }
 
 }
