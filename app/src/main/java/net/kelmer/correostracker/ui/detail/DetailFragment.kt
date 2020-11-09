@@ -5,12 +5,13 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_detail.toolbar
 import kotlinx.android.synthetic.main.fragment_detail.detail_loading
@@ -19,14 +20,13 @@ import kotlinx.android.synthetic.main.fragment_detail.error_text
 import kotlinx.android.synthetic.main.fragment_detail.parcelStatusRecyclerView
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
-import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
 import net.kelmer.correostracker.data.network.exception.CorreosException
 import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.ext.isVisible
-import net.kelmer.correostracker.ext.observe
 import net.kelmer.correostracker.ui.detail.adapter.DetailTimelineAdapter
 import net.kelmer.correostracker.util.NetworkInteractor
+import net.kelmer.correostracker.util.copyToClipboard
 import net.kelmer.correostracker.util.peso
 import net.kelmer.correostracker.util.textOrElse
 import timber.log.Timber
@@ -48,7 +48,12 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
         parcelStatusRecyclerView.layoutManager = linearLayoutManager
         parcelStatusRecyclerView.adapter = adapterRecyclerView
 
-        viewModel.getParcel(parcelCode ?: "NONE").observe(this) { resource ->
+        getParcel(parcelCode ?: "NONE")
+    }
+
+
+    private fun getParcel(code: String){
+        viewModel.getParcel(code).observe(this) { resource ->
             detail_loading.isVisible = resource.inProgress()
             resource.resolve(
                     onError = {
@@ -56,18 +61,18 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
                         Timber.e(it)
                         when (it) {
                             is CorreosException -> {
-                                Crashlytics.log("Controlled Exception Error $parcelCode")
-                                Crashlytics.logException(it)
+                                FirebaseCrashlytics.getInstance().log("Controlled Exception Error $parcelCode")
+                                FirebaseCrashlytics.getInstance().recordException(it)
                                 error_text.text = it.message
                             }
                             is NetworkInteractor.NetworkUnavailableException -> {
-                                Crashlytics.log("Controlled Exception Error $parcelCode")
-                                Crashlytics.logException(it)
+                                FirebaseCrashlytics.getInstance().log("Controlled Exception Error $parcelCode")
+                                FirebaseCrashlytics.getInstance().recordException(it)
                                 error_text.text = getString(R.string.error_no_network)
                             }
                             else -> {
-                                Crashlytics.log("Unknown Error $parcelCode")
-                                Crashlytics.logException(it)
+                                FirebaseCrashlytics.getInstance().log("Unknown Error $parcelCode")
+                                FirebaseCrashlytics.getInstance().recordException(it)
                                 error_text.text = getString(R.string.error_unrecognized)
                             }
                         }
@@ -88,7 +93,7 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
 
         when (item.itemId) {
             R.id.parcel_refresh -> {
-                viewModel.getParcel(parcelCode ?: "NONE")
+                getParcel(parcelCode ?: "NONE")
             }
             R.id.parcel_info -> {
                 alertDialog?.show()
@@ -102,6 +107,7 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
 
     private fun loadParcelInformation(parcel: ParcelDetailDTO) {
         activity?.toolbar?.title = parcel.name
+        activity?.toolbar?.subtitle = parcel.code
         adapterRecyclerView.updateStatus(parcel.states)
         parcelStatusRecyclerView.scrollToPosition(adapterRecyclerView.itemCount - 1)
 
@@ -129,13 +135,15 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
             val codProducto = parent.findViewById<TextView>(R.id.masinfo_codproducto)
             val ref = parent.findViewById<TextView>(R.id.masinfo_ref)
             val fecha = parent.findViewById<TextView>(R.id.masinfo_fechaestimada)
+            val code = parent.findViewById<TextView>(R.id.masinfo_code)
+            val copy = parent.findViewById<ImageView>(R.id.masinfo_copy)
+
             val orElse = "N/A"
             if (parcel.refCliente == "referencia") {
                 parcel.refCliente = ""
             }
 
-
-
+            code.text = parcel.code
 
             peso?.peso(parcel.peso, orElse)
             if (parcel.containsDimensions()) {
@@ -151,9 +159,9 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
             ref?.textOrElse(parcel.refCliente, orElse)
             fecha?.textOrElse(parcel.fechaCalculada, orElse)
 
-
-
-
+            copy.setOnClickListener {
+                context?.copyToClipboard(parcel.code)
+            }
             alertDialog = dialog
         }
 

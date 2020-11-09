@@ -27,10 +27,17 @@ fun featureBlurbDialog(
         @StringRes titleText: Int,
         @StringRes okText: Int,
         okListener: () -> Unit,
-        cancelListener: () -> Unit
+        githubListener: () -> Unit
 ): androidx.appcompat.app.AlertDialog {
 
-    return featureBlurbDialog(context, context.getString(titleText), context.getString(okText), okListener, cancelListener)
+    return featureBlurbDialog(
+            context = context,
+            titleText = context.getString(titleText),
+            okText = context.getString(okText),
+            okListener = okListener,
+            kofiListener = {},
+            githubListener = githubListener
+    )
 }
 
 @SuppressLint("InflateParams")
@@ -39,7 +46,8 @@ fun featureBlurbDialog(
         titleText: String,
         okText: String,
         okListener: () -> Unit,
-        kofiListener: () -> Unit
+        kofiListener: () -> Unit,
+        githubListener: () -> Unit
 ): androidx.appcompat.app.AlertDialog {
 
     val layoutInflater = LayoutInflater.from(context)
@@ -53,12 +61,15 @@ fun featureBlurbDialog(
     val ok = inflate.findViewById<Button>(R.id.dialog_yes_button)
     val cancel = inflate.findViewById<AppCompatImageButton>(R.id.dialog_no_button)
     val kofi = inflate.findViewById<ImageView>(R.id.kofi_button)
+    val github = inflate.findViewById<ImageView>(R.id.github_button)
     ok?.text = okText
     title?.text = titleText
 
     featureList.adapter = FeatureListAdapter().apply {
 
         setList(listOf(
+                FeatureListAdapter.Feature("1.9.5", R.string.changes_1_9_5),
+                FeatureListAdapter.Feature("1.9.0", R.string.changes_1_9_0),
                 FeatureListAdapter.Feature("1.8.0", R.string.changes_1_8_0),
                 FeatureListAdapter.Feature("1.7.2", R.string.changes_1_7_2),
                 FeatureListAdapter.Feature("1.7.0", R.string.changes_1_7_0),
@@ -67,6 +78,10 @@ fun featureBlurbDialog(
                 FeatureListAdapter.Feature("1.6.0", R.string.changes_1_6_0)
 
         ))
+    }
+
+    github.setOnClickListener {
+        githubListener()
     }
 
     ok?.setOnClickListener {

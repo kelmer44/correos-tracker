@@ -16,11 +16,6 @@ import javax.inject.Inject
 abstract class BaseViewModel(vararg useCases: UseCase<*, *>) : ViewModel() {
 
     protected val disposables: CompositeDisposable = CompositeDisposable()
-    @Inject
-    lateinit var networkInteractor: NetworkInteractor
-    @Inject
-    lateinit var schedulerProvider: SchedulerProvider
-
 
     fun addUseCase(useCase: UseCase<*, *>) {
         useCaseList.add(useCase)

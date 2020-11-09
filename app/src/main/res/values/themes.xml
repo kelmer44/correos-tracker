@@ -35,7 +35,7 @@
 
         <!-- Text colors -->
         <item name="android:textColorPrimary">?attr/colorOnBackground</item>
-        <item name="android:textColorSecondary">@color/steel</item>
+<!--        <item name="android:textColorSecondary">@color/steel</item>-->
 
         <!-- i.e. Edit text cursor color -->
         <!--        <item name="android:colorControlActivated">@color/colorControlActivated</item>-->

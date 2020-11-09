@@ -37,7 +37,8 @@
     <string name="menu_disable_notifications">Disable notifications</string>
     <string name="parcel_status_alerts">Activar notificaciones</string>
     <string name="feature_dialog_title">Novedades</string>
-    <string name="feature_dialog_opensource">Esta app es gratuita y open source y no tiene anuncios. Si quieres contribuir con el proyecto haz una donación a través de Kofi:</string>
+    <string name="feature_dialog_opensource">Esta app NO tiene afiliación alguna con la Sociedad Estatal Correos y Telégrafos, S.A. sino que ha sido creada por un desarrollador independiente. Seguimiento Correos es gratuita y open source y no tiene anuncios.</string>
+    <string name="feature_dialog_opensource_contribute">Si quieres contribuir con el proyecto haz una donación a través de Kofi:</string>
     <string name="about">Acerca de</string>
     <string name="changes_1_6_0">Soporte para tema oscuro</string>
     <string name="changes_1_6_2">Ahora puedes introducir tus paquetes escaneando el código de barras de tu recibo</string>
@@ -50,4 +51,13 @@
     <string name="delete_confirm_desc">¿Estás seguro de que deseas eliminar el paquete seleccionado?</string>
     <string name="search">Filter</string>
     <string name="code_helper_text">*Solo paquetes de Correos España o Correos Express</string>
+    <string name="changes_1_9_0" >Se permiten varios paquetes con el mismo número de seguimiento.</string>
+    <string name="menu_theme">Tema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_system">Igual que el sistema</string>
+    <string name="theme_title">Elige un tema</string>
+    <string name="copy">Copiar</string>
+    <string name="changes_1_9_5">Dark theme config</string>
+    <string name="visit_us_github">Visítanos en github</string>
 </resources>

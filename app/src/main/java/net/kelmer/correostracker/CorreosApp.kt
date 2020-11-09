@@ -7,12 +7,9 @@ import android.content.Context
 import android.os.Build
 import androidx.work.Configuration
 import androidx.work.WorkManager
-import com.crashlytics.android.Crashlytics
-import com.crashlytics.android.core.CrashlyticsCore
 import com.facebook.stetho.Stetho
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.HiltAndroidApp
-import dagger.hilt.android.components.ApplicationComponent
-import io.fabric.sdk.android.Fabric
 import net.kelmer.correostracker.di.worker.MyWorkerFactory
 import net.kelmer.correostracker.service.worker.ParcelPollWorker
 import timber.log.Timber
@@ -25,7 +22,8 @@ import javax.inject.Inject
 class CorreosApp : Application() {
 
 
-    @Inject lateinit var myWorkerFactory: MyWorkerFactory
+    @Inject
+    lateinit var myWorkerFactory: MyWorkerFactory
 
     override fun onCreate() {
         super.onCreate()
@@ -64,10 +62,7 @@ class CorreosApp : Application() {
     }
 
     private fun initCrashlytics() {
-
-        Fabric.with(this, Crashlytics.Builder().core(CrashlyticsCore.Builder()
-                .disabled(BuildConfig.DEBUG)
-                .build()).build())
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
     }
 
     private fun setupTimber() {
@@ -75,7 +70,9 @@ class CorreosApp : Application() {
     }
 
     private fun setupStetho() {
-        Stetho.initializeWithDefaults(this)
+        if (BuildConfig.DEBUG) {
+            Stetho.initializeWithDefaults(this)
+        }
     }
 
 }

@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 
-/**
+/**z
  * Created by gabriel on 25/03/2018.
  */
 class ParcelListAdapter constructor(
@@ -54,7 +54,7 @@ class ParcelListAdapter constructor(
                  clickListener: ParcelClickListener) = with(itemView) {
 
             parcel_name.text = parcel.parcelName
-            parcel_code.text = parcel.code
+            parcel_code.text = parcel.trackingCode
 
             ultimo_estado.text = parcel.ultimoEstado?.buildUltimoEstado()
                     ?: context.getString(R.string.status_unknown)
@@ -106,7 +106,7 @@ class ParcelListAdapter constructor(
             allItems
         } else {
             allItems.filter {
-                it.parcelName.contains(text, true) || it.code.contains(text, true)
+                it.parcelName.contains(text, true) || it.trackingCode.contains(text, true)
             }.toMutableList()
         }
         notifyDataSetChanged()
@@ -119,7 +119,7 @@ class ParcelListAdapter constructor(
     }
 
     fun setLoading(code: String, loading: Boolean) {
-        val filter = allItems.filter { it.code == code }
+        val filter = allItems.filter { it.trackingCode == code }
         if (filter.isNotEmpty()) {
             filter.first().isLoading = loading
             notifyItemChanged(allItems.indexOf(filter.first()))

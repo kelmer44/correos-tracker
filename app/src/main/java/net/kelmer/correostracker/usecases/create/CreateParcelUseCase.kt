@@ -41,6 +41,6 @@ class CreateParcelUseCase @Inject constructor(private val localParcelRepository:
 //                                }
 //                    }
 //                }
-        return localParcelRepository.saveParcel(params.localParcelReference).andThen(localParcelRepository.getParcel(params.localParcelReference.code)).firstOrError()
+        return localParcelRepository.saveParcel(params.localParcelReference).andThen(localParcelRepository.getParcel(params.localParcelReference.trackingCode)).firstOrError()
     }
 }

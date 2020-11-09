@@ -22,8 +22,8 @@ import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.network.exception.WrongCodeException
 import net.kelmer.correostracker.data.resolve
-import net.kelmer.correostracker.ext.observe
 import timber.log.Timber
+import java.util.UUID
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -37,7 +37,7 @@ class CreateParcelFragment : BaseFragment(R.layout.fragment_create_parcel) {
     private val observeResult: (Resource<LocalParcelReference>) -> Unit = { resource ->
         resource.resolve(
                 onSuccess = {
-                    Timber.i("Parcel ${it.code} created!")
+                    Timber.i("Parcel ${it.trackingCode} created!")
                     activity?.setResult(Activity.RESULT_OK)
                     activity?.finish()
                 },
@@ -68,7 +68,7 @@ class CreateParcelFragment : BaseFragment(R.layout.fragment_create_parcel) {
                     else -> LocalParcelReference.Stance.OUTGOING
                 }
                 val notify = parcel_status_alerts.isChecked
-                val localParcelReference = LocalParcelReference(parcel_code.text.toString(), parcel_name.text.toString(), stance, null, notify = notify)
+                val localParcelReference = LocalParcelReference(UUID.randomUUID().toString(), parcel_code.text.toString(), parcel_name.text.toString(), stance, null, notify = notify)
                 viewModel.addParcel(localParcelReference).observe(viewLifecycleOwner, observeResult)
 
             } else {

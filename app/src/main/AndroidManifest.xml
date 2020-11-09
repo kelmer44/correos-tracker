@@ -33,10 +33,6 @@
         <activity
             android:name=".ui.detail.DetailActivity"
             android:parentActivityName=".ui.list.ParcelListActivity" />
-
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="bc22c0cdc157cb80f7cdfdb0b604a7b453fff59c" />
         <provider
             tools:replace="android:authorities"
             android:name="androidx.work.impl.WorkManagerInitializer"

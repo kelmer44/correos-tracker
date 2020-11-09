@@ -10,7 +10,14 @@ import java.util.*
 @Entity
 data class LocalParcelReference(
         @PrimaryKey(autoGenerate = false)
+        /**
+         * This is no longer code, code was initially the tracking code,
+         * code was initially used as primary key but then was dismissed when people tried
+         * to put inadvertedly the same code multiple times, and then complained the app did not
+         * support multiple packages, because people are dumb like that.
+         */
         var code: String = "",
+        var trackingCode: String = "",
         var parcelName: String = "",
         @TypeConverters(StanceConverter::class)
         var stance: Stance = Stance.INCOMING,

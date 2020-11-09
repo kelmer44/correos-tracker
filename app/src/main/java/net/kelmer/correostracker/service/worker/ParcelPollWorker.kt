@@ -19,7 +19,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import android.app.PendingIntent
 import android.content.Intent
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import net.kelmer.correostracker.ui.list.ParcelListActivity
 
 
@@ -42,8 +42,8 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
         return parcelRepository.getNotifiableParcels()
                 .flattenAsFlowable { it  }
                 .flatMapSingle { local ->
-                    Timber.d("Parcel poll checking parcel with code ${local.code}")
-                    correosRepository.getParcelStatus(local.code)
+                    Timber.d("Parcel poll checking parcel with code ${local.trackingCode}")
+                    correosRepository.getParcelStatus(local.trackingCode)
                             .map {
                                 ParcelStatusComparator(local, it)
                             }
@@ -67,7 +67,7 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
                     Result.success()
                 }
                 .onErrorReturn {
-                    Crashlytics.logException(it)
+                    FirebaseCrashlytics.getInstance().recordException(it)
                     Timber.e(it, "Failure on worker!")
                     Result.failure()
                 }
@@ -118,7 +118,7 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
                 val ultimoEstado = previousParcel.ultimoEstado
                 val last = currentParcel.eventos?.lastOrNull()
                 if ((ultimoEstado != null && last!=null) && ultimoEstado != last) {
-                    newEvents.add(NewEventInfo(previousParcel.code, previousParcel.parcelName, last))
+                    newEvents.add(NewEventInfo(previousParcel.trackingCode, previousParcel.parcelName, last))
                 }
             }
         }
