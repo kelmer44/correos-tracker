@@ -101,29 +101,23 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
 
     private val adapter = ParcelListAdapter(clickListener)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun loadUp(savedInstanceState: Bundle?) {
+
+        NavigationUI.setupWithNavController(list_toolbar, findNavController())
+
+        setupToolbar()
         setupRecyclerView()
 
         fab.setOnClickListener {
             findNavController().navigate(ParcelListFragmentDirections.actionParcelListFragmentToCreateParcelFragment())
         }
 
-
-        NavigationUI.setupWithNavController(list_toolbar, findNavController())
-
-
         if (!viewModel.showFeature()) {
             showFeature()
             viewModel.setShownFeature()
         }
 
-        //        viewModel.retrieveParcelList()
-        viewModel.getParcelList().observe(viewLifecycleOwner) { resource ->
+        viewModel.parcelList.observe(viewLifecycleOwner) { resource ->
             swipe_refresh.isRefreshing = resource.inProgress()
             resource.resolve(
                     onSuccess = {
@@ -138,7 +132,7 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
             )
         }
 
-        viewModel.getDeleteResult().observe(viewLifecycleOwner) { resource ->
+        viewModel.deleteResult.observe(viewLifecycleOwner) { resource ->
             resource.resolve(
                     onError = {
                         Toast.makeText(context, "ERROR DELETING!", Toast.LENGTH_LONG).show()
@@ -151,8 +145,7 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
             )
         }
 
-
-        viewModel.statusReports.observe(this) { resource ->
+        viewModel.statusReports.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Success -> {
                     val codigo = resource.data?.codEnvio
@@ -172,6 +165,48 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
 
     }
 
+    override fun setupToolbar() {
+
+        list_toolbar.inflateMenu(R.menu.menu_list)
+        val searchViewItem = list_toolbar.menu.findItem(R.id.app_search)
+        searchView = MenuItemCompat.getActionView(searchViewItem) as SearchView
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                searchView?.clearFocus()
+                adapter.filter(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                adapter.filter(newText)
+                return false
+            }
+        })
+
+        list_toolbar.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.app_refresh_all -> {
+                    viewModel.refresh(adapter.getAllItems())
+                    adapter.getAllItems().forEachIndexed { i, p ->
+                        adapter.setLoading(p.trackingCode, true)
+                    }
+                }
+                R.id.app_theme -> {
+                    themeSelectionDialog(requireContext()) {
+                        //                    Timber.i("Theme selected: $it")
+                        viewModel.setTheme(it.code)
+
+                    }.show()
+                }
+                R.id.app_about -> {
+                    showFeature()
+                }
+            }
+            true
+        }
+
+    }
+
     private fun setupRecyclerView() {
         val llm = LinearLayoutManager(context)
         rv_parcel_list.layoutManager = llm
@@ -183,8 +218,6 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
     }
 
     private fun refreshFromRemote() {
-
-
         viewModel.refresh(adapter.getAllItems())
         adapter.getAllItems().forEach { p ->
             adapter.setLoading(p.trackingCode, true)
@@ -200,47 +233,6 @@ class ParcelListFragment : BaseFragment(R.layout.fragment_parcel_list) {
     }
 
     var searchView: SearchView? = null
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main, menu)
-
-        val searchViewItem = menu.findItem(R.id.app_search)
-        searchView = MenuItemCompat.getActionView(searchViewItem) as SearchView
-        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                searchView?.clearFocus()
-                adapter.filter(query)
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                adapter.filter(newText)
-                return false
-            }
-        })
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.app_refresh_all -> {
-                viewModel.refresh(adapter.getAllItems())
-                adapter.getAllItems().forEachIndexed { i, p ->
-                    adapter.setLoading(p.trackingCode, true)
-                }
-            }
-            R.id.app_theme -> {
-                themeSelectionDialog(requireContext()) {
-                    //                    Timber.i("Theme selected: $it")
-                    viewModel.setTheme(it.code)
-
-                }.show()
-            }
-            R.id.app_about -> {
-                showFeature()
-            }
-        }
-        return true
-    }
 
     private fun showFeature() {
         featureBlurbDialog(

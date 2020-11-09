@@ -14,7 +14,6 @@ import timber.log.Timber
  */
 abstract class BaseFragment(@LayoutRes layoutId: Int) : Fragment(layoutId) {
 
-
     override fun onAttach(context: Context) {
         Timber.w("FREEZE - onAttach $this ")
         super.onAttach(context)
@@ -31,6 +30,7 @@ abstract class BaseFragment(@LayoutRes layoutId: Int) : Fragment(layoutId) {
     }
 
 
+    abstract fun setupToolbar()
     abstract fun loadUp(savedInstanceState: Bundle?)
 
 }

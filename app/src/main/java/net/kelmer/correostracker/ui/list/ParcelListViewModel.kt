@@ -41,7 +41,7 @@ class ParcelListViewModel @ViewModelInject constructor(
         switchNotificationsUseCase) {
 
     private val _parcelList: MutableLiveData<Resource<List<LocalParcelReference>>> = MutableLiveData()
-    fun getParcelList(): LiveData<Resource<List<LocalParcelReference>>> = _parcelList
+    val parcelList: LiveData<Resource<List<LocalParcelReference>>> = _parcelList
     fun retrieveParcelList() = getParcelListUseCase(Unit, _parcelList)
 
     init {
@@ -57,7 +57,7 @@ class ParcelListViewModel @ViewModelInject constructor(
 
 
     private val _deleteLiveData: MutableLiveData<Resource<Unit>> = MutableLiveData()
-    fun getDeleteResult(): LiveData<Resource<Unit>> = _deleteLiveData
+    val deleteResult: LiveData<Resource<Unit>> = _deleteLiveData
     fun deleteParcel(parcelReference: LocalParcelReference) {
         deleteParcelUseCase(DeleteParcelUseCase.Params(parcelReference), _deleteLiveData)
     }

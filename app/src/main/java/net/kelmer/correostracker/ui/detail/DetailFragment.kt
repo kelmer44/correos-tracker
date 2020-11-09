@@ -48,10 +48,10 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
 
     private val parcelCode = arguments?.getString(KEY_PARCELCODE) ?: ""
 
-    override fun loadUp(savedInstanceState: Bundle?) {
-        setHasOptionsMenu(true)
 
+    override fun loadUp(savedInstanceState: Bundle?) {
         NavigationUI.setupWithNavController(detail_toolbar, findNavController())
+        setupToolbar()
 
         parcelStatusRecyclerView.layoutManager = linearLayoutManager
         parcelStatusRecyclerView.adapter = timelineAdapter
@@ -87,23 +87,19 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
     }
 
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.detail, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        when (item.itemId) {
-            R.id.parcel_refresh -> {
-                viewModel.refresh()
+    override fun setupToolbar() {
+        detail_toolbar.inflateMenu(R.menu.menu_detail)
+        detail_toolbar.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.parcel_refresh -> {
+                    viewModel.refresh()
+                }
+                R.id.parcel_info -> {
+                    alertDialog?.show()
+                }
             }
-            R.id.parcel_info -> {
-                alertDialog?.show()
-            }
+            true
         }
-
-        return super.onOptionsItemSelected(item)
     }
 
     var alertDialog: AlertDialog? = null

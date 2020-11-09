@@ -24,7 +24,6 @@ class ParcelListActivity : BaseActivity(R.layout.activity_list) {
     @Inject
     lateinit var myWorkerFactory: MyWorkerFactory
 
-
     @Inject
     lateinit var sharedPrefsManager: SharedPrefsManager
 
@@ -42,7 +41,6 @@ class ParcelListActivity : BaseActivity(R.layout.activity_list) {
         val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
-
 
         val uploadWorker = PeriodicWorkRequest.Builder(
                 ParcelPollWorker::class.java, 15, TimeUnit.MINUTES)

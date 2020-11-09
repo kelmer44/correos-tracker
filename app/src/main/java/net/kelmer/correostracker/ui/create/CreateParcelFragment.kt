@@ -1,9 +1,11 @@
 package net.kelmer.correostracker.ui.create
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -17,17 +19,16 @@ import kotlinx.android.synthetic.main.fragment_create_parcel.parcel_code_layout
 import kotlinx.android.synthetic.main.fragment_create_parcel.parcel_name
 import kotlinx.android.synthetic.main.fragment_create_parcel.parcel_status_alerts
 import kotlinx.android.synthetic.main.fragment_create_parcel.stance_group
-import kotlinx.android.synthetic.main.fragment_parcel_list.list_toolbar
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.customviews.ConfirmDialog
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
-import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.network.exception.WrongCodeException
 import net.kelmer.correostracker.data.resolve
 import timber.log.Timber
 import java.util.UUID
+import android.view.View
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -42,8 +43,8 @@ class CreateParcelFragment : BaseFragment(R.layout.fragment_create_parcel) {
         resource.resolve(
                 onSuccess = {
                     Timber.i("Parcel ${it.trackingCode} created!")
-                    activity?.setResult(Activity.RESULT_OK)
-                    activity?.finish()
+                    hideKeyboardFrom(requireContext(), requireView())
+                    findNavController().navigate(R.id.nav_graph)
                 },
                 onError = {
                     Timber.e(it)
@@ -60,9 +61,18 @@ class CreateParcelFragment : BaseFragment(R.layout.fragment_create_parcel) {
                 })
     }
 
+    fun hideKeyboardFrom(context: Context, view: View) {
+        val imm: InputMethodManager = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
+    }
+    override fun setupToolbar() {
+        //Do nothing
+    }
+
     override fun loadUp(savedInstanceState: Bundle?) {
         NavigationUI.setupWithNavController(create_toolbar, findNavController())
 
+        setupToolbar()
 
         create_ok.setOnClickListener {
 

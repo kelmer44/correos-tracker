@@ -18,9 +18,9 @@ class StatusReportsUpdatesUseCase @Inject constructor(
     data class Params(val items: List<LocalParcelReference>)
 
     override fun buildUseCase(params: Params): Flowable<CorreosApiParcel> {
+        //FIXME: What happens if one of them fails?
         val map = params.items.mapIndexed { idx, item ->
             parcelRepository.getParcelStatus(item.trackingCode)
-                    .delay(5000L * idx, TimeUnit.MILLISECONDS)
         }
         return Single.concat(map)
     }
