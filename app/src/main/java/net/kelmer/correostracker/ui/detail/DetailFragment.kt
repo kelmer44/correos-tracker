@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -46,12 +47,14 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
     private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(activity)
     private val timelineAdapter: DetailTimelineAdapter = DetailTimelineAdapter()
 
-    private val parcelCode = arguments?.getString(KEY_PARCELCODE) ?: ""
+    private val args : DetailFragmentArgs by navArgs()
 
 
     override fun loadUp(savedInstanceState: Bundle?) {
         NavigationUI.setupWithNavController(detail_toolbar, findNavController())
         setupToolbar()
+
+        Timber.v("Loading details for parcel ${args.parcelCode}")
 
         parcelStatusRecyclerView.layoutManager = linearLayoutManager
         parcelStatusRecyclerView.adapter = timelineAdapter
@@ -64,17 +67,17 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
                         Timber.e(it)
                         when (it) {
                             is CorreosException -> {
-                                FirebaseCrashlytics.getInstance().log("Controlled Exception Error $parcelCode")
+                                FirebaseCrashlytics.getInstance().log("Controlled Exception Error ${args.parcelCode}")
                                 FirebaseCrashlytics.getInstance().recordException(it)
                                 error_text.text = it.message
                             }
                             is NetworkInteractor.NetworkUnavailableException -> {
-                                FirebaseCrashlytics.getInstance().log("Controlled Network Unavailable Exception Error $parcelCode")
+                                FirebaseCrashlytics.getInstance().log("Controlled Network Unavailable Exception Error ${args.parcelCode}")
                                 FirebaseCrashlytics.getInstance().recordException(it)
                                 error_text.text = getString(R.string.error_no_network)
                             }
                             else -> {
-                                FirebaseCrashlytics.getInstance().log("Unknown Error $parcelCode")
+                                FirebaseCrashlytics.getInstance().log("Unknown Error ${args.parcelCode}")
                                 FirebaseCrashlytics.getInstance().recordException(it)
                                 error_text.text = getString(R.string.error_unrecognized)
                             }
