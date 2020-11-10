@@ -12,7 +12,7 @@ import net.kelmer.correostracker.util.SchedulerProvider
  * Created by gabriel on 08/02/2018.
  */
 
-fun <T> Flowable<T>.toResult(schedulerProvider: SchedulerProvider): Flowable<Resource<T>> {
+fun <T> Flowable<T>.toResource(schedulerProvider: SchedulerProvider): Flowable<Resource<T>> {
     return compose { item ->
         item
                 .map { Resource.success(it) }
@@ -23,12 +23,12 @@ fun <T> Flowable<T>.toResult(schedulerProvider: SchedulerProvider): Flowable<Res
     }
 }
 
-fun <T> Single<T>.toResult(schedulerProvider: SchedulerProvider): Observable<Resource<T>> {
-    return toObservable().toResult(schedulerProvider)
+fun <T> Single<T>.toResource(schedulerProvider: SchedulerProvider): Observable<Resource<T>> {
+    return toObservable().toResource(schedulerProvider)
 }
 
 
-fun <T> Observable<T>.toResult(schedulerProvider: SchedulerProvider): Observable<Resource<T>> {
+fun <T> Observable<T>.toResource(schedulerProvider: SchedulerProvider): Observable<Resource<T>> {
     return compose { item ->
         item
                 .map { Resource.success(it) }
@@ -42,8 +42,8 @@ fun <T> Observable<T>.toResult(schedulerProvider: SchedulerProvider): Observable
 }
 
 
-fun <T> Completable.toResult(schedulerProvider: SchedulerProvider): Observable<Resource<T>> {
-    return toObservable<T>().toResult(schedulerProvider)
+fun <T> Completable.toResource(schedulerProvider: SchedulerProvider): Observable<Resource<T>> {
+    return toObservable<T>().toResource(schedulerProvider)
 }
 
 
