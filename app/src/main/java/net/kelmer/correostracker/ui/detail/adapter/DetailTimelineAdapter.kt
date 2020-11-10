@@ -46,14 +46,17 @@ class DetailTimelineAdapter : RecyclerView.Adapter<DetailTimelineAdapter.TimeLin
             val faseNumber = status.fase?.toInt()
             val fase = if (faseNumber != null) ParcelDetailStatus.Fase.fromFase(faseNumber) else ParcelDetailStatus.Fase.OTHER
 
-            binding.timeMarker.setMarker(ContextCompat.getDrawable(binding.root.context, fase.drawable))
+            binding.apply {
+                timeMarker.setMarker(ContextCompat.getDrawable(root.context, fase.drawable))
 
-            binding.textTimelineTitle.text = status.desTextoResumen
-            binding.textTimelineDate.text = status.fecEvento
-            binding.textTimelineTime.text = status.horEvento
-            binding.textTimelineDescription.text = status.desTextoAmpliado
-            binding.locationContainer.isVisible = !status.unidad.isNullOrBlank()
-            binding.textTimelineLocation.text = status.unidad
+                textTimelineTitle.text = status.desTextoResumen
+                textTimelineDate.text = status.fecEvento
+                textTimelineTime.text = status.horEvento
+                textTimelineDescription.text = status.desTextoAmpliado
+                locationContainer.isVisible = !status.unidad.isNullOrBlank()
+                textTimelineLocation.text = status.unidad
+            }
+
         }
 
     }

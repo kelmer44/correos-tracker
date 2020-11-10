@@ -1,7 +1,6 @@
 package net.kelmer.correostracker.ui.list.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import net.kelmer.correostracker.R
@@ -49,53 +48,57 @@ class ParcelListAdapter constructor(
         fun bind(parcel: LocalParcelReference,
                  clickListener: ParcelClickListener) = with(itemView) {
 
-            binding.parcelName.text = parcel.parcelName
-            binding.parcelCode.text = parcel.trackingCode
+            binding.apply {
 
-            binding.ultimoEstado.text = parcel.ultimoEstado?.buildUltimoEstado()
-                    ?: context.getString(R.string.status_unknown)
+                parcelName.text = parcel.parcelName
+                parcelCode.text = parcel.trackingCode
 
-            when (parcel.stance) {
-                LocalParcelReference.Stance.INCOMING -> {
-                    binding.parcelStance.setText(R.string.incoming)
+                ultimoEstado.text = parcel.ultimoEstado?.buildUltimoEstado()
+                        ?: context.getString(R.string.status_unknown)
+
+                when (parcel.stance) {
+                    LocalParcelReference.Stance.INCOMING -> {
+                        parcelStance.setText(R.string.incoming)
+                    }
+                    LocalParcelReference.Stance.OUTGOING -> {
+                        parcelStance.setText(R.string.outgoing)
+                    }
                 }
-                LocalParcelReference.Stance.OUTGOING -> {
-                    binding.parcelStance.setText(R.string.outgoing)
+
+                parcelCardview.setOnClickListener {
+                    clickListener.click(parcel)
                 }
+                more.setOnClickListener {
+                    clickListener.dots(more, parcel)
+                }
+
+                parcelCardview.setOnLongClickListener {
+                    clickListener.longPress(parcel)
+                    true
+                }
+
+                parcelProgress.isVisible = parcel.updateStatus == LocalParcelReference.UpdateStatus.INPROGRESS
+                parcelStatus.isVisible = parcel.updateStatus != LocalParcelReference.UpdateStatus.INPROGRESS
+
+                val faseNumber = parcel.ultimoEstado?.fase?.toInt()
+                val fase = if (faseNumber != null) ParcelDetailStatus.Fase.fromFase(faseNumber) else ParcelDetailStatus.Fase.OTHER
+
+
+                if (parcel.updateStatus == LocalParcelReference.UpdateStatus.OK) {
+                    parcelStatus.setImageResource(fase.drawable)
+                } else if (parcel.updateStatus == LocalParcelReference.UpdateStatus.ERROR) {
+                    parcelStatus.setImageResource(R.drawable.ic_error_red)
+                }
+
+                var lastCheckedValue = parcel.lastChecked
+
+                if (lastCheckedValue != null && lastCheckedValue > 0) {
+                    lastChecked.text = context.getString(R.string.lastchecked, dateFormat.format(Date(lastCheckedValue)))
+
+                }
+                lastChecked.isVisible = lastCheckedValue != null && lastCheckedValue > 0
             }
 
-            binding.parcelCardview.setOnClickListener {
-                clickListener.click(parcel)
-            }
-            binding.more.setOnClickListener {
-                clickListener.dots(binding.more, parcel)
-            }
-
-            binding.parcelCardview.setOnLongClickListener {
-                clickListener.longPress(parcel)
-                true
-            }
-
-            binding.parcelProgress.isVisible = parcel.updateStatus == LocalParcelReference.UpdateStatus.INPROGRESS
-            binding.parcelStatus.isVisible = parcel.updateStatus != LocalParcelReference.UpdateStatus.INPROGRESS
-
-            val faseNumber = parcel.ultimoEstado?.fase?.toInt()
-            val fase = if (faseNumber != null) ParcelDetailStatus.Fase.fromFase(faseNumber) else ParcelDetailStatus.Fase.OTHER
-
-
-            if (parcel.updateStatus == LocalParcelReference.UpdateStatus.OK) {
-                binding.parcelStatus.setImageResource(fase.drawable)
-            } else if (parcel.updateStatus == LocalParcelReference.UpdateStatus.ERROR) {
-                binding.parcelStatus.setImageResource(R.drawable.ic_error_red)
-            }
-
-            var lastChecked = parcel.lastChecked
-
-            if (lastChecked != null && lastChecked > 0) {
-                binding.lastChecked.text = context.getString(R.string.lastchecked, dateFormat.format(Date(lastChecked)))
-
-            }
-            binding.lastChecked.isVisible = lastChecked != null && lastChecked > 0
         }
 
     }
