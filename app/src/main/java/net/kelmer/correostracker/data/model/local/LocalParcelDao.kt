@@ -27,6 +27,9 @@ interface LocalParcelDao {
     @Update
     fun updateParcel(parcel: LocalParcelReference) : Completable
 
+
+
+
     @Query("update LocalParcelReference set notify = 0 where trackingCode = :code")
     fun disableNotifications(code: String): Completable
 
@@ -41,4 +44,7 @@ interface LocalParcelDao {
 
     @Query("select * from LocalParcelReference where trackingCode = :code")
     fun getParcelSequential(code: String): LocalParcelReference
+
+
+
 }

@@ -20,7 +20,7 @@ import javax.inject.Inject
 import android.app.PendingIntent
 import android.content.Intent
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import net.kelmer.correostracker.ui.list.ParcelListActivity
+import net.kelmer.correostracker.ui.activity.MainActivity
 
 
 class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
@@ -39,6 +39,7 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
 
     override fun createWork(): Single<Result> {
         Timber.w("Parcel poll worker $this here trying to do some work!")
+
         return parcelRepository.getNotifiableParcels()
                 .flattenAsFlowable { it  }
                 .flatMapSingle { local ->
@@ -82,13 +83,12 @@ class ParcelPollWorker constructor(val parcelRepository: LocalParcelRepository,
             }
 
 
-            val notificationIntent = Intent(applicationContext, ParcelListActivity::class.java)
+            val notificationIntent = Intent(applicationContext, MainActivity::class.java)
 
             notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
 
             val intent = PendingIntent.getActivity(applicationContext, 0,
                     notificationIntent, 0)
-
 
             val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_reparto)

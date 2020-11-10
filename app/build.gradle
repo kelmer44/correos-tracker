@@ -1,13 +1,35 @@
 def versionMajor = 1
 def versionMinor = 9
 def versionPatch = 7
-def versionBuild = 0 // bump for dogfood builds, public betas, etc.
+def versionBuild = 0
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt' // Use experimental kapt implementation
+apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+
+def gitSha() {
+    def p = 'git rev-parse --short HEAD'.execute([], project.rootDir)
+    p.waitFor()
+    if (p.exitValue() != 0) {
+        throw new RuntimeException(p.errorStream.text)
+    }
+
+    return p.text.trim()
+}
+
+def gitTimestamp() {
+    def p = 'git log -n 1 --format=%at'.execute([], rootDir)
+    p.waitFor()
+    if (p.exitValue() != 0) {
+        throw new RuntimeException(p.errorStream.text)
+    }
+
+    return p.text.trim()
+}
 
 
 android {
@@ -19,14 +41,18 @@ android {
         targetSdkVersion versions.targetSdk
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+
+        buildConfigField 'String', 'GIT_SHA', "\"${gitSha()}\""
+        buildConfigField 'long', 'GIT_TIMESTAMP', "${gitTimestamp()}L"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += ["room.schemaLocation":
                                       "$projectDir/schemas".toString()]
             }
         }
+
     }
     buildTypes {
         debug {
@@ -43,7 +69,14 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
     buildToolsVersion = '29.0.3'
+
+    buildFeatures {
+        viewBinding true
+    }
 
     sourceSets {
         // Adds exported schema location as test app assets.
@@ -58,7 +91,6 @@ dependencies {
     //==================== Support Library ====================
     implementation deps.support.appCompat
     implementation deps.support.design
-    implementation deps.support.v4
     implementation deps.support.fragment
     implementation deps.support.constraint
     implementation deps.support.vector
@@ -69,11 +101,14 @@ dependencies {
     implementation deps.retrofit.core
     implementation deps.retrofit.moshi
     implementation deps.retrofit.rxjava
+
     //lifecycle
     implementation deps.lifecycle.runtime
-    implementation deps.lifecycle.extensions
-    implementation deps.lifecycle.reactivestreams
+    implementation deps.lifecycle.viewmodel
     implementation deps.lifecycle.worker
+
+    implementation deps.navigation.fragment
+    implementation deps.navigation.ui
     kapt deps.lifecycle.compiler
 
 
@@ -104,11 +139,10 @@ dependencies {
     // Add dependency
 
     //DI
-    kapt deps.dagger.compiler
-    kapt deps.dagger.androidprocessor
-    implementation deps.dagger.runtime
-    implementation deps.dagger.android
-    implementation deps.dagger.androidsupport
+    implementation deps.daggerhilt.android
+    kapt deps.daggerhilt.android_compiler
+    kapt deps.daggerhilt.compiler
+    implementation deps.daggerhilt.viewmodel
 
     //Barcode scanner
     implementation deps.barcode.zxing
@@ -119,8 +153,6 @@ dependencies {
     implementation deps.timber
     implementation deps.stetho.core
     implementation deps.stetho.okhttp3
-    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
-
 
     //Test
     testImplementation deps.junit

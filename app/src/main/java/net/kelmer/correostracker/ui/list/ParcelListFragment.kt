@@ -1,48 +1,43 @@
 package net.kelmer.correostracker.ui.list
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.MenuItemCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import kotlinx.android.synthetic.main.fragment_parcel_list.empty_state
-import kotlinx.android.synthetic.main.fragment_parcel_list.rv_parcel_list
-import kotlinx.android.synthetic.main.fragment_parcel_list.swipe_refresh
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.customviews.ConfirmDialog
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
-import net.kelmer.correostracker.data.prefs.ThemeMode
 import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.ext.isVisible
-import net.kelmer.correostracker.ui.detail.DetailActivity
 import net.kelmer.correostracker.ui.featuredialog.featureBlurbDialog
 import net.kelmer.correostracker.ui.list.adapter.ParcelClickListener
 import net.kelmer.correostracker.ui.list.adapter.ParcelListAdapter
 import net.kelmer.correostracker.ui.themedialog.themeSelectionDialog
 import net.kelmer.correostracker.util.copyToClipboard
 import timber.log.Timber
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
+import dagger.hilt.android.AndroidEntryPoint
+import net.kelmer.correostracker.data.Resource
+import net.kelmer.correostracker.databinding.FragmentParcelListBinding
 
 
 /**
  * Created by gabriel on 25/03/2018.
  */
-class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
+@AndroidEntryPoint
+class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.fragment_parcel_list) {
 
-
-    override val layoutId: Int = R.layout.fragment_parcel_list
-    override val viewModelClass: Class<ParcelListViewModel> = ParcelListViewModel::class.java
+    private val viewModel: ParcelListViewModel by viewModels()
 
     private val clickListener = object : ParcelClickListener {
         override fun longPress(parcelReference: LocalParcelReference) {
@@ -50,10 +45,8 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
         }
 
         override fun click(parcelReference: LocalParcelReference) {
-            val ctx = context
-            ctx?.let {
-                startActivity(DetailActivity.newIntent(ctx, parcelReference.trackingCode))
-            }
+            val action = ParcelListFragmentDirections.actionParcelListFragmentToDetailFragment(parcelReference.trackingCode)
+            findNavController().navigate(action)
         }
 
         override fun dots(view: View, parcelReference: LocalParcelReference) {
@@ -99,25 +92,26 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
 
     private val adapter = ParcelListAdapter(clickListener)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
+    override fun loadUp(binding: FragmentParcelListBinding, savedInstanceState: Bundle?) {
 
-    override fun loadUp(savedInstanceState: Bundle?) {
-        setupRecyclerView()
+        NavigationUI.setupWithNavController(binding.listToolbar, findNavController())
+        setupToolbar(binding.listToolbar)
+        setupRecyclerView(binding)
+
+        binding.fab.setOnClickListener {
+            findNavController().navigate(ParcelListFragmentDirections.actionParcelListFragmentToCreateParcelFragment())
+        }
 
         if (!viewModel.showFeature()) {
             showFeature()
             viewModel.setShownFeature()
         }
 
-        viewModel.retrieveParcelList()
-        viewModel.getParcelList().observe(viewLifecycleOwner) { resource ->
-            swipe_refresh.isRefreshing = resource.inProgress()
+        viewModel.parcelList.observe(viewLifecycleOwner) { resource ->
+            binding.swipeRefresh.isRefreshing = resource.inProgress()
             resource.resolve(
                     onSuccess = {
-                        empty_state.isVisible = it.isEmpty()
+                        binding.emptyState.isVisible = it.isEmpty()
                         adapter.updateItems(it)
                         adapter.filter(searchView?.query?.toString() ?: "")
                     },
@@ -128,7 +122,7 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
             )
         }
 
-        viewModel.getDeleteResult().observe(viewLifecycleOwner) { resource ->
+        viewModel.deleteResult.observe(viewLifecycleOwner) { resource ->
             resource.resolve(
                     onError = {
                         Toast.makeText(context, "ERROR DELETING!", Toast.LENGTH_LONG).show()
@@ -136,50 +130,19 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                     onSuccess = {
                         Timber.w("Deleted $it elements!!")
                         adapter.notifyDataSetChanged()
-                        rv_parcel_list.invalidate()
+                        binding.rvParcelList.invalidate()
                     }
             )
         }
 
-
-        viewModel.statusReports.observe(this) { parcel ->
-            parcel?.codEnvio?.let { codigo ->
-                adapter.setLoading(codigo, false)
-            }
-        }
-
     }
 
-    private fun setupRecyclerView() {
-        val llm = LinearLayoutManager(context)
-        rv_parcel_list.layoutManager = llm
-        rv_parcel_list.adapter = adapter
+    override fun bind(view: View) = FragmentParcelListBinding.bind(view)
 
-        swipe_refresh.setOnRefreshListener {
-            refreshFromRemote()
-        }
-    }
+    override fun setupToolbar(toolbar: Toolbar) {
 
-    private fun refreshFromRemote() {
-        viewModel.refresh(adapter.getAllItems())
-        adapter.getAllItems().forEach { p ->
-            adapter.setLoading(p.trackingCode, true)
-        }
-        if (adapter.getAllItems().isEmpty()) {
-            swipe_refresh.isRefreshing = false
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.retrieveParcelList()
-    }
-
-    var searchView: SearchView? = null
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main, menu)
-
-        val searchViewItem = menu.findItem(R.id.app_search)
+        toolbar.inflateMenu(R.menu.menu_list)
+        val searchViewItem = toolbar.menu.findItem(R.id.app_search)
         searchView = MenuItemCompat.getActionView(searchViewItem) as SearchView
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -193,30 +156,46 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                 return false
             }
         })
-        super.onCreateOptionsMenu(menu, inflater);
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.app_refresh_all -> {
-                viewModel.refresh(adapter.getAllItems())
-                adapter.getAllItems().forEachIndexed { i, p ->
-                    adapter.setLoading(p.trackingCode, true)
+        toolbar.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.app_refresh_all -> {
+                    refreshFromRemote()
+                }
+                R.id.app_theme -> {
+                    themeSelectionDialog(requireContext()) {
+                        //                    Timber.i("Theme selected: $it")
+                        viewModel.setTheme(it.code)
+
+                    }.show()
+                }
+                R.id.app_about -> {
+                    showFeature()
                 }
             }
-            R.id.app_theme -> {
-                themeSelectionDialog(requireContext()) {
-                    //                    Timber.i("Theme selected: $it")
-                    viewModel.setTheme(it.code)
-
-                }.show()
-            }
-            R.id.app_about -> {
-                showFeature()
-            }
+            true
         }
-        return true
+
     }
+
+    private fun setupRecyclerView(binding: FragmentParcelListBinding) {
+        val llm = LinearLayoutManager(context)
+        binding.rvParcelList.layoutManager = llm
+        binding.rvParcelList.adapter = adapter
+
+        binding.swipeRefresh.setOnRefreshListener {
+            refreshFromRemote()
+        }
+    }
+
+    private fun refreshFromRemote() {
+        viewModel.refresh()
+        if (adapter.getAllItems().isEmpty()) {
+            binding?.swipeRefresh?.isRefreshing = false
+        }
+    }
+
+    var searchView: SearchView? = null
 
     private fun showFeature() {
         featureBlurbDialog(
@@ -225,18 +204,13 @@ class ParcelListFragment : BaseFragment<ParcelListViewModel>() {
                 okText = android.R.string.ok,
                 okListener = {
                 },
-                githubListener =  {
+                githubListener = {
                     val url = "https://github.com/kelmer44/correos-tracker"
                     val i = Intent(Intent.ACTION_VIEW)
                     i.data = Uri.parse(url)
                     startActivity(i)
                 },
-                ).show()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        refreshFromRemote()
+        ).show()
     }
 
 }

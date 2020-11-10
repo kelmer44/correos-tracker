@@ -18,7 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CorreosTracker"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.list.ParcelListActivity">
+
+
+        <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,19 +28,11 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.create.CreateActivity"
-            android:parentActivityName=".ui.list.ParcelListActivity" />
-
-        <activity
-            android:name=".ui.detail.DetailActivity"
-            android:parentActivityName=".ui.list.ParcelListActivity" />
         <provider
             tools:replace="android:authorities"
             android:name="androidx.work.impl.WorkManagerInitializer"
             android:authorities="@string/workmanager"
             android:enabled="false" />
-
 
     </application>
 

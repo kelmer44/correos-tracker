@@ -104,7 +104,7 @@
 
         <color name="chipBorder">@color/gray</color>
         <color name="iconColor">@color/steel</color>
-
+    <color name="debug_log_level_text">#ffffffff</color>
 
 
 </resources>
