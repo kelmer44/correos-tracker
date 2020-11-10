@@ -1,11 +1,6 @@
 package net.kelmer.correostracker.ui.detail
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -25,12 +20,12 @@ import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
 import net.kelmer.correostracker.data.network.exception.CorreosException
 import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.databinding.FragmentDetailBinding
-import net.kelmer.correostracker.ext.isVisible
+import net.kelmer.correostracker.util.ext.isVisible
 import net.kelmer.correostracker.ui.detail.adapter.DetailTimelineAdapter
 import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.copyToClipboard
-import net.kelmer.correostracker.util.peso
-import net.kelmer.correostracker.util.textOrElse
+import net.kelmer.correostracker.util.ext.peso
+import net.kelmer.correostracker.util.ext.textOrElse
 import timber.log.Timber
 
 

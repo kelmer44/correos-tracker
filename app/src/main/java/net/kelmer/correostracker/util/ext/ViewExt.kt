@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.ext
+package net.kelmer.correostracker.util.ext
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter

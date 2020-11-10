@@ -14,7 +14,7 @@ import com.google.zxing.integration.android.IntentIntegrator
 import dagger.hilt.android.AndroidEntryPoint
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
-import net.kelmer.correostracker.customviews.ConfirmDialog
+import net.kelmer.correostracker.ui.customviews.ConfirmDialog
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.network.exception.WrongCodeException
@@ -23,8 +23,6 @@ import timber.log.Timber
 import java.util.UUID
 import android.view.View
 import androidx.appcompat.widget.Toolbar
-import androidx.navigation.NavOptions
-import androidx.navigation.NavOptionsBuilder
 import net.kelmer.correostracker.databinding.FragmentCreateParcelBinding
 
 /**

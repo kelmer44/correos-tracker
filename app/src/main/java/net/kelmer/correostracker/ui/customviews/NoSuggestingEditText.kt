@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.customviews
+package net.kelmer.correostracker.ui.customviews
 
 import android.content.Context
 import androidx.appcompat.widget.AppCompatEditText

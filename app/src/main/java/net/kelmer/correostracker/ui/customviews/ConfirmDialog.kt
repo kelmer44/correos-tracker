@@ -1,8 +1,7 @@
-package net.kelmer.correostracker.customviews
+package net.kelmer.correostracker.ui.customviews
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import androidx.annotation.StringRes
 
 

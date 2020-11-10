@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import net.kelmer.correostracker.data.model.dto.ParcelDetailStatus
 import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.databinding.RvDetailItemBinding
-import net.kelmer.correostracker.ext.isVisible
+import net.kelmer.correostracker.util.ext.isVisible
 
 
 class DetailTimelineAdapter : RecyclerView.Adapter<DetailTimelineAdapter.TimeLineViewHolder>() {

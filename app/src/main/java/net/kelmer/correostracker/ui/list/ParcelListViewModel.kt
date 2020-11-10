@@ -2,29 +2,18 @@ package net.kelmer.correostracker.ui.list
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.work.ListenableWorker
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.subscribeBy
 import net.kelmer.correostracker.BuildConfig
 import net.kelmer.correostracker.base.BaseViewModel
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
-import net.kelmer.correostracker.data.network.exception.WrongCodeException
 import net.kelmer.correostracker.data.prefs.SharedPrefsManager
-import net.kelmer.correostracker.data.repository.correos.CorreosRepository
-import net.kelmer.correostracker.ext.withNetwork
 import net.kelmer.correostracker.usecases.delete.DeleteParcelUseCase
 import net.kelmer.correostracker.usecases.list.GetParcelListUseCase
 import net.kelmer.correostracker.usecases.notifications.SwitchNotificationsUseCase
 import net.kelmer.correostracker.usecases.statusreports.StatusReportsUpdatesUseCase
-import net.kelmer.correostracker.util.NetworkInteractor
-import net.kelmer.correostracker.util.SchedulerProvider
 import timber.log.Timber
-import javax.inject.Inject
 
 /**
  * Created by gabriel on 25/03/2018.

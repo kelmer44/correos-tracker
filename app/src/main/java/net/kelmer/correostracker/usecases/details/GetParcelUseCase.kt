@@ -1,19 +1,14 @@
 package net.kelmer.correostracker.usecases.details
 
 import io.reactivex.Flowable
-import io.reactivex.Single
 import io.reactivex.functions.BiFunction
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.subscribeBy
 import net.kelmer.correostracker.base.usecase.rx.RxFlowableUseCase
-import net.kelmer.correostracker.base.usecase.rx.RxSingleUseCase
 import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.repository.correos.CorreosRepository
 import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
-import net.kelmer.correostracker.ext.toResult
-import net.kelmer.correostracker.ext.withNetwork
+import net.kelmer.correostracker.util.ext.withNetwork
 import javax.inject.Inject
 
 class GetParcelUseCase @Inject constructor(val localParcelRepository: LocalParcelRepository,

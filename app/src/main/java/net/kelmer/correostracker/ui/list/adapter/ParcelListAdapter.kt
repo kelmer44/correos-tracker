@@ -7,7 +7,7 @@ import net.kelmer.correostracker.R
 import net.kelmer.correostracker.data.model.dto.ParcelDetailStatus
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.databinding.RvParcelItemBinding
-import net.kelmer.correostracker.ext.isVisible
+import net.kelmer.correostracker.util.ext.isVisible
 import java.text.SimpleDateFormat
 import java.util.Date
 

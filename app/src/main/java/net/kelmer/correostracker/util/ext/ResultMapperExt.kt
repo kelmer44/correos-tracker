@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.ext
+package net.kelmer.correostracker.util.ext
 
 import io.reactivex.Completable
 import io.reactivex.Flowable

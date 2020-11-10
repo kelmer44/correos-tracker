@@ -3,7 +3,7 @@ package net.kelmer.correostracker.base.usecase.rx
 import io.reactivex.Single
 import io.reactivex.rxkotlin.subscribeBy
 import net.kelmer.correostracker.data.Resource
-import net.kelmer.correostracker.ext.toResult
+import net.kelmer.correostracker.util.ext.toResult
 
 abstract class RxSingleUseCase<in P, R> : RxUseCase<P, R>() {
 

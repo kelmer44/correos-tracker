@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.util
+package net.kelmer.correostracker.util.ext
 
 import android.widget.TextView
 import net.kelmer.correostracker.R
