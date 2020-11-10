@@ -12,7 +12,7 @@ import net.kelmer.correostracker.util.ext.withNetwork
 import javax.inject.Inject
 
 class GetParcelUseCase @Inject constructor(val localParcelRepository: LocalParcelRepository,
-                                           val correosRepository: CorreosRepository): RxFlowableUseCase<GetParcelUseCase.Params, ParcelDetailDTO>() {
+                                           val correosRepository: CorreosRepository) : RxFlowableUseCase<GetParcelUseCase.Params, ParcelDetailDTO>() {
 
     data class Params(val parcelCode: String)
 
@@ -21,8 +21,7 @@ class GetParcelUseCase @Inject constructor(val localParcelRepository: LocalParce
                 .withNetwork(networkInteractor)
                 .toFlowable()
                 .zipWith(
-                        localParcelRepository.getParcel(params.parcelCode)
-                        ,
+                        localParcelRepository.getParcel(params.parcelCode),
                         BiFunction<CorreosApiParcel, LocalParcelReference, ParcelDetailDTO> { correosParcel, localParcel ->
                             ParcelDetailDTO(
                                     localParcel.parcelName,

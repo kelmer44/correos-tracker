@@ -85,11 +85,11 @@ def extension = ext {
             ],
             //==================== Structure ====================
             'lifecycle'  : [
-                    'runtime'        : "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycle}",
-                    'viewmodel'      : "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}",
-                    'compiler'       : "androidx.lifecycle:lifecycle-compiler:${versions.lifecycle}",
-                    'coretesting'    : "android.arch.core:core-testing:${versions.lifecycle}",
-                    'worker'         : "androidx.work:work-rxjava2:${versions.worker}"
+                    'runtime'    : "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycle}",
+                    'viewmodel'  : "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}",
+                    'compiler'   : "androidx.lifecycle:lifecycle-compiler:${versions.lifecycle}",
+                    'coretesting': "android.arch.core:core-testing:${versions.lifecycle}",
+                    'worker'     : "androidx.work:work-rxjava2:${versions.worker}"
 
             ],
             'room'       : [
@@ -107,8 +107,8 @@ def extension = ext {
             'daggerhilt' : [
                     'android'         : "com.google.dagger:hilt-android:${versions.daggerHilt}",
                     'android_compiler': "com.google.dagger:hilt-android-compiler:${versions.daggerHilt}",
-                    'compiler'        : "androidx.hilt:hilt-compiler:${versions.daggerhiltext}",
-                    'viewmodel'       : "androidx.hilt:hilt-lifecycle-viewmodel:${versions.daggerhiltext}"
+                    'viewmodel'       : "androidx.hilt:hilt-lifecycle-viewmodel:${versions.daggerhiltext}",
+                    'test'            : "com.google.dagger:hilt-android-testing:${versions.daggerHilt}"
 
             ],
             'moshi'      : [
@@ -133,7 +133,7 @@ def extension = ext {
             ],
             //==================== Test ====================
             'junit'      : "junit:junit:${versions.junit}",
-            'mockito'    : "com.nhaarman:mockito-kotlin:1.5.0",
+            'mockito'    : 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0',
             'espresso'   : [
                     'core'   : "com.android.support.test.espresso:espresso-core:${versions.espresso}",
                     'contrib': "com.android.support.test.espresso:espresso-contrib:${versions.espresso}",

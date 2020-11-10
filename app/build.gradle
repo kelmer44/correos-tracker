@@ -141,7 +141,6 @@ dependencies {
     //DI
     implementation deps.daggerhilt.android
     kapt deps.daggerhilt.android_compiler
-    kapt deps.daggerhilt.compiler
     implementation deps.daggerhilt.viewmodel
 
     //Barcode scanner
@@ -163,6 +162,12 @@ dependencies {
     androidTestImplementation deps.espresso.core
     androidTestImplementation deps.junit
     androidTestImplementation deps.atsl.core
+    androidTestImplementation deps.atsl.rules
+
+
+    androidTestImplementation deps.daggerhilt.test
+    testImplementation deps.daggerhilt.test
+    kaptAndroidTest deps.daggerhilt.android_compiler
 
 }
 

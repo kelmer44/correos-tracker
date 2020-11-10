@@ -25,7 +25,6 @@ class CorreosRepositoryImpl(val correosApi: CorreosApi, val dao: LocalParcelDao)
     override fun getParcelStatus(parcelId: String): Single<CorreosApiParcel> {
         var parcelReference: LocalParcelReference? = null
         return dao.getParcelSync(parcelId)
-
                 .delay(if (BuildConfig.DEBUG) (0..1000L).random() else 0, TimeUnit.MILLISECONDS)
                 .doOnSuccess {
                     parcelReference = it
