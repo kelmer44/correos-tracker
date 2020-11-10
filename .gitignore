@@ -7,6 +7,6 @@
 /build
 /captures
 .externalNativeBuild
-.idea/
+.idea/*
 app/release
 gradle
