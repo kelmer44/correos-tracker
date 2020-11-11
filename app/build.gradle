@@ -142,6 +142,7 @@ dependencies {
     //DI
     implementation deps.daggerhilt.android
     kapt deps.daggerhilt.android_compiler
+    kapt deps.daggerhilt.compiler
     implementation deps.daggerhilt.viewmodel
 
     //Barcode scanner

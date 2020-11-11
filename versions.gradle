@@ -107,6 +107,7 @@ def extension = ext {
             'daggerhilt' : [
                     'android'         : "com.google.dagger:hilt-android:${versions.daggerHilt}",
                     'android_compiler': "com.google.dagger:hilt-android-compiler:${versions.daggerHilt}",
+                    'compiler'        : "androidx.hilt:hilt-compiler:${versions.daggerhiltext}",
                     'viewmodel'       : "androidx.hilt:hilt-lifecycle-viewmodel:${versions.daggerhiltext}",
                     'test'            : "com.google.dagger:hilt-android-testing:${versions.daggerHilt}"
 
