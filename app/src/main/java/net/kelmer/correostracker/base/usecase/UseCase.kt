@@ -27,7 +27,6 @@ abstract class UseCase<in P, R> {
     }
 
     open fun dispose() {}
-
 }
 
 operator fun <R> UseCase<Unit, R>.invoke(): LiveData<Resource<R>> = this(Unit)

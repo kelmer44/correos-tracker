@@ -30,18 +30,15 @@ class LogsAdapter : RecyclerView.Adapter<LogsAdapter.ViewHolder>() {
         this.logs.add(entry)
     }
 
-
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val levelView: TextView = itemView.findViewById(R.id.debug_log_level)
         private val tagView: TextView = itemView.findViewById(R.id.debug_log_tag)
         private val messageView: TextView = itemView.findViewById(R.id.debug_log_message)
 
-
         companion object {
             fun create(parent: ViewGroup): ViewHolder =
-                    ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_debug_logs, parent, false))
-
+                ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_debug_logs, parent, false))
         }
 
         fun bind(entry: LumberYard.Entry) {
@@ -52,7 +49,6 @@ class LogsAdapter : RecyclerView.Adapter<LogsAdapter.ViewHolder>() {
                 manager.setPrimaryClip(data)
                 Toast.makeText(itemView.context, "Text has been copied!", Toast.LENGTH_SHORT).show()
             }
-
 
             levelView.text = entry.displayLevel()
             tagView.text = entry.tag
@@ -79,11 +75,10 @@ class LogsAdapter : RecyclerView.Adapter<LogsAdapter.ViewHolder>() {
                 }
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-            ViewHolder.create(parent)
+        ViewHolder.create(parent)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(logs[position])

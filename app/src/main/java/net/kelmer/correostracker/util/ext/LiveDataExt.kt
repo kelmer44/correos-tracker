@@ -7,18 +7,23 @@ import androidx.lifecycle.Transformations
 import net.kelmer.correostracker.data.Resource
 
 fun <T> LiveData<T>.subscribe(owner: LifecycleOwner, observer: (T) -> Unit) =
-        observe(owner, Observer<T> { v ->
+    observe(
+        owner,
+        Observer<T> { v ->
             v?.let {
                 observer.invoke(v)
             }
-        })
+        }
+    )
 
 fun <T> LiveData<Resource<T>>.observeResource(
-        owner: LifecycleOwner,
-        onError: (Throwable) -> Unit = {},
-        onSuccess: (T) -> Unit
+    owner: LifecycleOwner,
+    onError: (Throwable) -> Unit = {},
+    onSuccess: (T) -> Unit
 ) =
-        observe(owner, Observer<Resource<T>> { v ->
+    observe(
+        owner,
+        Observer<Resource<T>> { v ->
             v?.let {
                 if (it is Resource.Success) {
                     onSuccess(it.data)
@@ -26,10 +31,8 @@ fun <T> LiveData<Resource<T>>.observeResource(
                     onError(it.exception)
                 }
             }
-        })
-
-
-
+        }
+    )
 
 fun <X, Y> LiveData<X>.map(transformer: (X) -> Y): LiveData<Y> =
-        Transformations.map(this) { transformer(it) }
+    Transformations.map(this) { transformer(it) }

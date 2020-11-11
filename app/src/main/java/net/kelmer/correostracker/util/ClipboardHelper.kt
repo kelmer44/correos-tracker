@@ -10,7 +10,7 @@ import net.kelmer.correostracker.R
 /**
  * Created by Gabriel Sanmartín on 03/11/2020.
  */
-fun Context.copyToClipboard(text: String){
+fun Context.copyToClipboard(text: String) {
     val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     val clip = ClipData.newPlainText("ParcelCode", text)
     clipboard.setPrimaryClip(clip)

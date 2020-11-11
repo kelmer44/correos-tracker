@@ -11,7 +11,6 @@ class AppSchedulerProvider : SchedulerProvider {
     override fun ui(): Scheduler =
         AndroidSchedulers.mainThread()
 
-
     override fun computation(): Scheduler = Schedulers.computation()
 
     override fun newThread(): Scheduler = Schedulers.newThread()

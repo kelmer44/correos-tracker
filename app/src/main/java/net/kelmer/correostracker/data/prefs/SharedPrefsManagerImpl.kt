@@ -4,11 +4,10 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.squareup.moshi.Moshi
 import javax.inject.Inject
 
 class SharedPrefsManagerImpl @Inject constructor(
-        private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences
 ) : SharedPrefsManager {
     companion object {
         private const val FEATURE_SEEN = "C_FEATURE_SEEN"
@@ -24,25 +23,24 @@ class SharedPrefsManagerImpl @Inject constructor(
         get() = sharedPreferences.getInt(PREFERENCE_NIGHT_MODE, PREFERENCE_NIGHT_MODE_DEF_VAL)
         set(value) {
             sharedPreferences.edit().putInt(
-                    PREFERENCE_NIGHT_MODE, value
+                PREFERENCE_NIGHT_MODE, value
             ).apply()
             field = value
         }
 
     private val preferenceChangedListener =
-            SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
-                when (key) {
-                    PREFERENCE_NIGHT_MODE -> {
-                        _themeModeLive.value = themeMode
-                    }
+        SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
+            when (key) {
+                PREFERENCE_NIGHT_MODE -> {
+                    _themeModeLive.value = themeMode
                 }
             }
+        }
 
     init {
         _themeModeLive.value = themeMode
         sharedPreferences.registerOnSharedPreferenceChangeListener(preferenceChangedListener)
     }
-
 
     override fun hasSeenFeatureBlurb(versionName: String): Boolean {
         return get(FEATURE_SEEN + "_" + versionName, false)
@@ -85,7 +83,7 @@ class SharedPrefsManagerImpl @Inject constructor(
      * @param defaultValue If no value found for given key then return default value
      */
     operator fun get(key: String, defaultValue: Boolean): Boolean =
-            sharedPreferences.getBoolean(key, defaultValue)
+        sharedPreferences.getBoolean(key, defaultValue)
 
     /**
      * Get value for key in String format
@@ -93,7 +91,7 @@ class SharedPrefsManagerImpl @Inject constructor(
      * @param defaultValue If no value found for given key then return default value
      */
     operator fun get(key: String, defaultValue: String): String =
-            sharedPreferences.getString(key, defaultValue)!!
+        sharedPreferences.getString(key, defaultValue)!!
 
     /**
      * Put long in shared preference
@@ -110,8 +108,7 @@ class SharedPrefsManagerImpl @Inject constructor(
      * @param defaultValue If no value found for given key then return default value
      */
     operator fun get(key: String, defaultValue: Long): Long =
-            sharedPreferences.getLong(key, defaultValue)
-
+        sharedPreferences.getLong(key, defaultValue)
 
     /**
      * Get value for key in Int format
@@ -119,7 +116,7 @@ class SharedPrefsManagerImpl @Inject constructor(
      * @param defaultValue If no value found for given key then return default value
      */
     operator fun get(key: String, defaultValue: Int): Int =
-            sharedPreferences.getInt(key, defaultValue)
+        sharedPreferences.getInt(key, defaultValue)
 
     /**
      * Clear SharedPreference

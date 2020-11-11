@@ -9,7 +9,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.di.qualifiers.ForApplication
 import net.kelmer.correostracker.di.qualifiers.NetworkLogger
@@ -31,16 +30,14 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManagerFactory
 import javax.net.ssl.X509TrustManager
 
-
 /**
  * Created by gabriel on 25/03/2018.
  */
 @Module(
-        includes = [Interceptors::class]
+    includes = [Interceptors::class]
 )
 @InstallIn(ApplicationComponent::class)
 open class NetModule {
-
 
     @Provides
     @Singleton
@@ -82,55 +79,59 @@ open class NetModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(cache: Cache, sslContext: SSLContext, tmf: TrustManagerFactory, @NetworkLogger loggingInterceptors: Set<@JvmSuppressWildcards
-    Interceptor>): OkHttpClient {
-
+    fun provideOkHttpClient(
+        cache: Cache,
+        sslContext: SSLContext,
+        tmf: TrustManagerFactory,
+        @NetworkLogger loggingInterceptors: Set<@JvmSuppressWildcards
+            Interceptor>
+    ): OkHttpClient {
 
         val builder = OkHttpClient.Builder()
-                .cache(cache)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .apply {
-                    loggingInterceptors.forEach {
-                        addNetworkInterceptor(it)
-                    }
+            .cache(cache)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .apply {
+                loggingInterceptors.forEach {
+                    addNetworkInterceptor(it)
                 }
-        val trustManagers = tmf.trustManagers;
+            }
+        val trustManagers = tmf.trustManagers
         if (trustManagers.size != 1 || trustManagers[0] !is X509TrustManager) {
             return builder.build()
         } else {
             val trustManager = trustManagers[0] as (X509TrustManager)
             return builder
-                    .sslSocketFactory(sslContext.socketFactory, trustManager)
-                    .build()
+                .sslSocketFactory(sslContext.socketFactory, trustManager)
+                .build()
         }
-
     }
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient,
-                        rxJavaCallAdapterFactory: RxJava2CallAdapterFactory,
-                        gsonConverterFactory: MoshiConverterFactory
+    fun provideRetrofit(
+        okHttpClient: OkHttpClient,
+        rxJavaCallAdapterFactory: RxJava2CallAdapterFactory,
+        gsonConverterFactory: MoshiConverterFactory
     ): Retrofit {
         return Retrofit.Builder()
-                .baseUrl("https://localizador.correos.es/canonico/")
-                .addCallAdapterFactory(rxJavaCallAdapterFactory)
-                .addConverterFactory(gsonConverterFactory)
-                .client(okHttpClient)
-                .build()
+            .baseUrl("https://localizador.correos.es/canonico/")
+            .addCallAdapterFactory(rxJavaCallAdapterFactory)
+            .addConverterFactory(gsonConverterFactory)
+            .client(okHttpClient)
+            .build()
     }
 
     @Provides
     @Singleton
     fun provideMoshi(): Moshi =
-            Moshi.Builder()
-                    .add(KotlinJsonAdapterFactory())
-                    //            .add(SingleToArrayAdapter.FACTORY)
-                    .add(CorreosApiParcelAdapter.FACTORY)
-                    .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
-                    .build()
+        Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            //            .add(SingleToArrayAdapter.FACTORY)
+            .add(CorreosApiParcelAdapter.FACTORY)
+            .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
+            .build()
 
     @Provides
     @Singleton

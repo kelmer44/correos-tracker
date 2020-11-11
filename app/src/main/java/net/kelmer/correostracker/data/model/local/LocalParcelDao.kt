@@ -1,7 +1,11 @@
 package net.kelmer.correostracker.data.model.local
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.Query
+import androidx.room.Update
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -25,10 +29,7 @@ interface LocalParcelDao {
     fun getNotifiableParcels(): Single<List<LocalParcelReference>>
 
     @Update
-    fun updateParcel(parcel: LocalParcelReference) : Completable
-
-
-
+    fun updateParcel(parcel: LocalParcelReference): Completable
 
     @Query("update LocalParcelReference set notify = 0 where trackingCode = :code")
     fun disableNotifications(code: String): Completable
@@ -44,7 +45,4 @@ interface LocalParcelDao {
 
     @Query("select * from LocalParcelReference where trackingCode = :code")
     fun getParcelSequential(code: String): LocalParcelReference
-
-
-
 }

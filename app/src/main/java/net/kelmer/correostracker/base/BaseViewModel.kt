@@ -1,14 +1,10 @@
 package net.kelmer.correostracker.base
 
-import androidx.lifecycle.ViewModel
 import androidx.annotation.CallSuper
+import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import net.kelmer.correostracker.base.usecase.UseCase
-import net.kelmer.correostracker.base.usecase.rx.RxUseCase
-import net.kelmer.correostracker.util.NetworkInteractor
-import net.kelmer.correostracker.util.SchedulerProvider
-import javax.inject.Inject
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -40,5 +36,4 @@ abstract class BaseViewModel(vararg useCases: UseCase<*, *>) : ViewModel() {
         clearSubscriptions()
         useCaseList.forEach { it.dispose() }
     }
-
 }

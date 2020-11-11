@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="development_settings">Development settings</string>
+    <string name="development_settings" translatable="false">Development settings</string>
 </resources>

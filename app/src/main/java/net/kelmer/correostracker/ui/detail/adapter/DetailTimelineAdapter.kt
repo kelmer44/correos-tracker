@@ -1,14 +1,13 @@
 package net.kelmer.correostracker.ui.detail.adapter
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import net.kelmer.correostracker.data.model.dto.ParcelDetailStatus
 import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.databinding.RvDetailItemBinding
 import net.kelmer.correostracker.util.ext.isVisible
-
 
 class DetailTimelineAdapter : RecyclerView.Adapter<DetailTimelineAdapter.TimeLineViewHolder>() {
 
@@ -35,8 +34,10 @@ class DetailTimelineAdapter : RecyclerView.Adapter<DetailTimelineAdapter.TimeLin
 
         companion object {
             fun create(parent: ViewGroup): TimeLineViewHolder {
-                val inflatedView = RvDetailItemBinding.inflate(LayoutInflater.from(parent.context),
-                        parent, false)
+                val inflatedView = RvDetailItemBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent, false
+                )
                 return TimeLineViewHolder(inflatedView)
             }
         }
@@ -56,8 +57,6 @@ class DetailTimelineAdapter : RecyclerView.Adapter<DetailTimelineAdapter.TimeLin
                 locationContainer.isVisible = !status.unidad.isNullOrBlank()
                 textTimelineLocation.text = status.unidad
             }
-
         }
-
     }
 }

@@ -9,6 +9,7 @@ apply plugin: 'kotlin-kapt' // Use experimental kapt implementation
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+apply from: '../ktlint.gradle'
 
 
 def gitSha() {
@@ -172,3 +173,4 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+check.dependsOn ktlint

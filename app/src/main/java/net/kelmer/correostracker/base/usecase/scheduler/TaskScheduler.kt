@@ -11,7 +11,6 @@ import java.util.concurrent.Executors
 
 private const val NUMBER_OF_THREADS = 4 // TODO: Make this depend on device's hw
 
-
 interface Scheduler {
 
     fun execute(task: () -> Unit)
@@ -20,7 +19,6 @@ interface Scheduler {
 
     fun postDelayedToMainThread(delay: Long, task: () -> Unit)
 }
-
 
 /**
 * A shim [Scheduler] that by default handles operations in the [AsyncScheduler].
@@ -78,7 +76,6 @@ internal object AsyncScheduler : Scheduler {
         mainThreadHandler.postDelayed(task, delay)
     }
 }
-
 
 /**
  * Runs tasks synchronously.

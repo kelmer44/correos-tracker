@@ -5,8 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
@@ -14,16 +16,14 @@ import com.google.zxing.integration.android.IntentIntegrator
 import dagger.hilt.android.AndroidEntryPoint
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
-import net.kelmer.correostracker.ui.customviews.ConfirmDialog
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.network.exception.WrongCodeException
 import net.kelmer.correostracker.data.resolve
+import net.kelmer.correostracker.databinding.FragmentCreateParcelBinding
+import net.kelmer.correostracker.ui.customviews.ConfirmDialog
 import timber.log.Timber
 import java.util.UUID
-import android.view.View
-import androidx.appcompat.widget.Toolbar
-import net.kelmer.correostracker.databinding.FragmentCreateParcelBinding
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -31,29 +31,33 @@ import net.kelmer.correostracker.databinding.FragmentCreateParcelBinding
 @AndroidEntryPoint
 class CreateParcelFragment : BaseFragment<FragmentCreateParcelBinding>(R.layout.fragment_create_parcel) {
 
-
     private val viewModel: CreateParcelViewModel by viewModels()
 
     private val observeResult: (Resource<LocalParcelReference>) -> Unit = { resource ->
         resource.resolve(
-                onSuccess = {
-                    Timber.i("Parcel ${it.trackingCode} created!")
-                    hideKeyboardFrom(requireContext(), requireView())
-                    findNavController().popBackStack(R.id.parcelListFragment, false)
-                },
-                onError = {
-                    Timber.e(it)
-                    (it as? WrongCodeException)?.let {
-                        ConfirmDialog.confirmDialog(requireContext(),
-                                R.string.create_parcel_error_codigo_title,
-                                R.string.create_parcel_error_codigo) {
-                        }
-                        Toast.makeText(context,
-                                getString(R.string.create_parcel_error_codigo),
-                                Toast.LENGTH_LONG)
-                                .show()
+            onSuccess = {
+                Timber.i("Parcel ${it.trackingCode} created!")
+                hideKeyboardFrom(requireContext(), requireView())
+                findNavController().popBackStack(R.id.parcelListFragment, false)
+            },
+            onError = {
+                Timber.e(it)
+                (it as? WrongCodeException)?.let {
+                    ConfirmDialog.confirmDialog(
+                        requireContext(),
+                        R.string.create_parcel_error_codigo_title,
+                        R.string.create_parcel_error_codigo
+                    ) {
                     }
-                })
+                    Toast.makeText(
+                        context,
+                        getString(R.string.create_parcel_error_codigo),
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
+                }
+            }
+        )
     }
 
     private fun hideKeyboardFrom(context: Context, view: View) {
@@ -71,7 +75,7 @@ class CreateParcelFragment : BaseFragment<FragmentCreateParcelBinding>(R.layout.
         binding.createOk.setOnClickListener {
 
             if (!TextUtils.isEmpty(binding.parcelCode.text.toString())) {
-                //If no name is given we impose the code as the name
+                // If no name is given we impose the code as the name
                 if (TextUtils.isEmpty(binding.parcelName.text.toString())) {
                     binding.parcelName.text = binding.parcelCode.text
                 }
@@ -82,17 +86,15 @@ class CreateParcelFragment : BaseFragment<FragmentCreateParcelBinding>(R.layout.
                 val notify = binding.parcelStatusAlerts.isChecked
                 val localParcelReference = LocalParcelReference(UUID.randomUUID().toString(), binding.parcelCode.text.toString(), binding.parcelName.text.toString(), stance, null, notify = notify, updateStatus = LocalParcelReference.UpdateStatus.UNKNOWN)
                 viewModel.addParcel(localParcelReference).observe(viewLifecycleOwner, observeResult)
-
             } else {
                 binding.parcelCodeLayout.error = getString(R.string.error_nocodigo)
             }
         }
 
         binding.parcelCodeLayout
-                .setEndIconOnClickListener {
-                    tryToScanCode()
-                }
-
+            .setEndIconOnClickListener {
+                tryToScanCode()
+            }
     }
 
     private fun tryToScanCode() {
@@ -104,17 +106,16 @@ class CreateParcelFragment : BaseFragment<FragmentCreateParcelBinding>(R.layout.
     }
 
     override fun onActivityResult(
-            requestCode: Int,
-            resultCode: Int,
-            data: Intent?
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
     ) {
         val result =
-                IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+            IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         result.contents?.let {
             binding?.parcelCode?.setText(it)
         }
     }
 
     override fun bind(view: View): FragmentCreateParcelBinding = FragmentCreateParcelBinding.bind(view)
-
 }

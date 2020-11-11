@@ -22,9 +22,8 @@ import javax.inject.Inject
 @HiltAndroidApp
 class CorreosApp : Application() {
 
-
     @Inject
-    lateinit var lumberYard : LumberYard
+    lateinit var lumberYard: LumberYard
 
     @Inject
     lateinit var myWorkerFactory: MyWorkerFactory
@@ -50,18 +49,17 @@ class CorreosApp : Application() {
             }
             // Register the channel with the system
             val notificationManager: NotificationManager =
-                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
     }
 
-
     private fun setupWorkerFactory() {
         WorkManager.initialize(
-                this,
-                Configuration.Builder()
-                        .setWorkerFactory(myWorkerFactory)
-                        .build()
+            this,
+            Configuration.Builder()
+                .setWorkerFactory(myWorkerFactory)
+                .build()
         )
     }
 
@@ -70,11 +68,10 @@ class CorreosApp : Application() {
     }
 
     private fun setupTimber() {
-        if(BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
             Timber.plant(lumberYard.tree())
         }
-
     }
 
     private fun setupStetho() {
@@ -86,5 +83,4 @@ class CorreosApp : Application() {
     companion object {
         const val PARCEL_CHECKER_WORKREQUEST = "PARCEL-CHECKER"
     }
-
 }

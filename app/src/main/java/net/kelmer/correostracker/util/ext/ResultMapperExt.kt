@@ -15,11 +15,11 @@ import net.kelmer.correostracker.util.SchedulerProvider
 fun <T> Flowable<T>.toResource(schedulerProvider: SchedulerProvider): Flowable<Resource<T>> {
     return compose { item ->
         item
-                .map { Resource.success(it) }
-                .onErrorReturn { e -> Resource.failure(e, e.message ?: "unknown" ) }
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .startWith(Resource.inProgress())
+            .map { Resource.success(it) }
+            .onErrorReturn { e -> Resource.failure(e, e.message ?: "unknown") }
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.ui())
+            .startWith(Resource.inProgress())
     }
 }
 
@@ -27,25 +27,22 @@ fun <T> Single<T>.toResource(schedulerProvider: SchedulerProvider): Observable<R
     return toObservable().toResource(schedulerProvider)
 }
 
-
 fun <T> Observable<T>.toResource(schedulerProvider: SchedulerProvider): Observable<Resource<T>> {
     return compose { item ->
         item
-                .map { Resource.success(it) }
-                .onErrorReturn { e ->
-                    Resource.failure(e)
-                }
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .startWith(Resource.inProgress())
+            .map { Resource.success(it) }
+            .onErrorReturn { e ->
+                Resource.failure(e)
+            }
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.ui())
+            .startWith(Resource.inProgress())
     }
 }
-
 
 fun <T> Completable.toResource(schedulerProvider: SchedulerProvider): Observable<Resource<T>> {
     return toObservable<T>().toResource(schedulerProvider)
 }
-
 
 fun <T> Flowable<T>.withNetwork(networkInteractor: NetworkInteractor) = apply { networkInteractor.hasNetworkConnectionCompletable().andThen(this) }
 fun <T> Single<T>.withNetwork(networkInteractor: NetworkInteractor) = apply { networkInteractor.hasNetworkConnectionCompletable().andThen(this) }

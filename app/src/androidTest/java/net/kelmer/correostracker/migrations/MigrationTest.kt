@@ -23,9 +23,9 @@ class MigrationTest {
     @Rule
     @JvmField
     public val helper: MigrationTestHelper = MigrationTestHelper(
-            InstrumentationRegistry.getInstrumentation(),
-            net.kelmer.correostracker.data.db.AppDatabase::class.java.canonicalName,
-            FrameworkSQLiteOpenHelperFactory()
+        InstrumentationRegistry.getInstrumentation(),
+        net.kelmer.correostracker.data.db.AppDatabase::class.java.canonicalName,
+        FrameworkSQLiteOpenHelperFactory()
     )
 
     @Test
@@ -33,12 +33,14 @@ class MigrationTest {
     fun migrate6To7() {
 
         var db = helper.createDatabase(TEST_DB, 6).apply {
-            execSQL("INSERT INTO LocalParcelReference" +
+            execSQL(
+                "INSERT INTO LocalParcelReference" +
                     "(code, parcelName, stance, fecEvento,  horEvento, codEvento,fase, desTextoResumen, desTextoAmpliado, unidad," +
                     " lastChecked, largo, ancho, alto, peso, refCliente, codProducto, fechaCalculada, notify) " +
                     "VALUES " +
                     "('CODE','NAME', 1,'2020-01-02','22:00','P040000V','2', 'Clasificado','Envío clasificado en Centro Logístico', 'CTA SANTIAGO DE COMPOSTELA'," +
-                    "123456789, '20','10','5','755','1234','PQ','2020-08-01 22:00', 1)");
+                    "123456789, '20','10','5','755','1234','PQ','2020-08-01 22:00', 1)"
+            )
             close()
         }
 
@@ -55,12 +57,14 @@ class MigrationTest {
     fun migrate7To8() {
 
         var db = helper.createDatabase(TEST_DB, 7).apply {
-            execSQL("INSERT INTO LocalParcelReference" +
+            execSQL(
+                "INSERT INTO LocalParcelReference" +
                     "(code, trackingCode, parcelName, stance, fecEvento,  horEvento, codEvento,fase, desTextoResumen, desTextoAmpliado, unidad," +
                     " lastChecked, largo, ancho, alto, peso, refCliente, codProducto, fechaCalculada, notify) " +
                     "VALUES " +
                     "('CODE','TRACKINGCODE', 'NAME', 1,'2020-01-02','22:00','P040000V','2', 'Clasificado','Envío clasificado en Centro Logístico', 'CTA SANTIAGO DE COMPOSTELA'," +
-                    "123456789, '20','10','5','755','1234','PQ','2020-08-01 22:00', 1)");
+                    "123456789, '20','10','5','755','1234','PQ','2020-08-01 22:00', 1)"
+            )
             close()
         }
 
@@ -71,16 +75,15 @@ class MigrationTest {
         assertEquals(LocalParcelReference.UpdateStatus.UNKNOWN, parcel.updateStatus)
     }
 
-
     fun getMigratedRoomDatabase(): AppDatabase {
-        val database = Room.databaseBuilder(ApplicationProvider.getApplicationContext(),
-                AppDatabase::class.java, TEST_DB)
-                .addMigrations(DbModule.MIGRATION_6_7)
-                .build();
+        val database = Room.databaseBuilder(
+            ApplicationProvider.getApplicationContext(),
+            AppDatabase::class.java, TEST_DB
+        )
+            .addMigrations(DbModule.MIGRATION_6_7)
+            .build()
         // close the database and release any stream resources when the test finishes
-        helper.closeWhenFinished(database);
-        return database;
+        helper.closeWhenFinished(database)
+        return database
     }
-
-
 }

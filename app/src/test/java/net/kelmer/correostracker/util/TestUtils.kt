@@ -11,18 +11,18 @@ import org.hamcrest.MatcherAssert
  * Created by Gabriel Sanmartín on 10/11/2020.
  */
 fun <T> KArgumentCaptor<Resource<T>>.checkIsFailure(
-        fNextMock: (Resource<T>) -> Unit,
-        additionalChecks: (Resource.Failure) -> Unit = {}
+    fNextMock: (Resource<T>) -> Unit,
+    additionalChecks: (Resource.Failure) -> Unit = {}
 ) {
     verify(fNextMock, times(2)).invoke(capture())
     val capturedValues = allValues
     MatcherAssert.assertThat(
-            capturedValues[0],
-            CoreMatchers.instanceOf(Resource.InProgress::class.java)
+        capturedValues[0],
+        CoreMatchers.instanceOf(Resource.InProgress::class.java)
     )
     MatcherAssert.assertThat(
-            capturedValues[1],
-            CoreMatchers.instanceOf(Resource.Failure::class.java)
+        capturedValues[1],
+        CoreMatchers.instanceOf(Resource.Failure::class.java)
     )
     val failure = allValues[1] as Resource.Failure
     additionalChecks(failure)
@@ -32,12 +32,12 @@ fun <T> KArgumentCaptor<Resource<T>>.checkIsSuccess(fNextMock: (Resource<T>) -> 
     verify(fNextMock, times(2)).invoke(capture())
     val capturedValues = allValues
     MatcherAssert.assertThat(
-            capturedValues[0],
-            CoreMatchers.instanceOf(Resource.InProgress::class.java)
+        capturedValues[0],
+        CoreMatchers.instanceOf(Resource.InProgress::class.java)
     )
     MatcherAssert.assertThat(
-            capturedValues[1],
-            CoreMatchers.instanceOf(Resource.Success::class.java)
+        capturedValues[1],
+        CoreMatchers.instanceOf(Resource.Success::class.java)
     )
     val success = allValues[1] as Resource.Success
     additionalChecks(success)

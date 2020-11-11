@@ -3,14 +3,13 @@ package net.kelmer.correostracker.data
 import net.kelmer.correostracker.util.NetworkInteractor
 import timber.log.Timber
 
-
 /**
  * Created by gabriel on 04/02/2018.
  */
 sealed class Resource<out R> {
 
     data class Success<out T>(val data: T) : Resource<T>()
-    data class Failure(val exception: Throwable, val message: String? = exception.message) : Resource<Nothing>(){
+    data class Failure(val exception: Throwable, val message: String? = exception.message) : Resource<Nothing>() {
         fun isNetworkUnavailable() = exception is NetworkInteractor.NetworkUnavailableException
         fun log() = Timber.e(exception, message)
     }
@@ -28,8 +27,8 @@ sealed class Resource<out R> {
 
     companion object {
         fun <T> success(data: T): Resource<T> = Success(data)
-        fun <T> failure(e: Throwable) : Resource<T> = Failure(exception = e)
-        fun <T> failure(e: Throwable, message: String) : Resource<T> = Failure(exception = e, message = message)
+        fun <T> failure(e: Throwable): Resource<T> = Failure(exception = e)
+        fun <T> failure(e: Throwable, message: String): Resource<T> = Failure(exception = e, message = message)
         fun <T> inProgress(): Resource<T> = InProgress
     }
 }
@@ -43,7 +42,6 @@ val Resource<*>.succeeded
 fun <T> Resource<T>.successOr(fallback: T): T {
     return (this as? Resource.Success<T>)?.data ?: fallback
 }
-
 
 fun <T> Resource<T>.resolve(onError: (E: Throwable) -> Unit = {}, onSuccess: (T) -> Unit = {}) {
     when (this) {

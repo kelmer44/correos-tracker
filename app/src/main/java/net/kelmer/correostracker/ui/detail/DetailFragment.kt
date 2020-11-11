@@ -20,14 +20,13 @@ import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
 import net.kelmer.correostracker.data.network.exception.CorreosException
 import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.databinding.FragmentDetailBinding
-import net.kelmer.correostracker.util.ext.isVisible
 import net.kelmer.correostracker.ui.detail.adapter.DetailTimelineAdapter
 import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.copyToClipboard
+import net.kelmer.correostracker.util.ext.isVisible
 import net.kelmer.correostracker.util.ext.peso
 import net.kelmer.correostracker.util.ext.textOrElse
 import timber.log.Timber
-
 
 @AndroidEntryPoint
 class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
@@ -37,8 +36,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(activity)
     private val timelineAdapter: DetailTimelineAdapter = DetailTimelineAdapter()
 
-    private val args : DetailFragmentArgs by navArgs()
-
+    private val args: DetailFragmentArgs by navArgs()
 
     override fun loadUp(binding: FragmentDetailBinding, savedInstanceState: Bundle?) {
         NavigationUI.setupWithNavController(binding.detailToolbar, findNavController())
@@ -52,33 +50,33 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         viewModel.statusResult.observe(this) { resource ->
             binding.detailLoading.isVisible = resource.inProgress()
             resource.resolve(
-                    onError = {
-                        binding.errorContainer.isVisible = true
-                        Timber.e(it)
-                        when (it) {
-                            is CorreosException -> {
-                                FirebaseCrashlytics.getInstance().log("Controlled Exception Error ${args.parcelCode}")
-                                FirebaseCrashlytics.getInstance().recordException(it)
-                                binding.errorText.text = it.message
-                            }
-                            is NetworkInteractor.NetworkUnavailableException -> {
-                                FirebaseCrashlytics.getInstance().log("Controlled Network Unavailable Exception Error ${args.parcelCode}")
-                                FirebaseCrashlytics.getInstance().recordException(it)
-                                binding.errorText.text = getString(R.string.error_no_network)
-                            }
-                            else -> {
-                                FirebaseCrashlytics.getInstance().log("Unknown Error ${args.parcelCode}")
-                                FirebaseCrashlytics.getInstance().recordException(it)
-                                binding.errorText.text = getString(R.string.error_unrecognized)
-                            }
+                onError = {
+                    binding.errorContainer.isVisible = true
+                    Timber.e(it)
+                    when (it) {
+                        is CorreosException -> {
+                            FirebaseCrashlytics.getInstance().log("Controlled Exception Error ${args.parcelCode}")
+                            FirebaseCrashlytics.getInstance().recordException(it)
+                            binding.errorText.text = it.message
                         }
-                    },
-                    onSuccess = {
-                        loadParcelInformation(it)
-                    })
+                        is NetworkInteractor.NetworkUnavailableException -> {
+                            FirebaseCrashlytics.getInstance().log("Controlled Network Unavailable Exception Error ${args.parcelCode}")
+                            FirebaseCrashlytics.getInstance().recordException(it)
+                            binding.errorText.text = getString(R.string.error_no_network)
+                        }
+                        else -> {
+                            FirebaseCrashlytics.getInstance().log("Unknown Error ${args.parcelCode}")
+                            FirebaseCrashlytics.getInstance().recordException(it)
+                            binding.errorText.text = getString(R.string.error_unrecognized)
+                        }
+                    }
+                },
+                onSuccess = {
+                    loadParcelInformation(it)
+                }
+            )
         }
     }
-
 
     override fun setupToolbar(toolbar: Toolbar) {
         toolbar.inflateMenu(R.menu.menu_detail)
@@ -111,10 +109,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 val parent = inflater.inflate(R.layout.parcel_info, null)
 
                 val dialog = AlertDialog.Builder(ctx)
-                        .setTitle(parcel.name)
-                        .setPositiveButton(getString(android.R.string.ok)) { p0, p1 -> p0.dismiss() }
-                        .setView(parent)
-                        .create()
+                    .setTitle(parcel.name)
+                    .setPositiveButton(getString(android.R.string.ok)) { p0, p1 -> p0.dismiss() }
+                    .setView(parent)
+                    .create()
 
                 parent.findViewById<TextView>(R.id.disclaimer)?.isVisible = !parcel.fechaCalculada.isNullOrEmpty()
                 parent.findViewById<LinearLayout>(R.id.fecha_estimada_container)?.isVisible = !parcel.fechaCalculada.isNullOrEmpty()
@@ -158,9 +156,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                 alertDialog = dialog
             }
         }
-
     }
-
 
     companion object {
         const val KEY_PARCELCODE = "parcel_code"
@@ -175,5 +171,4 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     }
 
     override fun bind(view: View): FragmentDetailBinding = FragmentDetailBinding.bind(view)
-
 }

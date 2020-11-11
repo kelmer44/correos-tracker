@@ -36,16 +36,17 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
     private fun initWorker() {
         val constraints = Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
 
         val uploadWorker = PeriodicWorkRequest.Builder(
-                ParcelPollWorker::class.java, 15, TimeUnit.MINUTES)
-                .setConstraints(constraints)
-                .build()
+            ParcelPollWorker::class.java, 15, TimeUnit.MINUTES
+        )
+            .setConstraints(constraints)
+            .build()
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(CorreosApp.PARCEL_CHECKER_WORKREQUEST, ExistingPeriodicWorkPolicy.REPLACE, uploadWorker)
 
-        sharedPrefsManager.themeModeLive.observe(this){
+        sharedPrefsManager.themeModeLive.observe(this) {
             AppCompatDelegate.setDefaultNightMode(it)
         }
     }

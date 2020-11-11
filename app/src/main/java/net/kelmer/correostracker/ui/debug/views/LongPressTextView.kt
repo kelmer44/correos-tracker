@@ -10,12 +10,12 @@ import android.widget.Toast
  * Created by Gabriel Sanmartín on 11/09/2020.
  */
 class LongPressTextView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : androidx.appcompat.widget.AppCompatTextView(context, attrs, defStyleAttr) {
 
-
     init {
-
 
         this.setOnLongClickListener {
             val manager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -24,6 +24,5 @@ class LongPressTextView @JvmOverloads constructor(
             Toast.makeText(context, "Text has been copied!", Toast.LENGTH_SHORT).show()
             true
         }
-
     }
 }

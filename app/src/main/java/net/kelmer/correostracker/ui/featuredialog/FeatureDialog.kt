@@ -1,20 +1,15 @@
 package net.kelmer.correostracker.ui.featuredialog
 
-
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.widget.Button
+import android.widget.ImageView
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import net.kelmer.correostracker.R
-import androidx.core.content.ContextCompat.startActivity
-import android.content.Intent
-import android.net.Uri
-import android.widget.ImageView
-
 
 interface FeatureBlurbListener {
     fun ok()
@@ -23,31 +18,31 @@ interface FeatureBlurbListener {
 }
 
 fun featureBlurbDialog(
-        context: Context,
-        @StringRes titleText: Int,
-        @StringRes okText: Int,
-        okListener: () -> Unit,
-        githubListener: () -> Unit
+    context: Context,
+    @StringRes titleText: Int,
+    @StringRes okText: Int,
+    okListener: () -> Unit,
+    githubListener: () -> Unit
 ): androidx.appcompat.app.AlertDialog {
 
     return featureBlurbDialog(
-            context = context,
-            titleText = context.getString(titleText),
-            okText = context.getString(okText),
-            okListener = okListener,
-            kofiListener = {},
-            githubListener = githubListener
+        context = context,
+        titleText = context.getString(titleText),
+        okText = context.getString(okText),
+        okListener = okListener,
+        kofiListener = {},
+        githubListener = githubListener
     )
 }
 
 @SuppressLint("InflateParams")
 fun featureBlurbDialog(
-        context: Context,
-        titleText: String,
-        okText: String,
-        okListener: () -> Unit,
-        kofiListener: () -> Unit,
-        githubListener: () -> Unit
+    context: Context,
+    titleText: String,
+    okText: String,
+    okListener: () -> Unit,
+    kofiListener: () -> Unit,
+    githubListener: () -> Unit
 ): androidx.appcompat.app.AlertDialog {
 
     val layoutInflater = LayoutInflater.from(context)
@@ -67,7 +62,8 @@ fun featureBlurbDialog(
 
     featureList.adapter = FeatureListAdapter().apply {
 
-        setList(listOf(
+        setList(
+            listOf(
                 FeatureListAdapter.Feature("1.9.5", R.string.changes_1_9_5),
                 FeatureListAdapter.Feature("1.9.0", R.string.changes_1_9_0),
                 FeatureListAdapter.Feature("1.8.0", R.string.changes_1_8_0),
@@ -77,7 +73,8 @@ fun featureBlurbDialog(
                 FeatureListAdapter.Feature("1.6.2", R.string.changes_1_6_2),
                 FeatureListAdapter.Feature("1.6.0", R.string.changes_1_6_0)
 
-        ))
+            )
+        )
     }
 
     github.setOnClickListener {

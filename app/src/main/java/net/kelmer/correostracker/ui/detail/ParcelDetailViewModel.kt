@@ -9,14 +9,11 @@ import net.kelmer.correostracker.base.BaseViewModel
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
 import net.kelmer.correostracker.usecases.details.GetParcelUseCase
-import javax.inject.Inject
-
 
 class ParcelDetailViewModel @ViewModelInject constructor(
-        private val getParcelUseCase: GetParcelUseCase,
-        @Assisted private val savedStateHandle: SavedStateHandle
+    private val getParcelUseCase: GetParcelUseCase,
+    @Assisted private val savedStateHandle: SavedStateHandle
 ) : BaseViewModel(getParcelUseCase) {
-
 
     private val parcelCode: String? = savedStateHandle.get<String>(DetailFragment.KEY_PARCELCODE)
     private val _statusResult: MutableLiveData<Resource<ParcelDetailDTO>> = MutableLiveData()
@@ -27,7 +24,6 @@ class ParcelDetailViewModel @ViewModelInject constructor(
             getParcel(parcelCode)
         }
     }
-
 
     private fun getParcel(parcelCode: String) = getParcelUseCase(GetParcelUseCase.Params(parcelCode), _statusResult)
     fun refresh() {

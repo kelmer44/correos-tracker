@@ -44,5 +44,4 @@ abstract class BackgroundThreadUseCase<in P, R> : UseCase<P, R>() {
             result.postValue(Resource.Failure(e))
         }
     }
-
 }

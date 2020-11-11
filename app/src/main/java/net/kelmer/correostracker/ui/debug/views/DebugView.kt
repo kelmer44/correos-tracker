@@ -23,28 +23,24 @@ import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
-
 /**
  * Created by gabriel on 01/11/2017.
  */
 @AndroidEntryPoint
 class DebugView @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
-
 
     @Inject
     lateinit var lumberYard: LumberYard
 
     var listener: DebugViewListener? = null
 
-    interface DebugViewListener {
+    interface DebugViewListener
 
-    }
-
-    val binding : ViewDebugContentBinding = ViewDebugContentBinding.inflate(LayoutInflater.from(context), this, true)
+    val binding: ViewDebugContentBinding = ViewDebugContentBinding.inflate(LayoutInflater.from(context), this, true)
 
     init {
         setupDeviceSection()
@@ -54,17 +50,14 @@ class DebugView @JvmOverloads constructor(
     fun initLoggingSection() {
         binding.debugShowlogs.setOnClickListener {
             LogsDialog(
-                    context,
-                    lumberYard = lumberYard
+                context,
+                lumberYard = lumberYard
             ).show()
         }
     }
 
     private fun initAnalytics() {
-
-
     }
-
 
     fun restartApp() {
         val intent = Intent(context, MainActivity::class.java)
@@ -92,14 +85,14 @@ class DebugView @JvmOverloads constructor(
         val displayMetrics = context.resources.displayMetrics
         val densityBucket = getDensityString(displayMetrics)
         binding.debugDeviceMake.text = Build.MANUFACTURER.substring(
-                0,
-                Build.MANUFACTURER.length.coerceAtMost(20)
+            0,
+            Build.MANUFACTURER.length.coerceAtMost(20)
         )
         binding.debugDeviceModel.text = Build.MODEL.substring(0, Build.MODEL.length.coerceAtMost(20))
         binding.debugDeviceResolution.text =
-                displayMetrics.heightPixels.toString() + "x" + displayMetrics.widthPixels
+            displayMetrics.heightPixels.toString() + "x" + displayMetrics.widthPixels
         binding.debugDeviceDensity.text =
-                displayMetrics.densityDpi.toString() + "dpi (" + densityBucket + ")"
+            displayMetrics.densityDpi.toString() + "dpi (" + densityBucket + ")"
         binding.debugDeviceRelease.text = Build.VERSION.RELEASE
         binding.debugDeviceApi.text = Build.VERSION.SDK_INT.toString()
         binding.debugDeviceInches.text = getInches(context).toString()
@@ -107,7 +100,6 @@ class DebugView @JvmOverloads constructor(
 
         binding.debugDevice1dp.text = "${resources.displayMetrics.density * 1} px"
     }
-
 
     /**
      * Inches of the device
@@ -143,5 +135,4 @@ class DebugView @JvmOverloads constructor(
             else -> return null
         }
     }
-
 }

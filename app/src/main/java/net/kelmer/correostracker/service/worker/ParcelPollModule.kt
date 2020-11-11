@@ -1,11 +1,9 @@
 package net.kelmer.correostracker.service.worker
 
 import androidx.work.ListenableWorker
-import androidx.work.Worker
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.multibindings.IntoMap
@@ -24,5 +22,4 @@ abstract class ParcelPollModule {
     @IntoMap
     @WorkerKey(ParcelPollWorker::class)
     internal abstract fun bindMyWorkerFactory(worker: ParcelPollWorker.Factory): ChildWorkerFactory
-
 }

@@ -6,7 +6,7 @@ class UpdateStatusConverter {
     @TypeConverter
     fun toUpdateStatus(status: Int): LocalParcelReference.UpdateStatus {
         LocalParcelReference.UpdateStatus.values().forEach {
-            if(status == it.ordinal){
+            if (status == it.ordinal) {
                 return it
             }
         }

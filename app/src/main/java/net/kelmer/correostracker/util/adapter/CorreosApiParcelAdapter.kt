@@ -1,26 +1,31 @@
 package net.kelmer.correostracker.util.adapter
 
-import android.util.JsonToken
-import com.squareup.moshi.*
-import com.squareup.moshi.internal.Util
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.JsonReader
+import com.squareup.moshi.JsonWriter
+import com.squareup.moshi.Types
 import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.model.remote.Error
 
-class CorreosApiParcelAdapter(private val eventAdapter: JsonAdapter<CorreosApiEvent>,
-                              private val errorAdapter: JsonAdapter<Error>) : JsonAdapter<List<CorreosApiParcel>>() {
+class CorreosApiParcelAdapter(
+    private val eventAdapter: JsonAdapter<CorreosApiEvent>,
+    private val errorAdapter: JsonAdapter<Error>
+) : JsonAdapter<List<CorreosApiParcel>>() {
     override fun fromJson(reader: JsonReader): List<CorreosApiParcel>? = with(reader) {
         val events = mutableListOf<CorreosApiEvent>()
         val parcel = CorreosApiParcel.allNull()
         beginArray()
         beginObject()
-        val validKeys = arrayOf("codEnvio", "refCliente",
-                "codProducto",
-                "fecha_calculada",
-                "largo",
-                "ancho",
-                "alto",
-                "peso")
+        val validKeys = arrayOf(
+            "codEnvio", "refCliente",
+            "codProducto",
+            "fecha_calculada",
+            "largo",
+            "ancho",
+            "alto",
+            "peso"
+        )
         while (hasNext()) {
 
             val nextName = nextName()
@@ -78,13 +83,11 @@ class CorreosApiParcelAdapter(private val eventAdapter: JsonAdapter<CorreosApiEv
         return listOf(parcel)
     }
 
-
     override fun toJson(writer: JsonWriter, value: List<CorreosApiParcel>?) {
     }
 
     companion object {
         val FACTORY: JsonAdapter.Factory = Factory { type, _, moshi ->
-
 
             val rawType = Types.getRawType(type)
             if (rawType != CorreosApiParcel::class.java && rawType != List::class.java)

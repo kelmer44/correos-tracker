@@ -12,9 +12,8 @@ abstract class RxSingleUseCase<in P, R> : RxUseCase<P, R>() {
     override fun execute(params: P, onNext: (Resource<R>) -> Unit) {
         dispose()
         buildUseCase(params)
-                .toResource(schedulerProvider)
-                .subscribeBy(onNext = onNext)
-                .track()
+            .toResource(schedulerProvider)
+            .subscribeBy(onNext = onNext)
+            .track()
     }
-
 }

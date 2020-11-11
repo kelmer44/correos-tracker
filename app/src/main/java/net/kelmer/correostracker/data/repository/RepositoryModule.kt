@@ -29,7 +29,4 @@ class RepositoryModule {
     fun provideCorreosRepository(correosApi: CorreosApi, correosDao: LocalParcelDao): CorreosRepository {
         return CorreosRepositoryImpl.getInstance(correosApi, correosDao)
     }
-
-
-
 }

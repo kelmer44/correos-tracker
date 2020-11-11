@@ -1,6 +1,10 @@
 package net.kelmer.correostracker.util
 
-import io.reactivex.*
+import io.reactivex.Completable
+import io.reactivex.CompletableTransformer
+import io.reactivex.FlowableTransformer
+import io.reactivex.ObservableTransformer
+import io.reactivex.SingleTransformer
 
 /**
  * Manages controlling whether network connection is available or not.
@@ -13,31 +17,28 @@ interface NetworkInteractor {
 
     fun hasNetworkConnectionCompletable(): Completable
 
-
-
-    fun <T> flowable() : FlowableTransformer<T, T> {
-        return  FlowableTransformer{observable->
+    fun <T> flowable(): FlowableTransformer<T, T> {
+        return FlowableTransformer { observable ->
             this.hasNetworkConnectionCompletable().andThen(observable)
         }
     }
 
-    fun <T> observable() : ObservableTransformer<T, T> {
-        return  ObservableTransformer{observable->
+    fun <T> observable(): ObservableTransformer<T, T> {
+        return ObservableTransformer { observable ->
             this.hasNetworkConnectionCompletable().andThen(observable)
         }
     }
 
-    fun <T> single() : SingleTransformer<T, T> {
-        return  SingleTransformer{observable->
+    fun <T> single(): SingleTransformer<T, T> {
+        return SingleTransformer { observable ->
             this.hasNetworkConnectionCompletable().andThen(observable)
         }
     }
-    fun completable() : CompletableTransformer {
-        return CompletableTransformer { completable->
+    fun completable(): CompletableTransformer {
+        return CompletableTransformer { completable ->
             this.hasNetworkConnectionCompletable().andThen(completable)
         }
     }
 
-    
-    class NetworkUnavailableException: Throwable("No network available!")
+    class NetworkUnavailableException : Throwable("No network available!")
 }

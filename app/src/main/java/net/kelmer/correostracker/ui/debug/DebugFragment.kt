@@ -2,9 +2,7 @@ package net.kelmer.correostracker.ui.debug
 
 import android.os.Bundle
 import android.view.ContextThemeWrapper
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,12 +18,10 @@ class DebugFragment : BaseFragment<FragmentDebugBinding>(R.layout.fragment_debug
     val viewModel: DebugViewModel by viewModels()
 
     private val debugListener = object : DebugView.DebugViewListener {
-
     }
 
     override fun bind(view: View): FragmentDebugBinding = FragmentDebugBinding.bind(view)
     override fun setupToolbar(toolbar: Toolbar) {
-
     }
 
     override fun loadUp(binding: FragmentDebugBinding, savedInstanceState: Bundle?) {
@@ -33,12 +29,13 @@ class DebugFragment : BaseFragment<FragmentDebugBinding>(R.layout.fragment_debug
         val debugView = DebugView(drawerContext)
         debugView.listener = debugListener
 
-        debugView.setupBuildSection(BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE.toString(),
-                BuildConfig.GIT_SHA,
-                BuildConfig.GIT_TIMESTAMP)
+        debugView.setupBuildSection(
+            BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE.toString(),
+            BuildConfig.GIT_SHA,
+            BuildConfig.GIT_TIMESTAMP
+        )
         debugView.initLoggingSection()
 
         binding.debugScroll.addView(debugView)
     }
-
 }

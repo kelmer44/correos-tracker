@@ -19,15 +19,17 @@ import timber.log.Timber
  * Created by gabriel on 25/03/2018.
  */
 class ParcelListViewModel @ViewModelInject constructor(
-        private val getParcelListUseCase: GetParcelListUseCase,
-        private val deleteParcelUseCase: DeleteParcelUseCase,
-        private val switchNotificationsUseCase: SwitchNotificationsUseCase,
-        private val statusReportsUpdatesUseCase: StatusReportsUpdatesUseCase,
-        private val sharedPrefsManager: SharedPrefsManager)
-    : BaseViewModel(
+    private val getParcelListUseCase: GetParcelListUseCase,
+    private val deleteParcelUseCase: DeleteParcelUseCase,
+    private val switchNotificationsUseCase: SwitchNotificationsUseCase,
+    private val statusReportsUpdatesUseCase: StatusReportsUpdatesUseCase,
+    private val sharedPrefsManager: SharedPrefsManager
+) :
+    BaseViewModel(
         getParcelListUseCase,
         deleteParcelUseCase,
-        switchNotificationsUseCase) {
+        switchNotificationsUseCase
+    ) {
 
     private val _parcelList: MutableLiveData<Resource<List<LocalParcelReference>>> = MutableLiveData()
     val parcelList: LiveData<Resource<List<LocalParcelReference>>> = _parcelList
@@ -38,7 +40,6 @@ class ParcelListViewModel @ViewModelInject constructor(
         retrieveParcelList()
         refresh()
     }
-
 
     private val _deleteLiveData: MutableLiveData<Resource<Unit>> = MutableLiveData()
     val deleteResult: LiveData<Resource<Unit>> = _deleteLiveData
@@ -67,9 +68,7 @@ class ParcelListViewModel @ViewModelInject constructor(
         sharedPrefsManager.setSeenFeatureBlurb(BuildConfig.VERSION_NAME)
     }
 
-
     fun setTheme(theme: Int) {
         sharedPrefsManager.themeMode = theme
     }
-
 }

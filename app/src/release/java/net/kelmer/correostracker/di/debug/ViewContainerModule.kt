@@ -13,5 +13,5 @@ import dagger.hilt.android.components.ApplicationComponent
 class ViewContainerModule {
 
     @Provides
-    fun providesViewContainer() : ViewContainer = ViewContainer.DEFAULT
+    fun providesViewContainer(): ViewContainer = ViewContainer.DEFAULT
 }

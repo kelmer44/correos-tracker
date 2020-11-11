@@ -1,11 +1,9 @@
 package net.kelmer.correostracker.ui.featuredialog
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
-import net.kelmer.correostracker.R
 import net.kelmer.correostracker.databinding.RvFeatureBinding
 
 class FeatureListAdapter : RecyclerView.Adapter<FeatureListAdapter.FeatureListViewHolder>() {
@@ -14,7 +12,6 @@ class FeatureListAdapter : RecyclerView.Adapter<FeatureListAdapter.FeatureListVi
     }
 
     override fun getItemCount(): Int = list.size
-
 
     override fun onBindViewHolder(holder: FeatureListViewHolder, position: Int) {
         holder.bind(list[position])
@@ -28,22 +25,19 @@ class FeatureListAdapter : RecyclerView.Adapter<FeatureListAdapter.FeatureListVi
 
     private val list: MutableList<Feature> = mutableListOf()
 
-
     class FeatureListViewHolder(private val binding: RvFeatureBinding) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {
             fun create(parent: ViewGroup): FeatureListViewHolder {
-                return  FeatureListViewHolder(RvFeatureBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+                return FeatureListViewHolder(RvFeatureBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             }
         }
-
 
         fun bind(feature: Feature) = with(itemView) {
             binding.featureText.text = itemView.context.getString(feature.text)
             binding.featureVersion.text = feature.version
         }
     }
-
 
     data class Feature(val version: String, @StringRes val text: Int)
 }

@@ -26,22 +26,20 @@ class LogsDialog(context: Context, private val lumberYard: LumberYard) : AlertDi
         setTitle("Logs")
         setView(recyclerView)
         setButton(BUTTON_NEGATIVE, "Close") { d, which ->
-
         }
 
         setButton(BUTTON_POSITIVE, "Share") { d, which ->
             share()
         }
-
     }
 
     override fun onStart() {
         super.onStart()
         adapter.setLogs(lumberYard.bufferedLogs())
         disposables.add(
-                lumberYard.logs()
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(adapter::add)
+            lumberYard.logs()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(adapter::add)
         )
     }
 
@@ -51,7 +49,5 @@ class LogsDialog(context: Context, private val lumberYard: LumberYard) : AlertDi
     }
 
     private fun share() {
-
-
     }
 }

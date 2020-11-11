@@ -9,26 +9,25 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.MenuItemCompat
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import dagger.hilt.android.AndroidEntryPoint
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.fragment.BaseFragment
-import net.kelmer.correostracker.ui.customviews.ConfirmDialog
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.resolve
-import net.kelmer.correostracker.util.ext.isVisible
+import net.kelmer.correostracker.databinding.FragmentParcelListBinding
+import net.kelmer.correostracker.ui.customviews.ConfirmDialog
 import net.kelmer.correostracker.ui.featuredialog.featureBlurbDialog
 import net.kelmer.correostracker.ui.list.adapter.ParcelClickListener
 import net.kelmer.correostracker.ui.list.adapter.ParcelListAdapter
 import net.kelmer.correostracker.ui.themedialog.themeSelectionDialog
 import net.kelmer.correostracker.util.copyToClipboard
+import net.kelmer.correostracker.util.ext.isVisible
 import timber.log.Timber
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
-import dagger.hilt.android.AndroidEntryPoint
-import net.kelmer.correostracker.databinding.FragmentParcelListBinding
-
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -58,12 +57,14 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
                 popup.menu.findItem(R.id.menu_enable_notifications).isVisible = !parcelReference.notify
                 popup.menu.findItem(R.id.menu_disable_notifications).isVisible = parcelReference.notify
                 popup.setOnMenuItemClickListener { item ->
-                    //do your things in each of the following cases
+                    // do your things in each of the following cases
                     when (item.itemId) {
                         R.id.menu_delete -> {
-                            ConfirmDialog.confirmDialog(requireContext(),
-                                    R.string.delete_confirm_title,
-                                    R.string.delete_confirm_desc) {
+                            ConfirmDialog.confirmDialog(
+                                requireContext(),
+                                R.string.delete_confirm_title,
+                                R.string.delete_confirm_desc
+                            ) {
                                 viewModel.deleteParcel(parcelReference)
                             }
                             true
@@ -81,12 +82,10 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
                 }
                 popup.show()
             }
-
         }
 
         override fun update(parcelReference: LocalParcelReference) {
         }
-
     }
 
     private val adapter = ParcelListAdapter(clickListener)
@@ -109,31 +108,30 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
         viewModel.parcelList.observe(viewLifecycleOwner) { resource ->
             binding.swipeRefresh.isRefreshing = resource.inProgress()
             resource.resolve(
-                    onSuccess = {
-                        binding.emptyState.isVisible = it.isEmpty()
-                        adapter.updateItems(it)
-                        adapter.filter(searchView?.query?.toString() ?: "")
-                    },
-                    onError = {
-                        FirebaseCrashlytics.getInstance().recordException(it)
-                        Toast.makeText(context, "ERROR!!!", Toast.LENGTH_LONG).show()
-                    }
+                onSuccess = {
+                    binding.emptyState.isVisible = it.isEmpty()
+                    adapter.updateItems(it)
+                    adapter.filter(searchView?.query?.toString() ?: "")
+                },
+                onError = {
+                    FirebaseCrashlytics.getInstance().recordException(it)
+                    Toast.makeText(context, "ERROR!!!", Toast.LENGTH_LONG).show()
+                }
             )
         }
 
         viewModel.deleteResult.observe(viewLifecycleOwner) { resource ->
             resource.resolve(
-                    onError = {
-                        Toast.makeText(context, "ERROR DELETING!", Toast.LENGTH_LONG).show()
-                    },
-                    onSuccess = {
-                        Timber.w("Deleted $it elements!!")
-                        adapter.notifyDataSetChanged()
-                        binding.rvParcelList.invalidate()
-                    }
+                onError = {
+                    Toast.makeText(context, "ERROR DELETING!", Toast.LENGTH_LONG).show()
+                },
+                onSuccess = {
+                    Timber.w("Deleted $it elements!!")
+                    adapter.notifyDataSetChanged()
+                    binding.rvParcelList.invalidate()
+                }
             )
         }
-
     }
 
     override fun bind(view: View) = FragmentParcelListBinding.bind(view)
@@ -165,7 +163,6 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
                     themeSelectionDialog(requireContext()) {
                         //                    Timber.i("Theme selected: $it")
                         viewModel.setTheme(it.code)
-
                     }.show()
                 }
                 R.id.app_about -> {
@@ -174,7 +171,6 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
             }
             true
         }
-
     }
 
     private fun setupRecyclerView(binding: FragmentParcelListBinding) {
@@ -198,18 +194,17 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
 
     private fun showFeature() {
         featureBlurbDialog(
-                context = requireContext(),
-                titleText = R.string.feature_dialog_title,
-                okText = android.R.string.ok,
-                okListener = {
-                },
-                githubListener = {
-                    val url = "https://github.com/kelmer44/correos-tracker"
-                    val i = Intent(Intent.ACTION_VIEW)
-                    i.data = Uri.parse(url)
-                    startActivity(i)
-                },
+            context = requireContext(),
+            titleText = R.string.feature_dialog_title,
+            okText = android.R.string.ok,
+            okListener = {
+            },
+            githubListener = {
+                val url = "https://github.com/kelmer44/correos-tracker"
+                val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse(url)
+                startActivity(i)
+            },
         ).show()
     }
-
 }

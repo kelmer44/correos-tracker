@@ -3,7 +3,6 @@ package net.kelmer.correostracker.di.application
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.view.LayoutInflater
 import dagger.Module
@@ -27,7 +26,6 @@ import javax.inject.Singleton
 @InstallIn(ApplicationComponent::class)
 class ApplicationModule {
 
-
     @Provides
     @ForApplication
     fun provideAppContext(application: Application): Context = application.applicationContext
@@ -42,28 +40,25 @@ class ApplicationModule {
     @Provides
     fun provideSchedulerProvider(): SchedulerProvider = AppSchedulerProvider()
 
-
     @Provides
     @Singleton
     fun provideConnectivityManager(@ForApplication context: Context): ConnectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     @Provides
     @Singleton
     fun provideNetworkInteractor(networkInteractor: NetworkInteractorImpl): NetworkInteractor = networkInteractor
 
-
     @Provides
     @Singleton
     fun provideSharedPreferences(@ForApplication app: Context): SharedPreferences {
-        val sharedPrefsId  = "SEG_CORREOS_" + if (BuildConfig.DEBUG) "_DEBUG" else ""
+        val sharedPrefsId = "SEG_CORREOS_" + if (BuildConfig.DEBUG) "_DEBUG" else ""
         return app.getSharedPreferences(sharedPrefsId, Context.MODE_PRIVATE)
     }
 
     @Provides
     @Singleton
-    fun provideSharedPreferencesManager(sharedPreferences: SharedPreferences) : SharedPrefsManager {
+    fun provideSharedPreferencesManager(sharedPreferences: SharedPreferences): SharedPrefsManager {
         return SharedPrefsManagerImpl(sharedPreferences)
     }
-
 }

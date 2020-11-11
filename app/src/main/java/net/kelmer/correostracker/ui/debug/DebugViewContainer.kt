@@ -19,13 +19,11 @@ class DebugViewContainer : ViewContainer {
         return viewHolder.content!!
     }
 
-
     private fun initViewHolder(activity: AppCompatActivity, viewHolder: ViewHolder) {
         viewHolder.debugDrawer = activity.findViewById(R.id.debug_drawer)
         viewHolder.drawerLayout = activity.findViewById(R.id.debug_drawer_layout)
         viewHolder.content = activity.findViewById(R.id.debug_content)
     }
-
 
     class ViewHolder {
         var drawerLayout: DebugDrawerLayout? = null

@@ -1,10 +1,7 @@
 package net.kelmer.correostracker.data.model.local
 
 import androidx.room.TypeConverter
-import java.util.*
-
-
-
+import java.util.Date
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -20,7 +17,4 @@ class DateConverter {
     fun toTimestamp(date: Date?): Long {
         return date?.time ?: -1
     }
-
 }
-
-

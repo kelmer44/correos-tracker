@@ -14,17 +14,18 @@ abstract class RxUseCase <in P, R> : UseCase<P, R>() {
     @Inject
     lateinit var networkInteractor: NetworkInteractor
 
-
     private var disposable: Disposable? = null
 
     abstract fun execute(params: P, onNext: ((Resource<R>) -> Unit))
 
     override fun invoke(parameters: P, result: MutableLiveData<Resource<R>>) {
-        execute(parameters, onNext = {
-            result.value = it
-        })
+        execute(
+            parameters,
+            onNext = {
+                result.value = it
+            }
+        )
     }
-
 
     protected fun Disposable.track(): Disposable {
         disposable = this

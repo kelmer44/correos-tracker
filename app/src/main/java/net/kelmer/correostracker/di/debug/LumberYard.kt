@@ -27,7 +27,6 @@ const val BUFFER_SIZE = 200
 @Singleton
 class LumberYard @Inject constructor(val app: Application) {
 
-
     private val entries: Deque<Entry> = java.util.ArrayDeque<Entry>(BUFFER_SIZE + 1)
     private val entrySubject = PublishSubject.create<Entry>()
 
@@ -49,7 +48,6 @@ class LumberYard @Inject constructor(val app: Application) {
     fun bufferedLogs(): List<Entry> = java.util.ArrayList(entries)
 
     fun logs(): Observable<Entry> = entrySubject
-
 
     fun save(): Observable<File> {
         return Observable.fromCallable<File> {
@@ -74,10 +72,8 @@ class LumberYard @Inject constructor(val app: Application) {
             } finally {
                 sink?.close()
             }
-
         }
     }
-
 
     fun cleanUp() {
         object : AsyncTask<Unit?, Unit?, Unit?>() {
@@ -92,7 +88,6 @@ class LumberYard @Inject constructor(val app: Application) {
                     }
                 }
             }
-
         }.execute()
     }
 
@@ -101,7 +96,6 @@ class LumberYard @Inject constructor(val app: Application) {
         cal.timeInMillis = time * 1000
         return DateFormat.format("dd-MM-yyyyTHH:mm:ss", cal).toString()
     }
-
 
     data class Entry(val level: Int, val tag: String?, val message: String) {
 
@@ -134,5 +128,4 @@ class LumberYard @Inject constructor(val app: Application) {
             }
         }
     }
-
 }

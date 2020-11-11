@@ -1,17 +1,16 @@
 package net.kelmer.correostracker.data.db
 
-import androidx.room.Room
 import android.content.Context
+import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
-import net.kelmer.correostracker.data.model.local.LocalParcelDao
-import javax.inject.Singleton
-import androidx.sqlite.db.SupportSQLiteDatabase
-import androidx.room.migration.Migration
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import net.kelmer.correostracker.data.model.local.LocalParcelDao
 import net.kelmer.correostracker.di.qualifiers.ForApplication
-
+import javax.inject.Singleton
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -28,7 +27,7 @@ class DbModule {
             }
         }
 
-        val MIGRATION_2_3: Migration = object : Migration(2,3) {
+        val MIGRATION_2_3: Migration = object : Migration(2, 3) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN fecEvento TEXT")
                 database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN codEvento TEXT")
@@ -38,17 +37,15 @@ class DbModule {
                 database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN desTextoAmpliado TEXT")
                 database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN unidad TEXT")
             }
-
         }
 
-        val MIGRATION_3_4: Migration = object : Migration(3,4) {
+        val MIGRATION_3_4: Migration = object : Migration(3, 4) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN lastChecked INTEGER")
             }
         }
 
-
-        val MIGRATION_4_5: Migration = object : Migration(4,5) {
+        val MIGRATION_4_5: Migration = object : Migration(4, 5) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN largo TEXT")
                 database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN ancho TEXT")
@@ -57,17 +54,15 @@ class DbModule {
                 database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN refCliente TEXT")
                 database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN codProducto TEXT")
                 database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN fechaCalculada TEXT")
-
             }
         }
 
-        val MIGRATION_5_6: Migration = object : Migration(5,6) {
+        val MIGRATION_5_6: Migration = object : Migration(5, 6) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN notify INTEGER NOT NULL DEFAULT 1")
-
             }
         }
-        val MIGRATION_6_7: Migration = object : Migration(6,7) {
+        val MIGRATION_6_7: Migration = object : Migration(6, 7) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN trackingCode TEXT NOT NULL DEFAULT ''")
                 database.execSQL("UPDATE LocalParcelReference SET trackingCode = code")
@@ -75,28 +70,27 @@ class DbModule {
             }
         }
 
-        val MIGRATION_7_8: Migration = object : Migration(7,8) {
+        val MIGRATION_7_8: Migration = object : Migration(7, 8) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN updateStatus INTEGER NOT NULL DEFAULT 0")
             }
         }
-
-    }
-
-
-    @Provides
-    @Singleton
-    fun provideAppDatabase(@ForApplication context: Context) : AppDatabase {
-        return Room.databaseBuilder(context,
-                AppDatabase::class.java, "mycujoo-database")
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8)
-                .build()
     }
 
     @Provides
     @Singleton
-    fun provideLocalParcelDao(database: AppDatabase) : LocalParcelDao {
+    fun provideAppDatabase(@ForApplication context: Context): AppDatabase {
+        return Room.databaseBuilder(
+            context,
+            AppDatabase::class.java, "mycujoo-database"
+        )
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideLocalParcelDao(database: AppDatabase): LocalParcelDao {
         return database.localParcelDao()
     }
-
 }

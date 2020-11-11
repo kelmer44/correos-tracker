@@ -13,5 +13,5 @@ class TrampolineSchedulerProvider : SchedulerProvider {
 
     override fun computation(): Scheduler = Schedulers.trampoline()
 
-    override fun newThread(): Scheduler  = Schedulers.trampoline()
+    override fun newThread(): Scheduler = Schedulers.trampoline()
 }

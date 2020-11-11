@@ -2,11 +2,11 @@ package net.kelmer.correostracker.base.fragment
 
 import android.content.Context
 import android.os.Bundle
-import androidx.annotation.CallSuper
-import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import timber.log.Timber
 
@@ -39,9 +39,7 @@ abstract class BaseFragment<B : ViewBinding>(@LayoutRes layoutId: Int) : Fragmen
         super.onDestroyView()
     }
 
-
     abstract fun bind(view: View): B
     abstract fun setupToolbar(toolbar: Toolbar)
     abstract fun loadUp(binding: B, savedInstanceState: Bundle?)
-
 }
