@@ -40,7 +40,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
             .build()
 
         val uploadWorker = PeriodicWorkRequest.Builder(
-            ParcelPollWorker::class.java, 15, TimeUnit.MINUTES
+            ParcelPollWorker::class.java, 15L, TimeUnit.MINUTES
         )
             .setConstraints(constraints)
             .build()
