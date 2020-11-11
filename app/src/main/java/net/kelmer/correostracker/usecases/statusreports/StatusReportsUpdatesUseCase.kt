@@ -20,8 +20,8 @@ class StatusReportsUpdatesUseCase @Inject constructor(
 
         localParcelRepository.getParcels().firstOrError()
             .onErrorReturnItem(emptyList())
-            .toFlowable().flatMap {
-                val map = it.mapIndexed { idx, item ->
+            .toFlowable().flatMap {parcelList ->
+                val map = parcelList.mapIndexed { _, item ->
                     item.updateStatus = LocalParcelReference.UpdateStatus.INPROGRESS
                     localParcelRepository.saveParcel(item)
                         .andThen(
@@ -30,11 +30,11 @@ class StatusReportsUpdatesUseCase @Inject constructor(
                         .doOnSubscribe {
                             Timber.w("Subscribed")
                         }
-                        .map {
-                            Resource.success(it)
+                        .map { parcel ->
+                            Resource.success(parcel)
                         }
-                        .onErrorReturn {
-                            Resource.failure(it)
+                        .onErrorReturn { throwable ->
+                            Resource.failure(throwable)
                         }
                 }
                 Single.merge(map)

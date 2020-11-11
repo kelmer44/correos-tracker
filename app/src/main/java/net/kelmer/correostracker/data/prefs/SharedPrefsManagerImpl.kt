@@ -29,7 +29,7 @@ class SharedPrefsManagerImpl @Inject constructor(
         }
 
     private val preferenceChangedListener =
-        SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
+        SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
             when (key) {
                 PREFERENCE_NIGHT_MODE -> {
                     _themeModeLive.value = themeMode

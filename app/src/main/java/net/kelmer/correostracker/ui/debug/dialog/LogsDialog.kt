@@ -25,10 +25,10 @@ class LogsDialog(context: Context, private val lumberYard: LumberYard) : AlertDi
 
         setTitle("Logs")
         setView(recyclerView)
-        setButton(BUTTON_NEGATIVE, "Close") { d, which ->
+        setButton(BUTTON_NEGATIVE, "Close") { _, _ ->
         }
 
-        setButton(BUTTON_POSITIVE, "Share") { d, which ->
+        setButton(BUTTON_POSITIVE, "Share") { _, _ ->
             share()
         }
     }

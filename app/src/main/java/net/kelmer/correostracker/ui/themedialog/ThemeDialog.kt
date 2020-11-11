@@ -24,7 +24,7 @@ fun themeSelectionDialog(
     val animals = ThemeMode.values().map {
         context.getString(it.stringRes)
     }.toTypedArray()
-    builder.setItems(animals) { dialog, which ->
+    builder.setItems(animals) { _, which ->
         listener(ThemeMode.fromPosition(which))
     }
 

@@ -110,7 +110,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
 
                 val dialog = AlertDialog.Builder(ctx)
                     .setTitle(parcel.name)
-                    .setPositiveButton(getString(android.R.string.ok)) { p0, p1 -> p0.dismiss() }
+                    .setPositiveButton(getString(android.R.string.ok)) { p0, _ -> p0.dismiss() }
                     .setView(parent)
                     .create()
 
