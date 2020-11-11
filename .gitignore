@@ -9,4 +9,3 @@
 .externalNativeBuild
 .idea/*
 app/release
-gradle
