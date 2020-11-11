@@ -21,3 +21,5 @@ Sample app with Clean architecture using
   <img alt="Demo screen" src="./device-2018-04-20-134010.png" width="250" />
   <img alt="Demo screen" src="./device-2018-04-20-134016.png" width="250" />
 </p>
+
+![Android CI](https://github.com/kelmer44/correos-tracker/workflows/Android%20CI/badge.svg)
