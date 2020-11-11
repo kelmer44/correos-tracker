@@ -20,7 +20,7 @@ class StatusReportsUpdatesUseCase @Inject constructor(
 
         localParcelRepository.getParcels().firstOrError()
             .onErrorReturnItem(emptyList())
-            .toFlowable().flatMap {parcelList ->
+            .toFlowable().flatMap { parcelList ->
                 val map = parcelList.mapIndexed { _, item ->
                     item.updateStatus = LocalParcelReference.UpdateStatus.INPROGRESS
                     localParcelRepository.saveParcel(item)
