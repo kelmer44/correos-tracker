@@ -104,14 +104,6 @@
             android:src="@drawable/ic_github_logo" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="@dimen/single_spacing"
-            android:text="@string/feature_dialog_opensource_contribute"
-            android:textSize="12sp"
-            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/kofi_button"
