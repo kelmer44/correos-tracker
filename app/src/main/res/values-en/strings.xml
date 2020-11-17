@@ -58,5 +58,5 @@
     <string name="theme_title">Theme</string>
     <string name="copy">Copy to clipboard</string>
     <string name="changes_1_9_5">Option to choose theme from main menu.</string>
-    <string name="visit_us_github">Visit us on github:</string>
+    <string name="changes_2_0_0">Code restructuring</string>
 </resources>
