@@ -85,6 +85,9 @@ class ParcelListAdapter constructor(
                 } else if (parcel.updateStatus == LocalParcelReference.UpdateStatus.ERROR) {
                     parcelStatus.setImageResource(R.drawable.ic_error_red)
                 }
+                else if(parcel.updateStatus == LocalParcelReference.UpdateStatus.UNKNOWN){
+                    parcelStatus.setImageResource(R.drawable.timeline_icon_unknown)
+                }
 
                 var lastCheckedValue = parcel.lastChecked
 
