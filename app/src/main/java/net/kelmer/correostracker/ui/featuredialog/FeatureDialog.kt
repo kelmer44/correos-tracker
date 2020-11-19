@@ -54,6 +54,7 @@ fun featureBlurbDialog(
     val title = inflate.findViewById<AppCompatTextView>(R.id.dialog_title)
     val featureList = inflate.findViewById<RecyclerView>(R.id.dialog_list)
     val ok = inflate.findViewById<Button>(R.id.dialog_yes_button)
+    val github = inflate.findViewById<ImageView>(R.id.github_button)
     val cancel = inflate.findViewById<AppCompatImageButton>(R.id.dialog_no_button)
     ok?.text = okText
     title?.text = titleText
@@ -74,6 +75,10 @@ fun featureBlurbDialog(
 
                 )
         )
+    }
+
+    github.setOnClickListener {
+        githubListener()
     }
 
     ok?.setOnClickListener {
