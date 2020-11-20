@@ -34,11 +34,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
         initWorker()
     }
-    val themeObserver = Observer<Int> { t ->
-        if (t != null) {
-            AppCompatDelegate.setDefaultNightMode(t)
-        }
-    }
+
     private fun initWorker() {
         val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -52,6 +48,16 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(CorreosApp.PARCEL_CHECKER_WORKREQUEST, ExistingPeriodicWorkPolicy.REPLACE, uploadWorker)
 
 
-        sharedPrefsManager.themeModeLive.observe(this, themeObserver)
+        sharedPrefsManager.themeModeLive.observe(this, ThemeObserver())
+    }
+
+
+    inner class ThemeObserver : Observer<Int> {
+        override fun onChanged(t: Int?) {
+            if (t != null) {
+                AppCompatDelegate.setDefaultNightMode(t)
+            }
+        }
     }
 }
+
