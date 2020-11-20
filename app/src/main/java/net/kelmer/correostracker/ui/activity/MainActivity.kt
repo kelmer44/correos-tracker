@@ -2,6 +2,7 @@ package net.kelmer.correostracker.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.Observer
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
@@ -36,18 +37,27 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
     private fun initWorker() {
         val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
 
         val uploadWorker = PeriodicWorkRequest.Builder(
-            ParcelPollWorker::class.java, 15L, TimeUnit.MINUTES
+                ParcelPollWorker::class.java, 15L, TimeUnit.MINUTES
         )
-            .setConstraints(constraints)
-            .build()
+                .setConstraints(constraints)
+                .build()
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(CorreosApp.PARCEL_CHECKER_WORKREQUEST, ExistingPeriodicWorkPolicy.REPLACE, uploadWorker)
 
-        sharedPrefsManager.themeModeLive.observe(this) {
-            AppCompatDelegate.setDefaultNightMode(it)
+
+        sharedPrefsManager.themeModeLive.observe(this, ThemeObserver())
+    }
+
+
+    inner class ThemeObserver : Observer<Int> {
+        override fun onChanged(t: Int?) {
+            if (t != null) {
+                AppCompatDelegate.setDefaultNightMode(t)
+            }
         }
     }
 }
+
