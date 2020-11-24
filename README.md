@@ -16,6 +16,7 @@ Sample app with Clean architecture using
 * Room as Database provider
 * MVVM
 * ViewBinding
+* WorkManager for job scheduling
 
 <p align="center">
   <img alt="Demo screen" src="./device-2018-04-20-134010.png" width="250" />
