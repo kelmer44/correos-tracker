@@ -61,5 +61,6 @@
     <string name="changes_1_9_5">Dark theme config</string>
     <string name="changes_2_0_0">Reestructuracion de codigo</string>
     <string name="visit_us_github">Visítanos en github</string>
+    <string name="changes_2_1_0">Se ha eliminado el soporte para Correos Express.</string>
 
 </resources>

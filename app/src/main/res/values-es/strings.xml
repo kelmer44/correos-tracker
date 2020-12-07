@@ -60,5 +60,6 @@
     <string name="changes_1_9_5">Ahora se puede escoger el tema desde el menú principal.</string>
     <string name="changes_2_0_0">Reestructuración de código</string>
     <string name="visit_us_github">Visítanos en github</string>
+    <string name="changes_2_1_0">Se ha eliminado el soporte para Correos Express debido a que Correos ha decidido hacerlos privados. Lamentamos las molestias.</string>
 
 </resources>
