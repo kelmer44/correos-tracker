@@ -78,6 +78,10 @@ android {
     buildFeatures {
         viewBinding true
     }
+    // Gradle automatically adds 'android.test.runner' as a dependency.
+    useLibrary 'android.test.runner'
+    useLibrary 'android.test.base'
+    useLibrary 'android.test.mock'
 
     sourceSets {
         // Adds exported schema location as test app assets.
@@ -156,15 +160,17 @@ dependencies {
     implementation deps.stetho.okhttp3
 
     //Test
-    testImplementation deps.junit
-    testImplementation deps.espresso.core
-    testImplementation deps.espresso.contrib
-    testImplementation deps.mockito
+    debugImplementation deps.support.fragment_test
+    androidTestImplementation deps.navigation.test
+    androidTestImplementation deps.test.espresso_core
+    androidTestImplementation deps.test.espresso_contrib
 
-    androidTestImplementation deps.espresso.core
-    androidTestImplementation deps.junit
-    androidTestImplementation deps.atsl.core
-    androidTestImplementation deps.atsl.rules
+    androidTestImplementation deps.test.core
+    androidTestImplementation deps.test.runner
+    androidTestImplementation deps.test.rules
+    androidTestImplementation deps.test.junit_ext
+    androidTestImplementation deps.test.truth
+    androidTestImplementation deps.test.truth_ext
 
 
     androidTestImplementation deps.daggerhilt.test

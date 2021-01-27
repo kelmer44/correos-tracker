@@ -19,7 +19,6 @@
         android:theme="@style/Theme.CorreosTracker"
         tools:ignore="GoogleAppIndexingWarning">
 
-
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,11 +27,12 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.HiltTestActivity" />
         <provider
-            tools:replace="android:authorities"
             android:name="androidx.work.impl.WorkManagerInitializer"
             android:authorities="@string/workmanager"
-            android:enabled="false" />
+            android:enabled="false"
+            tools:replace="android:authorities" />
 
     </application>
 
