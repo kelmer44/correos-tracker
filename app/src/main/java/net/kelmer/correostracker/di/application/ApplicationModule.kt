@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import net.kelmer.correostracker.BuildConfig
 import net.kelmer.correostracker.data.prefs.SharedPrefsManager
 import net.kelmer.correostracker.data.prefs.SharedPrefsManagerImpl
@@ -23,7 +23,7 @@ import javax.inject.Singleton
  * Created by gabriel on 25/03/2018.
  */
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 class ApplicationModule {
 
     @Provides

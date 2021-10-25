@@ -72,10 +72,12 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        useIR = true
     }
     buildToolsVersion = '29.0.3'
 
     buildFeatures {
+        compose true
         viewBinding true
     }
 
@@ -83,6 +85,14 @@ android {
         // Adds exported schema location as test app assets.
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion rootProject.composeVersion
+    }
+}
+
+kapt {
+    correctErrorTypes true
 }
 
 dependencies {
@@ -102,6 +112,18 @@ dependencies {
     implementation deps.retrofit.core
     implementation deps.retrofit.moshi
     implementation deps.retrofit.rxjava
+
+    //Compose
+    // Compose
+    implementation "androidx.compose.runtime:runtime:$rootProject.composeVersion"
+    implementation "androidx.compose.ui:ui:$rootProject.composeVersion"
+    implementation "androidx.compose.foundation:foundation:$rootProject.composeVersion"
+    implementation "androidx.compose.foundation:foundation-layout:$rootProject.composeVersion"
+    implementation "androidx.compose.material:material:$rootProject.composeVersion"
+    implementation "androidx.compose.runtime:runtime-livedata:$rootProject.composeVersion"
+    implementation "androidx.compose.ui:ui-tooling:$rootProject.composeVersion"
+    implementation "com.google.android.material:compose-theme-adapter:$rootProject.composeVersion"
+
 
     //lifecycle
     implementation deps.lifecycle.runtime
@@ -131,17 +153,16 @@ dependencies {
     implementation 'com.github.vipulasri:timelineview:1.0.6'
 
     // Check for v11.4.2 or higher
-    implementation 'com.google.firebase:firebase-core:18.0.0'
+    implementation 'com.google.firebase:firebase-core:19.0.2'
 
     // (Recommended) Add Analytics
-    implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
-    implementation 'com.google.firebase:firebase-analytics:18.0.0'
+    implementation 'com.google.firebase:firebase-crashlytics:18.2.3'
+    implementation 'com.google.firebase:firebase-analytics:19.0.2'
 
     // Add dependency
 
     //DI
     implementation deps.daggerhilt.android
-    kapt deps.daggerhilt.android_compiler
     kapt deps.daggerhilt.compiler
     implementation deps.daggerhilt.viewmodel
 
@@ -169,7 +190,7 @@ dependencies {
 
     androidTestImplementation deps.daggerhilt.test
     testImplementation deps.daggerhilt.test
-    kaptAndroidTest deps.daggerhilt.android_compiler
+    kaptAndroidTest deps.daggerhilt.compiler
 
 }
 

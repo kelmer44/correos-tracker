@@ -7,7 +7,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import net.kelmer.correostracker.data.model.local.LocalParcelDao
 import net.kelmer.correostracker.di.qualifiers.ForApplication
 import javax.inject.Singleton
@@ -16,7 +16,7 @@ import javax.inject.Singleton
  * Created by gabriel on 25/03/2018.
  */
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 class DbModule {
 
     companion object {

@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/correos-tracker.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/correos-tracker.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mock-server/correos-tracker.mock-server.iml" filepath="$PROJECT_DIR$/.idea/modules/mock-server/correos-tracker.mock-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/dev.correos-tracker.iml" filepath="$PROJECT_DIR$/.idea/modules/dev.correos-tracker.iml" />
     </modules>
   </component>

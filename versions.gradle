@@ -5,8 +5,8 @@ def extension = ext {
             'gradle'        : '3.4.2',
 
             'minSdk'        : 21,
-            'targetSdk'     : 29,
-            'compileSdk'    : 29,
+            'targetSdk'     : 30,
+            'compileSdk'    : 30,
 
             'atsl_core'     : "1.2.0",
             'atsl_junit'    : "1.1.1",
@@ -15,10 +15,10 @@ def extension = ext {
 
             'buildTools'    : '29.0.0',
             'supportLibrary': '1.0.0',
-            'daggerHilt'    : '2.29-alpha',
-            'daggerhiltext' : '1.0.0-alpha02',
+            'daggerHilt'    : '2.39.1',
+            'daggerhiltext' : '1.0.0-alpha03',
 
-            'kotlin'        : '1.4.10',
+            'kotlin'        : '1.5.31',
 
             'googleservices': '4.2.0',
             'fabricPlugin'  : '1.30.0',
@@ -106,8 +106,7 @@ def extension = ext {
             ],
             'daggerhilt' : [
                     'android'         : "com.google.dagger:hilt-android:${versions.daggerHilt}",
-                    'android_compiler': "com.google.dagger:hilt-android-compiler:${versions.daggerHilt}",
-                    'compiler'        : "androidx.hilt:hilt-compiler:${versions.daggerhiltext}",
+                    'compiler'        : "com.google.dagger:hilt-compiler:${versions.daggerHilt}",
                     'viewmodel'       : "androidx.hilt:hilt-lifecycle-viewmodel:${versions.daggerhiltext}",
                     'test'            : "com.google.dagger:hilt-android-testing:${versions.daggerHilt}"
 
@@ -148,4 +147,4 @@ def extension = ext {
     ]
 
 }
-extension
+

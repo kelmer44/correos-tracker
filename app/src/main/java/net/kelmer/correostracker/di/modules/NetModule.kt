@@ -8,7 +8,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.di.qualifiers.ForApplication
 import net.kelmer.correostracker.di.qualifiers.NetworkLogger
@@ -36,7 +36,7 @@ import javax.net.ssl.X509TrustManager
 @Module(
     includes = [Interceptors::class]
 )
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 open class NetModule {
 
     @Provides

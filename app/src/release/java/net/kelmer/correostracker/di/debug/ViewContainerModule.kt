@@ -3,13 +3,13 @@ package net.kelmer.correostracker.di.debug
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 
 /**
  * Created by Gabriel Sanmartín on 09/11/2020.
  */
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 class ViewContainerModule {
 
     @Provides
