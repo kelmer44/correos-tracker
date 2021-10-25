@@ -24,7 +24,6 @@ import net.kelmer.correostracker.util.checkIsSuccess
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import javax.annotation.Resource
 
 /**
  * Created by Gabriel Sanmartín on 10/11/2020.

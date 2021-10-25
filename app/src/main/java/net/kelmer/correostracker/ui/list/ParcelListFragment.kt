@@ -8,6 +8,9 @@ import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -24,6 +27,8 @@ import net.kelmer.correostracker.ui.customviews.ConfirmDialog
 import net.kelmer.correostracker.ui.featuredialog.featureBlurbDialog
 import net.kelmer.correostracker.ui.list.adapter.ParcelClickListener
 import net.kelmer.correostracker.ui.list.adapter.ParcelListAdapter
+import net.kelmer.correostracker.ui.list.compose.HelloWorld
+import net.kelmer.correostracker.ui.list.compose.ParcelListScreen
 import net.kelmer.correostracker.ui.themedialog.themeSelectionDialog
 import net.kelmer.correostracker.util.copyToClipboard
 import net.kelmer.correostracker.util.ext.isVisible
@@ -91,6 +96,7 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
     private val adapter = ParcelListAdapter(clickListener)
 
     override fun loadUp(binding: FragmentParcelListBinding, savedInstanceState: Bundle?) {
+        setupCompose(binding)
 
         NavigationUI.setupWithNavController(binding.listToolbar, findNavController())
         setupToolbar(binding.listToolbar)
@@ -131,6 +137,21 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
                     binding.rvParcelList.invalidate()
                 }
             )
+        }
+    }
+
+    private fun setupCompose(binding: FragmentParcelListBinding) {
+
+        binding.apply {
+            composeView.setViewCompositionStrategy(
+                ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
+            )
+
+            composeView.setContent {
+                MaterialTheme {
+                    ParcelListScreen(viewModel)
+                }
+            }
         }
     }
 
