@@ -62,5 +62,6 @@
     <string name="changes_2_0_0">Reestructuracion de codigo</string>
     <string name="visit_us_github">Visítanos en github</string>
     <string name="changes_2_1_0">Se ha eliminado el soporte para Correos Express.</string>
-
+    <string name="inapp_title">Valóranos</string>
+    <string name="inapp_message">¿Te gusta Seguimiento Correos? Déjanos una valoración positiva.</string>
 </resources>

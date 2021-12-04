@@ -9,7 +9,7 @@ import dagger.hilt.android.components.ApplicationComponent
  * Created by Gabriel Sanmartín on 09/11/2020.
  */
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(dagger.hilt.components.SingletonComponent::class)
 class ViewContainerModule {
 
     @Provides

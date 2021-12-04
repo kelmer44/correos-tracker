@@ -5,7 +5,7 @@ import dagger.Binds
 import dagger.MapKey
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoMap
 import net.kelmer.correostracker.di.worker.ChildWorkerFactory
 import kotlin.reflect.KClass
@@ -15,7 +15,7 @@ import kotlin.reflect.KClass
 annotation class WorkerKey(val value: KClass<out ListenableWorker>)
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 abstract class ParcelPollModule {
 
     @Binds
