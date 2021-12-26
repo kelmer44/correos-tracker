@@ -13,9 +13,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.play.core.review.ReviewManagerFactory
-import com.google.android.play.core.review.model.ReviewErrorCode
-import com.google.android.play.core.review.testing.FakeReviewManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
 import net.kelmer.correostracker.R
@@ -23,15 +20,16 @@ import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.databinding.FragmentParcelListBinding
+import net.kelmer.correostracker.service.iap.InAppReviewService
 import net.kelmer.correostracker.ui.customviews.ConfirmDialog
 import net.kelmer.correostracker.ui.featuredialog.featureBlurbDialog
-import net.kelmer.correostracker.ui.iar.inAppReviewDialog
 import net.kelmer.correostracker.ui.list.adapter.ParcelClickListener
 import net.kelmer.correostracker.ui.list.adapter.ParcelListAdapter
 import net.kelmer.correostracker.ui.themedialog.themeSelectionDialog
 import net.kelmer.correostracker.util.copyToClipboard
 import net.kelmer.correostracker.util.ext.isVisible
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -40,6 +38,9 @@ import timber.log.Timber
 class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.fragment_parcel_list) {
 
     private val viewModel: ParcelListViewModel by viewModels()
+
+    @Inject
+    lateinit var inAppReviewService: InAppReviewService
 
     private val clickListener = object : ParcelClickListener {
         override fun longPress(parcelReference: LocalParcelReference) {
@@ -100,35 +101,7 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
         setupToolbar(binding.listToolbar)
         setupRecyclerView(binding)
 
-        inAppReviewDialog(requireContext()) {
-
-
-//            val manager = ReviewManagerFactory.create(requireContext())
-            val manager = FakeReviewManager(requireContext())
-            val request = manager.requestReviewFlow()
-            request.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // We got the ReviewInfo object
-                    val reviewInfo = task.result
-                    val flow = manager.launchReviewFlow(requireActivity(), reviewInfo)
-                    flow.addOnCompleteListener { result ->
-                        // The flow has finished. The API does not indicate whether the user
-                        // reviewed or not, or even whether the review dialog was shown. Thus, no
-                        // matter the result, we continue our app flow.
-                        Timber.i("Successful! - $result")
-
-                    }
-                } else {
-                    // There was some problem, log or handle the error code.
-//                    @ReviewErrorCode val reviewErrorCode = (task.getException() as TaskException).errorCode
-                    Timber.i("Error ${task.exception}")
-
-                }
-            }
-
-
-
-        }.show()
+        inAppReviewService.showIfNeeded()
 
         binding.fab.setOnClickListener {
             findNavController().navigate(ParcelListFragmentDirections.actionParcelListFragmentToCreateParcelFragment())

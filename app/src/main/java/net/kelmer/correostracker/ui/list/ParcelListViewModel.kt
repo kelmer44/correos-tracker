@@ -10,6 +10,7 @@ import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.prefs.SharedPrefsManager
+import net.kelmer.correostracker.service.iap.InAppReviewService
 import net.kelmer.correostracker.usecases.delete.DeleteParcelUseCase
 import net.kelmer.correostracker.usecases.list.GetParcelListUseCase
 import net.kelmer.correostracker.usecases.notifications.SwitchNotificationsUseCase
@@ -27,8 +28,7 @@ class ParcelListViewModel @Inject constructor(
     private val switchNotificationsUseCase: SwitchNotificationsUseCase,
     private val statusReportsUpdatesUseCase: StatusReportsUpdatesUseCase,
     private val sharedPrefsManager: SharedPrefsManager
-) :
-    BaseViewModel(
+) : BaseViewModel(
         getParcelListUseCase,
         deleteParcelUseCase,
         switchNotificationsUseCase

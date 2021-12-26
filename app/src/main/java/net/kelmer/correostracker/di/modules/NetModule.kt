@@ -8,6 +8,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.di.qualifiers.ForApplication
@@ -41,7 +42,7 @@ open class NetModule {
 
     @Provides
     @Singleton
-    fun provideTrustManagerFactory(@ForApplication context: Context): TrustManagerFactory {
+    fun provideTrustManagerFactory(@ApplicationContext context: Context): TrustManagerFactory {
         // Load CAs from an InputStream
         // (could be from a resource or ByteArrayInputStream or ...)
         val cf: CertificateFactory = CertificateFactory.getInstance("X.509")
