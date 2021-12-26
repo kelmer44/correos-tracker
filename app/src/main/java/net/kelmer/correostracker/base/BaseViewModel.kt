@@ -11,7 +11,7 @@ import net.kelmer.correostracker.base.usecase.UseCase
  */
 abstract class BaseViewModel(vararg useCases: UseCase<*, *>) : ViewModel() {
 
-    protected val disposables: CompositeDisposable = CompositeDisposable()
+    private val disposables: CompositeDisposable = CompositeDisposable()
 
     fun addUseCase(useCase: UseCase<*, *>) {
         useCaseList.add(useCase)

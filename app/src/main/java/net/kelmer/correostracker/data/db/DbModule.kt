@@ -11,7 +11,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import net.kelmer.correostracker.data.model.local.LocalParcelDao
-import net.kelmer.correostracker.di.qualifiers.ForApplication
 import javax.inject.Singleton
 
 /**

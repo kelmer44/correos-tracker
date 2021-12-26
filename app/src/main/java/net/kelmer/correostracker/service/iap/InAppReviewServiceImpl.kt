@@ -28,6 +28,10 @@ class InAppReviewServiceImpl @Inject constructor(
             android.R.string.ok
         ) { _, _ -> listener() }
 
+        builder.setNegativeButton(
+            android.R.string.cancel
+        ) { _, _ -> }
+
         // create and show the alert dialog
         return builder.create()
     }

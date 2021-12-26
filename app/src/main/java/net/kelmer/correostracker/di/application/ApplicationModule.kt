@@ -14,9 +14,6 @@ import dagger.hilt.components.SingletonComponent
 import net.kelmer.correostracker.BuildConfig
 import net.kelmer.correostracker.data.prefs.SharedPrefsManager
 import net.kelmer.correostracker.data.prefs.SharedPrefsManagerImpl
-import net.kelmer.correostracker.di.qualifiers.ForApplication
-import net.kelmer.correostracker.service.iap.InAppReviewService
-import net.kelmer.correostracker.service.iap.InAppReviewServiceImpl
 import net.kelmer.correostracker.util.AppSchedulerProvider
 import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.NetworkInteractorImpl
