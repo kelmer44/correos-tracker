@@ -8,6 +8,7 @@ import javax.inject.Inject
 
 class GetParcelListUseCase @Inject constructor(private val localParcelRepository: LocalParcelRepository) :
     RxFlowableUseCase<Unit, List<LocalParcelReference>>() {
+
     override fun buildUseCase(params: Unit): Flowable<List<LocalParcelReference>> {
         return localParcelRepository.getParcels()
     }

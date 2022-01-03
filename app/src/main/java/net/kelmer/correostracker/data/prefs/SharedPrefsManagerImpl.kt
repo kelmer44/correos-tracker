@@ -9,11 +9,7 @@ import javax.inject.Inject
 class SharedPrefsManagerImpl @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : SharedPrefsManager {
-    companion object {
-        private const val FEATURE_SEEN = "C_FEATURE_SEEN"
-        private const val PREFERENCE_NIGHT_MODE = "preference_night_mode"
-        private const val PREFERENCE_NIGHT_MODE_DEF_VAL = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-    }
+
 
     private val _themeModeLive: MutableLiveData<Int> = MutableLiveData()
     override val themeModeLive: LiveData<Int>
@@ -42,12 +38,16 @@ class SharedPrefsManagerImpl @Inject constructor(
         sharedPreferences.registerOnSharedPreferenceChangeListener(preferenceChangedListener)
     }
 
-    override fun hasSeenFeatureBlurb(versionName: String): Boolean {
-        return get(FEATURE_SEEN + "_" + versionName, false)
-    }
+    override fun hasSeenFeatureBlurb(versionName: String) = get(FEATURE_SEEN + "_" + versionName, false)
 
     override fun setSeenFeatureBlurb(versionName: String) {
         set(FEATURE_SEEN + "_" + versionName, true)
+    }
+
+    override fun wasAskedForReview(): Boolean = get(ASKED_FOR_REVIEW, false)
+
+    override fun markAskedForReview() {
+        set(ASKED_FOR_REVIEW, true)
     }
 
     /**
@@ -123,5 +123,12 @@ class SharedPrefsManagerImpl @Inject constructor(
      */
     override fun clear() {
         sharedPreferences.edit()?.clear()?.apply()
+    }
+
+    companion object {
+        private const val FEATURE_SEEN = "C_FEATURE_SEEN"
+        private const val ASKED_FOR_REVIEW = "B_ASKED_FOR_REVIEW"
+        private const val PREFERENCE_NIGHT_MODE = "preference_night_mode"
+        private const val PREFERENCE_NIGHT_MODE_DEF_VAL = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     }
 }

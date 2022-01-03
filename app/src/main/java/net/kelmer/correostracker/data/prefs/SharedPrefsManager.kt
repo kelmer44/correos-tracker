@@ -5,6 +5,10 @@ import androidx.lifecycle.LiveData
 interface SharedPrefsManager {
     fun hasSeenFeatureBlurb(versionName: String): Boolean
     fun setSeenFeatureBlurb(versionName: String)
+
+    fun wasAskedForReview(): Boolean
+    fun markAskedForReview()
+
     fun clear()
     var themeMode: Int
     val themeModeLive: LiveData<Int>
