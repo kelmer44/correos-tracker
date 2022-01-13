@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import net.kelmer.correostracker.service.iap.InAppReviewServiceImpl.Companion.MIN_CLEAN_STARTS
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -13,8 +14,10 @@ class SharedPrefsManagerImpl @Inject constructor(
 ) : SharedPrefsManager {
 
     init {
-        incrementCleanStarts()
-        Timber.w("Incrementing clean starts!, value after is = ${this.getCleanStarts()}")
+        if (this.getCleanStarts() <= MIN_CLEAN_STARTS) {
+            incrementCleanStarts()
+            Timber.w("Incrementing clean starts!, value after is = ${this.getCleanStarts()}")
+        }
     }
 
     private val _themeModeLive: MutableLiveData<Int> = MutableLiveData()
