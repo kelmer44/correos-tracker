@@ -4,12 +4,18 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
 class SharedPrefsManagerImpl @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : SharedPrefsManager {
 
+    init {
+        incrementCleanStarts()
+        Timber.w("Incrementing clean starts!, value after is = ${this.getCleanStarts()}")
+    }
 
     private val _themeModeLive: MutableLiveData<Int> = MutableLiveData()
     override val themeModeLive: LiveData<Int>
@@ -48,6 +54,12 @@ class SharedPrefsManagerImpl @Inject constructor(
 
     override fun markAskedForReview() {
         set(ASKED_FOR_REVIEW, true)
+    }
+
+    override fun getCleanStarts(): Int = get(CLEAN_STARTS, 0)
+
+    override fun incrementCleanStarts() {
+        set(CLEAN_STARTS, getCleanStarts() + 1)
     }
 
     /**
@@ -128,6 +140,7 @@ class SharedPrefsManagerImpl @Inject constructor(
     companion object {
         private const val FEATURE_SEEN = "C_FEATURE_SEEN"
         private const val ASKED_FOR_REVIEW = "B_ASKED_FOR_REVIEW"
+        private const val CLEAN_STARTS = "I_CLEAN_STARTS"
         private const val PREFERENCE_NIGHT_MODE = "preference_night_mode"
         private const val PREFERENCE_NIGHT_MODE_DEF_VAL = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     }

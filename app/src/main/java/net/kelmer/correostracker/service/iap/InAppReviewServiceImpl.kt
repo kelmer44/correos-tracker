@@ -3,22 +3,19 @@ package net.kelmer.correostracker.service.iap
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.FragmentActivity
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.google.android.play.core.review.testing.FakeReviewManager
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.data.prefs.SharedPrefsManager
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
 class InAppReviewServiceImpl @Inject constructor(
     val activity: FragmentActivity,
-    val sharedPreferences: SharedPrefsManager
+    private val sharedPreferences: SharedPrefsManager
 ) : InAppReviewService {
-
 
     @SuppressLint("InflateParams")
     fun inAppReviewDialog(
@@ -43,7 +40,7 @@ class InAppReviewServiceImpl @Inject constructor(
     }
 
     override fun showIfNeeded() {
-        if (!sharedPreferences.wasAskedForReview()) {
+        if (sharedPreferences.getCleanStarts() > MIN_CLEAN_STARTS && !sharedPreferences.wasAskedForReview()) {
             inAppReviewDialog(activity) {
                 val manager = ReviewManagerFactory.create(activity)
 //                val manager = FakeReviewManager(activity)
@@ -52,6 +49,7 @@ class InAppReviewServiceImpl @Inject constructor(
                     if (task.isSuccessful) {
                         // We got the ReviewInfo object
                         val reviewInfo = task.result
+
                         val flow = manager.launchReviewFlow(activity, reviewInfo)
                         flow.addOnCompleteListener { result ->
                             // The flow has finished. The API does not indicate whether the user
@@ -73,4 +71,7 @@ class InAppReviewServiceImpl @Inject constructor(
         }
     }
 
+    companion object {
+        const val MIN_CLEAN_STARTS = 5
+    }
 }

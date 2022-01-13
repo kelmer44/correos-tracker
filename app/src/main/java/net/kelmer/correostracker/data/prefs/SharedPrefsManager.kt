@@ -9,6 +9,9 @@ interface SharedPrefsManager {
     fun wasAskedForReview(): Boolean
     fun markAskedForReview()
 
+    fun getCleanStarts(): Int
+    fun incrementCleanStarts()
+
     fun clear()
     var themeMode: Int
     val themeModeLive: LiveData<Int>

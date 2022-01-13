@@ -59,7 +59,5 @@ abstract class ApplicationModule {
         fun provideSharedPreferencesManager(sharedPreferences: SharedPreferences): SharedPrefsManager {
             return SharedPrefsManagerImpl(sharedPreferences)
         }
-
     }
-
 }
