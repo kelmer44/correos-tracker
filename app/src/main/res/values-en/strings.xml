@@ -61,5 +61,7 @@
     <string name="changes_2_0_0">Code restructuring</string>
     <string name="visit_us_github">Visit us over at github</string>
     <string name="changes_2_1_0">Support for Correos Express removed due to the services being made private by Correos.</string>
+    <string name="inapp_title">Review us</string>
+    <string name="inapp_message">Do you like Seguimiento Correos? Leave us positive feedback.</string>
 
 </resources>

@@ -4,15 +4,20 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import net.kelmer.correostracker.service.iap.InAppReviewServiceImpl.Companion.MIN_CLEAN_STARTS
+import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
 class SharedPrefsManagerImpl @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : SharedPrefsManager {
-    companion object {
-        private const val FEATURE_SEEN = "C_FEATURE_SEEN"
-        private const val PREFERENCE_NIGHT_MODE = "preference_night_mode"
-        private const val PREFERENCE_NIGHT_MODE_DEF_VAL = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+
+    init {
+        if (this.getCleanStarts() <= MIN_CLEAN_STARTS) {
+            incrementCleanStarts()
+            Timber.w("Incrementing clean starts!, value after is = ${this.getCleanStarts()}")
+        }
     }
 
     private val _themeModeLive: MutableLiveData<Int> = MutableLiveData()
@@ -42,12 +47,22 @@ class SharedPrefsManagerImpl @Inject constructor(
         sharedPreferences.registerOnSharedPreferenceChangeListener(preferenceChangedListener)
     }
 
-    override fun hasSeenFeatureBlurb(versionName: String): Boolean {
-        return get(FEATURE_SEEN + "_" + versionName, false)
-    }
+    override fun hasSeenFeatureBlurb(versionName: String) = get(FEATURE_SEEN + "_" + versionName, false)
 
     override fun setSeenFeatureBlurb(versionName: String) {
         set(FEATURE_SEEN + "_" + versionName, true)
+    }
+
+    override fun wasAskedForReview(): Boolean = get(ASKED_FOR_REVIEW, false)
+
+    override fun markAskedForReview() {
+        set(ASKED_FOR_REVIEW, true)
+    }
+
+    override fun getCleanStarts(): Int = get(CLEAN_STARTS, 0)
+
+    override fun incrementCleanStarts() {
+        set(CLEAN_STARTS, getCleanStarts() + 1)
     }
 
     /**
@@ -123,5 +138,13 @@ class SharedPrefsManagerImpl @Inject constructor(
      */
     override fun clear() {
         sharedPreferences.edit()?.clear()?.apply()
+    }
+
+    companion object {
+        private const val FEATURE_SEEN = "C_FEATURE_SEEN"
+        private const val ASKED_FOR_REVIEW = "B_ASKED_FOR_REVIEW"
+        private const val CLEAN_STARTS = "I_CLEAN_STARTS"
+        private const val PREFERENCE_NIGHT_MODE = "preference_night_mode"
+        private const val PREFERENCE_NIGHT_MODE_DEF_VAL = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     }
 }

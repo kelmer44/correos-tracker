@@ -20,6 +20,7 @@ import net.kelmer.correostracker.base.fragment.BaseFragment
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.databinding.FragmentParcelListBinding
+import net.kelmer.correostracker.service.iap.InAppReviewService
 import net.kelmer.correostracker.ui.customviews.ConfirmDialog
 import net.kelmer.correostracker.ui.featuredialog.featureBlurbDialog
 import net.kelmer.correostracker.ui.list.adapter.ParcelClickListener
@@ -28,6 +29,7 @@ import net.kelmer.correostracker.ui.themedialog.themeSelectionDialog
 import net.kelmer.correostracker.util.copyToClipboard
 import net.kelmer.correostracker.util.ext.isVisible
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -36,6 +38,9 @@ import timber.log.Timber
 class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.fragment_parcel_list) {
 
     private val viewModel: ParcelListViewModel by viewModels()
+
+    @Inject
+    lateinit var inAppReviewService: InAppReviewService
 
     private val clickListener = object : ParcelClickListener {
         override fun longPress(parcelReference: LocalParcelReference) {
@@ -95,6 +100,8 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
         NavigationUI.setupWithNavController(binding.listToolbar, findNavController())
         setupToolbar(binding.listToolbar)
         setupRecyclerView(binding)
+
+        inAppReviewService.showIfNeeded()
 
         binding.fab.setOnClickListener {
             findNavController().navigate(ParcelListFragmentDirections.actionParcelListFragmentToCreateParcelFragment())

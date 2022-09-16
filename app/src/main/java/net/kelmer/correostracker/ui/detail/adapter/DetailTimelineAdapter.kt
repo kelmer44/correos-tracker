@@ -44,7 +44,7 @@ class DetailTimelineAdapter : RecyclerView.Adapter<DetailTimelineAdapter.TimeLin
 
         fun bindStatus(status: CorreosApiEvent) {
             this.status = status
-            val faseNumber = status.fase?.toInt()
+            val faseNumber = status.fase?.toIntOrNull()
             val fase = if (faseNumber != null) ParcelDetailStatus.Fase.fromFase(faseNumber) else ParcelDetailStatus.Fase.OTHER
 
             binding.apply {

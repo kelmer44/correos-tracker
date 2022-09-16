@@ -1,5 +1,6 @@
 package net.kelmer.correostracker.data.db
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import androidx.room.migration.Migration
@@ -7,16 +8,16 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import net.kelmer.correostracker.data.model.local.LocalParcelDao
-import net.kelmer.correostracker.di.qualifiers.ForApplication
 import javax.inject.Singleton
 
 /**
  * Created by gabriel on 25/03/2018.
  */
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 class DbModule {
 
     companion object {
@@ -79,7 +80,7 @@ class DbModule {
 
     @Provides
     @Singleton
-    fun provideAppDatabase(@ForApplication context: Context): AppDatabase {
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
         return Room.databaseBuilder(
             context,
             AppDatabase::class.java, "mycujoo-database"

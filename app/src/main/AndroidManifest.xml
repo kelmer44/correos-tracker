@@ -20,7 +20,9 @@
         tools:ignore="GoogleAppIndexingWarning">
 
 
-        <activity android:name=".ui.activity.MainActivity">
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,10 +31,17 @@
         </activity>
 
         <provider
-            tools:replace="android:authorities"
-            android:name="androidx.work.impl.WorkManagerInitializer"
-            android:authorities="@string/workmanager"
-            android:enabled="false" />
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+
+        </provider>
 
     </application>
 

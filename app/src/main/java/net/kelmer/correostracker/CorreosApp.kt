@@ -20,7 +20,7 @@ import javax.inject.Inject
  * Created by gabriel on 25/03/2018.
  */
 @HiltAndroidApp
-class CorreosApp : Application() {
+class CorreosApp : Application(), Configuration.Provider {
 
     @Inject
     lateinit var lumberYard: LumberYard
@@ -82,5 +82,10 @@ class CorreosApp : Application() {
 
     companion object {
         const val PARCEL_CHECKER_WORKREQUEST = "PARCEL-CHECKER"
+    }
+
+    override fun getWorkManagerConfiguration(): Configuration {
+        return Configuration.Builder()
+            .build()
     }
 }

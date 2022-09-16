@@ -3,6 +3,7 @@ package net.kelmer.correostracker.service.worker
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.ListenableWorker
@@ -86,10 +87,16 @@ class ParcelPollWorker constructor(
 
             notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
 
-            val intent = PendingIntent.getActivity(
-                applicationContext, 0,
-                notificationIntent, 0
-            )
+            val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                 PendingIntent.getActivity(
+                    applicationContext,
+                     0,
+                    notificationIntent,
+                    PendingIntent.FLAG_IMMUTABLE
+                )
+            } else {
+                 PendingIntent.getActivity(applicationContext, 0, notificationIntent, 0)
+            }
 
             val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_reparto)

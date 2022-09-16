@@ -5,12 +5,15 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import dagger.hilt.android.lifecycle.HiltViewModel
 import net.kelmer.correostracker.base.BaseViewModel
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
 import net.kelmer.correostracker.usecases.details.GetParcelUseCase
+import javax.inject.Inject
 
-class ParcelDetailViewModel @ViewModelInject constructor(
+@HiltViewModel
+class ParcelDetailViewModel @Inject constructor(
     private val getParcelUseCase: GetParcelUseCase,
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : BaseViewModel(getParcelUseCase) {

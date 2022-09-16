@@ -3,29 +3,32 @@ package net.kelmer.correostracker.ui.list
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import net.kelmer.correostracker.BuildConfig
 import net.kelmer.correostracker.base.BaseViewModel
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.prefs.SharedPrefsManager
+import net.kelmer.correostracker.service.iap.InAppReviewService
 import net.kelmer.correostracker.usecases.delete.DeleteParcelUseCase
 import net.kelmer.correostracker.usecases.list.GetParcelListUseCase
 import net.kelmer.correostracker.usecases.notifications.SwitchNotificationsUseCase
 import net.kelmer.correostracker.usecases.statusreports.StatusReportsUpdatesUseCase
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Created by gabriel on 25/03/2018.
  */
-class ParcelListViewModel @ViewModelInject constructor(
+@HiltViewModel
+class ParcelListViewModel @Inject constructor(
     private val getParcelListUseCase: GetParcelListUseCase,
     private val deleteParcelUseCase: DeleteParcelUseCase,
     private val switchNotificationsUseCase: SwitchNotificationsUseCase,
     private val statusReportsUpdatesUseCase: StatusReportsUpdatesUseCase,
     private val sharedPrefsManager: SharedPrefsManager
-) :
-    BaseViewModel(
+) : BaseViewModel(
         getParcelListUseCase,
         deleteParcelUseCase,
         switchNotificationsUseCase
