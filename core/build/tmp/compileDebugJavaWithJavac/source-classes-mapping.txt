@@ -1,0 +1,2 @@
+net/kelmer/correostracker/core/BuildConfig.java
+ net.kelmer.correostracker.core.BuildConfig

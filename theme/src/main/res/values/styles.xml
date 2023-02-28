@@ -1,0 +1,39 @@
+<resources>
+
+    <style name="Widget.Soulpicks.SearchView" parent="Widget.AppCompat.SearchView">
+        <item name="android:iconifiedByDefault">false</item>
+        <item name="iconifiedByDefault">false</item>
+        <item name="measureWithLargestChild">true</item>
+        <item name="android:gravity">left</item>
+        <item name="queryBackground">@null</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAppearance">?attr/colorOnPrimary</item>
+        <item name="android:editTextColor">?attr/colorOnPrimary</item>
+    </style>
+
+
+    <style name="Widget.CorreosTracker.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/outline_stroke_color</item>
+        <item name="hintTextColor">?colorSecondary</item>
+        <item name="strokeColor">?colorOnBackground</item>
+        <item name="hintAnimationEnabled">true</item>
+        <item name="hintEnabled">true</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="materialThemeOverlay">@style/Widget.CorreosTracker.TextInputEditText</item>
+
+    </style>
+    <style name="Widget.CorreosTracker.TextInputEditText" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
+        <item name="colorControlActivated">?colorSecondary</item>
+    </style>
+
+
+    <style name="AppTheme.Button" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:backgroundTint">@color/secondary</item>
+        <item name="backgroundTint">@color/secondary</item>
+    </style>
+
+    <style name="FeatureTitle" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+</resources>

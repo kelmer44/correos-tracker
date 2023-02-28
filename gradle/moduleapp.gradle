@@ -1,0 +1,4 @@
+
+apply plugin: 'com.android.application'
+apply from: rootProject.file("gradle/modulebase.gradle")
+apply from: rootProject.file("gradle/hilt.gradle")
