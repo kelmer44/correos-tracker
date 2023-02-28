@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.ui.detail
+package net.kelmer.correostracker.detail
 
 import android.os.Bundle
 import android.view.View
@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -14,22 +15,20 @@ import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
-import net.kelmer.correostracker.R
-import net.kelmer.correostracker.base.fragment.BaseFragment
+import net.kelmer.correostracker.detail.R
 import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
 import net.kelmer.correostracker.data.network.exception.CorreosException
 import net.kelmer.correostracker.data.resolve
-import net.kelmer.correostracker.databinding.FragmentDetailBinding
 import net.kelmer.correostracker.ui.detail.adapter.DetailTimelineAdapter
 import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.copyToClipboard
 import net.kelmer.correostracker.util.ext.isVisible
+import net.kelmer.correostracker.util.ext.peso
 import net.kelmer.correostracker.util.ext.textOrElse
-import net.kelmer.correostracker.util.peso
 import timber.log.Timber
 
 @AndroidEntryPoint
-class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
+class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private val viewModel: ParcelDetailViewModel by viewModels()
 

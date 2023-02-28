@@ -1,15 +1,9 @@
-package net.kelmer.correostracker.util.ext
+package net.kelmer.correostracker.util
 
 import android.widget.TextView
 import net.kelmer.correostracker.R
+import net.kelmer.correostracker.util.ext.textOrElse
 
-fun TextView.textOrElse(originalText: String, orElse: String) {
-    if (!originalText.isNullOrEmpty())
-        this.text = originalText
-    else {
-        this.text = orElse
-    }
-}
 
 fun TextView.dimen(largo: String, ancho: String, alto: String, orElse: String) {
     if (!largo.isNullOrEmpty() && !ancho.isNullOrEmpty() && !alto.isNullOrEmpty()) {

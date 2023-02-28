@@ -1,10 +1,8 @@
 package net.kelmer.correostracker.di.application
 
-import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
-import android.view.LayoutInflater
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

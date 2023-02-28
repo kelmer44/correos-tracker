@@ -1,6 +1,5 @@
 package net.kelmer.correostracker.data
 
-import net.kelmer.correostracker.util.NetworkInteractor
 import timber.log.Timber
 
 /**
@@ -10,7 +9,6 @@ sealed class Resource<out R> {
 
     data class Success<out T>(val data: T) : Resource<T>()
     data class Failure(val exception: Throwable, val message: String? = exception.message) : Resource<Nothing>() {
-        fun isNetworkUnavailable() = exception is NetworkInteractor.NetworkUnavailableException
         fun log() = Timber.e(exception, message)
     }
     object InProgress : Resource<Nothing>()

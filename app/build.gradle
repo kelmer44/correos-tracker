@@ -87,6 +87,9 @@ android {
 
 dependencies {
 
+    implementation project(':core')
+    implementation project(':theme')
+
     //Kotlin
     implementation deps.kotlin
     //==================== Support Library ====================
@@ -155,8 +158,6 @@ dependencies {
     //==================== Debug ====================
     //Logging
     implementation deps.timber
-    implementation deps.stetho.core
-    implementation deps.stetho.okhttp3
 
     //Test
     testImplementation deps.junit
