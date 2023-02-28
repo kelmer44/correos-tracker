@@ -49,5 +49,6 @@ fun <T> Resource<T>.resolve(onError: (E: Throwable) -> Unit = {}, onSuccess: (T)
         is Resource.Failure -> {
             onError(exception)
         }
+        else -> {}
     }
 }

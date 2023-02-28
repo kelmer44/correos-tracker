@@ -5,8 +5,10 @@ kotlin = { strictly = "1.7.10" }
 
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
-androidx-viewbinding = { module = "androidx.databinding:viewbinding", version.ref = "androidGradlePlugin" }
+androidx-viewbinding = { module = "androidx.databinding:viewbinding", version = "3.5.0" }
 androidx-navigation-safeargs = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version = "2.3.1" }
+
+google-services = { module = "com.google.gms:google-services", version = "4.3.10" }
 
 dagger-base = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-android-base = { module = "com.google.dagger:dagger-android", version.ref = "dagger" }

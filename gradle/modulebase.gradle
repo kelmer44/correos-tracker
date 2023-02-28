@@ -46,7 +46,8 @@ dependencies {
 
     kapt buildLibs.dagger.compiler
     kapt buildLibs.dagger.android.processor
-    implementation(buildLibs.dagger.hilt.android) {
+
+    implementation(buildLibs.dagger.hilt.android.base) {
         exclude group: 'javax.annotation'
     }
     kapt buildLibs.dagger.hilt.compiler
@@ -57,4 +58,16 @@ dependencies {
     implementation libs.autodispose.android.ktx
     implementation libs.autodispose.lifecycle.ktx
 
+    implementation libs.navigation.fragment
+    implementation libs.navigation.ui
+
+    //Timber
+    implementation libs.timber
+
+    //Moshi
+    implementation libs.moshi.core
+    kapt libs.moshi.codegen
+
+    implementation libs.groupie
+    implementation libs.groupie.viewbinding
 }

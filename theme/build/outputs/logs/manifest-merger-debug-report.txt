@@ -1,25 +1,25 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7689347020401676747.xml:2:13-3:60
-INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7689347020401676747.xml:2:13-3:60
-INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7689347020401676747.xml:2:13-3:60
+ADDED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest10167787544620526436.xml:2:13-83
+INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest10167787544620526436.xml:2:13-83
+INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest10167787544620526436.xml:2:13-83
 	package
-		ADDED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7689347020401676747.xml:3:16-57
-		INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7689347020401676747.xml
-		INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7689347020401676747.xml
+		INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest10167787544620526436.xml
+		ADDED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest10167787544620526436.xml:2:13-83
+		INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest10167787544620526436.xml
 	xmlns:android
-		ADDED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7689347020401676747.xml:2:23-81
+		ADDED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest10167787544620526436.xml:2:23-81
 uses-sdk
-INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7689347020401676747.xml reason: use-sdk injection requested
-INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7689347020401676747.xml
-INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7689347020401676747.xml
-INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7689347020401676747.xml
-INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7689347020401676747.xml
+INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest10167787544620526436.xml reason: use-sdk injection requested
+INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest10167787544620526436.xml
+INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest10167787544620526436.xml
+INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest10167787544620526436.xml
+INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest10167787544620526436.xml
 	android:targetSdkVersion
-		INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7689347020401676747.xml
-		ADDED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7689347020401676747.xml
-		INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7689347020401676747.xml
+		INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest10167787544620526436.xml
+		ADDED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest10167787544620526436.xml
+		INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest10167787544620526436.xml
 	android:minSdkVersion
-		INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7689347020401676747.xml
-		ADDED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7689347020401676747.xml
-		INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7689347020401676747.xml
+		INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest10167787544620526436.xml
+		ADDED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest10167787544620526436.xml
+		INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest10167787544620526436.xml

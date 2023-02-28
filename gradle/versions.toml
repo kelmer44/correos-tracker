@@ -21,6 +21,9 @@ groupieVersion = "2.8.1"
 leakCanaryVersion = "2.10"
 
 moshiVersion = "1.14.0"
+
+navigation = "2.3.1"
+
 okReplayVersion = "1.6.0"
 okhttpVersion = "5.0.0-alpha.11"
 
@@ -154,6 +157,11 @@ mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "3.2.
 moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshiVersion" }
 moshi-core = { module = "com.squareup.moshi:moshi", version.ref = "moshiVersion" }
 moshi-reflect = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshiVersion" }
+
+navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
+navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
+navigation-safeargs = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }
+
 
 okhttp-library = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttpVersion" }
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttpVersion" }

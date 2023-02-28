@@ -14,6 +14,7 @@ dependencyResolutionManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
+        maven { url 'https://dl.bintray.com/lisawray/maven' }
     }
 
     versionCatalogs {

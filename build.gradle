@@ -13,10 +13,20 @@ buildscript {
         classpath buildLibs.dagger.hilt.gradle.plugin
         classpath buildLibs.firebase.crashlytics.gradle
         classpath buildLibs.androidx.navigation.safeargs
+        classpath buildLibs.google.services
     }
 
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://dl.bintray.com/lisawray/maven' }
+        jcenter()
+    }
 }

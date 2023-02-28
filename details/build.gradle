@@ -1,135 +1,135 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt' // Use experimental kapt implementation
-apply plugin: 'dagger.hilt.android.plugin'
-apply from: '../ktlint.gradle'
-
-android {
-
-    namespace 'net.kelmer.correostracker.details'
-    compileSdkVersion versions.compileSdk
-
-    defaultConfig {
-        minSdkVersion versions.minSdk
-        targetSdkVersion versions.targetSdk
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += ["room.schemaLocation":
-                                      "$projectDir/schemas".toString()]
-            }
-        }
-
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = '11'
-    }
-
-    buildFeatures {
-        viewBinding true
-    }
-
-    sourceSets {
-        // Adds exported schema location as test app assets.
-        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
-    }
-}
-
-dependencies {
-
-    implementation project(':core')
-    implementation project(':theme')
-    //Kotlin
-    implementation deps.kotlin
-    //==================== Support Library ====================
-    implementation deps.support.appCompat
-    implementation deps.support.design
-    implementation deps.support.fragment
-    implementation deps.support.constraint
-    implementation deps.support.vector
-    implementation deps.support.cardview
-
-    implementation 'com.google.android.play:core:1.10.2'
-    implementation 'com.google.android.play:core-ktx:1.8.1'
-
-    //==================== Network ====================
-    implementation deps.okhttp.logger
-    implementation deps.retrofit.core
-    implementation deps.retrofit.moshi
-    implementation deps.retrofit.rxjava
-
-    //lifecycle
-    implementation deps.lifecycle.runtime
-    implementation deps.lifecycle.viewmodel
-    implementation deps.lifecycle.worker
-
-    implementation deps.navigation.fragment
-    implementation deps.navigation.ui
-    kapt deps.lifecycle.compiler
-
-
-    //Room
-    implementation deps.room.runtime
-    androidTestImplementation deps.room.testing
-    implementation deps.room.rx
-    kapt deps.room.compiler
-
-    //Rx
-    implementation deps.rx.android
-    implementation deps.rx.kotlin
-
-
-    implementation deps.moshi.core
-    implementation deps.moshi.adapters
-
-    //TimelineView for detail
-    implementation 'com.github.vipulasri:timelineview:1.0.6'
-
-    // Check for v11.4.2 or higher
-    implementation 'com.google.firebase:firebase-core:20.0.0'
-
-    // (Recommended) Add Analytics
-    implementation 'com.google.firebase:firebase-crashlytics:18.2.5'
-    implementation 'com.google.firebase:firebase-analytics:20.0.0'
-
-    // Add dependency
-
-    //DI
-    implementation deps.daggerhilt.android
-    kapt deps.daggerhilt.android_compiler
-    kapt deps.daggerhilt.compiler
-    implementation deps.daggerhilt.viewmodel
-
-    //Barcode scanner
-    implementation deps.barcode.zxing
-    implementation deps.barcode.zxingandroid
-
-    //==================== Debug ====================
-    //Logging
-    implementation deps.timber
-    implementation deps.stetho.core
-    implementation deps.stetho.okhttp3
-
-    //Test
-    testImplementation deps.junit
-    testImplementation deps.espresso.core
-    testImplementation deps.espresso.contrib
-    testImplementation deps.mockito
-
-    androidTestImplementation deps.espresso.core
-    androidTestImplementation deps.junit
-    androidTestImplementation deps.atsl.core
-    androidTestImplementation deps.atsl.rules
-
-
-    androidTestImplementation deps.daggerhilt.test
-    testImplementation deps.daggerhilt.test
-    kaptAndroidTest deps.daggerhilt.android_compiler
-
-}
+//apply plugin: 'com.android.library'
+//apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-kapt' // Use experimental kapt implementation
+//apply plugin: 'dagger.hilt.android.plugin'
+//apply from: '../ktlint.gradle'
+//
+//android {
+//
+//    namespace 'net.kelmer.correostracker.details'
+//    compileSdkVersion versions.compileSdk
+//
+//    defaultConfig {
+//        minSdkVersion versions.minSdk
+//        targetSdkVersion versions.targetSdk
+//
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        javaCompileOptions {
+//            annotationProcessorOptions {
+//                arguments += ["room.schemaLocation":
+//                                      "$projectDir/schemas".toString()]
+//            }
+//        }
+//
+//    }
+//
+//    compileOptions {
+//        sourceCompatibility = JavaVersion.VERSION_11
+//        targetCompatibility = JavaVersion.VERSION_11
+//    }
+//    kotlinOptions {
+//        jvmTarget = '11'
+//    }
+//
+//    buildFeatures {
+//        viewBinding true
+//    }
+//
+//    sourceSets {
+//        // Adds exported schema location as test app assets.
+//        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+//    }
+//}
+//
+//dependencies {
+//
+//    implementation project(':core')
+//    implementation project(':theme')
+//    //Kotlin
+//    implementation deps.kotlin
+//    //==================== Support Library ====================
+//    implementation deps.support.appCompat
+//    implementation deps.support.design
+//    implementation deps.support.fragment
+//    implementation deps.support.constraint
+//    implementation deps.support.vector
+//    implementation deps.support.cardview
+//
+//    implementation 'com.google.android.play:core:1.10.2'
+//    implementation 'com.google.android.play:core-ktx:1.8.1'
+//
+//    //==================== Network ====================
+//    implementation deps.okhttp.logger
+//    implementation deps.retrofit.core
+//    implementation deps.retrofit.moshi
+//    implementation deps.retrofit.rxjava
+//
+//    //lifecycle
+//    implementation deps.lifecycle.runtime
+//    implementation deps.lifecycle.viewmodel
+//    implementation deps.lifecycle.worker
+//
+//    implementation deps.navigation.fragment
+//    implementation deps.navigation.ui
+//    kapt deps.lifecycle.compiler
+//
+//
+//    //Room
+//    implementation deps.room.runtime
+//    androidTestImplementation deps.room.testing
+//    implementation deps.room.rx
+//    kapt deps.room.compiler
+//
+//    //Rx
+//    implementation deps.rx.android
+//    implementation deps.rx.kotlin
+//
+//
+//    implementation deps.moshi.core
+//    implementation deps.moshi.adapters
+//
+//    //TimelineView for detail
+//    implementation 'com.github.vipulasri:timelineview:1.0.6'
+//
+//    // Check for v11.4.2 or higher
+//    implementation 'com.google.firebase:firebase-core:20.0.0'
+//
+//    // (Recommended) Add Analytics
+//    implementation 'com.google.firebase:firebase-crashlytics:18.2.5'
+//    implementation 'com.google.firebase:firebase-analytics:20.0.0'
+//
+//    // Add dependency
+//
+//    //DI
+//    implementation deps.daggerhilt.android
+//    kapt deps.daggerhilt.android_compiler
+//    kapt deps.daggerhilt.compiler
+//    implementation deps.daggerhilt.viewmodel
+//
+//    //Barcode scanner
+//    implementation deps.barcode.zxing
+//    implementation deps.barcode.zxingandroid
+//
+//    //==================== Debug ====================
+//    //Logging
+//    implementation deps.timber
+//    implementation deps.stetho.core
+//    implementation deps.stetho.okhttp3
+//
+//    //Test
+//    testImplementation deps.junit
+//    testImplementation deps.espresso.core
+//    testImplementation deps.espresso.contrib
+//    testImplementation deps.mockito
+//
+//    androidTestImplementation deps.espresso.core
+//    androidTestImplementation deps.junit
+//    androidTestImplementation deps.atsl.core
+//    androidTestImplementation deps.atsl.rules
+//
+//
+//    androidTestImplementation deps.daggerhilt.test
+//    testImplementation deps.daggerhilt.test
+//    kaptAndroidTest deps.daggerhilt.android_compiler
+//
+//}

@@ -1,10 +1,9 @@
 package net.kelmer.correostracker.ui.detail
 
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import dagger.assisted.Assisted
 import dagger.hilt.android.lifecycle.HiltViewModel
 import net.kelmer.correostracker.base.BaseViewModel
 import net.kelmer.correostracker.data.Resource
@@ -15,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ParcelDetailViewModel @Inject constructor(
     private val getParcelUseCase: GetParcelUseCase,
-    @Assisted private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle
 ) : BaseViewModel(getParcelUseCase) {
 
     private val parcelCode: String? = savedStateHandle.get<String>(DetailFragment.KEY_PARCELCODE)

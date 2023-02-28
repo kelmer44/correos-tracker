@@ -1,2 +1,0 @@
-net/kelmer/correostracker/theme/BuildConfig.java
- net.kelmer.correostracker.theme.BuildConfig
