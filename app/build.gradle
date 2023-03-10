@@ -88,12 +88,12 @@ dependencies {
     implementation libs.retrofit.core
     implementation libs.retrofit.moshi
     implementation libs.retrofit.rxjava2
-//
-//    implementation deps.navigation.fragment
-//    implementation deps.navigation.ui
-//    kapt deps.lifecycle.compiler
 
+    implementation libs.moshi.adapters
 
+    implementation libs.play.core
+
+    kapt libs.androidx.room.compiler
     //TimelineView for detail
     implementation 'com.github.vipulasri:timelineview:1.0.6'
 
@@ -105,9 +105,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:20.0.0'
 
     //Barcode scanner
-//    implementation deps.barcode.zxing
-//    implementation deps.barcode.zxingandroid
-
+    implementation libs.barcode.core
+    implementation libs.barcode.android
 
     //Test
     testImplementation libs.junit

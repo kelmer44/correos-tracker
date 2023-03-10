@@ -17,5 +17,6 @@ data class ParcelDetailDTO(
 
     fun isDelivered(): Boolean = states.lastOrNull()?.isEntregado() ?: false
     fun containsDimensions(): Boolean = ancho.isNotBlank() && largo.isNotBlank() && alto.isNotBlank()
+
 }
 //                           val states: List<ParcelDetailStatus>)

@@ -11,7 +11,14 @@ import net.kelmer.correostracker.util.SchedulerProvider
 /**
  * Created by gabriel on 08/02/2018.
  */
-
+fun <T> Flowable<T>.toResource(): Flowable<Resource<T>> {
+    return compose { item ->
+        item
+            .map { Resource.success(it) }
+            .onErrorReturn { e -> Resource.failure(e, e.message ?: "unknown") }
+            .startWith(Resource.inProgress())
+    }
+}
 fun <T> Flowable<T>.toResource(schedulerProvider: SchedulerProvider): Flowable<Resource<T>> {
     return compose { item ->
         item

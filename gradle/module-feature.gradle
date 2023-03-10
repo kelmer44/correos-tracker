@@ -1,4 +1,4 @@
-apply from: rootProject.file("gradle/moduleBase.gradle")
+apply from: rootProject.file("gradle/modulebase.gradle")
 apply from: rootProject.file("gradle/hilt.gradle")
 
 android {

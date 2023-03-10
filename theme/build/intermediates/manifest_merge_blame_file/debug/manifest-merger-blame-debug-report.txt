@@ -3,6 +3,6 @@
 3    package="net.kelmer.correostracker.theme" >
 4
 5    <uses-sdk android:minSdkVersion="21" />
-5-->/Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest10167787544620526436.xml
+5-->/Users/gabriel.sanmartin/Source/correos-tracker/theme/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest17098423252325592154.xml
 6
 7</manifest>

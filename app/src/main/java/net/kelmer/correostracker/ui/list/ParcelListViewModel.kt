@@ -1,6 +1,5 @@
 package net.kelmer.correostracker.ui.list
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,7 +9,6 @@ import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.prefs.SharedPrefsManager
-import net.kelmer.correostracker.service.iap.InAppReviewService
 import net.kelmer.correostracker.usecases.delete.DeleteParcelUseCase
 import net.kelmer.correostracker.usecases.list.GetParcelListUseCase
 import net.kelmer.correostracker.usecases.notifications.SwitchNotificationsUseCase

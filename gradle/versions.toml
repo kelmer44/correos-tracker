@@ -109,6 +109,9 @@ autodispose-android-ktx = { module = "com.uber.autodispose:autodispose-android-k
 autodispose-base = { module = "com.uber.autodispose:autodispose-ktx", version.ref = "autoDisposeVersion" }
 autodispose-lifecycle-ktx = { module = "com.uber.autodispose:autodispose-lifecycle-ktx", version.ref = "autoDisposeVersion" }
 
+barcode-core = { module = "com.google.zxing:core", version = "3.3.0" }
+barcode-android = { module = "com.journeyapps:zxing-android-embedded", version = "3.6.0" }
+
 firebase-analytics = { module = "com.google.firebase:firebase-analytics", version = "17.2.3" }
 firebase-common = { module = "com.google.firebase:firebase-common", version = "19.5.0" }
 firebase-components = { module = "com.google.firebase:firebase-components", version = "16.1.0" }
@@ -157,11 +160,11 @@ mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "3.2.
 moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshiVersion" }
 moshi-core = { module = "com.squareup.moshi:moshi", version.ref = "moshiVersion" }
 moshi-reflect = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshiVersion" }
+moshi-adapters = { module = "com.squareup.moshi:moshi-adapters", version.ref = "moshiVersion" }
 
 navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
 navigation-safeargs = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }
-
 
 okhttp-library = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttpVersion" }
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttpVersion" }
