@@ -27,4 +27,3 @@ data class CorreosApiEvent(
     fun isEntregado() = desTextoResumen == "Entregado"
     fun buildUltimoEstado() = if (!unidad.isNullOrBlank()) "$desTextoResumen en $unidad" else desTextoResumen
 }
-
