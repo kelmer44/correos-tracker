@@ -25,6 +25,7 @@ import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 import java.util.Date
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManagerFactory
@@ -81,8 +82,6 @@ open class NetModule {
     @Singleton
     fun provideOkHttpClient(
         cache: Cache,
-        sslContext: SSLContext,
-        tmf: TrustManagerFactory,
         @NetworkLogger loggingInterceptors: Set<@JvmSuppressWildcards
             Interceptor>
     ): OkHttpClient {
@@ -97,21 +96,13 @@ open class NetModule {
                     addNetworkInterceptor(it)
                 }
             }
-//        val trustManagers = tmf.trustManagers
-//        if (trustManagers.size != 1 || trustManagers[0] !is X509TrustManager) {
-//            return builder.build()
-//        } else {
-//            val trustManager = trustManagers[0] as (X509TrustManager)
-//            return builder
-//                .sslSocketFactory(sslContext.socketFactory, trustManager)
-//                .build()
-//        }
         return builder.build()
     }
 
     @Provides
     @Singleton
-    fun provideRetrofit(
+    @Named("parcelService")
+    fun provideParcelRetrofit(
         okHttpClient: OkHttpClient,
         rxJavaCallAdapterFactory: RxJava2CallAdapterFactory,
         gsonConverterFactory: MoshiConverterFactory
@@ -123,6 +114,56 @@ open class NetModule {
             .client(okHttpClient)
             .build()
     }
+
+    @Provides
+    @Singleton
+    @Named("unidadClient")
+    fun provideUnidadkHttpClient(
+        cache: Cache,
+        sslContext: SSLContext,
+        tmf: TrustManagerFactory,
+        @NetworkLogger loggingInterceptors: Set<@JvmSuppressWildcards
+        Interceptor>
+    ): OkHttpClient {
+
+        val builder = OkHttpClient.Builder()
+            .cache(cache)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .apply {
+                loggingInterceptors.forEach {
+                    addNetworkInterceptor(it)
+                }
+            }
+        val trustManagers = tmf.trustManagers
+        return if (trustManagers.size != 1 || trustManagers[0] !is X509TrustManager) {
+            builder.build()
+        } else {
+            val trustManager = trustManagers[0] as (X509TrustManager)
+            builder
+                .sslSocketFactory(sslContext.socketFactory, trustManager)
+                .build()
+        }
+    }
+
+    @Provides
+    @Singleton
+    @Named("unidadService")
+    fun provideUnidadRetrofit(
+        @Named("unidadClient")
+        okHttpClient: OkHttpClient,
+        rxJavaCallAdapterFactory: RxJava2CallAdapterFactory,
+        gsonConverterFactory: MoshiConverterFactory
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://apicorp.correos.es/")
+            .addCallAdapterFactory(rxJavaCallAdapterFactory)
+            .addConverterFactory(gsonConverterFactory)
+            .client(okHttpClient)
+            .build()
+    }
+
 
     @Provides
     @Singleton

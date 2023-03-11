@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 class CorreosRepositoryImpl @Inject constructor(
     val correosApi: CorreosV1,
-//    val unidades: Unidades,
+    val unidades: Unidades,
     val dao: LocalParcelDao
 ) : CorreosRepository {
 
@@ -33,22 +33,19 @@ class CorreosRepositoryImpl @Inject constructor(
             .map { parcel ->
                 parcel.shipment?.firstOrNull()
             }
-           .map { it to emptyMap<String,Unidad>() }
-//            .flatMap {shipment ->
-//                val map: List<Single<Unidad>> =
-//                    shipment.events.filter { it.codired != null }.map { event -> unidades.getUnidad(event.codired!!) }
-//               Single.zip(map) { unidades: Array<Any> ->
-//                   (unidades as Array<Unidad>).map { it.officeId to it }.toMap()
-//               }
-//                   .map { shipment to it }
-//            }
-
+            .flatMap {shipment ->
+                val map: List<Single<Unidad>> =
+                    shipment.events.filter { it.codired != null }.map { event -> unidades.getUnidad(event.codired!!) }
+               Single.zip(map) { unidades: Array<Any> ->
+                   unidades.map { it as Unidad }.associateBy { it.officeId }
+               }
+                   .map { shipment to it }
+            }
     }
 
     override fun retrieveParcel(parcelCode: String): Single<CorreosApiParcel> {
-        return correosApi.getParcelStatus(parcelCode)
-            .map { it.shipment?.firstOrNull() }
-            .map { shipment ->
+        return parcelAndUnits(parcelCode)
+            .map { (shipment, unidades) ->
                     CorreosApiParcel(
                         codEnvio = shipment.shipmentCode,
                         refCliente = null,
@@ -69,7 +66,7 @@ class CorreosRepositoryImpl @Inject constructor(
                                     fase = it.phase,
                                     desTextoResumen = it.summaryText,
                                     desTextoAmpliado = it.extendedText,
-                                    unidad = null//unidades[it.codired]?.name
+                                    unidad = unidades[it.codired]?.name
                                 )
                             }
                     )

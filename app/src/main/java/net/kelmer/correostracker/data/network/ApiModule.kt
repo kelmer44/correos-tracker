@@ -18,9 +18,9 @@ import javax.inject.Singleton
 class ApiModule {
     @Singleton
     @Provides
-    fun providesCorreosV1(retrofit: Retrofit) = retrofit.create(CorreosV1::class.java)
+    fun providesCorreosV1(@Named("parcelService") retrofit: Retrofit) = retrofit.create(CorreosV1::class.java)
 
-//    @Singleton
-//    @Provides
-//    fun providesUnidadService(@Named("unidadService") retrofit: Retrofit) = retrofit.create(Unidades::class.java)
+    @Singleton
+    @Provides
+    fun providesUnidadService(@Named("unidadService") retrofit: Retrofit) = retrofit.create(Unidades::class.java)
 }
