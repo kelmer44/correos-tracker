@@ -5,19 +5,43 @@ import net.kelmer.correostracker.BuildConfig
 import net.kelmer.correostracker.BuildConfig.DEBUG
 import net.kelmer.correostracker.data.model.local.LocalParcelDao
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
+import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
+import net.kelmer.correostracker.data.model.remote.Error
 import net.kelmer.correostracker.data.network.correos.CorreosApi
+import net.kelmer.correostracker.data.network.correos.CorreosV1
 import net.kelmer.correostracker.data.network.exception.CorreosExceptionFactory
 import timber.log.Timber
 import java.util.Date
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class CorreosRepositoryImpl(val correosApi: CorreosApi, val dao: LocalParcelDao) : CorreosRepository {
+class CorreosRepositoryImpl @Inject constructor(val correosApi: CorreosV1, val dao: LocalParcelDao) : CorreosRepository {
 
     override fun retrieveParcel(parcelCode: String): Single<CorreosApiParcel> {
         return correosApi.getParcelStatus(parcelCode)
-            .map {
-                it.first()
+            .map { parcel ->
+                parcel.shipment?.firstOrNull()?.let {
+                    CorreosApiParcel(
+                        codEnvio = it.shipmentCode,
+                        refCliente = null,
+                        codProducto = null,
+                        fechaCalculada = it.dateDeliverySum,
+                        error = it.error?.let { net.kelmer.correostracker.data.model.remote.Error(
+                            codError = it.errorCode,
+                            desError = null
+                        ) },
+                        eventos = it.events.map {
+                            CorreosApiEvent(
+                                fecEvento = it.eventDate,
+                                horEvento = it.eventTime,
+                                fase = it.phase,
+                                desTextoResumen = it.summaryText,
+                                desTextoAmpliado = it.extendedText
+                            )
+                        }
+                    )
+                }
             }
     }
 
@@ -36,6 +60,7 @@ class CorreosRepositoryImpl(val correosApi: CorreosApi, val dao: LocalParcelDao)
                 val error = element.error
                 // If theres actually an error in the api response, we map it
                 if (error != null && error.codError != "0") {
+
                     Single.error(CorreosExceptionFactory.byCode(error.codError, error.desError))
                 } else {
                     Single.just(element)
@@ -64,16 +89,5 @@ class CorreosRepositoryImpl(val correosApi: CorreosApi, val dao: LocalParcelDao)
                     Timber.w("Saving $p to database! $value saved")
                 }
             }
-    }
-
-    companion object {
-        private var instance: CorreosRepositoryImpl? = null
-
-        fun getInstance(correosApi: CorreosApi, correosDao: LocalParcelDao): CorreosRepositoryImpl {
-            if (instance == null) {
-                instance = CorreosRepositoryImpl(correosApi, correosDao)
-            }
-            return instance!!
-        }
     }
 }

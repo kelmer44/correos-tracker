@@ -97,15 +97,16 @@ open class NetModule {
                     addNetworkInterceptor(it)
                 }
             }
-        val trustManagers = tmf.trustManagers
-        if (trustManagers.size != 1 || trustManagers[0] !is X509TrustManager) {
-            return builder.build()
-        } else {
-            val trustManager = trustManagers[0] as (X509TrustManager)
-            return builder
-                .sslSocketFactory(sslContext.socketFactory, trustManager)
-                .build()
-        }
+//        val trustManagers = tmf.trustManagers
+//        if (trustManagers.size != 1 || trustManagers[0] !is X509TrustManager) {
+//            return builder.build()
+//        } else {
+//            val trustManager = trustManagers[0] as (X509TrustManager)
+//            return builder
+//                .sslSocketFactory(sslContext.socketFactory, trustManager)
+//                .build()
+//        }
+        return builder.build()
     }
 
     @Provides
@@ -116,7 +117,7 @@ open class NetModule {
         gsonConverterFactory: MoshiConverterFactory
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://localizador.correos.es/canonico/")
+            .baseUrl("https://api1.correos.es/digital-services/")
             .addCallAdapterFactory(rxJavaCallAdapterFactory)
             .addConverterFactory(gsonConverterFactory)
             .client(okHttpClient)
@@ -129,7 +130,7 @@ open class NetModule {
         Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             //            .add(SingleToArrayAdapter.FACTORY)
-            .add(CorreosApiParcelAdapter.FACTORY)
+//            .add(CorreosApiParcelAdapter.FACTORY)
             .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
             .build()
 

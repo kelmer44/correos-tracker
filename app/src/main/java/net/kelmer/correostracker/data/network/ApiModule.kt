@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import net.kelmer.correostracker.data.network.correos.CorreosApi
+import net.kelmer.correostracker.data.network.correos.CorreosV1
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
@@ -15,7 +16,12 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class ApiModule {
 
+//    @Singleton
+//    @Provides
+//    fun providesCorreosApi(retrofit: Retrofit) = retrofit.create(CorreosApi::class.java)
+
     @Singleton
     @Provides
-    fun providesCorreosApi(retrofit: Retrofit) = retrofit.create(CorreosApi::class.java)
+    fun providesCorreosV1(retrofit: Retrofit) = retrofit.create(CorreosV1::class.java)
+
 }
