@@ -25,7 +25,7 @@ class DetailTimelineAdapter : RecyclerView.Adapter<DetailTimelineAdapter.TimeLin
     }
 
     fun updateStatus(updatedList: List<CorreosApiEvent>) {
-        this.statuses = updatedList
+        this.statuses = updatedList.filter { !it.desTextoResumen.isNullOrBlank() }
         notifyDataSetChanged()
     }
 
@@ -48,8 +48,8 @@ class DetailTimelineAdapter : RecyclerView.Adapter<DetailTimelineAdapter.TimeLin
             val fase = if (faseNumber != null) ParcelDetailStatus.Fase.fromFase(faseNumber) else ParcelDetailStatus.Fase.OTHER
 
             binding.apply {
-                timeMarker.setMarker(ContextCompat.getDrawable(root.context, fase.drawable))
 
+                timeMarker.setMarker(ContextCompat.getDrawable(root.context, fase.drawable))
                 textTimelineTitle.text = status.desTextoResumen
                 textTimelineDate.text = status.fecEvento
                 textTimelineTime.text = status.horEvento
