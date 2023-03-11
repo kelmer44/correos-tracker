@@ -15,5 +15,6 @@ data class ShipmentEvent(
     val eventTime: String,
     val phase: String?,
     val summaryText: String?,
-    val extendedText: String
+    val extendedText: String,
+    val codired: String?
 )

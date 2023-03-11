@@ -1,5 +1,6 @@
 package net.kelmer.correostracker.data.repository.correos
 
+import io.reactivex.Flowable
 import io.reactivex.Single
 import net.kelmer.correostracker.BuildConfig
 import net.kelmer.correostracker.BuildConfig.DEBUG
@@ -8,47 +9,76 @@ import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.model.remote.Error
+import net.kelmer.correostracker.data.model.remote.unidad.Unidad
+import net.kelmer.correostracker.data.model.remote.v1.Parcel
+import net.kelmer.correostracker.data.model.remote.v1.Shipment
 import net.kelmer.correostracker.data.network.correos.CorreosApi
 import net.kelmer.correostracker.data.network.correos.CorreosV1
+import net.kelmer.correostracker.data.network.correos.Unidades
 import net.kelmer.correostracker.data.network.exception.CorreosExceptionFactory
 import timber.log.Timber
 import java.util.Date
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class CorreosRepositoryImpl @Inject constructor(val correosApi: CorreosV1, val dao: LocalParcelDao) : CorreosRepository {
+class CorreosRepositoryImpl @Inject constructor(
+    val correosApi: CorreosV1,
+//    val unidades: Unidades,
+    val dao: LocalParcelDao
+) : CorreosRepository {
+
+
+    fun parcelAndUnits(parcelCode: String): Single<Pair<Shipment, Map<String, Unidad>>> {
+       return correosApi.getParcelStatus(parcelCode)
+            .map { parcel ->
+                parcel.shipment?.firstOrNull()
+            }
+           .map { it to emptyMap<String,Unidad>() }
+//            .flatMap {shipment ->
+//                val map: List<Single<Unidad>> =
+//                    shipment.events.filter { it.codired != null }.map { event -> unidades.getUnidad(event.codired!!) }
+//               Single.zip(map) { unidades: Array<Any> ->
+//                   (unidades as Array<Unidad>).map { it.officeId to it }.toMap()
+//               }
+//                   .map { shipment to it }
+//            }
+
+    }
 
     override fun retrieveParcel(parcelCode: String): Single<CorreosApiParcel> {
         return correosApi.getParcelStatus(parcelCode)
-            .map { parcel ->
-                parcel.shipment?.firstOrNull()?.let {
+            .map { it.shipment?.firstOrNull() }
+            .map { shipment ->
                     CorreosApiParcel(
-                        codEnvio = it.shipmentCode,
+                        codEnvio = shipment.shipmentCode,
                         refCliente = null,
                         codProducto = null,
-                        fechaCalculada = it.dateDeliverySum,
-                        error = it.error?.let { net.kelmer.correostracker.data.model.remote.Error(
-                            codError = it.errorCode,
-                            desError = null
-                        ) },
-                        eventos = it.events.map {
-                            CorreosApiEvent(
-                                fecEvento = it.eventDate,
-                                horEvento = it.eventTime,
-                                fase = it.phase,
-                                desTextoResumen = it.summaryText,
-                                desTextoAmpliado = it.extendedText
+                        fechaCalculada = shipment.dateDeliverySum,
+                        error = shipment.error?.let {
+                            net.kelmer.correostracker.data.model.remote.Error(
+                                codError = it.errorCode,
+                                desError = null
                             )
-                        }
+                        },
+                        eventos = shipment.events
+                            .filter { !it.summaryText.isNullOrBlank() }
+                            .map {
+                                CorreosApiEvent(
+                                    fecEvento = it.eventDate,
+                                    horEvento = it.eventTime,
+                                    fase = it.phase,
+                                    desTextoResumen = it.summaryText,
+                                    desTextoAmpliado = it.extendedText,
+                                    unidad = null//unidades[it.codired]?.name
+                                )
+                            }
                     )
-                }
             }
     }
 
     override fun getParcelStatus(parcelId: String): Single<CorreosApiParcel> {
         var parcelReference: LocalParcelReference? = null
         return dao.getParcelSync(parcelId)
-            .delay(if (BuildConfig.DEBUG) (0..1000L).random() else 0, TimeUnit.MILLISECONDS)
             .doOnSuccess {
                 parcelReference = it
             }

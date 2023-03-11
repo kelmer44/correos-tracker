@@ -11,7 +11,6 @@ import retrofit2.http.Query
 
 
 interface CorreosV1 {
-
     @GET("searchengines/api/v1/?language=ES&searchType=envio")
     fun getParcelStatus(@Query("text") parcelId: String): Single<Parcel>
 }
