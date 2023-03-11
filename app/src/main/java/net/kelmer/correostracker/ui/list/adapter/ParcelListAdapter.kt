@@ -77,8 +77,11 @@ class ParcelListAdapter constructor(
                 parcelProgress.isVisible = parcel.updateStatus == LocalParcelReference.UpdateStatus.INPROGRESS
                 parcelStatus.isVisible = parcel.updateStatus != LocalParcelReference.UpdateStatus.INPROGRESS
 
-                val faseNumber = parcel.ultimoEstado?.fase?.toIntOrNull()
-                val fase = if (faseNumber != null) ParcelDetailStatus.Fase.fromFase(faseNumber) else ParcelDetailStatus.Fase.OTHER
+                val faseRaw = parcel.ultimoEstado?.fase
+                val faseNumber : Int? = if(faseRaw == "?") null else parcel.ultimoEstado?.fase?.toIntOrNull()
+                val fase = if (faseNumber != null)
+                    ParcelDetailStatus.Fase.fromFase(faseNumber)
+                else ParcelDetailStatus.Fase.OTHER
 
                 if (parcel.updateStatus == LocalParcelReference.UpdateStatus.OK) {
                     parcelStatus.setImageResource(fase.drawable)

@@ -5,7 +5,7 @@ import net.kelmer.correostracker.data.network.exception.CorreosException.Compani
 class CorreosExceptionFactory {
 
     companion object {
-        fun byCode(code: String, des: String): CorreosException {
+        fun byCode(code: String, des: String?): CorreosException {
             return when (code) {
                 CODE_INVALID_CODE -> {
                     WrongCodeException(code, des)

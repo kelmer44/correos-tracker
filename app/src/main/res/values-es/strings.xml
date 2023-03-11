@@ -63,5 +63,5 @@
     <string name="changes_2_1_0">Se ha eliminado el soporte para Correos Express debido a que Correos ha decidido hacerlos privados. Lamentamos las molestias.</string>
     <string name="inapp_title">Valóranos</string>
     <string name="inapp_message">¿Te gusta Seguimiento Correos? Déjanos una valoración positiva.</string>
-
+    <string name="changes_2_2_6">Implementa nuevos servicios de Correos, que no incluyen Unidad.</string>
 </resources>

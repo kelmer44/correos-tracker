@@ -63,6 +63,7 @@ fun featureBlurbDialog(
 
         setList(
                 listOf(
+                    FeatureListAdapter.Feature("2.2.6", R.string.changes_2_2_6),
                         FeatureListAdapter.Feature("2.1.0", R.string.changes_2_1_0),
                         FeatureListAdapter.Feature("2.0.0", R.string.changes_2_0_0),
                         FeatureListAdapter.Feature("1.9.5", R.string.changes_1_9_5),
@@ -70,10 +71,6 @@ fun featureBlurbDialog(
                         FeatureListAdapter.Feature("1.8.0", R.string.changes_1_8_0),
                         FeatureListAdapter.Feature("1.7.2", R.string.changes_1_7_2),
                         FeatureListAdapter.Feature("1.7.0", R.string.changes_1_7_0),
-                        FeatureListAdapter.Feature("1.6.5", R.string.changes_1_6_5),
-                        FeatureListAdapter.Feature("1.6.2", R.string.changes_1_6_2),
-                        FeatureListAdapter.Feature("1.6.0", R.string.changes_1_6_0)
-
                 )
         )
     }

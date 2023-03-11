@@ -12,7 +12,7 @@ class CorreosApiParcelAdapter(
     private val eventAdapter: JsonAdapter<CorreosApiEvent>,
     private val errorAdapter: JsonAdapter<Error>
 ) : JsonAdapter<List<CorreosApiParcel>>() {
-    override fun fromJson(reader: JsonReader): List<CorreosApiParcel>? = with(reader) {
+    override fun fromJson(reader: JsonReader): List<CorreosApiParcel> = with(reader) {
         val events = mutableListOf<CorreosApiEvent>()
         val parcel = CorreosApiParcel.allNull()
         beginArray()

@@ -16,15 +16,14 @@ package net.kelmer.correostracker.data.model.remote
  */
 data class CorreosApiEvent(
     val fecEvento: String,
-    val codEvento: String,
+    val codEvento: String? = null,
     val horEvento: String,
     val fase: String? = "?",
     val desTextoResumen: String? = "",
     val desTextoAmpliado: String? = "",
-    val unidad: String? = "?"
+    val unidad: String? = null
 ) {
 
     fun isEntregado() = desTextoResumen == "Entregado"
     fun buildUltimoEstado() = if (!unidad.isNullOrBlank()) "$desTextoResumen en $unidad" else desTextoResumen
 }
-
