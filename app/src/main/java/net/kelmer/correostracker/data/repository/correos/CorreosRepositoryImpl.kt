@@ -1,31 +1,24 @@
 package net.kelmer.correostracker.data.repository.correos
 
-import io.reactivex.Flowable
 import io.reactivex.Single
-import net.kelmer.correostracker.BuildConfig
-import net.kelmer.correostracker.BuildConfig.DEBUG
 import net.kelmer.correostracker.data.model.local.LocalParcelDao
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
-import net.kelmer.correostracker.data.model.remote.Error
 import net.kelmer.correostracker.data.model.remote.unidad.Unidad
-import net.kelmer.correostracker.data.model.remote.v1.Parcel
 import net.kelmer.correostracker.data.model.remote.v1.Shipment
-import net.kelmer.correostracker.data.network.correos.CorreosApi
 import net.kelmer.correostracker.data.network.correos.CorreosV1
 import net.kelmer.correostracker.data.network.correos.Unidades
 import net.kelmer.correostracker.data.network.exception.CorreosExceptionFactory
 import timber.log.Timber
 import java.util.Date
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class CorreosRepositoryImpl @Inject constructor(
     val correosApi: CorreosV1,
     val unidades: Unidades,
     val dao: LocalParcelDao
-) : CorreosRepository {
+) : net.kelmer.correostracker.data.repository.correos.CorreosRepository {
 
 
     fun parcelAndUnits(parcelCode: String): Single<Pair<Shipment, Map<String, Unidad>>> {

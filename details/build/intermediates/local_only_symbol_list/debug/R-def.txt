@@ -1,0 +1,9 @@
+R_DEF: Internal format may change without notice
+local
+id app_bar
+id detail_loading
+id detail_toolbar
+id error_container
+id error_text
+id parcelStatusRecyclerView
+layout fragment_detail

@@ -1,0 +1,25 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest14959641498317132603.xml:2:13-83
+INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest14959641498317132603.xml:2:13-83
+INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest14959641498317132603.xml:2:13-83
+	package
+		INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest14959641498317132603.xml
+		ADDED from /Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest14959641498317132603.xml:2:13-83
+		INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest14959641498317132603.xml
+	xmlns:android
+		ADDED from /Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest14959641498317132603.xml:2:23-81
+uses-sdk
+INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest14959641498317132603.xml reason: use-sdk injection requested
+INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest14959641498317132603.xml
+INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest14959641498317132603.xml
+INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest14959641498317132603.xml
+INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest14959641498317132603.xml
+	android:targetSdkVersion
+		INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest14959641498317132603.xml
+		ADDED from /Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest14959641498317132603.xml
+		INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest14959641498317132603.xml
+	android:minSdkVersion
+		INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest14959641498317132603.xml
+		ADDED from /Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest14959641498317132603.xml
+		INJECTED from /Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest14959641498317132603.xml

@@ -10,13 +10,14 @@ import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.plugins.RxJavaPlugins
 import junit.framework.Assert.assertEquals
-import net.kelmer.correostracker.base.usecase.UseCase
+import net.kelmer.correostracker.usecase.UseCase
 import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.repository.correos.CorreosRepository
 import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
+import net.kelmer.correostracker.detail.usecase.GetParcelUseCase
 import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.TrampolineSchedulerProvider
 import net.kelmer.correostracker.util.checkIsFailure
@@ -91,13 +92,13 @@ class GetParcelUseCaseTest {
     @Test
     fun `Get Parcel, if successful, continues the flow as a Success `() {
 
-        val mockLocalRepository: LocalParcelRepository = mock {
+        val mockLocalRepository: net.kelmer.correostracker.data.repository.local.LocalParcelRepository = mock {
             on {
                 getParcel(CODE)
             }.doReturn(Flowable.just(localParcelStub))
         }
 
-        val mockCorreosRepository: CorreosRepository = mock {
+        val mockCorreosRepository: net.kelmer.correostracker.data.repository.correos.CorreosRepository = mock {
             on {
                 getParcelStatus(CODE)
             }.doReturn(
@@ -132,13 +133,13 @@ class GetParcelUseCaseTest {
     @Test
     fun `Get Parcel, if error happens, continues the flow as a Failure object`() {
 
-        val mockLocalRepository: LocalParcelRepository = mock {
+        val mockLocalRepository: net.kelmer.correostracker.data.repository.local.LocalParcelRepository = mock {
             on {
                 getParcel(CODE)
             }.doReturn(Flowable.just(localParcelStub))
         }
 
-        val mockCorreosRepository: CorreosRepository = mock {
+        val mockCorreosRepository: net.kelmer.correostracker.data.repository.correos.CorreosRepository = mock {
             on {
                 getParcelStatus(CODE)
             }.doReturn(

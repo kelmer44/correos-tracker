@@ -6,7 +6,8 @@ import net.kelmer.correostracker.data.model.local.LocalParcelDao
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import timber.log.Timber
 
-class LocalParcelRepositoryImpl(private val localParcelDao: LocalParcelDao) : LocalParcelRepository {
+class LocalParcelRepositoryImpl(private val localParcelDao: LocalParcelDao) :
+    net.kelmer.correostracker.data.repository.local.LocalParcelRepository {
     override fun setNotify(code: String, enable: Boolean): Completable {
         return if (enable) {
             localParcelDao.enableNotifications(code)

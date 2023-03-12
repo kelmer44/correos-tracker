@@ -1,0 +1,17 @@
+/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/src/main/java/net.kelmer.correostracker/data/model/local/UpdateStatusConverter.kt
+/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/src/main/java/net.kelmer.correostracker/data/model/dto/ParcelDetailStatus.kt
+/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/src/main/java/net.kelmer.correostracker/data/model/remote/v1/Event.kt
+/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/src/main/java/net.kelmer.correostracker/data/repository/correos/CorreosRepository.kt
+/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/src/main/java/net.kelmer.correostracker/data/model/local/LocalParcelReference.kt
+/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/src/main/java/net.kelmer.correostracker/data/model/remote/Error.kt
+/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/src/main/java/net.kelmer.correostracker/data/model/local/LocalParcelDao.kt
+/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/src/main/java/net.kelmer.correostracker/data/repository/local/LocalParcelRepository.kt
+/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/src/main/java/net.kelmer.correostracker/data/model/dto/ParcelDetailDTO.kt
+/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/src/main/java/net.kelmer.correostracker/data/model/remote/CorreosApiEvent.kt
+/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/src/main/java/net.kelmer.correostracker/data/model/remote/CorreosApiParcel.kt
+/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/src/main/java/net.kelmer.correostracker/data/model/remote/v1/Error.kt
+/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/src/main/java/net.kelmer.correostracker/data/model/local/DateConverter.kt
+/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/src/main/java/net.kelmer.correostracker/data/model/local/StanceConverter.kt
+/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/src/main/java/net.kelmer.correostracker/data/model/remote/unidad/Unidad.kt
+/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/src/main/java/net.kelmer.correostracker/data/model/remote/v1/Parcel.kt
+/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/src/main/java/net.kelmer.correostracker/data/model/remote/v1/Shipment.kt

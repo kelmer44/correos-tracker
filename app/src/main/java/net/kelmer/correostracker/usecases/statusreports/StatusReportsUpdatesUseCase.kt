@@ -2,7 +2,7 @@ package net.kelmer.correostracker.usecases.statusreports
 
 import io.reactivex.Single
 import io.reactivex.rxkotlin.subscribeBy
-import net.kelmer.correostracker.base.usecase.rx.RxUseCase
+import net.kelmer.correostracker.usecase.rx.RxUseCase
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
@@ -12,8 +12,8 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class StatusReportsUpdatesUseCase @Inject constructor(
-    private val localParcelRepository: LocalParcelRepository,
-    private val parcelRepository: CorreosRepository
+    private val localParcelRepository: net.kelmer.correostracker.data.repository.local.LocalParcelRepository,
+    private val parcelRepository: net.kelmer.correostracker.data.repository.correos.CorreosRepository
 ) : RxUseCase<Unit, CorreosApiParcel>() {
 
     override fun execute(params: Unit, onNext: (Resource<CorreosApiParcel>) -> Unit) {

@@ -6,12 +6,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import net.kelmer.correostracker.data.model.local.LocalParcelDao
-import net.kelmer.correostracker.data.network.correos.CorreosApi
 import net.kelmer.correostracker.data.repository.correos.CorreosRepository
 import net.kelmer.correostracker.data.repository.correos.CorreosRepositoryImpl
 import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
 import net.kelmer.correostracker.data.repository.local.LocalParcelRepositoryImpl
-import javax.inject.Singleton
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -23,10 +21,10 @@ abstract class RepositoryModule {
     companion object {
         @JvmStatic
         @Provides
-        fun provideLocalParcelRepository(localParcelDao: LocalParcelDao): LocalParcelRepository {
+        fun provideLocalParcelRepository(localParcelDao: LocalParcelDao): net.kelmer.correostracker.data.repository.local.LocalParcelRepository {
             return LocalParcelRepositoryImpl.getInstance(localParcelDao)
         }
     }
     @Binds
-    abstract fun bindsCorreosRepository(repo: CorreosRepositoryImpl): CorreosRepository
+    abstract fun bindsCorreosRepository(repo: CorreosRepositoryImpl): net.kelmer.correostracker.data.repository.correos.CorreosRepository
 }

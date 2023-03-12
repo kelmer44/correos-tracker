@@ -30,4 +30,7 @@ dependencyResolutionManagement {
 rootProject.name = 'Seguimiento Correos'
 include ':app',
         ':core',
-        ':theme'
+        ':dataApi',
+        ':theme',
+        ':detailsApi',
+        ':details'

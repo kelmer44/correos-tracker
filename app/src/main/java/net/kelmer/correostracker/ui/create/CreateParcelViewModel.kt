@@ -2,7 +2,7 @@ package net.kelmer.correostracker.ui.create
 
 import androidx.lifecycle.LiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import net.kelmer.correostracker.base.BaseViewModel
+import net.kelmer.correostracker.viewmodel.BaseViewModel
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.usecases.create.CreateParcelUseCase

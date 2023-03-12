@@ -24,8 +24,8 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class ParcelPollWorker constructor(
-    val parcelRepository: LocalParcelRepository,
-    val correosRepository: CorreosRepository,
+    val parcelRepository: net.kelmer.correostracker.data.repository.local.LocalParcelRepository,
+    val correosRepository: net.kelmer.correostracker.data.repository.correos.CorreosRepository,
     appContext: Context,
     workerParams: WorkerParameters
 ) : RxWorker(appContext, workerParams) {
@@ -135,8 +135,8 @@ class ParcelPollWorker constructor(
     }
 
     class Factory @Inject constructor(
-        val myRepository: LocalParcelRepository,
-        val networkService: CorreosRepository
+        val myRepository: net.kelmer.correostracker.data.repository.local.LocalParcelRepository,
+        val networkService: net.kelmer.correostracker.data.repository.correos.CorreosRepository
     ) : ChildWorkerFactory {
 
         override fun create(appContext: Context, params: WorkerParameters): ListenableWorker {

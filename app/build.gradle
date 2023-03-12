@@ -84,6 +84,9 @@ dependencies {
 
     implementation project(':core')
     implementation project(':theme')
+    implementation project(':dataApi')
+    implementation project(':detailsApi')
+    implementation project(':details')
 
     implementation libs.retrofit.core
     implementation libs.retrofit.moshi

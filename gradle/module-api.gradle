@@ -16,10 +16,9 @@ android {
 
 dependencies {
 
-    implementation deps.support.fragment
+    implementation libs.androidx.fragment.ktx
     implementation libs.javax.inject
-    implementation libs.kotlin.stdlib
+    implementation buildLibs.kotlin.stdlib.base
     implementation libs.rxjava2
     implementation libs.rxandroid
-    implementation libs.guava
 }
