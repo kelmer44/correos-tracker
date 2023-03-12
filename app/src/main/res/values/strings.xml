@@ -12,6 +12,7 @@
     <string name="stance">Dirección</string>
     <string name="lastchecked">Comprobado:  %1$s</string>
     <string name="error_unrecognized">Se produjo un error, por favor inténtalo más tarde.</string>
+    <string name="unrecognized_code">El código introducido no es válido. Por favor, verifique que es correcto.</string>
     <string name="masinfo_ref">Num. referencia:</string>
     <string name="masinfo_codproducto">Cod. Producto:</string>
     <string name="masinfo_dimensiones">Dimensiones:</string>
@@ -65,4 +66,5 @@
     <string name="inapp_title">Valóranos</string>
     <string name="inapp_message">¿Te gusta Seguimiento Correos? Déjanos una valoración positiva.</string>
     <string name="changes_2_2_6">Implementa nuevos servicios de Correos, que no incluyen Unidad.</string>
+    <string name="changes_2_2_7">Vuelve la trazabilidad por localización a la app.</string>
 </resources>

@@ -64,4 +64,7 @@
     <string name="inapp_title">Review us</string>
     <string name="inapp_message">Do you like Seguimiento Correos? Leave us positive feedback.</string>
     <string name="changes_2_2_6">Implements new Services, which don\'t include Unit.</string>
+    <string name="unrecognized_code">The code you entered is not valid. Please check that it is correct.</string>
+    <string name="changes_2_2_7">The app can track the parcel by location again.</string>
+
 </resources>
