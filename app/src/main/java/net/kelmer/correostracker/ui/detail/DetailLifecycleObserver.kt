@@ -12,21 +12,21 @@ import javax.inject.Inject
 
 class DetailLifecycleObserver @Inject constructor(
     private val fragment: Fragment,
-    private val detailPresenter: DetailPresenter,
+//    private val detailPresenter: DetailPresenter,
     private val schedulerProvider: SchedulerProvider
 ) : DefaultLifecycleObserver {
-
-    private val viewModel: ParcelDetailViewModel by fragment.viewModels()
-
-    override fun onStart(owner: LifecycleOwner) {
-        super.onStart(owner)
-        viewModel.stateOnceAndStream
-            .subscribeOn(schedulerProvider.io())
-            .observeOn(schedulerProvider.ui())
-            .autoDisposable(owner.scope(Lifecycle.Event.ON_STOP))
-            .subscribe(
-                { detailPresenter.bindState(it)},
-                {}
-            )
-    }
+//
+//    private val viewModel: ParcelDetailViewModel by fragment.viewModels()
+//
+//    override fun onStart(owner: LifecycleOwner) {
+//        super.onStart(owner)
+//        viewModel.stateOnceAndStream
+//            .subscribeOn(schedulerProvider.io())
+//            .observeOn(schedulerProvider.ui())
+//            .autoDisposable(owner.scope(Lifecycle.Event.ON_STOP))
+//            .subscribe(
+//                { detailPresenter.bindState(it)},
+//                {}
+//            )
+//    }
 }
