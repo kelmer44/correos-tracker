@@ -9,12 +9,3 @@ data class Shipment(
     val error: Error?,
     val events: List<ShipmentEvent>
 )
-
-data class ShipmentEvent(
-    val eventDate: String,
-    val eventTime: String,
-    val phase: String?,
-    val summaryText: String?,
-    val extendedText: String,
-    val codired: String?
-)

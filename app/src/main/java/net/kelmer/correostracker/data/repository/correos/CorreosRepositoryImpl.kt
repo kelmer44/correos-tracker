@@ -13,16 +13,14 @@ import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.data.model.remote.Error
 import net.kelmer.correostracker.data.model.remote.unidad.Unidad
-import net.kelmer.correostracker.data.model.remote.v1.Parcel
 import net.kelmer.correostracker.data.model.remote.v1.Shipment
-import net.kelmer.correostracker.data.network.correos.CorreosApi
+import net.kelmer.correostracker.data.model.remote.v1.ShipmentEvent
 import net.kelmer.correostracker.data.network.correos.CorreosV1
 import net.kelmer.correostracker.data.network.correos.Unidades
 import net.kelmer.correostracker.data.network.exception.CorreosExceptionFactory
 import net.kelmer.correostracker.data.network.exception.WrongCodeException
 import timber.log.Timber
 import java.util.Date
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class CorreosRepositoryImpl @Inject constructor(
@@ -60,7 +58,7 @@ class CorreosRepositoryImpl @Inject constructor(
                         codError = it.errorCode, desError = null
                     )
                 },
-                eventos = shipment.events.filter { !it.summaryText.isNullOrBlank() }.map {
+                eventos = fixSummary(shipment.events).map {
                     CorreosApiEvent(
                         fecEvento = it.eventDate,
                         horEvento = it.eventTime,
@@ -72,6 +70,19 @@ class CorreosRepositoryImpl @Inject constructor(
                 })
         }
     }
+
+    private fun fixSummary(list: List<ShipmentEvent>) =
+        list.mapIndexed { index, event ->
+            var event = event
+            if (event.summaryText.isNullOrBlank() && index != 0) {
+                event = event.copy(summaryText = list[index - 1].summaryText)
+            }
+            if (event.extendedText.isNullOrBlank() && index != 0) {
+                event = event.copy(summaryText = list[index - 1].extendedText)
+            }
+            event
+        }
+
 
     override fun getParcelStatus(parcelId: String): Single<CorreosApiParcel> {
         var parcelReference: LocalParcelReference? = null
