@@ -2205,6 +2205,7 @@ int integer config_navAnimTime 0x0
 int integer config_tooltipAnimTime 0x0
 int integer design_snackbar_text_max_lines 0x0
 int integer design_tab_indicator_anim_duration_ms 0x0
+int integer google_play_services_version 0x0
 int integer hide_password_duration 0x0
 int integer mtrl_badge_max_character_count 0x0
 int integer mtrl_btn_anim_delay_ms 0x0
@@ -2354,6 +2355,7 @@ int layout text_view_with_line_height_from_style 0x0
 int layout text_view_with_theme_line_height 0x0
 int layout text_view_without_line_height 0x0
 int plurals mtrl_badge_content_description 0x0
+int raw firebase_common_keep 0x0
 int string abc_action_bar_home_description 0x0
 int string abc_action_bar_up_description 0x0
 int string abc_action_menu_overflow_description 0x0
@@ -2401,6 +2403,7 @@ int string character_counter_overflowed_content_description 0x0
 int string character_counter_pattern 0x0
 int string chip_text 0x0
 int string clear_text_end_icon_content_description 0x0
+int string common_google_play_services_unknown_issue 0x0
 int string error_icon_content_description 0x0
 int string expand_button_title 0x0
 int string exposed_dropdown_menu_content_description 0x0

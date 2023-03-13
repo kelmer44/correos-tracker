@@ -112,15 +112,18 @@ autodispose-lifecycle-ktx = { module = "com.uber.autodispose:autodispose-lifecyc
 barcode-core = { module = "com.google.zxing:core", version = "3.3.0" }
 barcode-android = { module = "com.journeyapps:zxing-android-embedded", version = "3.6.0" }
 
-firebase-analytics = { module = "com.google.firebase:firebase-analytics", version = "17.2.3" }
-firebase-common = { module = "com.google.firebase:firebase-common", version = "19.5.0" }
-firebase-components = { module = "com.google.firebase:firebase-components", version = "16.1.0" }
-firebase-database = { module = "com.google.firebase:firebase-database", version = "19.2.1" }
-firebase-encoders-json = { module = "com.google.firebase:firebase-encoders-json", version = "18.0.0" }
-firebase-fcm = { module = "com.google.firebase:firebase-messaging", version = "20.2.0" }
-firebase-iid = { module = "com.google.firebase:firebase-iid", version = "20.2.0" }
-firebase-installations = { module = "com.google.firebase:firebase-installations", version = "16.3.5" }
-firebase-installations-interop = { module = "com.google.firebase:firebase-installations-interop", version = "16.0.1" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version = "31.2.3" }
+
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
+firebase-common = { module = "com.google.firebase:firebase-common" }
+firebase-components = { module = "com.google.firebase:firebase-components" }
+firebase-database = { module = "com.google.firebase:firebase-database" }
+firebase-encoders-json = { module = "com.google.firebase:firebase-encoders-json" }
+firebase-fcm = { module = "com.google.firebase:firebase-messaging" }
+firebase-iid = { module = "com.google.firebase:firebase-iid" }
+firebase-installations = { module = "com.google.firebase:firebase-installations" }
+firebase-installations-interop = { module = "com.google.firebase:firebase-installations-interop" }
 
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glideVersion" }
 glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glideVersion" }

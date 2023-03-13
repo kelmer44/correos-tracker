@@ -20,7 +20,7 @@ dagger-hilt-android-testing = { module = "com.google.dagger:hilt-android-testing
 dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }
 dagger-hilt-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger" }
 
-firebase-crashlytics-gradle = {module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.8.1" }
+firebase-crashlytics-gradle = {module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.4" }
 
 gradle-cache-plugin = { module = "org.gradle.android.cache-fix:org.gradle.android.cache-fix.gradle.plugin", version = "2.6.5" }
 

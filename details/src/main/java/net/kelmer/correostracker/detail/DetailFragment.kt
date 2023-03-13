@@ -14,11 +14,13 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
-import net.kelmer.correostracker.detail.R
+import net.kelmer.correostracker.details.R
 import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
 import net.kelmer.correostracker.data.network.exception.CorreosException
 import net.kelmer.correostracker.data.resolve
+import net.kelmer.correostracker.details.databinding.FragmentDetailBinding
 import net.kelmer.correostracker.ui.detail.adapter.DetailTimelineAdapter
 import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.copyToClipboard
