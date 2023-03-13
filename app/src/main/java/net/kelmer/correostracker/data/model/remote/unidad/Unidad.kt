@@ -1,7 +1,11 @@
 package net.kelmer.correostracker.data.model.remote.unidad
 
-data class Unidad(val officeType: String, val cityName: String, val officeId: String) {
-    val name = "$officeType $cityName"
+data class Unidad(val officeType: String?, val cityName: String?, val officeId: String) {
+    val name: String? = when {
+        !officeType.isNullOrBlank() && !cityName.isNullOrBlank() -> "$officeType $cityName"
+        !officeType.isNullOrBlank() -> officeType
+        else -> null
+    }
 }
 /*
 "address": "Carretera La Cuesta - Taco, 120  -  TACO SANTA CRUZ DE TENERIFE ",
