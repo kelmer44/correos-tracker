@@ -1,6 +1,6 @@
 package net.kelmer.correostracker.data.model.remote.unidad
 
-data class Unidad(val officeType: String?, val cityName: String?, val officeId: String) {
+data class Unidad(val officeType: String?, val cityName: String?, val officeId: String?) {
     val name: String? = when {
         !officeType.isNullOrBlank() && !cityName.isNullOrBlank() -> "$officeType $cityName"
         !officeType.isNullOrBlank() -> officeType

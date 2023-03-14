@@ -63,6 +63,7 @@ fun featureBlurbDialog(
 
         setList(
                 listOf(
+                    FeatureListAdapter.Feature("2.2.7", R.string.changes_2_2_7),
                     FeatureListAdapter.Feature("2.2.6", R.string.changes_2_2_6),
                         FeatureListAdapter.Feature("2.1.0", R.string.changes_2_1_0),
                         FeatureListAdapter.Feature("2.0.0", R.string.changes_2_0_0),

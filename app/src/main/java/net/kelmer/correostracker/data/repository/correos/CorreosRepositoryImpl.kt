@@ -42,7 +42,7 @@ class CorreosRepositoryImpl @Inject constructor(
                 val map =
                     shipment.events.mapNotNull { it.codired }.map { codigo -> unidades.getUnidad(codigo) }
                 Single.zip(map) { unidades: Array<Any> ->
-                    unidades.mapNotNull { it as? Unidad }.associateBy { it.officeId }
+                    unidades.mapNotNull { it as? Unidad }.filter { it.officeId != null }.associateBy { it.officeId!! }
                 }.map { shipment to it }
             }
     }
