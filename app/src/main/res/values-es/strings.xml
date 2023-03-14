@@ -5,8 +5,6 @@
     <string name="ultimo_estado_header">Último estado</string>
     <string name="refresh_all">Actualizar todos</string>
     <string name="delete">Eliminar</string>
-    <string name="incoming">Lo voy a recibir</string>
-    <string name="outgoing">Lo he enviado</string>
     <string name="stance">Dirección</string>
     <string name="error_nocodigo">Por favor introduce el código de seguimiento.</string>
     <string name="status_title">ESTADO</string>

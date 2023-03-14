@@ -1,0 +1,6 @@
+apply plugin: 'com.android.library'
+apply from: rootProject.file('gradle/module-api.gradle')
+
+android {
+    namespace 'net.kelmer.correostracker.dialogsApi'
+}

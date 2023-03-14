@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.usecases.list
+package net.kelmer.correostracker.list.list
 
 import io.reactivex.Flowable
 import net.kelmer.correostracker.usecase.rx.RxFlowableUseCase

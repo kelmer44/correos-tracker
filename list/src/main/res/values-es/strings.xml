@@ -5,4 +5,6 @@
     <string name="status_unknown">Estado desconocido</string>
     <string name="search">Filtrar</string>
 
+    <string name="incoming">Lo voy a recibir</string>
+    <string name="outgoing">Lo he enviado</string>
 </resources>

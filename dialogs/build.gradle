@@ -1,0 +1,13 @@
+
+apply plugin: 'com.android.library'
+apply plugin: 'com.google.firebase.crashlytics'
+apply from: rootProject.file('gradle/module-feature.gradle')
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+android {
+    namespace 'net.kelmer.correostracker.dialogs'
+}
+
+dependencies {
+
+}

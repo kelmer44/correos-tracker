@@ -4,5 +4,6 @@
     <string name="lastchecked">Last checked: %1$s</string>
     <string name="status_unknown">Unknown status</string>
     <string name="search">Filter</string>
-
+    <string name="incoming">Incoming</string>
+    <string name="outgoing">Outgoing</string>
 </resources>

@@ -2,18 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list">
+    android:id="@+id/list_graph"
+    app:startDestination="@id/parcelListFragment">
 
     <fragment
         android:id="@+id/parcelListFragment"
         tools:layout="@layout/fragment_parcel_list"
         android:name="net.kelmer.correostracker.list.ParcelListFragment"
-        android:label="@string/app_name">
-        <action
-            android:id="@+id/action_parcelListFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
-        <action
-            android:id="@+id/action_parcelListFragment_to_createParcelFragment"
-            app:destination="@id/createParcelFragment" />
-    </fragment>
+        android:label="@string/app_name"/>
 </navigation>

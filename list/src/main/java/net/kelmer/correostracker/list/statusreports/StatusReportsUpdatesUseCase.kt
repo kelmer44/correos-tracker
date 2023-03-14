@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.usecases.statusreports
+package net.kelmer.correostracker.list.statusreports
 
 import io.reactivex.Single
 import io.reactivex.rxkotlin.subscribeBy

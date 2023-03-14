@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.annotation.StringRes
 
 object ConfirmDialog {
-
     fun confirmDialog(
         context: Context,
         @StringRes title: Int,

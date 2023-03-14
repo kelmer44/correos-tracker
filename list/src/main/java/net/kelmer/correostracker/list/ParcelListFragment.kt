@@ -1,5 +1,6 @@
 package net.kelmer.correostracker.list
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -8,8 +9,10 @@ import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.net.toUri
 import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,8 +48,10 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
         }
 
         override fun click(parcelReference: LocalParcelReference) {
-            val action = ParcelListFragmentDirections.actionParcelListFragmentToDetailFragment(parcelReference.trackingCode)
-            findNavController().navigate(action)
+            val request = NavDeepLinkRequest.Builder
+                .fromUri("correostracker://details/${parcelReference.trackingCode}".toUri())
+                .build()
+            findNavController().navigate(request)
         }
 
         override fun dots(view: View, parcelReference: LocalParcelReference) {
@@ -86,12 +91,12 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
             }
         }
 
-        override fun update(parcelReference: LocalParcelReference) {
-        }
+        override fun update(parcelReference: LocalParcelReference) {}
     }
 
     private val adapter = ParcelListAdapter(clickListener)
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun loadUp(binding: FragmentParcelListBinding, savedInstanceState: Bundle?) {
 
         NavigationUI.setupWithNavController(binding.listToolbar, findNavController())
@@ -101,7 +106,10 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
         inAppReviewService.showIfNeeded()
 
         binding.fab.setOnClickListener {
-            findNavController().navigate(ParcelListFragmentDirections.actionParcelListFragmentToCreateParcelFragment())
+            val request = NavDeepLinkRequest.Builder
+                .fromUri("correostracker://create".toUri())
+                .build()
+            findNavController().navigate(request)
         }
 
         if (!viewModel.showFeature()) {

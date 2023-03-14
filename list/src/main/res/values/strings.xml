@@ -4,5 +4,6 @@
     <string name="lastchecked">Comprobado:  %1$s</string>
     <string name="status_unknown">Estado desconocido</string>
     <string name="search">Filter</string>
-
+    <string name="incoming">Lo voy a recibir</string>
+    <string name="outgoing">Lo he enviado</string>
 </resources>

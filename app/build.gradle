@@ -89,6 +89,7 @@ dependencies {
     implementation project(':details')
     implementation project(':listApi')
     implementation project(':list')
+    implementation project(':iap')
 
     implementation libs.retrofit.core
     implementation libs.retrofit.moshi

@@ -2,7 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/details">
+    android:id="@+id/details_graph"
+    app:startDestination="@id/detailFragment">
     <fragment
         android:id="@+id/detailFragment"
         tools:layout="@layout/fragment_detail"
@@ -11,5 +12,8 @@
         <argument
             android:name="parcel_code"
             app:argType="string" />
+
+        <deepLink app:uri="correostracker://details/{parcel_code}" />
+
     </fragment>
 </navigation>

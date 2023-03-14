@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.usecases.delete
+package net.kelmer.correostracker.list.delete
 
 import io.reactivex.Single
 import net.kelmer.correostracker.usecase.rx.RxSingleUseCase

@@ -2,8 +2,6 @@
 <resources>
     <string name="delete">Remove</string>
     <string name="error_nocodigo">Please enter the tracking number.</string>
-    <string name="incoming">Incoming</string>
-    <string name="outgoing">Outgoing</string>
     <string name="parcel_code">Tracking code</string>
     <string name="parcel_name">Parcel name (optional)</string>
     <string name="refresh_all">Update all</string>
