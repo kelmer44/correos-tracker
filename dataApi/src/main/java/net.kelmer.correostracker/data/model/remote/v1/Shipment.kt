@@ -7,14 +7,5 @@ data class Shipment(
     @Json(name = "date_delivery_sum")
     val dateDeliverySum: String?,
     val error: Error?,
-    val events: List<ShipmentEvent>
-)
-
-data class ShipmentEvent(
-    val eventDate: String,
-    val eventTime: String,
-    val phase: String?,
-    val summaryText: String?,
-    val extendedText: String,
-    val codired: String?
+    val events: List<ShipmentEvent> = emptyList()
 )
