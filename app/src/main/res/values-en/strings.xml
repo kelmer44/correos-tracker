@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="delete">Remove</string>
-    <string name="emptystate_parcel_list">You have not entered a track and trace yet.</string>
     <string name="error_nocodigo">Please enter the tracking number.</string>
     <string name="incoming">Incoming</string>
-    <string name="lastchecked">Last checked: %1$s</string>
     <string name="outgoing">Outgoing</string>
     <string name="parcel_code">Tracking code</string>
     <string name="parcel_name">Parcel name (optional)</string>
@@ -12,7 +10,6 @@
     <string name="scan_prompt">Bar code scan</string>
     <string name="stance">Address</string>
     <string name="status_title">STATUS</string>
-    <string name="status_unknown">Unknown status</string>
     <string name="ultimo_estado_header">Last status</string>
     <string name="create_parcel_only_correos">* Only codes from Correos España or Correos Express</string>
     <string name="new_event_single">New event on parcel %1$s: %2$s!</string>
@@ -36,7 +33,6 @@
     <string name="create_parcel_error_codigo_title">Invalid code</string>
     <string name="delete_confirm_title">Remove parcel</string>
     <string name="delete_confirm_desc">Are you sure you want to remove the selected parcel?</string>
-    <string name="search">Filter</string>
     <string name="code_helper_text">*Only parcels from Correos or Correos Express</string>
     <string name="changes_1_9_0">Multiple items with same tracking code now allowed.</string>
     <string name="feature_dialog_opensource_contribute">If you wish to contribute feel free to donate with a ko-fi:</string>
@@ -49,8 +45,6 @@
     <string name="changes_2_0_0">Code restructuring</string>
     <string name="visit_us_github">Visit us over at github</string>
     <string name="changes_2_1_0">Support for Correos Express removed due to the services being made private by Correos.</string>
-    <string name="inapp_title">Review us</string>
-    <string name="inapp_message">Do you like Seguimiento Correos? Leave us positive feedback.</string>
     <string name="changes_2_2_6">Implements new Services, which don\'t include Unit.</string>
     <string name="unrecognized_code">The code you entered is not valid. Please check that it is correct.</string>
     <string name="changes_2_2_7">The app can track the parcel by location again.</string>

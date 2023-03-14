@@ -87,6 +87,8 @@ dependencies {
     implementation project(':dataApi')
     implementation project(':detailsApi')
     implementation project(':details')
+    implementation project(':listApi')
+    implementation project(':list')
 
     implementation libs.retrofit.core
     implementation libs.retrofit.moshi
@@ -94,11 +96,7 @@ dependencies {
 
     implementation libs.moshi.adapters
 
-    implementation libs.play.core
-
     kapt libs.androidx.room.compiler
-    //TimelineView for detail
-    implementation 'com.github.vipulasri:timelineview:1.0.6'
 
     // Check for v11.4.2 or higher
     implementation 'com.google.firebase:firebase-core:20.0.0'

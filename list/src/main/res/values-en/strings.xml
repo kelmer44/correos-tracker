@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="emptystate_parcel_list">You have not entered a track and trace yet.</string>
+    <string name="lastchecked">Last checked: %1$s</string>
+    <string name="status_unknown">Unknown status</string>
+    <string name="search">Filter</string>
+
+</resources>

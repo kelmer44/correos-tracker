@@ -9,3 +9,10 @@
 .externalNativeBuild
 .idea/*
 app/release
+/detailsApi/build/
+/details/build/
+/listApi/build
+/list/build
+/iapApi/build/
+/iap/build
+/theme/build

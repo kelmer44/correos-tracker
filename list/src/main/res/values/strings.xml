@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="emptystate_parcel_list">Todavía no has introducido ningún paquete.</string>
+    <string name="lastchecked">Comprobado:  %1$s</string>
+    <string name="status_unknown">Estado desconocido</string>
+    <string name="search">Filter</string>
+
+</resources>

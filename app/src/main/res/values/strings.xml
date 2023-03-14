@@ -7,13 +7,10 @@
     <string name="incoming">Lo voy a recibir</string>
     <string name="outgoing">Lo he enviado</string>
     <string name="stance">Dirección</string>
-    <string name="lastchecked">Comprobado:  %1$s</string>
     <string name="unrecognized_code">El código introducido no es válido. Por favor, verifique que es correcto.</string>
      <string name="error_nocodigo">Por favor introduce el código de seguimiento.</string>
-    <string name="emptystate_parcel_list">Todavía no has introducido ningún paquete.</string>
     <string name="status_title">ESTADO</string>
     <string name="scan_prompt">Escanea el código de barras</string>
-    <string name="status_unknown">Estado desconocido</string>
     <string name="create_parcel_only_correos">* Solo paquetes de Correos España o Correos Express</string>
     <string name="create_parcel_error_codigo">El código introducido no parece ser reconocido por Correos. ¿Estás seguro de querer guardarlo?</string>
     <string name="new_event_single">New event on parcel %1$s: %2$s!</string>
@@ -37,7 +34,6 @@
     <string name="create_parcel_error_codigo_title">Código incorrecto</string>
     <string name="delete_confirm_title">Eliminar paquete</string>
     <string name="delete_confirm_desc">¿Estás seguro de que deseas eliminar el paquete seleccionado?</string>
-    <string name="search">Filter</string>
     <string name="code_helper_text">*Solo paquetes de Correos España o Correos Express</string>
     <string name="changes_1_9_0" >Se permiten varios paquetes con el mismo número de seguimiento.</string>
     <string name="menu_theme">Tema</string>
@@ -49,7 +45,6 @@
     <string name="changes_2_0_0">Reestructuracion de codigo</string>
     <string name="visit_us_github">Visítanos en github</string>
     <string name="changes_2_1_0">Se ha eliminado el soporte para Correos Express.</string>
-    <string name="inapp_title">Valóranos</string>
     <string name="inapp_message">¿Te gusta Seguimiento Correos? Déjanos una valoración positiva.</string>
     <string name="changes_2_2_6">Implementa nuevos servicios de Correos, que no incluyen Unidad.</string>
     <string name="changes_2_2_7">Vuelve la trazabilidad por localización a la app.</string>
