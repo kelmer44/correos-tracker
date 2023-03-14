@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="refresh">Update</string>
+    <string name="copy">Copy to clipboard</string>
+    <string name="masinfo_codproducto">Product code:</string>
+    <string name="masinfo_dimensiones">Dimensions:</string>
+    <string name="masinfo_disclaimer">* NOTE: This date is provided by Correos and should never be taken as reliable data.</string>
+    <string name="masinfo_fechaestimada">Estimated Date*:</string>
+    <string name="masinfo_peso">Weight:</string>
+    <string name="masinfo_ref">Ref. number:</string>
+
+</resources>

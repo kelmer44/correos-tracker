@@ -15,10 +15,10 @@ import androidx.navigation.ui.NavigationUI
 import com.google.zxing.integration.android.IntentIntegrator
 import dagger.hilt.android.AndroidEntryPoint
 import net.kelmer.correostracker.R
-import net.kelmer.correostracker.base.fragment.BaseFragment
+import net.kelmer.correostracker.fragment.BaseFragment
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
-import net.kelmer.correostracker.data.network.exception.WrongCodeException
+import net.kelmer.correostracker.data.model.exception.WrongCodeException
 import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.databinding.FragmentCreateParcelBinding
 import net.kelmer.correostracker.ui.customviews.ConfirmDialog

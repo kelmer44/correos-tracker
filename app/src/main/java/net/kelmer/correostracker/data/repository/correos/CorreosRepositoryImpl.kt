@@ -1,47 +1,31 @@
 package net.kelmer.correostracker.data.repository.correos
 
-<<<<<<< HEAD
-import io.reactivex.Single
-=======
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
-import io.reactivex.Flowable
 import io.reactivex.Single
-import net.kelmer.correostracker.BuildConfig
-import net.kelmer.correostracker.BuildConfig.DEBUG
 import net.kelmer.correostracker.R
->>>>>>> develop
+import net.kelmer.correostracker.data.model.exception.CorreosExceptionFactory
+import net.kelmer.correostracker.data.model.exception.WrongCodeException
 import net.kelmer.correostracker.data.model.local.LocalParcelDao
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
+import net.kelmer.correostracker.data.model.remote.Error
 import net.kelmer.correostracker.data.model.remote.unidad.Unidad
 import net.kelmer.correostracker.data.model.remote.v1.Shipment
-<<<<<<< HEAD
-=======
 import net.kelmer.correostracker.data.model.remote.v1.ShipmentEvent
->>>>>>> develop
 import net.kelmer.correostracker.data.network.correos.CorreosV1
 import net.kelmer.correostracker.data.network.correos.Unidades
-import net.kelmer.correostracker.data.network.exception.CorreosExceptionFactory
-import net.kelmer.correostracker.data.network.exception.WrongCodeException
 import timber.log.Timber
 import java.util.Date
 import javax.inject.Inject
 
 class CorreosRepositoryImpl @Inject constructor(
-<<<<<<< HEAD
-    val correosApi: CorreosV1,
-    val unidades: Unidades,
-    val dao: LocalParcelDao
-) : net.kelmer.correostracker.data.repository.correos.CorreosRepository {
-=======
     @ApplicationContext private val context: Context,
     private val correosApi: CorreosV1,
     private val unidades: Unidades,
     private val dao: LocalParcelDao
 ) : CorreosRepository {
->>>>>>> develop
 
 
     private fun parcelAndUnits(parcelCode: String): Single<Pair<Shipment, Map<String, Unidad>>> {

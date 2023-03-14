@@ -3,6 +3,6 @@
 3    package="net.kelmer.correostracker.dataApi" >
 4
 5    <uses-sdk android:minSdkVersion="21" />
-5-->/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest2431401548236063083.xml
+5-->/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5947872944190735074.xml
 6
 7</manifest>

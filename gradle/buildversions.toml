@@ -6,7 +6,7 @@ kotlin = { strictly = "1.7.10" }
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 androidx-viewbinding = { module = "androidx.databinding:viewbinding", version = "3.5.0" }
-androidx-navigation-safeargs = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version = "2.3.1" }
+androidx-navigation-safeargs = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version = "2.5.3" }
 
 google-services = { module = "com.google.gms:google-services", version = "4.3.10" }
 

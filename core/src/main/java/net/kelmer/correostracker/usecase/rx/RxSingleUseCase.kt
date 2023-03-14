@@ -7,8 +7,7 @@ import net.kelmer.correostracker.util.ext.toResource
 
 abstract class RxSingleUseCase<in P, R> : RxUseCase<P, R>() {
 
-    internal abstract fun buildUseCase(params: P): Single<R>
-
+    abstract fun buildUseCase(params: P): Single<R>
     override fun execute(params: P, onNext: (Resource<R>) -> Unit) {
         dispose()
         buildUseCase(params)

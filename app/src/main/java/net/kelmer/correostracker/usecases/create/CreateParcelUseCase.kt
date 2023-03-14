@@ -6,11 +6,13 @@ import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
 import javax.inject.Inject
 
-class CreateParcelUseCase @Inject constructor(private val localParcelRepository: net.kelmer.correostracker.data.repository.local.LocalParcelRepository) : RxSingleUseCase<CreateParcelUseCase.Params, LocalParcelReference>() {
+class CreateParcelUseCase @Inject constructor(private val localParcelRepository: LocalParcelRepository) :
+    RxSingleUseCase<CreateParcelUseCase.Params, LocalParcelReference>() {
 
     data class Params(val localParcelReference: LocalParcelReference)
 
     override fun buildUseCase(params: Params): Single<LocalParcelReference> {
-        return localParcelRepository.saveParcel(params.localParcelReference).andThen(localParcelRepository.getParcel(params.localParcelReference.trackingCode)).firstOrError()
+        return localParcelRepository.saveParcel(params.localParcelReference)
+            .andThen(localParcelRepository.getParcel(params.localParcelReference.trackingCode)).firstOrError()
     }
 }

@@ -7,20 +7,20 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bamtechmedia.dominguez.core.utils.stringArgument
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import net.kelmer.correostracker.details.R
 import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
-import net.kelmer.correostracker.data.network.exception.CorreosException
+import net.kelmer.correostracker.data.model.exception.CorreosException
 import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.details.databinding.FragmentDetailBinding
+import net.kelmer.correostracker.fragment.BaseFragment
 import net.kelmer.correostracker.ui.detail.adapter.DetailTimelineAdapter
 import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.copyToClipboard
@@ -30,20 +30,20 @@ import net.kelmer.correostracker.util.ext.textOrElse
 import timber.log.Timber
 
 @AndroidEntryPoint
-class DetailFragment : Fragment(R.layout.fragment_detail) {
+class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
 
     private val viewModel: ParcelDetailViewModel by viewModels()
 
     private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(activity)
     private val timelineAdapter: DetailTimelineAdapter = DetailTimelineAdapter()
 
-    private val args: DetailFragmentArgs by navArgs()
+    private val parcelCode by stringArgument("parcel_code")
 
     override fun loadUp(binding: FragmentDetailBinding, savedInstanceState: Bundle?) {
         NavigationUI.setupWithNavController(binding.detailToolbar, findNavController())
         setupToolbar(binding.detailToolbar)
 
-        Timber.v("Loading details for parcel ${args.parcelCode}")
+        Timber.v("Loading details for parcel $parcelCode")
 
         binding.parcelStatusRecyclerView.layoutManager = linearLayoutManager
         binding.parcelStatusRecyclerView.adapter = timelineAdapter
@@ -56,17 +56,17 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                     Timber.e(it)
                     when (it) {
                         is CorreosException -> {
-                            FirebaseCrashlytics.getInstance().log("Controlled Exception Error ${args.parcelCode}")
+                            FirebaseCrashlytics.getInstance().log("Controlled Exception Error $parcelCode")
                             FirebaseCrashlytics.getInstance().recordException(it)
                             binding.errorText.text = it.message
                         }
                         is NetworkInteractor.NetworkUnavailableException -> {
-                            FirebaseCrashlytics.getInstance().log("Controlled Network Unavailable Exception Error ${args.parcelCode}")
+                            FirebaseCrashlytics.getInstance().log("Controlled Network Unavailable Exception Error $parcelCode")
                             FirebaseCrashlytics.getInstance().recordException(it)
                             binding.errorText.text = getString(R.string.error_no_network)
                         }
                         else -> {
-                            FirebaseCrashlytics.getInstance().log("Unknown Error ${args.parcelCode}")
+                            FirebaseCrashlytics.getInstance().log("Unknown Error $parcelCode")
                             FirebaseCrashlytics.getInstance().recordException(it)
                             binding.errorText.text = getString(R.string.error_unrecognized)
                         }

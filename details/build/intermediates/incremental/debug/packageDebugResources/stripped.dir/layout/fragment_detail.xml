@@ -46,7 +46,7 @@
                 android:layout_height="64dp"
                 android:layout_marginBottom="@dimen/double_spacing"
                 android:src="@drawable/ic_error"
-                android:tint="?colorSecondary" />
+                app:tint="?colorSecondary" />
 
             <TextView
                 android:id="@+id/error_text"

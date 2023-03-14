@@ -1,2 +1,8 @@
 R_DEF: Internal format may change without notice
 local
+string app_name
+string clipboard_copied
+string dimensiones_placeholder
+string error_no_network
+string error_unrecognized
+string peso_placeholder

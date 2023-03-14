@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
 import net.kelmer.correostracker.R
-import net.kelmer.correostracker.base.fragment.BaseFragment
+import net.kelmer.correostracker.fragment.BaseFragment
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.databinding.FragmentParcelListBinding

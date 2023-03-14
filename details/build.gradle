@@ -10,10 +10,13 @@ android {
 
 dependencies {
     implementation project(':core')
+    implementation project(':theme')
     implementation project(':dataApi')
 
     implementation platform(libs.firebase.bom)
     implementation libs.firebase.analytics
     implementation libs.firebase.common
     implementation libs.firebase.crashlytics
+
+    implementation libs.timelineview
 }

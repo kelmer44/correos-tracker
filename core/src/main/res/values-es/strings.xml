@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Seguimiento de correos</string>
+    <string name="clipboard_copied">El código ha sido copiado al portapapeles.</string>
+    <string name="error_no_network">No hay conexión a internet</string>
+    <string name="error_unrecognized">Se produjo un error, por favor inténtalo más tarde.</string>
+
+</resources>
