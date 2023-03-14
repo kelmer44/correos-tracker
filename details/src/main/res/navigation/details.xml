@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/details">
+    <fragment
+        android:id="@+id/detailFragment"
+        tools:layout="@layout/fragment_detail"
+        android:name="net.kelmer.correostracker.detail.DetailFragment"
+        android:label="@string/app_name">
+        <argument
+            android:name="parcel_code"
+            app:argType="string" />
+    </fragment>
+</navigation>

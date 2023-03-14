@@ -4,3 +4,7 @@ apply from: rootProject.file('gradle/module-api.gradle')
 android {
     namespace 'net.kelmer.correostracker.detailsApi'
 }
+
+dependencies {
+    implementation project(':core')
+}

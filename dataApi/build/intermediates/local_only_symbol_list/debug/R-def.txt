@@ -1,8 +1,0 @@
-R_DEF: Internal format may change without notice
-local
-drawable timeline_icon_encamino
-drawable timeline_icon_entregado
-drawable timeline_icon_error
-drawable timeline_icon_pre
-drawable timeline_icon_reparto
-drawable timeline_icon_unknown

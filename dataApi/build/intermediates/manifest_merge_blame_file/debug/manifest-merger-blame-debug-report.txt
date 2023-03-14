@@ -1,8 +1,0 @@
-1<?xml version="1.0" encoding="utf-8"?>
-2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="net.kelmer.correostracker.dataApi" >
-4
-5    <uses-sdk android:minSdkVersion="21" />
-5-->/Users/gabriel.sanmartin/Source/correos-tracker/dataApi/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5947872944190735074.xml
-6
-7</manifest>
