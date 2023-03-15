@@ -39,5 +39,4 @@ class FeatureListAdapter : RecyclerView.Adapter<FeatureListAdapter.FeatureListVi
         }
     }
 
-    data class Feature(val version: String, @StringRes val text: Int)
 }

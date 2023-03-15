@@ -9,7 +9,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bamtechmedia.dominguez.core.utils.stringArgument
@@ -24,7 +23,6 @@ import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.detail.adapter.DetailTimelineItem
 import net.kelmer.correostracker.details.databinding.FragmentDetailBinding
 import net.kelmer.correostracker.fragment.BaseFragment
-import net.kelmer.correostracker.ui.detail.adapter.DetailTimelineAdapter
 import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.copyToClipboard
 import net.kelmer.correostracker.util.ext.isVisible

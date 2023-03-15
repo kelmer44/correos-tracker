@@ -18,7 +18,8 @@ class DetailTimelineItem @AssistedInject constructor(
 ) : BindableItem<RvDetailItemBinding>() {
     override fun bind(viewBinding: RvDetailItemBinding, position: Int) {
         val faseNumber = event.fase?.toIntOrNull()
-        val fase = if (faseNumber != null) ParcelDetailStatus.Fase.fromFase(faseNumber) else ParcelDetailStatus.Fase.OTHER
+        val fase =
+            if (faseNumber != null) ParcelDetailStatus.Fase.fromFase(faseNumber) else ParcelDetailStatus.Fase.OTHER
 
         viewBinding.apply {
             timeMarker.setMarker(ContextCompat.getDrawable(root.context, fase.drawable))
@@ -38,6 +39,6 @@ class DetailTimelineItem @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(parcel: CorreosApiEvent) : DetailTimelineItem
+        fun create(parcel: CorreosApiEvent): DetailTimelineItem
     }
 }
