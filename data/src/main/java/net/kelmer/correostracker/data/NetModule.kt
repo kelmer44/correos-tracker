@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.di.modules
+package net.kelmer.correostracker.data
 
 import android.app.Application
 import android.content.Context
@@ -10,9 +10,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import net.kelmer.correostracker.R
-import net.kelmer.correostracker.di.qualifiers.NetworkLogger
-import net.kelmer.correostracker.util.adapter.CorreosApiParcelAdapter
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -35,7 +32,7 @@ import javax.net.ssl.X509TrustManager
  * Created by gabriel on 25/03/2018.
  */
 @Module(
-    includes = [Interceptors::class]
+    includes = [net.kelmer.correostracker.data.Interceptors::class]
 )
 @InstallIn(SingletonComponent::class)
 open class NetModule {
@@ -170,8 +167,6 @@ open class NetModule {
     fun provideMoshi(): Moshi =
         Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
-            //            .add(SingleToArrayAdapter.FACTORY)
-//            .add(CorreosApiParcelAdapter.FACTORY)
             .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
             .build()
 

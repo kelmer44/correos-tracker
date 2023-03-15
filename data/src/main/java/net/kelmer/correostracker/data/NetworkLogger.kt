@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.di.qualifiers
+package net.kelmer.correostracker.data
 
 import javax.inject.Qualifier
 

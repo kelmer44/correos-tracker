@@ -30,6 +30,7 @@ rootProject.name = 'Seguimiento Correos'
 include ':app',
         ':core',
         ':dataApi',
+        ':data',
         ':theme',
         ':detailsApi',
         ':details',

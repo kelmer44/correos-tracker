@@ -19,6 +19,5 @@
     <string name="create_parcel_error_codigo">The entered code does not seem to be recognized by Correos. Are you sure you want to continue?</string>
     <string name="create_parcel_error_codigo_title">Invalid code</string>
     <string name="code_helper_text">*Only parcels from Correos or Correos Express</string>
-    <string name="unrecognized_code">The code you entered is not valid. Please check that it is correct.</string>
 
 </resources>

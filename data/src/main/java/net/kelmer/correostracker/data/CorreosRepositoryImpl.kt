@@ -1,9 +1,8 @@
-package net.kelmer.correostracker.data.repository.correos
+package net.kelmer.correostracker.data
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.Single
-import net.kelmer.correostracker.R
 import net.kelmer.correostracker.data.model.exception.CorreosExceptionFactory
 import net.kelmer.correostracker.data.model.exception.WrongCodeException
 import net.kelmer.correostracker.data.model.local.LocalParcelDao
@@ -14,8 +13,9 @@ import net.kelmer.correostracker.data.model.remote.Error
 import net.kelmer.correostracker.data.model.remote.unidad.Unidad
 import net.kelmer.correostracker.data.model.remote.v1.Shipment
 import net.kelmer.correostracker.data.model.remote.v1.ShipmentEvent
-import net.kelmer.correostracker.data.network.correos.CorreosV1
-import net.kelmer.correostracker.data.network.correos.Unidades
+import net.kelmer.correostracker.data.remote.CorreosV1
+import net.kelmer.correostracker.data.remote.UnidadesApi
+import net.kelmer.correostracker.data.repository.correos.CorreosRepository
 import timber.log.Timber
 import java.util.Date
 import javax.inject.Inject
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class CorreosRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val correosApi: CorreosV1,
-    private val unidades: Unidades,
+    private val unidades: UnidadesApi,
     private val dao: LocalParcelDao
 ) : CorreosRepository {
 

@@ -20,6 +20,5 @@
     <string name="create_parcel_error_codigo">El código introducido no parece ser reconocido por Correos. ¿Estás seguro de querer guardarlo?</string>
     <string name="create_parcel_error_codigo_title">Código incorrecto</string>
     <string name="code_helper_text">*Solo paquetes de Correos España o Correos Express</string>
-    <string name="unrecognized_code">El código introducido no es válido. Por favor, verifique que es correcto.</string>
 
 </resources>

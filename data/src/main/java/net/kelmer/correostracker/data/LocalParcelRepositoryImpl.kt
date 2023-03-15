@@ -1,13 +1,15 @@
-package net.kelmer.correostracker.data.repository.local
+package net.kelmer.correostracker.data
 
 import io.reactivex.Completable
 import io.reactivex.Single
 import net.kelmer.correostracker.data.model.local.LocalParcelDao
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
+import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
 import timber.log.Timber
+import javax.inject.Inject
 
-class LocalParcelRepositoryImpl(private val localParcelDao: LocalParcelDao) :
-    net.kelmer.correostracker.data.repository.local.LocalParcelRepository {
+class LocalParcelRepositoryImpl @Inject constructor(private val localParcelDao: LocalParcelDao) :
+    LocalParcelRepository {
     override fun setNotify(code: String, enable: Boolean): Completable {
         return if (enable) {
             localParcelDao.enableNotifications(code)

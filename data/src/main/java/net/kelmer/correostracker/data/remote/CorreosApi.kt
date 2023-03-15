@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.data.network.correos
+package net.kelmer.correostracker.data.remote
 
 import io.reactivex.Single
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel

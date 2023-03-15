@@ -85,18 +85,13 @@ dependencies {
     implementation project(':core')
     implementation project(':theme')
     implementation project(':dataApi')
+    implementation project(':data')
     implementation project(':detailsApi')
     implementation project(':details')
     implementation project(':listApi')
     implementation project(':list')
     implementation project(':create')
     implementation project(':iap')
-
-    implementation libs.retrofit.core
-    implementation libs.retrofit.moshi
-    implementation libs.retrofit.rxjava2
-
-    implementation libs.moshi.adapters
 
     kapt libs.androidx.room.compiler
 
