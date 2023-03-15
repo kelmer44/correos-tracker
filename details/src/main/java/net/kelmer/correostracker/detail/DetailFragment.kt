@@ -14,11 +14,14 @@ import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bamtechmedia.dominguez.core.utils.stringArgument
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
 import net.kelmer.correostracker.details.R
 import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
 import net.kelmer.correostracker.data.model.exception.CorreosException
 import net.kelmer.correostracker.data.resolve
+import net.kelmer.correostracker.detail.adapter.DetailTimelineItem
 import net.kelmer.correostracker.details.databinding.FragmentDetailBinding
 import net.kelmer.correostracker.fragment.BaseFragment
 import net.kelmer.correostracker.ui.detail.adapter.DetailTimelineAdapter
@@ -28,14 +31,20 @@ import net.kelmer.correostracker.util.ext.isVisible
 import net.kelmer.correostracker.util.ext.peso
 import net.kelmer.correostracker.util.ext.textOrElse
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
 
+    @Inject
+    lateinit var detailTimelineItem: DetailTimelineItem.Factory
+
+    @Inject
+    lateinit var groupieAdapter: GroupAdapter<GroupieViewHolder>
+
     private val viewModel: ParcelDetailViewModel by viewModels()
 
     private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(activity)
-    private val timelineAdapter: DetailTimelineAdapter = DetailTimelineAdapter()
 
     private val parcelCode by stringArgument("parcel_code")
 
@@ -46,7 +55,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         Timber.v("Loading details for parcel $parcelCode")
 
         binding.parcelStatusRecyclerView.layoutManager = linearLayoutManager
-        binding.parcelStatusRecyclerView.adapter = timelineAdapter
+        binding.parcelStatusRecyclerView.adapter = groupieAdapter
 
         viewModel.statusResult.observe(this) { resource ->
             binding.detailLoading.isVisible = resource.inProgress()
@@ -100,8 +109,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         binding?.let {
             it.detailToolbar.title = parcel.name
             it.detailToolbar.subtitle = parcel.code
-            timelineAdapter.updateStatus(parcel.states)
-            it.parcelStatusRecyclerView.scrollToPosition(timelineAdapter.itemCount - 1)
+
+            groupieAdapter.update(parcel.states.map { event -> detailTimelineItem.create(event) })
+
+            it.parcelStatusRecyclerView.scrollToPosition(parcel.states.size - 1)
 
             val ctx = context
             if (ctx != null) {
