@@ -1,10 +1,10 @@
-package net.kelmer.correostracker.ui.featuredialog
+package net.kelmer.correostracker.list.featuredialog
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
-import net.kelmer.correostracker.databinding.RvFeatureBinding
+import net.kelmer.correostracker.list.databinding.RvFeatureBinding
 
 class FeatureListAdapter : RecyclerView.Adapter<FeatureListAdapter.FeatureListViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeatureListViewHolder {

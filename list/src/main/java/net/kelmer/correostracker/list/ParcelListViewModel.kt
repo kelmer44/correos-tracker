@@ -3,6 +3,7 @@ package net.kelmer.correostracker.list
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import net.kelmer.correostracker.BuildInfo
 import net.kelmer.correostracker.viewmodel.BaseViewModel
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
@@ -11,6 +12,7 @@ import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.list.delete.DeleteParcelUseCase
 import net.kelmer.correostracker.list.list.GetParcelListUseCase
 import net.kelmer.correostracker.list.notifications.SwitchNotificationsUseCase
+import net.kelmer.correostracker.list.preferences.ParcelListPreferencesImpl
 import net.kelmer.correostracker.list.statusreports.StatusReportsUpdatesUseCase
 import timber.log.Timber
 import javax.inject.Inject
@@ -24,7 +26,8 @@ class ParcelListViewModel @Inject constructor(
     private val deleteParcelUseCase: DeleteParcelUseCase,
     private val switchNotificationsUseCase: SwitchNotificationsUseCase,
     private val statusReportsUpdatesUseCase: StatusReportsUpdatesUseCase,
-//    private val sharedPrefsManager: SharedPrefsManager
+    private val parcelListPreferences: ParcelListPreferencesImpl,
+    private val buildInfo: BuildInfo
 ) : BaseViewModel(
         getParcelListUseCase,
         deleteParcelUseCase,
@@ -60,15 +63,15 @@ class ParcelListViewModel @Inject constructor(
         return switchNotificationsUseCase(SwitchNotificationsUseCase.Params(code, false))
     }
 
-    fun showFeature(): Boolean { return false
-//        return sharedPrefsManager.hasSeenFeatureBlurb(BuildConfig.VERSION_NAME)
+    fun showFeature(): Boolean {
+        return parcelListPreferences.hasSeenFeatureBlurb(buildInfo.versionName)
     }
 
     fun setShownFeature() {
-//        sharedPrefsManager.setSeenFeatureBlurb(BuildConfig.VERSION_NAME)
+        parcelListPreferences.setSeenFeatureBlurb(buildInfo.versionName)
     }
 
     fun setTheme(theme: Int) {
-//        sharedPrefsManager.themeMode = theme
+        parcelListPreferences.themeMode = theme
     }
 }

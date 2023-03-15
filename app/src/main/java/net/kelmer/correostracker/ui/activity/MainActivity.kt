@@ -9,11 +9,12 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import dagger.hilt.android.AndroidEntryPoint
+import net.kelmer.correostracker.BuildConfig
 import net.kelmer.correostracker.CorreosApp
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.activity.BaseActivity
-import net.kelmer.correostracker.data.prefs.SharedPrefsManager
 import net.kelmer.correostracker.di.worker.MyWorkerFactory
+import net.kelmer.correostracker.list.ParcelListPreferences
 import net.kelmer.correostracker.service.worker.ParcelPollWorker
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -28,7 +29,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     lateinit var myWorkerFactory: MyWorkerFactory
 
     @Inject
-    lateinit var sharedPrefsManager: SharedPrefsManager
+    lateinit var parcelListPreferences: ParcelListPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,8 +48,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                 .build()
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(CorreosApp.PARCEL_CHECKER_WORKREQUEST, ExistingPeriodicWorkPolicy.REPLACE, uploadWorker)
 
-
-        sharedPrefsManager.themeModeLive.observe(this, ThemeObserver())
+        parcelListPreferences.themeModeLive.observe(this, ThemeObserver())
     }
 
 
@@ -60,4 +60,3 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         }
     }
 }
-

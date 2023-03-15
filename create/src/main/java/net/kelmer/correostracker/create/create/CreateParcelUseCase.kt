@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.usecases.create
+package net.kelmer.correostracker.create.create
 
 import io.reactivex.Single
 import net.kelmer.correostracker.usecase.rx.RxSingleUseCase

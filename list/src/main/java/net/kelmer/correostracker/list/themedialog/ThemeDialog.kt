@@ -3,8 +3,8 @@ package net.kelmer.correostracker.ui.themedialog
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.appcompat.app.AlertDialog
-import net.kelmer.correostracker.R
-import net.kelmer.correostracker.data.prefs.ThemeMode
+import net.kelmer.correostracker.list.R
+import net.kelmer.correostracker.list.model.ThemeMode
 
 /**
  * Created by Gabriel Sanmartín on 11/09/2020.
@@ -21,10 +21,10 @@ fun themeSelectionDialog(
     builder.setTitle(R.string.theme_title)
 
     // add a list
-    val animals = ThemeMode.values().map {
+    val themes = ThemeMode.values().map {
         context.getString(it.stringRes)
     }.toTypedArray()
-    builder.setItems(animals) { _, which ->
+    builder.setItems(themes) { _, which ->
         listener(ThemeMode.fromPosition(which))
     }
 

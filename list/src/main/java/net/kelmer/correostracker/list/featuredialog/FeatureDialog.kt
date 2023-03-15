@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.ui.featuredialog
+package net.kelmer.correostracker.list.featuredialog
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,7 +9,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
-import net.kelmer.correostracker.R
+import net.kelmer.correostracker.list.R
 
 interface FeatureBlurbListener {
     fun ok()
@@ -65,13 +65,13 @@ fun featureBlurbDialog(
                 listOf(
                     FeatureListAdapter.Feature("2.2.7", R.string.changes_2_2_7),
                     FeatureListAdapter.Feature("2.2.6", R.string.changes_2_2_6),
-                        FeatureListAdapter.Feature("2.1.0", R.string.changes_2_1_0),
-                        FeatureListAdapter.Feature("2.0.0", R.string.changes_2_0_0),
-                        FeatureListAdapter.Feature("1.9.5", R.string.changes_1_9_5),
-                        FeatureListAdapter.Feature("1.9.0", R.string.changes_1_9_0),
-                        FeatureListAdapter.Feature("1.8.0", R.string.changes_1_8_0),
-                        FeatureListAdapter.Feature("1.7.2", R.string.changes_1_7_2),
-                        FeatureListAdapter.Feature("1.7.0", R.string.changes_1_7_0),
+                    FeatureListAdapter.Feature("2.1.0", R.string.changes_2_1_0),
+                    FeatureListAdapter.Feature("2.0.0", R.string.changes_2_0_0),
+                    FeatureListAdapter.Feature("1.9.5", R.string.changes_1_9_5),
+                    FeatureListAdapter.Feature("1.9.0", R.string.changes_1_9_0),
+                    FeatureListAdapter.Feature("1.8.0", R.string.changes_1_8_0),
+                    FeatureListAdapter.Feature("1.7.2", R.string.changes_1_7_2),
+                    FeatureListAdapter.Feature("1.7.0", R.string.changes_1_7_0),
                 )
         )
     }

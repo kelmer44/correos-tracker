@@ -6,4 +6,30 @@
     <string name="search">Filter</string>
     <string name="incoming">Incoming</string>
     <string name="outgoing">Outgoing</string>
+    <string name="menu_theme">Theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_system">Same as system</string>
+    <string name="theme_title">Theme</string>
+    <string name="changes_1_6_0">Dark Theme support</string>
+    <string name="changes_1_6_2">Enter your parcels by scanning the barcode in the receipt</string>
+    <string name="changes_1_6_5">Correos Express support</string>
+    <string name="changes_1_7_0">You asked for it and now it\'s here: you can now receive alerts whenever one of your parcels has a status update.</string>
+    <string name="changes_1_7_2">Fixed bug preventing notifications to be displayed on certain devices.</string>
+    <string name="changes_1_8_0">Parcel search added.</string>
+    <string name="changes_1_9_0">Multiple items with same tracking code now allowed.</string>
+    <string name="changes_1_9_5">Option to choose theme from main menu.</string>
+    <string name="changes_2_0_0">Code restructuring</string>
+    <string name="changes_2_1_0">Support for Correos Express removed due to the services being made private by Correos.</string>
+    <string name="changes_2_2_6">Implements new Services, which don\'t include Unit.</string>
+    <string name="changes_2_2_7">The app can track the parcel by location again.</string>
+
+    <string name="feature_dialog_title">New features</string>
+    <string name="feature_dialog_opensource">This app has no affiliation with Sociedad Estatal Correos y Telegrafos, S.A. and has been created by an independent developer. It is free, open-source and add-free.</string>
+    <string name="feature_dialog_opensource_contribute">If you wish to contribute feel free to donate with a ko-fi:</string>
+    <string name="delete_confirm_title">Remove parcel</string>
+    <string name="delete_confirm_desc">Are you sure you want to remove the selected parcel?</string>
+    <string name="visit_us_github">Visit us over at github</string>
+    <string name="ultimo_estado_header">Last status</string>
+
 </resources>

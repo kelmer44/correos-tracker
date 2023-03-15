@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.ui.customviews
+package net.kelmer.correostracker.widget
 
 import android.app.AlertDialog
 import android.content.Context

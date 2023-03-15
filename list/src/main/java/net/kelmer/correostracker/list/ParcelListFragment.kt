@@ -26,8 +26,11 @@ import net.kelmer.correostracker.iap.InAppReviewService
 import net.kelmer.correostracker.list.adapter.ParcelClickListener
 import net.kelmer.correostracker.list.adapter.ParcelListAdapter
 import net.kelmer.correostracker.list.databinding.FragmentParcelListBinding
+import net.kelmer.correostracker.list.featuredialog.featureBlurbDialog
+import net.kelmer.correostracker.ui.themedialog.themeSelectionDialog
 import net.kelmer.correostracker.util.copyToClipboard
 import net.kelmer.correostracker.util.ext.isVisible
+import net.kelmer.correostracker.widget.ConfirmDialog
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -67,13 +70,13 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
                     // do your things in each of the following cases
                     when (item.itemId) {
                         R.id.menu_delete -> {
-//                            ConfirmDialog.confirmDialog(
-//                                requireContext(),
-//                                R.string.delete_confirm_title,
-//                                R.string.delete_confirm_desc
-//                            ) {
-//                                viewModel.deleteParcel(parcelReference)
-//                            }
+                            ConfirmDialog.confirmDialog(
+                                requireContext(),
+                                R.string.delete_confirm_title,
+                                R.string.delete_confirm_desc
+                            ) {
+                                viewModel.deleteParcel(parcelReference)
+                            }
                             true
                         }
                         R.id.menu_enable_notifications -> {
@@ -172,10 +175,9 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
                     refreshFromRemote()
                 }
                 R.id.app_theme -> {
-//                    themeSelectionDialog(requireContext()) {
-//                        //                    Timber.i("Theme selected: $it")
-//                        viewModel.setTheme(it.code)
-//                    }.show()
+                    themeSelectionDialog(requireContext()) {
+                        viewModel.setTheme(it.code)
+                    }.show()
                 }
                 R.id.app_about -> {
                     showFeature()
@@ -205,18 +207,18 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
     var searchView: SearchView? = null
 
     private fun showFeature() {
-//        featureBlurbDialog(
-//            context = requireContext(),
-//            titleText = R.string.feature_dialog_title,
-//            okText = android.R.string.ok,
-//            okListener = {
-//            },
-//            githubListener = {
-//                val url = "https://github.com/kelmer44/correos-tracker"
-//                val i = Intent(Intent.ACTION_VIEW)
-//                i.data = Uri.parse(url)
-//                startActivity(i)
-//            },
-//        ).show()
+        featureBlurbDialog(
+            context = requireContext(),
+            titleText = R.string.feature_dialog_title,
+            okText = android.R.string.ok,
+            okListener = {
+            },
+            githubListener = {
+                val url = "https://github.com/kelmer44/correos-tracker"
+                val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse(url)
+                startActivity(i)
+            },
+        ).show()
     }
 }

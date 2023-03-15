@@ -8,7 +8,6 @@ import dagger.hilt.android.components.ActivityComponent;
 @Module
 @InstallIn(ActivityComponent.class)
 abstract class InAppReview_ActivityModule {
-
     @Binds
     abstract InAppReviewService bindsInAppReview(InAppReviewServiceImpl impl);
 }

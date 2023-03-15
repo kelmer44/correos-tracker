@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.ui.create
+package net.kelmer.correostracker.create
 
 import android.app.Activity
 import android.content.Context
@@ -7,21 +7,18 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.zxing.integration.android.IntentIntegrator
 import dagger.hilt.android.AndroidEntryPoint
-import net.kelmer.correostracker.R
+import net.kelmer.correostracker.create.databinding.FragmentCreateParcelBinding
 import net.kelmer.correostracker.fragment.BaseFragment
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.exception.WrongCodeException
 import net.kelmer.correostracker.data.resolve
-import net.kelmer.correostracker.databinding.FragmentCreateParcelBinding
-import net.kelmer.correostracker.ui.customviews.ConfirmDialog
 import timber.log.Timber
 import java.util.UUID
 
@@ -38,23 +35,25 @@ class CreateParcelFragment : BaseFragment<FragmentCreateParcelBinding>(R.layout.
             onSuccess = {
                 Timber.i("Parcel ${it.trackingCode} created!")
                 hideKeyboardFrom(requireContext(), requireView())
-                findNavController().popBackStack(R.id.parcelListFragment, false)
+                findNavController()
+                    .popBackStack()
+//                    .popBackStack(R.id.parcelListFragment, false)
             },
             onError = {
                 Timber.e(it)
                 (it as? WrongCodeException)?.let {
-                    ConfirmDialog.confirmDialog(
-                        requireContext(),
-                        R.string.create_parcel_error_codigo_title,
-                        R.string.create_parcel_error_codigo
-                    ) {
-                    }
-                    Toast.makeText(
-                        context,
-                        getString(R.string.create_parcel_error_codigo),
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
+//                    ConfirmDialog.confirmDialog(
+//                        requireContext(),
+//                        R.string.create_parcel_error_codigo_title,
+//                        R.string.create_parcel_error_codigo
+//                    ) {
+//                    }
+//                    Toast.makeText(
+//                        context,
+//                        getString(R.string.create_parcel_error_codigo),
+//                        Toast.LENGTH_LONG
+//                    )
+//                        .show()
                 }
             }
         )

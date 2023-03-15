@@ -16,3 +16,4 @@ app/release
 /iapApi/build/
 /iap/build
 /theme/build
+/createApi/build/

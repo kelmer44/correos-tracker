@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="scan_prompt">Bar code scan</string>
+    <string name="error_nocodigo">Please enter the tracking number.</string>
+
+</resources>

@@ -63,7 +63,7 @@
                     android:layout_alignParentEnd="true"
                     android:background="?selectableItemBackgroundBorderless"
                     android:padding="@dimen/single_spacing"
-                    android:tint="?colorOnSurface"
+                    app:tint="?colorOnSurface"
                     android:src="@drawable/ic_more" />
 
             </RelativeLayout>

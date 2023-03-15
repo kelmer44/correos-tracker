@@ -1,8 +1,8 @@
-package net.kelmer.correostracker.data.prefs
+package net.kelmer.correostracker.list.model
 
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
-import net.kelmer.correostracker.R
+import net.kelmer.correostracker.list.R
 
 /**
  * Created by Gabriel Sanmartín on 11/09/2020.

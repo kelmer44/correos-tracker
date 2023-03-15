@@ -10,8 +10,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import net.kelmer.correostracker.BuildConfig
-import net.kelmer.correostracker.data.prefs.SharedPrefsManager
-import net.kelmer.correostracker.data.prefs.SharedPrefsManagerImpl
+import net.kelmer.correostracker.BuildInfo
+import net.kelmer.correostracker.di.BuildInfoImpl
 import net.kelmer.correostracker.util.AppSchedulerProvider
 import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.NetworkInteractorImpl
@@ -24,6 +24,9 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class ApplicationModule {
+
+    @Binds
+    abstract fun bindsBuildInfo(info: BuildInfoImpl): BuildInfo
 
     @Binds
     @Singleton
@@ -49,13 +52,6 @@ abstract class ApplicationModule {
         fun provideSharedPreferences(@ApplicationContext app: Context): SharedPreferences {
             val sharedPrefsId = "SEG_CORREOS_" + if (BuildConfig.DEBUG) "_DEBUG" else ""
             return app.getSharedPreferences(sharedPrefsId, Context.MODE_PRIVATE)
-        }
-
-        @JvmStatic
-        @Provides
-        @Singleton
-        fun provideSharedPreferencesManager(sharedPreferences: SharedPreferences): SharedPrefsManager {
-            return SharedPrefsManagerImpl(sharedPreferences)
         }
     }
 }

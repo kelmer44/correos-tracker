@@ -9,7 +9,7 @@ import javax.inject.Inject
 class InAppSharedPreferences @Inject constructor(@ApplicationContext context: Context) :
     LazySharedPreferences(
         context,
-        SHARED_PREFS_KEY
+        IAP_PREFS_KEY
     ) {
 
     init {
@@ -33,7 +33,7 @@ class InAppSharedPreferences @Inject constructor(@ApplicationContext context: Co
 
     companion object {
         const val MIN_CLEAN_STARTS = 5
-        const val SHARED_PREFS_KEY = "IAP"
+        const val IAP_PREFS_KEY = "IAP"
         private const val CLEAN_STARTS = "I_CLEAN_STARTS"
         private const val ASKED_FOR_REVIEW = "B_ASKED_FOR_REVIEW"
     }
