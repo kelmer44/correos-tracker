@@ -55,7 +55,10 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
             val request = NavDeepLinkRequest.Builder
                 .fromUri("correostracker://details/${parcelReference.trackingCode}".toUri())
                 .build()
-            findNavController().navigate(request)
+            findNavController().navigate(request, NavOptions.Builder()
+                .setEnterAnim(R.anim.nav_default_enter_anim)
+                .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
+                .build())
         }
 
         override fun dots(view: View, parcelReference: LocalParcelReference) {
