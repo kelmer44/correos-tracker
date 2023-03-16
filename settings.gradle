@@ -38,7 +38,5 @@ include ':app',
         ':list',
         ':iapApi',
         ':iap',
-        ':dialogsApi',
-        ':dialogs',
         ':create',
         ':createApi'

@@ -13,16 +13,17 @@ import androidx.core.net.toUri
 import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
-import net.kelmer.correostracker.list.R
 import net.kelmer.correostracker.fragment.BaseFragment
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.resolve
 import net.kelmer.correostracker.iap.InAppReviewService
+import net.kelmer.correostracker.list.R
 import net.kelmer.correostracker.list.adapter.ParcelClickListener
 import net.kelmer.correostracker.list.adapter.ParcelListAdapter
 import net.kelmer.correostracker.list.databinding.FragmentParcelListBinding
@@ -112,7 +113,11 @@ class ParcelListFragment : BaseFragment<FragmentParcelListBinding>(R.layout.frag
             val request = NavDeepLinkRequest.Builder
                 .fromUri("correostracker://create".toUri())
                 .build()
-            findNavController().navigate(request)
+            findNavController()
+                .navigate(request, NavOptions.Builder()
+                .setEnterAnim(R.anim.nav_default_enter_anim)
+                .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
+                .build())
         }
 
         if (!viewModel.showFeature()) {

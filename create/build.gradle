@@ -13,7 +13,6 @@ dependencies {
     implementation project(':theme')
     implementation project(':dataApi')
     implementation project(':createApi')
-    implementation project(':dialogsApi')
 
     implementation platform(libs.firebase.bom)
     implementation libs.firebase.analytics
