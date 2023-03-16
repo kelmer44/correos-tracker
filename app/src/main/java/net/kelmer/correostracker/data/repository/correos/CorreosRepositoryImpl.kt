@@ -21,6 +21,7 @@ import net.kelmer.correostracker.data.network.exception.CorreosExceptionFactory
 import net.kelmer.correostracker.data.network.exception.WrongCodeException
 import timber.log.Timber
 import java.util.Date
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class CorreosRepositoryImpl @Inject constructor(
@@ -87,40 +88,42 @@ class CorreosRepositoryImpl @Inject constructor(
 
     override fun getParcelStatus(parcelId: String): Single<CorreosApiParcel> {
         var parcelReference: LocalParcelReference? = null
-        return dao.getParcelSync(parcelId).doOnSuccess {
-            parcelReference = it
-        }.flatMap {
-            retrieveParcel(parcelId)
-        }.flatMap { element ->
-            // Mapping errors to a proper exception
-            val error = element.error
-            // If theres actually an error in the api response, we map it
-            if (error != null && error.codError != "0") {
-                Single.error(CorreosExceptionFactory.byCode(error.codError, error.desError))
-            } else {
-                Single.just(element)
+        return dao.getParcelSync(parcelId)
+            .delay(0, TimeUnit.MILLISECONDS)
+            .doOnSuccess {
+                parcelReference = it
+            }.flatMap {
+                retrieveParcel(parcelId)
+            }.flatMap { element ->
+                // Mapping errors to a proper exception
+                val error = element.error
+                // If theres actually an error in the api response, we map it
+                if (error != null && error.codError != "0") {
+                    Single.error(CorreosExceptionFactory.byCode(error.codError, error.desError))
+                } else {
+                    Single.just(element)
+                }
+            }.doOnError {
+                val p = parcelReference
+                if (p != null) {
+                    p.updateStatus = LocalParcelReference.UpdateStatus.ERROR
+                    dao.saveParcel(p)
+                }
+            }.doOnSuccess {
+                parcelReference?.let { p ->
+                    p.ultimoEstado = it.eventos?.lastOrNull()
+                    p.lastChecked = Date().time
+                    p.alto = it.alto
+                    p.ancho = it.ancho
+                    p.largo = it.largo
+                    p.codProducto = it.codProducto
+                    p.refCliente = it.refCliente
+                    p.peso = it.peso
+                    p.fechaCalculada = it.fechaCalculada
+                    p.updateStatus = LocalParcelReference.UpdateStatus.OK
+                    var value = dao.saveParcel(p)
+                    Timber.w("Saving $p to database! $value saved")
+                }
             }
-        }.doOnError {
-            val p = parcelReference
-            if (p != null) {
-                p.updateStatus = LocalParcelReference.UpdateStatus.ERROR
-                dao.saveParcel(p)
-            }
-        }.doOnSuccess {
-            parcelReference?.let { p ->
-                p.ultimoEstado = it.eventos?.lastOrNull()
-                p.lastChecked = Date().time
-                p.alto = it.alto
-                p.ancho = it.ancho
-                p.largo = it.largo
-                p.codProducto = it.codProducto
-                p.refCliente = it.refCliente
-                p.peso = it.peso
-                p.fechaCalculada = it.fechaCalculada
-                p.updateStatus = LocalParcelReference.UpdateStatus.OK
-                var value = dao.saveParcel(p)
-                Timber.w("Saving $p to database! $value saved")
-            }
-        }
     }
 }
