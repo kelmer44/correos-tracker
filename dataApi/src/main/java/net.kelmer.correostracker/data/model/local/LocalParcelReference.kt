@@ -38,6 +38,10 @@ data class LocalParcelReference(
     var updateStatus: UpdateStatus
 ) {
 
+    fun containsDimensions(): Boolean =
+        ancho?.isNotBlank() ?: false &&
+        largo?.isNotBlank()?: false &&
+        alto?.isNotBlank()?: false
     enum class UpdateStatus {
         UNKNOWN,
         OK,

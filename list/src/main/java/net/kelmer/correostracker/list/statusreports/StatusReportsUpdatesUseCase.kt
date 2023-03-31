@@ -12,24 +12,22 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class StatusReportsUpdatesUseCase @Inject constructor(
-    private val localParcelRepository: net.kelmer.correostracker.data.repository.local.LocalParcelRepository,
-    private val parcelRepository: net.kelmer.correostracker.data.repository.correos.CorreosRepository
+    private val localParcelRepository: LocalParcelRepository,
+    private val parcelRepository: CorreosRepository
 ) : RxUseCase<Unit, CorreosApiParcel>() {
 
     override fun execute(params: Unit, onNext: (Resource<CorreosApiParcel>) -> Unit) {
 
         localParcelRepository.getParcels().firstOrError()
             .onErrorReturnItem(emptyList())
-            .toFlowable().flatMap { parcelList ->
+            .toFlowable()
+            .flatMap { parcelList ->
                 val map = parcelList.mapIndexed { _, item ->
                     item.updateStatus = LocalParcelReference.UpdateStatus.INPROGRESS
                     localParcelRepository.saveParcel(item)
                         .andThen(
                             parcelRepository.getParcelStatus(item.trackingCode)
                         )
-                        .doOnSubscribe {
-                            Timber.w("Subscribed")
-                        }
                         .map { parcel ->
                             Resource.success(parcel)
                         }

@@ -19,7 +19,7 @@ class ParcelListItem @AssistedInject constructor(
     @ApplicationContext private val context: Context,
     @Assisted private val parcel: LocalParcelReference,
     @Assisted private val clickListener: ParcelClickListener
-) :  BindableItem<RvParcelItemBinding>(){
+) : BindableItem<RvParcelItemBinding>(){
 
     private val dateFormat = SimpleDateFormat("dd/MM/yyy HH:mm:ss")
 

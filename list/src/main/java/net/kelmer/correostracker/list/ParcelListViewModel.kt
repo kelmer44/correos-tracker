@@ -2,18 +2,24 @@ package net.kelmer.correostracker.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.uber.autodispose.autoDisposable
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.processors.PublishProcessor
+import io.reactivex.rxkotlin.combineLatest
 import net.kelmer.correostracker.BuildInfo
 import net.kelmer.correostracker.viewmodel.BaseViewModel
 import net.kelmer.correostracker.data.Resource
 import net.kelmer.correostracker.data.model.local.LocalParcelReference
 import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
+import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
+import net.kelmer.correostracker.list.adapter.ParcelListItem
 //import net.kelmer.correostracker.data.prefs.SharedPrefsManager
 import net.kelmer.correostracker.list.delete.DeleteParcelUseCase
 import net.kelmer.correostracker.list.list.GetParcelListUseCase
 import net.kelmer.correostracker.list.notifications.SwitchNotificationsUseCase
 import net.kelmer.correostracker.list.preferences.ParcelListPreferencesImpl
 import net.kelmer.correostracker.list.statusreports.StatusReportsUpdatesUseCase
+import net.kelmer.correostracker.viewmodel.AutoDisposeViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -22,37 +28,48 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class ParcelListViewModel @Inject constructor(
-    private val getParcelListUseCase: GetParcelListUseCase,
-    private val deleteParcelUseCase: DeleteParcelUseCase,
+    private val localParcelRepository: LocalParcelRepository,
     private val switchNotificationsUseCase: SwitchNotificationsUseCase,
     private val statusReportsUpdatesUseCase: StatusReportsUpdatesUseCase,
     private val parcelListPreferences: ParcelListPreferencesImpl,
     private val buildInfo: BuildInfo
-) : BaseViewModel(
-        getParcelListUseCase,
-        deleteParcelUseCase,
-        switchNotificationsUseCase
-    ) {
+) : AutoDisposeViewModel() {
 
-    private val _parcelList: MutableLiveData<Resource<List<LocalParcelReference>>> = MutableLiveData()
-    val parcelList: LiveData<Resource<List<LocalParcelReference>>> = _parcelList
-    private fun retrieveParcelList() = getParcelListUseCase(Unit, _parcelList)
-    private val statusReports: MutableLiveData<Resource<CorreosApiParcel>> = MutableLiveData()
+    private val filterSubject: PublishProcessor<String> = PublishProcessor.create()
+
+    val stateOnceAndStream =
+        localParcelRepository.getParcels()
+            .combineLatest(filterSubject.startWith(""))
+            .map { (list, filter) ->
+                list.filter {
+                    filter.isNullOrBlank() ||
+                        it.parcelName.contains(filter, true) ||
+                        it.trackingCode.contains(filter, true)
+                }
+            }
+            .map { State(list = it) }
+            .startWith(State(loading = true))
+            .onErrorReturn { throwable -> State(error = throwable) }
+            .distinctUntilChanged()
+            .replay(1)
+            .connectInViewModelScope()
 
     init {
-        retrieveParcelList()
         refresh()
     }
 
-    private val _deleteLiveData: MutableLiveData<Resource<Unit>> = MutableLiveData()
-    val deleteResult: LiveData<Resource<Unit>> = _deleteLiveData
     fun deleteParcel(parcelReference: LocalParcelReference) {
-        deleteParcelUseCase(DeleteParcelUseCase.Params(parcelReference), _deleteLiveData)
+        localParcelRepository.deleteParcel(parcelReference)
+            .autoDisposable(viewModelScope)
+            .subscribe(
+                { Timber.w("Deleted parcel = ${parcelReference.trackingCode}!!") },
+                {}
+            )
     }
 
     fun refresh() {
         Timber.i("REF - Refresh called!")
-        statusReportsUpdatesUseCase(Unit, statusReports)
+        statusReportsUpdatesUseCase(Unit, MutableLiveData())
     }
 
     fun enableNotifications(code: String): LiveData<Resource<String>> {
@@ -74,4 +91,12 @@ class ParcelListViewModel @Inject constructor(
     fun setTheme(theme: Int) {
         parcelListPreferences.themeMode = theme
     }
+
+    fun filter(newText: String) = filterSubject.onNext(newText)
+
+    data class State(
+        val list: List<LocalParcelReference> = emptyList(),
+        val loading: Boolean = false,
+        val error: Throwable? = null,
+    )
 }
