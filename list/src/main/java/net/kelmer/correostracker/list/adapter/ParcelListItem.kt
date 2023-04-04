@@ -17,7 +17,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 class ParcelListItem @AssistedInject constructor(
-    @ApplicationContext private val context: Context,
     @Assisted private val parcel: LocalParcelReference,
     @Assisted private val clickListener: ParcelClickListener
 ) : BindableItem<RvParcelItemBinding>(){
@@ -30,7 +29,7 @@ class ParcelListItem @AssistedInject constructor(
             parcelCode.text = parcel.trackingCode
 
             ultimoEstado.text = parcel.ultimoEstado?.buildUltimoEstado()
-                ?: context.getString(R.string.status_unknown)
+                ?: ultimoEstado.context.getString(R.string.status_unknown)
 
             when (parcel.stance) {
                 LocalParcelReference.Stance.INCOMING -> {
@@ -73,7 +72,7 @@ class ParcelListItem @AssistedInject constructor(
             var lastCheckedValue = parcel.lastChecked
 
             if (lastCheckedValue != null && lastCheckedValue > 0) {
-                lastChecked.text = context.getString(R.string.lastchecked, dateFormat.format(Date(lastCheckedValue)))
+                lastChecked.text = lastChecked.context.getString(R.string.lastchecked, dateFormat.format(Date(lastCheckedValue)))
             }
             lastChecked.isVisible = lastCheckedValue != null && lastCheckedValue > 0
         }
