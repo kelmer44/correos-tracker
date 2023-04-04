@@ -16,5 +16,7 @@ dependencies {
     implementation libs.retrofit.moshi
     implementation libs.retrofit.rxjava2
 
+    kapt libs.androidx.room.compiler
+
     implementation libs.moshi.adapters
 }

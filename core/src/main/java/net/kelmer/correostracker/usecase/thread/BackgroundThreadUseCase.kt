@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import net.kelmer.correostracker.usecase.UseCase
 import net.kelmer.correostracker.usecase.scheduler.DefaultScheduler
 import net.kelmer.correostracker.usecase.scheduler.Scheduler
-import net.kelmer.correostracker.data.Resource
+import net.kelmer.correostracker.dataApi.Resource
 import timber.log.Timber
 
 abstract class BackgroundThreadUseCase<in P, R> : UseCase<P, R>() {

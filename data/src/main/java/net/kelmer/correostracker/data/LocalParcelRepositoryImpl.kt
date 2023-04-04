@@ -2,9 +2,9 @@ package net.kelmer.correostracker.data
 
 import io.reactivex.Completable
 import io.reactivex.Single
-import net.kelmer.correostracker.data.model.local.LocalParcelDao
-import net.kelmer.correostracker.data.model.local.LocalParcelReference
-import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
+import net.kelmer.correostracker.dataApi.model.local.LocalParcelDao
+import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
+import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository
 import timber.log.Timber
 import javax.inject.Inject
 

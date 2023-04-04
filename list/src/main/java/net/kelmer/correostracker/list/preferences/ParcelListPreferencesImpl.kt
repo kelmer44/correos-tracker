@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.qualifiers.ApplicationContext
-import net.kelmer.correostracker.data.LazySharedPreferences
+import net.kelmer.correostracker.dataApi.LazySharedPreferences
 import net.kelmer.correostracker.list.ParcelListPreferences
 import javax.inject.Inject
 

@@ -2,13 +2,14 @@ package net.kelmer.correostracker.list.adapter
 
 import android.content.Context
 import android.view.View
+import com.xwray.groupie.Item
 import com.xwray.groupie.viewbinding.BindableItem
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
-import net.kelmer.correostracker.data.model.dto.ParcelDetailStatus
-import net.kelmer.correostracker.data.model.local.LocalParcelReference
+import net.kelmer.correostracker.dataApi.model.dto.ParcelDetailStatus
+import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.list.R
 import net.kelmer.correostracker.list.databinding.RvParcelItemBinding
 import net.kelmer.correostracker.util.ext.isVisible
@@ -76,6 +77,10 @@ class ParcelListItem @AssistedInject constructor(
             }
             lastChecked.isVisible = lastCheckedValue != null && lastCheckedValue > 0
         }
+    }
+
+    override fun isSameAs(other: Item<*>): Boolean {
+        return other is ParcelListItem && parcel.code == other.parcel.code
     }
 
     override fun getLayout(): Int = R.layout.rv_parcel_item

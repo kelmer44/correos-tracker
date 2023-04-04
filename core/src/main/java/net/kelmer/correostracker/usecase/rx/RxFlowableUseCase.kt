@@ -2,7 +2,7 @@ package net.kelmer.correostracker.usecase.rx
 
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.subscribeBy
-import net.kelmer.correostracker.data.Resource
+import net.kelmer.correostracker.dataApi.Resource
 import net.kelmer.correostracker.util.ext.toResource
 
 abstract class RxFlowableUseCase<in P, R> : RxUseCase<P, R>() {

@@ -1,6 +1,6 @@
 def versionMajor = 2
 def versionMinor = 3
-def versionPatch = 0
+def versionPatch = 1
 def versionBuild = 0
 
 apply from: rootProject.file('gradle/moduleapp.gradle')
@@ -93,7 +93,6 @@ dependencies {
     implementation project(':create')
     implementation project(':iap')
 
-    kapt libs.androidx.room.compiler
 
     // Check for v11.4.2 or higher
     implementation 'com.google.firebase:firebase-core:20.0.0'
@@ -105,7 +104,7 @@ dependencies {
 
     //Test
     testImplementation libs.junit
-    testImplementation libs.mockito
+    testImplementation libs.mockito.core
 }
 
 apply plugin: 'com.google.gms.google-services'

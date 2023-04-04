@@ -2,7 +2,7 @@ package net.kelmer.correostracker.iap
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
-import net.kelmer.correostracker.data.LazySharedPreferences
+import net.kelmer.correostracker.dataApi.LazySharedPreferences
 import timber.log.Timber
 import javax.inject.Inject
 

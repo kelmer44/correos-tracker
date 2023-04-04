@@ -2,21 +2,24 @@ package net.kelmer.correostracker.data
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
+import io.reactivex.Maybe
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import net.kelmer.correostracker.data.model.exception.CorreosExceptionFactory
-import net.kelmer.correostracker.data.model.exception.WrongCodeException
-import net.kelmer.correostracker.data.model.local.LocalParcelDao
-import net.kelmer.correostracker.data.model.local.LocalParcelReference
-import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
-import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
-import net.kelmer.correostracker.data.model.remote.Error
-import net.kelmer.correostracker.data.model.remote.unidad.Unidad
-import net.kelmer.correostracker.data.model.remote.v1.Shipment
-import net.kelmer.correostracker.data.model.remote.v1.ShipmentEvent
+import net.kelmer.correostracker.dataApi.model.exception.CorreosExceptionFactory
+import net.kelmer.correostracker.dataApi.model.exception.WrongCodeException
+import net.kelmer.correostracker.dataApi.model.local.LocalParcelDao
+import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
+import net.kelmer.correostracker.dataApi.model.local.LocalUnidad
+import net.kelmer.correostracker.dataApi.model.local.LocalUnidadDao
+import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
+import net.kelmer.correostracker.dataApi.model.remote.CorreosApiParcel
+import net.kelmer.correostracker.dataApi.model.remote.Error
+import net.kelmer.correostracker.dataApi.model.remote.unidad.Unidad
+import net.kelmer.correostracker.dataApi.model.remote.v1.Shipment
+import net.kelmer.correostracker.dataApi.model.remote.v1.ShipmentEvent
 import net.kelmer.correostracker.data.remote.CorreosV1
 import net.kelmer.correostracker.data.remote.UnidadesApi
-import net.kelmer.correostracker.data.repository.correos.CorreosRepository
+import net.kelmer.correostracker.dataApi.repository.correos.CorreosRepository
 import timber.log.Timber
 import java.util.Date
 import java.util.concurrent.TimeUnit
@@ -25,12 +28,13 @@ import javax.inject.Inject
 class CorreosRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val correosApi: CorreosV1,
+    private val unidadDao: LocalUnidadDao,
     private val unidades: UnidadesApi,
     private val dao: LocalParcelDao
 ) : CorreosRepository {
 
 
-    private fun parcelAndUnits(parcelCode: String): Single<Pair<Shipment, Map<String, Unidad>>> {
+    private fun parcelAndUnits(parcelCode: String): Single<Pair<Shipment, Map<String, LocalUnidad>>> {
         return correosApi.getParcelStatus(parcelCode)
             .map { parcel ->
                 parcel.shipment?.firstOrNull() ?: throw WrongCodeException(
@@ -40,18 +44,36 @@ class CorreosRepositoryImpl @Inject constructor(
             }
             .flatMap { shipment ->
                 val map =
-                    shipment.events.mapNotNull { it.codired }.map { codigo -> unidades.getUnidad(codigo) }
+                    shipment.events.mapNotNull { it.codired }.map { codigo -> getUnidad(codigo) }
                 if (map.isNotEmpty()) {
-                    Single
+                    Maybe
                         .zip(map) { unidades: Array<Any> ->
-                            unidades.mapNotNull { it as? Unidad }.filter { it.officeId != null }
-                                .associateBy { it.officeId!! }
+                            unidades
+                                .mapNotNull { it as? LocalUnidad }
+                                .associateBy { it.officeId }
                         }
+                        .toSingle(emptyMap())
                 } else {
                     Single.just(emptyMap())
                 }
                     .map { shipment to it }
             }
+    }
+
+    private fun getUnidad(officeId: String): Maybe<LocalUnidad> {
+        return unidadDao.getUnidad(officeId)
+            .doOnComplete { Timber.w("CACHETEST - Hit from local cache!") }
+            .switchIfEmpty(
+                unidades.getUnidad(officeId)
+                    .filter { it.officeId != null }
+                    .flatMap {
+                        Timber.w("CACHETEST - Cache miss saving from remote!")
+                        val localUnidad = LocalUnidad(officeId, it.officeType, it.cityName)
+                        unidadDao.saveUnidad(localUnidad)
+                            .toMaybe<Unit>()
+                            .flatMap { unidadDao.getUnidad(officeId) }
+                    }
+            )
     }
 
     override fun retrieveParcel(parcelCode: String): Single<CorreosApiParcel> {

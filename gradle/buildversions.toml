@@ -8,7 +8,7 @@ android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref
 androidx-viewbinding = { module = "androidx.databinding:viewbinding", version = "3.5.0" }
 androidx-navigation-safeargs = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version = "2.5.3" }
 
-google-services = { module = "com.google.gms:google-services", version = "4.3.10" }
+google-services = { module = "com.google.gms:google-services", version = "4.3.15" }
 
 dagger-base = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-android-base = { module = "com.google.dagger:dagger-android", version.ref = "dagger" }

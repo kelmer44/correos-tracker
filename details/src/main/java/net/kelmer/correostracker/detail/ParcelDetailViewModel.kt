@@ -1,17 +1,12 @@
 package net.kelmer.correostracker.detail
 
-import androidx.lifecycle.SavedStateHandle
-import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.Flowable
-import io.reactivex.functions.BiFunction
 import io.reactivex.processors.BehaviorProcessor
-import io.reactivex.processors.PublishProcessor
-import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
-import net.kelmer.correostracker.data.model.local.LocalParcelReference
-import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
-import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
-import net.kelmer.correostracker.data.repository.correos.CorreosRepository
-import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
+import net.kelmer.correostracker.dataApi.model.dto.ParcelDetailDTO
+import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
+import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
+import net.kelmer.correostracker.dataApi.repository.correos.CorreosRepository
+import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository
 import net.kelmer.correostracker.util.SchedulerProvider
 import net.kelmer.correostracker.viewmodel.AutoDisposeViewModel
 import timber.log.Timber
@@ -21,7 +16,7 @@ class ParcelDetailViewModel @Inject constructor(
     private val parcelCode: String,
     localParcelRepository: LocalParcelRepository,
     private val correosRepository: CorreosRepository,
-    private val schedulerProvider: SchedulerProvider
+    schedulerProvider: SchedulerProvider
 ) : AutoDisposeViewModel() {
 
     init {
@@ -30,34 +25,38 @@ class ParcelDetailViewModel @Inject constructor(
 
     private val refreshSubject = BehaviorProcessor.createDefault(Unit)
 
-    val stateOnceAndStream =
-        Flowable
-            .combineLatest(
-                localParcelRepository.getParcel(parcelCode).subscribeOn(schedulerProvider.io()),
-                refreshSubject
-                    .switchMapSingle {
-                        correosRepository.getParcelStatus(parcelCode)
-                            .subscribeOn(schedulerProvider.io())
-                            .map { it.eventos ?: emptyList() }
-                    }.startWith(emptyList<CorreosApiEvent>())
-            ) { local, remote ->
-                State(
-                    local,
-                    remote
-                )
-            }
-            .subscribeOn(schedulerProvider.io())
-            .startWith(State(isLoading = true))
-            .onErrorReturn { throwable -> State(error = throwable) }
-            .distinctUntilChanged()
-            .replay(1)
-            .connectInViewModelScope()
+    val stateOnceAndStream = refreshSubject
+        .observeOn(schedulerProvider.io())
+        .switchMap {
+            correosRepository.getParcelStatus(parcelCode).toFlowable()
+                .zipWith(localParcelRepository.getParcel(parcelCode)) { correosParcel, localParcel ->
+                    ParcelDetailDTO(
+                        localParcel.parcelName,
+                        localParcel.trackingCode,
+                        localParcel.ancho ?: "",
+                        localParcel.alto ?: "",
+                        localParcel.largo ?: "",
+                        localParcel.peso ?: "",
+                        localParcel.refCliente ?: "",
+                        localParcel.codProducto ?: "",
+                        localParcel.fechaCalculada ?: "",
+                        correosParcel.eventos ?: emptyList()
+                    )
+                }
+                .map { State(parcelDetail = it) }
+                .startWith(State(isLoading = true))
+        }
+        .subscribeOn(schedulerProvider.io())
+        .startWith(State(isLoading = true))
+        .onErrorReturn { throwable -> State(error = throwable) }
+        .distinctUntilChanged()
+        .replay(1)
+        .connectInViewModelScope()
 
     fun refresh() = refreshSubject.onNext(Unit)
 
     data class State(
-        val parcelDetail: LocalParcelReference? = null,
-        val events: List<CorreosApiEvent>? = null,
+        val parcelDetail: ParcelDetailDTO? = null,
         val isLoading: Boolean = false,
         val error: Throwable? = null
     )

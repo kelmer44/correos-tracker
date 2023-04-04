@@ -74,7 +74,7 @@ androidx-room-test = { module = "androidx.room:room-testing", version.ref = "and
 androidx-savedstate = { module = "androidx.savedstate:savedstate", version = "1.2.0" }
 androidx-security = { module = "androidx.security:security-crypto-ktx", version = "1.1.0-alpha02" }
 
-androidx-sqlite = { module = "androidx.sqlite:sqlite", version = "2.2.0" }
+androidx-sqlite-core = { module = "androidx.sqlite:sqlite", version = "2.2.0" }
 androidx-sqlite-framework = { module = "androidx.sqlite:sqlite-framework", version = "2.2.0" }
 
 androidx-startup = { module = "androidx.startup:startup-runtime", version = "1.1.1" }
@@ -125,7 +125,7 @@ firebase-iid = { module = "com.google.firebase:firebase-iid" }
 firebase-installations = { module = "com.google.firebase:firebase-installations" }
 firebase-installations-interop = { module = "com.google.firebase:firebase-installations-interop" }
 
-glide = { module = "com.github.bumptech.glide:glide", version.ref = "glideVersion" }
+glide-core = { module = "com.github.bumptech.glide:glide", version.ref = "glideVersion" }
 glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glideVersion" }
 glide-okhttp3-integration = { module = "com.github.bumptech.glide:okhttp3-integration", version.ref = "glideVersion" }
 glide-transformations = { module = "jp.wasabeef:glide-transformations", version = "4.0.1" }
@@ -133,7 +133,7 @@ glide-transformations = { module = "jp.wasabeef:glide-transformations", version 
 google-material = { module = "com.google.android.material:material", version = "1.2.1" }
 google-protobuf = { module = " com.google.protobuf:protobuf-java", version = "3.17.2" }
 
-groupie = { module = "com.xwray:groupie", version.ref = "groupieVersion" }
+groupie-core = { module = "com.xwray:groupie", version.ref = "groupieVersion" }
 groupie-viewbinding = { module = "com.xwray:groupie-viewbinding", version.ref = "groupieVersion" }
 
 javax-inject = { module = "javax.inject:javax.inject", version = "1" }
@@ -157,7 +157,7 @@ leakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.re
 leakcanary-core = { module = "com.squareup.leakcanary:leakcanary-android-core", version.ref = "leakCanaryVersion" }
 leakcanary-process = { module = "com.squareup.leakcanary:leakcanary-android-process", version.ref = "leakCanaryVersion" }
 
-mockito = { module = "org.mockito:mockito-core", version = "3.12.4" }
+mockito-core = { module = "org.mockito:mockito-core", version = "3.12.4" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "3.2.0" }
 
 moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshiVersion" }
@@ -173,15 +173,10 @@ okhttp-library = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttpVersion" }
 okhttp-mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okhttpVersion" }
 okio = { module = "com.squareup.okio:okio", version = "3.2.0" }
-okreplay = { module = "com.airbnb.okreplay:okreplay", version.ref = "okReplayVersion" }
+okreplay-core = { module = "com.airbnb.okreplay:okreplay", version.ref = "okReplayVersion" }
 okreplay-espresso = { module = "com.airbnb.okreplay:espresso", version.ref = "okReplayVersion" }
 
 play-core = { module = "com.google.android.play:core", version = "1.8.3" }
-play-services-ads = { module = "com.google.android.gms:play-services-ads", version = "19.4.0" }
-play-services-auth = { module = "com.google.android.gms:play-services-auth", version = "19.0.0" }
-play-services-base = { module = "com.google.android.gms:play-services-base", version = "18.0.1" }
-play-services-basement = { module = "com.google.android.gms:play-services-basement", version = "18.0.1" }
-play-services-tasks = { module = "com.google.android.gms:play-services-tasks", version = "18.0.1" }
 
 retrofit-core = { module = "com.squareup.retrofit2:retrofit", version = "2.9.0" }
 retrofit-coroutines = { module = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter", version = "0.9.2" }
@@ -189,7 +184,7 @@ retrofit-moshi = { module = "com.squareup.retrofit2:converter-moshi", version = 
 retrofit-rxjava2 = { module = "com.squareup.retrofit2:adapter-rxjava2", version = "2.9.0" }
 
 rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version = "2.1.1" }
-rxjava2 = { module = "io.reactivex.rxjava2:rxjava", version = "2.2.21" }
+rxjava2-core = { module = "io.reactivex.rxjava2:rxjava", version = "2.2.21" }
 rxjava2-rxkotlin = { module = "io.reactivex.rxjava2:rxkotlin", version = "2.4.0" }
 
 test-monitor = { module = "androidx.test:monitor", version = "1.5.0" }

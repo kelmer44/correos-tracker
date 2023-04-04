@@ -4,7 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.Transformations
-import net.kelmer.correostracker.data.Resource
+import net.kelmer.correostracker.dataApi.Resource
 
 fun <T> LiveData<T>.subscribe(owner: LifecycleOwner, observer: (T) -> Unit) =
     observe(

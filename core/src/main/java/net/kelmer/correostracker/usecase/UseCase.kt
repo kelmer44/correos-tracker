@@ -2,7 +2,7 @@ package net.kelmer.correostracker.usecase
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import net.kelmer.correostracker.data.Resource
+import net.kelmer.correostracker.dataApi.Resource
 
 abstract class UseCase<in P, R> {
 

@@ -1,7 +1,7 @@
 package net.kelmer.correostracker.data.remote
 
 import io.reactivex.Single
-import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
+import net.kelmer.correostracker.dataApi.model.remote.CorreosApiParcel
 import retrofit2.http.GET
 import retrofit2.http.Path
 

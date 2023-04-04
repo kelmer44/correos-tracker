@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
@@ -15,10 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
-import net.kelmer.correostracker.data.model.exception.CorreosException
-import net.kelmer.correostracker.data.model.local.LocalParcelReference
-import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
+import net.kelmer.correostracker.dataApi.model.dto.ParcelDetailDTO
+import net.kelmer.correostracker.dataApi.model.exception.CorreosException
+import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
+import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.detail.adapter.DetailTimelineItem
 import net.kelmer.correostracker.details.databinding.FragmentDetailBinding
 import net.kelmer.correostracker.details.R
@@ -38,6 +37,7 @@ class DetailPresenter @Inject constructor(
 ) {
     private val binding = FragmentDetailBinding.bind(fragment.requireView())
     private val args: DetailFragmentArgs by fragment.navArgs()
+    private val parcelCode = args.parcelCode
 
     private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(fragment.requireContext())
 
@@ -53,6 +53,8 @@ class DetailPresenter @Inject constructor(
     }
 
     private fun setupToolbar(toolbar: Toolbar) {
+        binding.detailToolbar.title = parcelCode
+        binding.detailToolbar.subtitle = parcelCode
         toolbar.inflateMenu(R.menu.menu_detail)
         toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
@@ -72,29 +74,31 @@ class DetailPresenter @Inject constructor(
         binding.errorContainer.isVisible = state.error != null
         binding.parcelStatusRecyclerView.isVisible = state.error == null && !state.isLoading
 
-        if(state.parcelDetail != null){
+        if (state.parcelDetail != null) {
             loadParcelInformation(state.parcelDetail)
         }
-        if(state.events != null) {
-            loadEventList(state.events)
+
+        state.parcelDetail?.states?.let {
+            loadEventList(it)
         }
-        if(state.error != null) {
+
+        if (state.error != null) {
             binding.errorText.text = state.error.message
             Timber.e(state.error, "Error ${state.error.message}")
-            when(state.error){
+            when (state.error) {
                 is CorreosException -> {
-                    FirebaseCrashlytics.getInstance().log("Controlled Exception Error ${args.parcelCode}")
+                    FirebaseCrashlytics.getInstance().log("Controlled Exception Error $parcelCode")
                     FirebaseCrashlytics.getInstance().recordException(state.error)
                     binding.errorText.text = state.error.message
                 }
                 is NetworkInteractor.NetworkUnavailableException -> {
                     FirebaseCrashlytics.getInstance()
-                        .log("Controlled Network Unavailable Exception Error ${args.parcelCode}")
+                        .log("Controlled Network Unavailable Exception Error $parcelCode")
                     FirebaseCrashlytics.getInstance().recordException(state.error)
                     binding.errorText.text = fragment.requireContext().getString(R.string.error_no_network)
                 }
                 else -> {
-                    FirebaseCrashlytics.getInstance().log("Unknown Error ${args.parcelCode}")
+                    FirebaseCrashlytics.getInstance().log("Unknown Error $parcelCode")
                     FirebaseCrashlytics.getInstance().recordException(state.error)
                     binding.errorText.text = fragment.requireContext().getString(R.string.error_unrecognized)
                 }
@@ -107,15 +111,15 @@ class DetailPresenter @Inject constructor(
         binding.parcelStatusRecyclerView.scrollToPosition(events.size - 1)
     }
 
-    private fun loadParcelInformation(parcel: LocalParcelReference) {
-        binding.detailToolbar.title = parcel.parcelName
+    private fun loadParcelInformation(parcel: ParcelDetailDTO) {
+        binding.detailToolbar.title = parcel.name
         binding.detailToolbar.subtitle = parcel.code
 
         val inflater = fragment.layoutInflater
         val parent = inflater.inflate(R.layout.parcel_info, null)
 
         val dialog = AlertDialog.Builder(fragment.requireContext())
-            .setTitle(parcel.parcelName)
+            .setTitle(parcel.name)
             .setPositiveButton(fragment.getString(android.R.string.ok)) { p0, _ -> p0.dismiss() }
             .setView(parent)
             .create()
@@ -143,21 +147,21 @@ class DetailPresenter @Inject constructor(
 
         code.text = parcel.code
 
-//        peso?.peso(parcel.peso, orElse)
-//        if (parcel.containsDimensions()) {
-//            height?.textOrElse(parcel.alto, orElse)
-//            width?.textOrElse(parcel.ancho, orElse)
-//            depth?.textOrElse(parcel.largo, orElse)
-//            dimensiones.text =
-//                fragment.requireContext()
-//                    .getString(R.string.dimensiones_placeholder, parcel.alto, parcel.ancho, parcel.largo)
-//            dimenContainer.visibility = View.VISIBLE
-//        } else {
-//            dimenContainer.visibility = View.GONE
-//        }
-//        codProducto?.textOrElse(parcel.codProducto, orElse)
-//        ref?.textOrElse(parcel.refCliente, orElse)
-//        fecha?.textOrElse(parcel.fechaCalculada, orElse)
+        peso?.peso(parcel.peso, orElse)
+        if (parcel.containsDimensions()) {
+            height?.textOrElse(parcel.alto, orElse)
+            width?.textOrElse(parcel.ancho, orElse)
+            depth?.textOrElse(parcel.largo, orElse)
+            dimensiones.text =
+                fragment.requireContext()
+                    .getString(R.string.dimensiones_placeholder, parcel.alto, parcel.ancho, parcel.largo)
+            dimenContainer.visibility = View.VISIBLE
+        } else {
+            dimenContainer.visibility = View.GONE
+        }
+        codProducto?.textOrElse(parcel.codProducto, orElse)
+        ref?.textOrElse(parcel.refCliente, orElse)
+        fecha?.textOrElse(parcel.fechaCalculada, orElse)
 
         copy.setOnClickListener {
             fragment.requireContext().copyToClipboard(parcel.code)

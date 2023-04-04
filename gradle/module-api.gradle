@@ -19,6 +19,6 @@ dependencies {
     implementation libs.androidx.fragment.ktx
     implementation libs.javax.inject
     implementation buildLibs.kotlin.stdlib.base
-    implementation libs.rxjava2
+    implementation libs.rxjava2.core
     implementation libs.rxandroid
 }

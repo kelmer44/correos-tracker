@@ -1,7 +1,7 @@
 package net.kelmer.correostracker.list.adapter
 
 import android.view.View
-import net.kelmer.correostracker.data.model.local.LocalParcelReference
+import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 
 /**
  * Created by gabriel on 25/03/2018.

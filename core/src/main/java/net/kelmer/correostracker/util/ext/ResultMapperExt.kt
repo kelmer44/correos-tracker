@@ -4,7 +4,7 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
-import net.kelmer.correostracker.data.Resource
+import net.kelmer.correostracker.dataApi.Resource
 import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.SchedulerProvider
 

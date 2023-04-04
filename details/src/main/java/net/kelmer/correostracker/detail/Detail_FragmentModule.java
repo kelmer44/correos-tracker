@@ -2,8 +2,8 @@ package net.kelmer.correostracker.detail;
 
 import androidx.fragment.app.Fragment;
 
-import net.kelmer.correostracker.data.repository.correos.CorreosRepository;
-import net.kelmer.correostracker.data.repository.local.LocalParcelRepository;
+import net.kelmer.correostracker.dataApi.repository.correos.CorreosRepository;
+import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository;
 import net.kelmer.correostracker.util.SchedulerProvider;
 import net.kelmer.correostracker.viewmodel.ViewModelUtils;
 

@@ -3,12 +3,11 @@ package net.kelmer.correostracker.list.statusreports
 import io.reactivex.Single
 import io.reactivex.rxkotlin.subscribeBy
 import net.kelmer.correostracker.usecase.rx.RxUseCase
-import net.kelmer.correostracker.data.Resource
-import net.kelmer.correostracker.data.model.local.LocalParcelReference
-import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
-import net.kelmer.correostracker.data.repository.correos.CorreosRepository
-import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
-import timber.log.Timber
+import net.kelmer.correostracker.dataApi.Resource
+import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
+import net.kelmer.correostracker.dataApi.model.remote.CorreosApiParcel
+import net.kelmer.correostracker.dataApi.repository.correos.CorreosRepository
+import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository
 import javax.inject.Inject
 
 class StatusReportsUpdatesUseCase @Inject constructor(

@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import net.kelmer.correostracker.create.create.CreateParcelUseCase
 import net.kelmer.correostracker.viewmodel.BaseViewModel
-import net.kelmer.correostracker.data.Resource
-import net.kelmer.correostracker.data.model.local.LocalParcelReference
+import net.kelmer.correostracker.dataApi.Resource
+import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import javax.inject.Inject
 
 /**

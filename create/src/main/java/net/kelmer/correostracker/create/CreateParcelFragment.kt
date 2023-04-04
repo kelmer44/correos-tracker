@@ -15,10 +15,10 @@ import com.google.zxing.integration.android.IntentIntegrator
 import dagger.hilt.android.AndroidEntryPoint
 import net.kelmer.correostracker.create.databinding.FragmentCreateParcelBinding
 import net.kelmer.correostracker.fragment.BaseFragment
-import net.kelmer.correostracker.data.Resource
-import net.kelmer.correostracker.data.model.local.LocalParcelReference
-import net.kelmer.correostracker.data.model.exception.WrongCodeException
-import net.kelmer.correostracker.data.resolve
+import net.kelmer.correostracker.dataApi.Resource
+import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
+import net.kelmer.correostracker.dataApi.model.exception.WrongCodeException
+import net.kelmer.correostracker.dataApi.resolve
 import timber.log.Timber
 import java.util.UUID
 

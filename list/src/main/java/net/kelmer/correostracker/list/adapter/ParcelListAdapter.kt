@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import net.kelmer.correostracker.list.R
-import net.kelmer.correostracker.data.model.dto.ParcelDetailStatus
-import net.kelmer.correostracker.data.model.local.LocalParcelReference
+import net.kelmer.correostracker.dataApi.model.dto.ParcelDetailStatus
+import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.list.databinding.RvParcelItemBinding
 import net.kelmer.correostracker.util.ext.isVisible
 import java.text.SimpleDateFormat

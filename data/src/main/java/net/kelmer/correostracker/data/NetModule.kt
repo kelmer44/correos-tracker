@@ -10,6 +10,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import net.kelmer.correostracker.data.R
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -32,7 +33,7 @@ import javax.net.ssl.X509TrustManager
  * Created by gabriel on 25/03/2018.
  */
 @Module(
-    includes = [net.kelmer.correostracker.data.Interceptors::class]
+    includes = [Interceptors::class]
 )
 @InstallIn(SingletonComponent::class)
 open class NetModule {

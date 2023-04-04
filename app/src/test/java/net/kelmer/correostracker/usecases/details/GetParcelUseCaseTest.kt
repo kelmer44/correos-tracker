@@ -11,12 +11,10 @@ import io.reactivex.Single
 import io.reactivex.plugins.RxJavaPlugins
 import junit.framework.Assert.assertEquals
 import net.kelmer.correostracker.usecase.UseCase
-import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
-import net.kelmer.correostracker.data.model.local.LocalParcelReference
-import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
-import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
-import net.kelmer.correostracker.data.repository.correos.CorreosRepository
-import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
+import net.kelmer.correostracker.dataApi.model.dto.ParcelDetailDTO
+import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
+import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
+import net.kelmer.correostracker.dataApi.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.detail.usecase.GetParcelUseCase
 import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.TrampolineSchedulerProvider
@@ -92,13 +90,13 @@ class GetParcelUseCaseTest {
     @Test
     fun `Get Parcel, if successful, continues the flow as a Success `() {
 
-        val mockLocalRepository: net.kelmer.correostracker.data.repository.local.LocalParcelRepository = mock {
+        val mockLocalRepository: net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository = mock {
             on {
                 getParcel(CODE)
             }.doReturn(Flowable.just(localParcelStub))
         }
 
-        val mockCorreosRepository: net.kelmer.correostracker.data.repository.correos.CorreosRepository = mock {
+        val mockCorreosRepository: net.kelmer.correostracker.dataApi.repository.correos.CorreosRepository = mock {
             on {
                 getParcelStatus(CODE)
             }.doReturn(
@@ -119,11 +117,11 @@ class GetParcelUseCaseTest {
         testUseCase.schedulerProvider = schedulers
         testUseCase.networkInteractor = networkInteractorMock
 
-        val fNextMock: (net.kelmer.correostracker.data.Resource<ParcelDetailDTO>) -> Unit = mock {
+        val fNextMock: (net.kelmer.correostracker.dataApi.Resource<ParcelDetailDTO>) -> Unit = mock {
             whenever(mock.invoke(any())).thenReturn(Unit)
         }
         testUseCase.execute(GetParcelUseCase.Params(CODE), fNextMock)
-        argumentCaptor<net.kelmer.correostracker.data.Resource<ParcelDetailDTO>>().apply {
+        argumentCaptor<net.kelmer.correostracker.dataApi.Resource<ParcelDetailDTO>>().apply {
             checkIsSuccess(fNextMock) {
                 assertEquals(CODE, it.data.code)
             }
@@ -133,13 +131,13 @@ class GetParcelUseCaseTest {
     @Test
     fun `Get Parcel, if error happens, continues the flow as a Failure object`() {
 
-        val mockLocalRepository: net.kelmer.correostracker.data.repository.local.LocalParcelRepository = mock {
+        val mockLocalRepository: net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository = mock {
             on {
                 getParcel(CODE)
             }.doReturn(Flowable.just(localParcelStub))
         }
 
-        val mockCorreosRepository: net.kelmer.correostracker.data.repository.correos.CorreosRepository = mock {
+        val mockCorreosRepository: net.kelmer.correostracker.dataApi.repository.correos.CorreosRepository = mock {
             on {
                 getParcelStatus(CODE)
             }.doReturn(
@@ -160,11 +158,11 @@ class GetParcelUseCaseTest {
         testUseCase.schedulerProvider = schedulers
         testUseCase.networkInteractor = networkInteractorMock
 
-        val fNextMock: (net.kelmer.correostracker.data.Resource<ParcelDetailDTO>) -> Unit = mock {
+        val fNextMock: (net.kelmer.correostracker.dataApi.Resource<ParcelDetailDTO>) -> Unit = mock {
             whenever(mock.invoke(any())).thenReturn(Unit)
         }
         testUseCase.execute(GetParcelUseCase.Params(CODE), fNextMock)
-        argumentCaptor<net.kelmer.correostracker.data.Resource<ParcelDetailDTO>>().apply {
+        argumentCaptor<net.kelmer.correostracker.dataApi.Resource<ParcelDetailDTO>>().apply {
             checkIsFailure(fNextMock) {
                 assertEquals("TEST EXCEPTION", it.exception.message)
             }

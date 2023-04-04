@@ -3,11 +3,11 @@ package net.kelmer.correostracker.detail.usecase
 import io.reactivex.Flowable
 import io.reactivex.functions.BiFunction
 import net.kelmer.correostracker.usecase.rx.RxFlowableUseCase
-import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
-import net.kelmer.correostracker.data.model.local.LocalParcelReference
-import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
-import net.kelmer.correostracker.data.repository.correos.CorreosRepository
-import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
+import net.kelmer.correostracker.dataApi.model.dto.ParcelDetailDTO
+import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
+import net.kelmer.correostracker.dataApi.model.remote.CorreosApiParcel
+import net.kelmer.correostracker.dataApi.repository.correos.CorreosRepository
+import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository
 import net.kelmer.correostracker.util.ext.withNetwork
 import javax.inject.Inject
 

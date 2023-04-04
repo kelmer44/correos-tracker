@@ -3,7 +3,7 @@ package net.kelmer.correostracker.usecase.rx
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.disposables.Disposable
 import net.kelmer.correostracker.usecase.UseCase
-import net.kelmer.correostracker.data.Resource
+import net.kelmer.correostracker.dataApi.Resource
 import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.SchedulerProvider
 import javax.inject.Inject

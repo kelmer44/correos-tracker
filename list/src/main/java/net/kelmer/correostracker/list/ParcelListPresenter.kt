@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import net.kelmer.correostracker.data.model.local.LocalParcelReference
+import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.iap.InAppReviewService
 import net.kelmer.correostracker.list.adapter.ParcelClickListener
 import net.kelmer.correostracker.list.adapter.ParcelListItem

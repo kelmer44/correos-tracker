@@ -64,7 +64,7 @@ dependencies {
     implementation libs.okhttp.library
     implementation libs.okhttp.logging.interceptor
 
-    implementation libs.rxjava2
+    implementation libs.rxjava2.core
     implementation libs.rxjava2.rxkotlin
 
     //Timber
@@ -75,6 +75,6 @@ dependencies {
     implementation libs.moshi.reflect
     kapt libs.moshi.codegen
 
-    implementation libs.groupie
+    implementation libs.groupie.core
     implementation libs.groupie.viewbinding
 }

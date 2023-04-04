@@ -2,8 +2,8 @@ package net.kelmer.correostracker.create.create
 
 import io.reactivex.Single
 import net.kelmer.correostracker.usecase.rx.RxSingleUseCase
-import net.kelmer.correostracker.data.model.local.LocalParcelReference
-import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
+import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
+import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository
 import javax.inject.Inject
 
 class CreateParcelUseCase @Inject constructor(private val localParcelRepository: LocalParcelRepository) :

@@ -2,8 +2,10 @@ package net.kelmer.correostracker.data;
 
 import net.kelmer.correostracker.data.remote.CorreosV1;
 import net.kelmer.correostracker.data.remote.UnidadesApi;
-import net.kelmer.correostracker.data.repository.correos.CorreosRepository;
-import net.kelmer.correostracker.data.repository.local.LocalParcelRepository;
+import net.kelmer.correostracker.data.remote.CorreosV1;
+import net.kelmer.correostracker.data.remote.UnidadesApi;
+import net.kelmer.correostracker.dataApi.repository.correos.CorreosRepository;
+import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository;
 
 import javax.inject.Named;
 import javax.inject.Singleton;

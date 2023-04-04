@@ -6,9 +6,8 @@ import com.xwray.groupie.viewbinding.BindableItem
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import net.kelmer.correostracker.data.model.dto.ParcelDetailDTO
-import net.kelmer.correostracker.data.model.dto.ParcelDetailStatus
-import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
+import net.kelmer.correostracker.dataApi.model.dto.ParcelDetailStatus
+import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.details.R
 import net.kelmer.correostracker.details.databinding.RvDetailItemBinding
 import net.kelmer.correostracker.util.ext.isVisible
@@ -32,6 +31,7 @@ class DetailTimelineItem @AssistedInject constructor(
             textTimelineLocation.text = event.unidad
         }
     }
+
 
     override fun getLayout(): Int = R.layout.rv_detail_item
 
