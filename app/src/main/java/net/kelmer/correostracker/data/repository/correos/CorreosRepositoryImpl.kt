@@ -39,13 +39,20 @@ class CorreosRepositoryImpl @Inject constructor(
                     parcelCode,
                     context.getString(R.string.unrecognized_code)
                 )
-            }.flatMap { shipment ->
+            }
+            .flatMap { shipment ->
                 val map =
-                    shipment.events.filter { !it.codired.isNullOrBlank() }.map { it.codired!! }
-                        .map { codigo -> unidades.getUnidad(codigo) }
-                Single.zip(map) { unidades: Array<Any> ->
-                    unidades.mapNotNull { it as? Unidad }.filter { it.officeId != null }.associateBy { it.officeId!! }
-                }.map { shipment to it }
+                    shipment.events.mapNotNull { it.codired }.map { codigo -> unidades.getUnidad(codigo) }
+                if (map.isNotEmpty()) {
+                    Single
+                        .zip(map) { unidades: Array<Any> ->
+                            unidades.mapNotNull { it as? Unidad }.filter { it.officeId != null }
+                                .associateBy { it.officeId!! }
+                        }
+                } else {
+                    Single.just(emptyMap())
+                }
+                    .map { shipment to it }
             }
     }
 
