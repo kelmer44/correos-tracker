@@ -14,6 +14,7 @@ import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository
 import net.kelmer.correostracker.list.notifications.SwitchNotificationsUseCase
 import net.kelmer.correostracker.list.preferences.ParcelListPreferencesImpl
 import net.kelmer.correostracker.list.statusreports.StatusReportsUpdatesUseCase
+import net.kelmer.correostracker.util.SchedulerProvider
 import net.kelmer.correostracker.viewmodel.AutoDisposeViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -27,7 +28,8 @@ class ParcelListViewModel @Inject constructor(
     private val switchNotificationsUseCase: SwitchNotificationsUseCase,
     private val statusReportsUpdatesUseCase: StatusReportsUpdatesUseCase,
     private val parcelListPreferences: ParcelListPreferencesImpl,
-    private val buildInfo: BuildInfo
+    private val buildInfo: BuildInfo,
+    private val schedulerProvider: SchedulerProvider
 ) : AutoDisposeViewModel() {
 
     private val filterSubject: PublishProcessor<String> = PublishProcessor.create()
@@ -55,10 +57,14 @@ class ParcelListViewModel @Inject constructor(
 
     fun deleteParcel(parcelReference: LocalParcelReference) {
         localParcelRepository.deleteParcel(parcelReference)
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.ui())
             .autoDisposable(viewModelScope)
             .subscribe(
                 { Timber.w("Deleted parcel = ${parcelReference.trackingCode}!!") },
-                {}
+                {
+                    Timber.e(it)
+                }
             )
     }
 

@@ -23,6 +23,8 @@ import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.iap.InAppReviewService
 import net.kelmer.correostracker.list.adapter.ParcelClickListener
 import net.kelmer.correostracker.list.adapter.ParcelListItem
+import net.kelmer.correostracker.list.compose.ParcelList
+import net.kelmer.correostracker.list.compose.Parcels
 import net.kelmer.correostracker.list.databinding.FragmentParcelListBinding
 import net.kelmer.correostracker.list.featuredialog.featureBlurbDialog
 import net.kelmer.correostracker.ui.themedialog.themeSelectionDialog
@@ -42,6 +44,10 @@ class ParcelListPresenter @Inject constructor(
 
 
     init {
+
+
+
+
         inAppReviewService.showIfNeeded()
         if (!viewModel.showFeature()) {
             showFeature()
@@ -74,6 +80,12 @@ class ParcelListPresenter @Inject constructor(
     }
 
     fun bindState(state: ParcelListViewModel.State) {
+//
+//        binding.composeView.apply {
+//            setContent {
+//                Parcels(state = state)
+//            }
+//        }
 
         binding.swipeRefresh.isRefreshing = state.loading
         binding.emptyState.isVisible = state.list.isEmpty()

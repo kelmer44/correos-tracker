@@ -53,7 +53,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
 
     inner class ThemeObserver : Observer<Int> {
-        override fun onChanged(t: Int?) {
+        override fun onChanged(t: Int) {
             if (t != null) {
                 AppCompatDelegate.setDefaultNightMode(t)
             }

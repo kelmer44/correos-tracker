@@ -1,7 +1,7 @@
 [versions]
 androidGradlePlugin = { strictly = "7.4.1" }
 dagger = { strictly = "2.42" }
-kotlin = { strictly = "1.7.10" }
+kotlin = { strictly = "1.7.0" }
 
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
