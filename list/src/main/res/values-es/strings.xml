@@ -13,6 +13,9 @@
     <string name="theme_system">Igual al sistema</string>
     <string name="theme_title">Tema</string>
 
+    <string name="refresh_all">Actualizar todos</string>
+    <string name="about">Acerca de</string>
+    <string name="see_more">Ver más</string>
     <string name="changes_1_6_0">Soporte para tema oscuro</string>
     <string name="changes_1_6_2">Ahora puedes introducir tus paquetes escaneando el código de barras de tu recibo</string>
     <string name="changes_1_6_5">Soporte para paquetes de Correos Express</string>
@@ -34,5 +37,9 @@
     <string name="delete_confirm_desc">¿Estás seguro de que deseas eliminar el paquete seleccionado?</string>
     <string name="visit_us_github">Visítanos en github</string>
     <string name="ultimo_estado_header">Último estado</string>
+    <string name="add_parcel">Añadir seguimiento</string>
 
+    <string name="menu_disable_notifications">Desactivar alertas</string>
+    <string name="menu_enable_notifications">Activar alertas</string>
+    <string name="delete">Eliminar</string>
 </resources>

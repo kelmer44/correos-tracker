@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="delete">Remove</string>
     <string name="parcel_code">Tracking code</string>
     <string name="parcel_name">Parcel name (optional)</string>
-    <string name="refresh_all">Update all</string>
     <string name="stance">Address</string>
     <string name="status_title">STATUS</string>
     <string name="create_parcel_only_correos">* Only codes from Correos España or Correos Express</string>
@@ -12,10 +10,7 @@
     <string name="notification_title">Status change</string>
     <string name="channel_description">Get status updates of your parcels</string>
     <string name="channel_name">Status updates</string>
-    <string name="menu_disable_notifications">Disable notifications</string>
-    <string name="menu_enable_notifications">Enable notifications</string>
     <string name="parcel_status_alerts">Enable notifications</string>
-    <string name="about">About</string>
     <string name="create_parcel_error_codigo">The entered code does not seem to be recognized by Correos. Are you sure you want to continue?</string>
     <string name="create_parcel_error_codigo_title">Invalid code</string>
     <string name="code_helper_text">*Only parcels from Correos or Correos Express</string>

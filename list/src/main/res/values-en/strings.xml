@@ -11,6 +11,9 @@
     <string name="theme_dark">Dark</string>
     <string name="theme_system">Same as system</string>
     <string name="theme_title">Theme</string>
+    <string name="refresh_all">Update all</string>
+    <string name="about">About</string>
+    <string name="see_more">See more</string>
     <string name="changes_1_6_0">Dark Theme support</string>
     <string name="changes_1_6_2">Enter your parcels by scanning the barcode in the receipt</string>
     <string name="changes_1_6_5">Correos Express support</string>
@@ -31,5 +34,9 @@
     <string name="delete_confirm_desc">Are you sure you want to remove the selected parcel?</string>
     <string name="visit_us_github">Visit us over at github</string>
     <string name="ultimo_estado_header">Last status</string>
+    <string name="add_parcel">Add tracking</string>
 
+    <string name="menu_disable_notifications">Disable notifications</string>
+    <string name="menu_enable_notifications">Enable notifications</string>
+    <string name="delete">Remove</string>
 </resources>

@@ -1,8 +1,6 @@
 <resources>
     <string name="parcel_name">Nombre del paquete (opcional)</string>
     <string name="parcel_code">Código de seguimiento</string>
-    <string name="refresh_all">Actualizar todos</string>
-    <string name="delete">Eliminar</string>
     <string name="stance">Dirección</string>
     <string name="status_title">ESTADO</string>
     <string name="create_parcel_only_correos">* Solo paquetes de Correos España o Correos Express</string>
@@ -12,10 +10,7 @@
     <string name="notification_title">Status change</string>
     <string name="channel_name">Status updates</string>
     <string name="channel_description">Get status updates of your parcels</string>
-    <string name="menu_enable_notifications">Enable notifications</string>
-    <string name="menu_disable_notifications">Disable notifications</string>
     <string name="parcel_status_alerts">Activar notificaciones</string>
-    <string name="about">Acerca de</string>
     <string name="code_helper_text">*Solo paquetes de Correos España o Correos Express</string>
     <string name="create_parcel_error_codigo_title">Código incorrecto</string>
     <string name="inapp_message">¿Te gusta Seguimiento Correos? Déjanos una valoración positiva.</string>

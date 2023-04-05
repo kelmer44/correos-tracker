@@ -96,7 +96,7 @@ class ParcelListViewModel @Inject constructor(
     fun filter(newText: String) = filterSubject.onNext(newText)
 
     data class State(
-        val list: List<LocalParcelReference> = emptyList(),
+        val list: List<LocalParcelReference>? = null,
         val loading: Boolean = false,
         val error: Throwable? = null,
     )
