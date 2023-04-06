@@ -80,7 +80,12 @@ class ParcelListPresenter @Inject constructor(
 
         binding.composeView.apply {
             setContent {
-                ParcelsScreen(state = state)
+                ParcelsScreen(
+                    state = state,
+                    onTextChange = {
+                        viewModel.filter(it)
+                    }
+                )
             }
         }
 

@@ -1,11 +1,10 @@
 package net.kelmer.correostracker.list.compose
 
-import android.graphics.Color
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -14,7 +13,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -24,11 +22,12 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
@@ -39,18 +38,13 @@ import java.text.SimpleDateFormat
 @Composable
 fun ParcelsScreen(
     state: ParcelListViewModel.State,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onTextChange: (String) -> Unit
 ) {
+
     Scaffold(
         topBar = {
-            ParcelsAppBar(
-                listOf(
-                    ActionItem(stringResource(R.string.search), icon = Icons.Filled.Search, order = 0, action = {}),
-                    ActionItem(stringResource(R.string.refresh_all), order = 1, action = {}),
-                    ActionItem(stringResource(R.string.menu_theme), order = 2, action = {}),
-                    ActionItem(stringResource(R.string.about), order = 3, action = {}),
-                )
-            )
+            ParcelsAppBar(onTextChange)
         },
         floatingActionButton = {
             AddParcelFAB()
@@ -120,8 +114,10 @@ fun ParcelListItem(
                 OverflowMenuAction(
                     expanded = isExpanded, setExpanded = setExpanded, options =
                     listOf(
-                        ActionItem(stringResource(id = R.string.menu_enable_notifications), order = 0, action = {}),
-                        ActionItem(stringResource(id = R.string.delete), order = 1, action = {})
+                        ActionItem(
+                            stringResource(id = R.string.menu_enable_notifications),
+                            action = {}),
+                        ActionItem(stringResource(id = R.string.delete), action = {})
                     )
                 )
 
@@ -180,4 +176,5 @@ fun ParcelListItem(
 }
 
 
-private val dateFormat = SimpleDateFormat("dd/MM/yyy HH:mm:ss")
+private
+val dateFormat = SimpleDateFormat("dd/MM/yyy HH:mm:ss")
