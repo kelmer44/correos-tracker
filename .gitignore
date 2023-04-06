@@ -9,3 +9,8 @@
 .externalNativeBuild
 .idea/*
 app/release
+/data/build/
+/iap/build/
+/iapApi/build/
+/list/build/.transforms/
+/list/build/
