@@ -1,5 +1,9 @@
 package net.kelmer.correostracker.list;
 
+import android.app.UiModeManager;
+
+import androidx.fragment.app.Fragment;
+
 import com.xwray.groupie.GroupAdapter;
 import com.xwray.groupie.GroupieViewHolder;
 

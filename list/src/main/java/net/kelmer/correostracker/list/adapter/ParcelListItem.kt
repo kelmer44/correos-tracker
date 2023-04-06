@@ -10,6 +10,7 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import net.kelmer.correostracker.dataApi.model.dto.ParcelDetailStatus
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
+import net.kelmer.correostracker.fase.Fase
 import net.kelmer.correostracker.list.R
 import net.kelmer.correostracker.list.databinding.RvParcelItemBinding
 import net.kelmer.correostracker.util.ext.isVisible
@@ -56,10 +57,8 @@ class ParcelListItem @AssistedInject constructor(
             parcelStatus.isVisible = parcel.updateStatus != LocalParcelReference.UpdateStatus.INPROGRESS
 
             val faseRaw = parcel.ultimoEstado?.fase
-            val faseNumber: Int? = if (faseRaw == "?") null else parcel.ultimoEstado?.fase?.toIntOrNull()
-            val fase = if (faseNumber != null)
-                ParcelDetailStatus.Fase.fromFase(faseNumber)
-            else ParcelDetailStatus.Fase.OTHER
+            val faseNumber: Int? = if (faseRaw == "?") null else faseRaw?.toIntOrNull()
+            val fase = if (faseNumber != null) Fase.fromFase(faseNumber) else Fase.OTHER
 
             if (parcel.updateStatus == LocalParcelReference.UpdateStatus.OK) {
                 parcelStatus.setImageResource(fase.drawable)
@@ -69,10 +68,11 @@ class ParcelListItem @AssistedInject constructor(
                 parcelStatus.setImageResource(R.drawable.timeline_icon_unknown)
             }
 
-            var lastCheckedValue = parcel.lastChecked
+            val lastCheckedValue = parcel.lastChecked
 
             if (lastCheckedValue != null && lastCheckedValue > 0) {
-                lastChecked.text = lastChecked.context.getString(R.string.lastchecked, dateFormat.format(Date(lastCheckedValue)))
+                lastChecked.text = lastChecked.context
+                    .getString(R.string.lastchecked, dateFormat.format(Date(lastCheckedValue)))
             }
             lastChecked.isVisible = lastCheckedValue != null && lastCheckedValue > 0
         }

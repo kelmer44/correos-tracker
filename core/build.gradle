@@ -4,5 +4,4 @@ apply from: rootProject.file('gradle/module-feature.gradle')
 
 android {
     namespace 'net.kelmer.correostracker.core'
-
 }

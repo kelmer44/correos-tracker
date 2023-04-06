@@ -1,9 +1,13 @@
 package net.kelmer.correostracker.list
 
+import android.app.UiModeManager
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
@@ -26,6 +30,8 @@ import net.kelmer.correostracker.list.adapter.ParcelListItem
 import net.kelmer.correostracker.list.compose.ParcelsScreen
 import net.kelmer.correostracker.list.databinding.FragmentParcelListBinding
 import net.kelmer.correostracker.list.featuredialog.featureBlurbDialog
+import net.kelmer.correostracker.list.preferences.ParcelListPreferencesImpl
+import net.kelmer.correostracker.ui.theme.CorreosTheme
 import net.kelmer.correostracker.ui.themedialog.themeSelectionDialog
 import net.kelmer.correostracker.util.copyToClipboard
 import net.kelmer.correostracker.util.ext.isVisible
@@ -36,15 +42,12 @@ class ParcelListPresenter @Inject constructor(
     private val parcelListItemFactory: ParcelListItem.Factory,
     private val fragment: Fragment,
     private val adapter: GroupAdapter<GroupieViewHolder>,
-    private val inAppReviewService: InAppReviewService
+    inAppReviewService: InAppReviewService,
 ) {
     private val binding = FragmentParcelListBinding.bind(fragment.requireView())
     private val viewModel: ParcelListViewModel by fragment.viewModels()
 
-
     init {
-
-
         inAppReviewService.showIfNeeded()
         if (!viewModel.showFeature()) {
             showFeature()
@@ -77,15 +80,17 @@ class ParcelListPresenter @Inject constructor(
     }
 
     fun bindState(state: ParcelListViewModel.State) {
-
         binding.composeView.apply {
             setContent {
-                ParcelsScreen(
-                    state = state,
-                    onTextChange = {
-                        viewModel.filter(it)
-                    }
-                )
+//                va/l darkTheme = fragment.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+                CorreosTheme(false ) {
+                    ParcelsScreen(
+                        state = state,
+                        onTextChange = {
+                            viewModel.filter(it)
+                        }
+                    )
+                }
             }
         }
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.uber.autodispose.autoDisposable
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.Flowable
 import io.reactivex.processors.PublishProcessor
 import io.reactivex.rxkotlin.combineLatest
 import net.kelmer.correostracker.BuildInfo
@@ -36,15 +37,18 @@ class ParcelListViewModel @Inject constructor(
 
     val stateOnceAndStream =
         localParcelRepository.getParcels()
-            .combineLatest(filterSubject.startWith(""))
+            .combineLatest(
+                filterSubject.startWith("")
+            )
             .map { (list, filter) ->
-                list.filter {
+                State(
+                    list = list.filter {
                     filter.isNullOrBlank() ||
                         it.parcelName.contains(filter, true) ||
                         it.trackingCode.contains(filter, true)
                 }
+                )
             }
-            .map { State(list = it) }
             .startWith(State(loading = true))
             .onErrorReturn { throwable -> State(error = throwable) }
             .distinctUntilChanged()

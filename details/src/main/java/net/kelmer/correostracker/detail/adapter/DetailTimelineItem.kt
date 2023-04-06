@@ -10,6 +10,7 @@ import net.kelmer.correostracker.dataApi.model.dto.ParcelDetailStatus
 import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.details.R
 import net.kelmer.correostracker.details.databinding.RvDetailItemBinding
+import net.kelmer.correostracker.fase.Fase
 import net.kelmer.correostracker.util.ext.isVisible
 
 class DetailTimelineItem @AssistedInject constructor(
@@ -18,7 +19,7 @@ class DetailTimelineItem @AssistedInject constructor(
     override fun bind(viewBinding: RvDetailItemBinding, position: Int) {
         val faseNumber = event.fase?.toIntOrNull()
         val fase =
-            if (faseNumber != null) ParcelDetailStatus.Fase.fromFase(faseNumber) else ParcelDetailStatus.Fase.OTHER
+            if (faseNumber != null) Fase.fromFase(faseNumber) else Fase.OTHER
 
         viewBinding.apply {
             timeMarker.setMarker(ContextCompat.getDrawable(root.context, fase.drawable))
