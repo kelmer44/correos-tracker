@@ -5,4 +5,6 @@
     <string name="error_no_network">No hay conexión a internet</string>
     <string name="error_unrecognized">Se produjo un error, por favor inténtalo más tarde.</string>
 
+    <string name="incoming">Lo voy a recibir</string>
+    <string name="outgoing">Lo he enviado</string>
 </resources>

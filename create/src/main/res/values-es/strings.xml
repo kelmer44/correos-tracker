@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="parcel_name">Nombre del paquete (opcional)</string>
+    <string name="parcel_code">Código de seguimiento</string>
     <string name="scan_prompt">Escanea el código de barras</string>
     <string name="error_nocodigo">Por favor introduce el código de seguimiento.</string>
-
+    <string name="stance">Dirección</string>
+    <string name="code_helper_text">*Solo paquetes de Correos España</string>
+    <string name="parcel_status_alerts">Activar notificaciones</string>
 </resources>

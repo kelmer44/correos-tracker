@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="parcel_name">Nombre del paquete (opcional)</string>
-    <string name="parcel_code">Código de seguimiento</string>
-    <string name="stance">Dirección</string>
     <string name="status_title">ESTADO</string>
     <string name="create_parcel_only_correos">* Solo paquetes de Correos España o Correos Express</string>
     <string name="new_event_single">¡Nuevo estado en el paquete %1$s : %2$s!</string>
@@ -10,10 +7,7 @@
     <string name="notification_title">Cambio de estado</string>
     <string name="channel_name">Actualizaciones de estado</string>
     <string name="channel_description">Obtén actualizaciones de estado de tus paquetes.</string>
-    <string name="parcel_status_alerts">Activar notificaciones</string>
-
     <string name="create_parcel_error_codigo">El código introducido no parece ser reconocido por Correos. ¿Estás seguro de querer guardarlo?</string>
     <string name="create_parcel_error_codigo_title">Código incorrecto</string>
-    <string name="code_helper_text">*Solo paquetes de Correos España o Correos Express</string>
 
 </resources>

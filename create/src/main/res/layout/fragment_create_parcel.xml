@@ -88,14 +88,13 @@
             android:clipToPadding="false"
             android:orientation="vertical">
 
-            <Switch
+            <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/parcel_status_alerts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/double_spacing"
                 android:checked="true"
                 android:text="@string/parcel_status_alerts" />
-
 
             <TextView
                 android:layout_width="match_parent"
