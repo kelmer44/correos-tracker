@@ -18,6 +18,11 @@ Sample app with Clean architecture using
 * ViewBinding
 * WorkManager for job scheduling
 * AutoDispose from Uber
+* Groupie for RecyclerView Items
+
+Future:
+ * Replace RxJava2 with Coroutines
+ * Rebuild UI in Jetpack Compose
 
 <p align="center">
   <img alt="Demo screen" src="./device-2018-04-20-134010.png" width="250" />
