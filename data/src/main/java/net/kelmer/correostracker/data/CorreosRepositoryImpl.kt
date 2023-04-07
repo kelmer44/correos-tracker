@@ -44,7 +44,8 @@ class CorreosRepositoryImpl @Inject constructor(
             }
             .flatMap { shipment ->
                 val map =
-                    shipment.events.mapNotNull { it.codired }.map { codigo -> getUnidad(codigo) }
+                    shipment.events.mapNotNull { it.codired }.filter { it.isNotBlank() }
+                        .map { codigo -> getUnidad(codigo) }
                 if (map.isNotEmpty()) {
                     Maybe
                         .zip(map) { unidades: Array<Any> ->

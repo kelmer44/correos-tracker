@@ -4,6 +4,8 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,8 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -41,14 +42,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.drawable.toBitmap
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.ui.Fase
 import net.kelmer.correostracker.list.ParcelListViewModel
 import net.kelmer.correostracker.list.R
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 import java.text.SimpleDateFormat
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,20 +54,39 @@ import java.text.SimpleDateFormat
 fun ParcelsScreen(
     state: ParcelListViewModel.State,
     modifier: Modifier = Modifier,
-    onTextChange: (String) -> Unit
+    onTextChange: (String) -> Unit = {},
+    onAddParcel: () -> Unit = {},
+    onParcelClicked: (String) -> Unit = {},
+    onRemoveParcel: (LocalParcelReference) -> Unit = {},
+    onToggleNotifications: (String, Boolean) -> Unit = { _, _ -> },
+    onRefreshAll: () -> Unit = {},
+    onThemeClicked: () -> Unit = {},
+    onAboutClicked: () -> Unit = {},
+    onLongPressParcel: (String) -> Unit = {}
 ) {
     Scaffold(
         topBar = {
-            ParcelsAppBar(onTextChange)
+            ParcelsAppBar(
+                onTextChange,
+                onRefreshAll,
+                onThemeClicked,
+                onAboutClicked,
+            )
         },
         floatingActionButton = {
-            AddParcelFAB()
+            AddParcelFAB(onAddParcel)
         },
         contentWindowInsets = ScaffoldDefaults.contentWindowInsets,
         content = { contentPadding ->
             Column(modifier = modifier.padding(contentPadding)) {
                 if (state.list != null) {
-                    ParcelList(state.list)
+                    ParcelList(
+                        state.list,
+                        onParcelClicked,
+                        onRemoveParcel,
+                        onToggleNotifications,
+                        onLongPressParcel
+                    )
                 }
                 if (state.loading) {
 
@@ -83,17 +100,30 @@ fun ParcelsScreen(
 }
 
 @Composable
-fun ParcelList(list: List<LocalParcelReference>) {
+fun ParcelList(
+    list: List<LocalParcelReference>,
+    onParcelClicked: (String) -> Unit = {},
+    onRemoveParcel: (LocalParcelReference) -> Unit = {},
+    onToggleNotifications: (String, Boolean) -> Unit = { _, _ -> },
+    onLongPressParcel: (String) -> Unit = {}
+) {
     if (list.isNotEmpty()) {
         LazyColumn {
             items(items = list, key = { it.code }) { parcel ->
-                ParcelListItem(parcel = parcel) {}
+                ParcelListItem(
+                    parcel = parcel,
+                    onParcelClicked = onParcelClicked,
+                    onRemoveParcel = onRemoveParcel,
+                    onToggleNotifications = onToggleNotifications,
+
+                    )
             }
         }
     } else {
-        Box(modifier =  Modifier
-            .fillMaxHeight()
-            .fillMaxWidth()
+        Box(
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
         ) {
             Text(
                 text = stringResource(id = R.string.emptystate_parcel_list),
@@ -107,12 +137,20 @@ fun ParcelList(list: List<LocalParcelReference>) {
 fun ParcelListItem(
     parcel: LocalParcelReference,
     modifier: Modifier = Modifier,
-    navigateToDetail: (String) -> Unit
+    onParcelClicked: (String) -> Unit,
+    onRemoveParcel: (LocalParcelReference) -> Unit,
+    onToggleNotifications: (String, Boolean) -> Unit,
+    onLongPressParcel: (String) -> Unit = {}
 ) {
     ElevatedCard(
         modifier = modifier
             .padding(horizontal = 8.dp, vertical = 8.dp)
-            .clickable { navigateToDetail(parcel.code) },
+            .clickable { onParcelClicked(parcel.code) }
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onLongPress = { onLongPressParcel(parcel.code) }
+                )
+            },
         shape = RoundedCornerShape(4.dp),
     ) {
         Column(
@@ -140,9 +178,18 @@ fun ParcelListItem(
                     expanded = isExpanded, setExpanded = setExpanded, options =
                     listOf(
                         ActionItem(
-                            stringResource(id = R.string.menu_enable_notifications),
-                            action = {}),
-                        ActionItem(stringResource(id = R.string.delete), action = {})
+                            if (parcel.notify) {
+                                stringResource(id = R.string.menu_disable_notifications)
+                            } else {
+                                stringResource(id = R.string.menu_enable_notifications)
+                            },
+                            action = {
+                                onToggleNotifications(parcel.trackingCode, !parcel.notify)
+                            }
+                        ),
+                        ActionItem(stringResource(id = R.string.delete), action = {
+                            onRemoveParcel(parcel)
+                        })
                     )
                 )
 
@@ -206,7 +253,6 @@ fun ParcelListItem(
 
 @Composable
 fun FaseIcon(parcel: LocalParcelReference) {
-
 
     val faseRaw = parcel.ultimoEstado?.fase
     val faseNumber: Int? = if (faseRaw == "?") null else faseRaw?.toIntOrNull()

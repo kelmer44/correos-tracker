@@ -11,9 +11,9 @@ import androidx.compose.ui.res.stringResource
 import net.kelmer.correostracker.list.R
 
 @Composable
-fun AddParcelFAB() {
+fun AddParcelFAB(onClick: () -> Unit) {
     ExtendedFloatingActionButton(
-        onClick = { /*TODO*/ },
+        onClick = onClick,
         text = {
             Text(text = stringResource(id = R.string.add_parcel))
         },

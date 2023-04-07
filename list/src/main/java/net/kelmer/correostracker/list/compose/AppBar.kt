@@ -50,7 +50,10 @@ import timber.log.Timber
 
 @Composable
 fun ParcelsAppBar(
-    onTextChange: (String) -> Unit
+    onTextChange: (String) -> Unit,
+    onRefreshAll: () -> Unit = {},
+    onThemeClicked: () -> Unit = {},
+    onAboutClicked: () -> Unit = {}
 ) {
 
     var searchWidgetState by remember {
@@ -71,9 +74,9 @@ fun ParcelsAppBar(
                         ActionItem(stringResource(R.string.search), icon = Icons.Filled.Search, action = {
                             searchWidgetState = SearchWidgetState.OPEN
                         }),
-                        ActionItem(stringResource(R.string.refresh_all), action = {}),
-                        ActionItem(stringResource(R.string.menu_theme), action = {}),
-                        ActionItem(stringResource(R.string.about), action = {}),
+                        ActionItem(stringResource(R.string.refresh_all), action = onRefreshAll),
+                        ActionItem(stringResource(R.string.menu_theme), action = onThemeClicked),
+                        ActionItem(stringResource(R.string.about), action = onAboutClicked),
                     )
                 )
             }
@@ -92,7 +95,6 @@ fun NoSearchAppBar(
                     text = stringResource(id = R.string.app_name),
                 )
             },
-
             colors = TopAppBarDefaults.smallTopAppBarColors(
                 containerColor = MaterialTheme.colorScheme.primary,
                 titleContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -117,9 +119,7 @@ fun NoSearchAppBar(
 
 @Composable
 fun SearchAppBar(
-    onTextChange: (String) -> Unit,
-    onCloseClicked: () -> Unit,
-    onSearchClicked: (String) -> Unit
+    onTextChange: (String) -> Unit, onCloseClicked: () -> Unit, onSearchClicked: (String) -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
 
@@ -130,14 +130,12 @@ fun SearchAppBar(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .height(64.dp),
-        color = MaterialTheme.colorScheme.primary
+            .height(64.dp), color = MaterialTheme.colorScheme.primary
     ) {
         fun innerTextChange(text: String) {
             textState = text
             onTextChange(text)
         }
-
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
@@ -150,7 +148,8 @@ fun SearchAppBar(
                 innerTextChange(it)
             },
             placeholder = {
-                Text( text = "Search here...", color = Color.White
+                Text(
+                    text = "Search here...", color = Color.White
                 )
             },
             textStyle = TextStyle(
@@ -161,8 +160,8 @@ fun SearchAppBar(
                 Row {
                     IconButton(onClick = {
                         innerTextChange("")
-                        onCloseClicked() }
-                    ) {
+                        onCloseClicked()
+                    }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Search Icon",
@@ -200,19 +199,14 @@ fun SearchAppBar(
 fun AppBarTheme(
     useDarkTheme: Boolean,
     content: @Composable() () -> Unit,
-){
+) {
     val typography = MaterialTheme.typography.copy(
         titleLarge = TextStyle(
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 20.sp,
-            lineHeight = 28.sp,
-            letterSpacing = 0.sp
+            fontWeight = FontWeight.SemiBold, fontSize = 20.sp, lineHeight = 28.sp, letterSpacing = 0.sp
         )
     )
     CorreosTheme(
-        useDarkTheme,
-        overrideTypography = typography,
-        content = content
+        useDarkTheme, overrideTypography = typography, content = content
     )
 }
 
@@ -220,11 +214,9 @@ fun AppBarTheme(
 @Composable
 @Preview
 fun AppBarPreview() {
-    NoSearchAppBar(
-        actionItems = listOf(
-            ActionItem(name = "Search", icon = Icons.Filled.Search, action = {}),
-            ActionItem("Refresh", action = {})
-        )
+    NoSearchAppBar(actionItems = listOf(ActionItem(name = "Search", icon = Icons.Filled.Search, action = {}),
+        ActionItem("Refresh", action = {})
+    )
     )
 }
 

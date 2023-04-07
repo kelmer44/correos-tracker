@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.runtime.Composable
 import androidx.core.net.toUri
 import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.Fragment
@@ -66,20 +67,74 @@ class ParcelListPresenter @Inject constructor(
         setupToolbar(binding.listToolbar)
 
         binding.fab.setOnClickListener {
-            val request = NavDeepLinkRequest.Builder
-                .fromUri("correostracker://create".toUri())
-                .build()
-            fragment.findNavController()
-                .navigate(
-                    request, NavOptions.Builder()
-                        .setEnterAnim(R.anim.nav_default_enter_anim)
-                        .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
-                        .build()
-                )
+            addParcel()
         }
     }
 
+    private fun addParcel() {
+        val request = NavDeepLinkRequest.Builder
+            .fromUri("correostracker://create".toUri())
+            .build()
+        fragment.findNavController()
+            .navigate(
+                request, NavOptions.Builder()
+                    .setEnterAnim(R.anim.nav_default_enter_anim)
+                    .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
+                    .build()
+            )
+    }
+
     fun bindState(state: ParcelListViewModel.State) {
+        binding.composeView.apply {
+            setContent {
+//                va/l darkTheme = fragment.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+                CorreosTheme(false ) {
+                    ParcelsScreen(
+                        state = state,
+                        onTextChange = {
+                            viewModel.filter(it)
+                        },
+                        onAddParcel = {
+                            addParcel()
+                        },
+                        onAboutClicked = {
+                            showFeature()
+                        },
+                        onParcelClicked = {
+                            details(it)
+                        },
+                        onRefreshAll =  {
+                            refreshFromRemote()
+                        },
+                        onRemoveParcel = {
+                            ConfirmDialog.confirmDialog(
+                                fragment.requireContext(),
+                                R.string.delete_confirm_title,
+                                R.string.delete_confirm_desc
+                            ) {
+                                viewModel.deleteParcel(it)
+                            }
+                        },
+                        onThemeClicked = {
+                            themeSelectionDialog(fragment.requireContext()) {
+                                viewModel.setTheme(it.code)
+                            }.show()
+                        },
+                        onToggleNotifications = { code, enabled ->
+                            if(enabled) {
+                                viewModel.enableNotifications(code)
+                            }
+                            else {
+                                viewModel.disableNotifications(code)
+                            }
+                        },
+                        onLongPressParcel = {
+                            fragment.context?.copyToClipboard(it)
+                        }
+                    )
+                }
+            }
+        }
 
         binding.swipeRefresh.isRefreshing = state.loading
         binding.emptyState.isVisible = state.list?.isEmpty() == true
@@ -93,6 +148,18 @@ class ParcelListPresenter @Inject constructor(
             FirebaseCrashlytics.getInstance().recordException(state.error)
             Toast.makeText(fragment.requireContext(), "ERROR!!!", Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun details(trackingCode: String) {
+        val request = NavDeepLinkRequest.Builder
+            .fromUri("correostracker://details/$trackingCode".toUri())
+            .build()
+        fragment.findNavController().navigate(
+            request, NavOptions.Builder()
+                .setEnterAnim(R.anim.nav_default_enter_anim)
+                .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
+                .build()
+        )
     }
 
     var searchView: SearchView? = null
@@ -159,15 +226,7 @@ class ParcelListPresenter @Inject constructor(
         }
 
         override fun click(parcelReference: LocalParcelReference) {
-            val request = NavDeepLinkRequest.Builder
-                .fromUri("correostracker://details/${parcelReference.trackingCode}".toUri())
-                .build()
-            fragment.findNavController().navigate(
-                request, NavOptions.Builder()
-                    .setEnterAnim(R.anim.nav_default_enter_anim)
-                    .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
-                    .build()
-            )
+            details(parcelReference.trackingCode)
         }
 
         override fun dots(view: View, parcelReference: LocalParcelReference) {
