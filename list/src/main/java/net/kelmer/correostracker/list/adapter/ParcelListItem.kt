@@ -57,13 +57,19 @@ class ParcelListItem @AssistedInject constructor(
             val faseNumber: Int? = if (faseRaw == "?") null else faseRaw?.toIntOrNull()
             val fase = if (faseNumber != null) Fase.fromFase(faseNumber) else Fase.OTHER
 
-            if (parcel.updateStatus == LocalParcelReference.UpdateStatus.OK) {
-                parcelStatus.setImageResource(fase.drawable)
-            } else if (parcel.updateStatus == LocalParcelReference.UpdateStatus.ERROR) {
-                parcelStatus.setImageResource(R.drawable.ic_error_red)
-            } else if (parcel.updateStatus == LocalParcelReference.UpdateStatus.UNKNOWN) {
-                parcelStatus.setImageResource(R.drawable.timeline_icon_unknown)
+            when (parcel.updateStatus) {
+                LocalParcelReference.UpdateStatus.OK -> {
+                    parcelStatus.setImageResource(fase.drawable)
+                }
+                LocalParcelReference.UpdateStatus.ERROR -> {
+                    parcelStatus.setImageResource(R.drawable.ic_error_red)
+                }
+                LocalParcelReference.UpdateStatus.UNKNOWN -> {
+                    parcelStatus.setImageResource(R.drawable.timeline_icon_unknown)
+                }
+                LocalParcelReference.UpdateStatus.INPROGRESS -> {}
             }
+
 
             val lastCheckedValue = parcel.lastChecked
 

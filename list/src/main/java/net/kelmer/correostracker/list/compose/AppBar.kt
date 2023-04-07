@@ -38,10 +38,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import net.kelmer.correostracker.list.R
+import net.kelmer.correostracker.ui.theme.CorreosTheme
 import timber.log.Timber
 
 
@@ -82,25 +85,34 @@ fun ParcelsAppBar(
 fun NoSearchAppBar(
     actionItems: List<ActionItem>
 ) {
-    TopAppBar(
-        title = {
-            Text(text = stringResource(id = R.string.app_name))
-        },
-        colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
-        actions = {
-            val (icons, options) = actionItems.partition { it.icon != null }
+    AppBarTheme(false) {
+        TopAppBar(
+            title = {
+                Text(
+                    text = stringResource(id = R.string.app_name),
+                )
+            },
 
-            icons.forEach {
-                IconButton(onClick = it.action) {
-                    Icon(imageVector = it.icon!!, contentDescription = it.name)
+            colors = TopAppBarDefaults.smallTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                actionIconContentColor = MaterialTheme.colorScheme.onPrimary
+            ),
+            actions = {
+                val (icons, options) = actionItems.partition { it.icon != null }
+
+                icons.forEach {
+                    IconButton(onClick = it.action) {
+                        Icon(imageVector = it.icon!!, contentDescription = it.name)
+                    }
                 }
-            }
-            if (options.isNotEmpty()) {
-                val (isExpanded, setExpanded) = remember { mutableStateOf(false) }
-                OverflowMenuAction(isExpanded, setExpanded, options)
-            }
-        },
-    )
+                if (options.isNotEmpty()) {
+                    val (isExpanded, setExpanded) = remember { mutableStateOf(false) }
+                    OverflowMenuAction(isExpanded, setExpanded, options)
+                }
+            },
+        )
+    }
 }
 
 @Composable
@@ -114,10 +126,11 @@ fun SearchAppBar(
     var textState by remember {
         mutableStateOf("")
     }
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .height(56.dp),
+            .height(64.dp),
         color = MaterialTheme.colorScheme.primary
     ) {
         fun innerTextChange(text: String) {
@@ -126,7 +139,9 @@ fun SearchAppBar(
         }
 
         TextField(
-            modifier = Modifier.fillMaxWidth().focusRequester(focusRequester)
+            modifier = Modifier
+                .fillMaxWidth()
+                .focusRequester(focusRequester)
                 .onGloballyPositioned {
                     focusRequester.requestFocus() // IMPORTANT
                 },
@@ -179,8 +194,26 @@ fun SearchAppBar(
             ),
         )
     }
+}
 
-
+@Composable
+fun AppBarTheme(
+    useDarkTheme: Boolean,
+    content: @Composable() () -> Unit,
+){
+    val typography = MaterialTheme.typography.copy(
+        titleLarge = TextStyle(
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 20.sp,
+            lineHeight = 28.sp,
+            letterSpacing = 0.sp
+        )
+    )
+    CorreosTheme(
+        useDarkTheme,
+        overrideTypography = typography,
+        content = content
+    )
 }
 
 

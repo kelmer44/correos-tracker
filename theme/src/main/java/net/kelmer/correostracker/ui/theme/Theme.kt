@@ -1,6 +1,8 @@
 package net.kelmer.correostracker.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.Typography
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
@@ -73,16 +75,20 @@ private val DarkColors = darkColorScheme(
 
 @Composable
 fun CorreosTheme(
-  useDarkTheme: Boolean = isSystemInDarkTheme(),
-  content: @Composable() () -> Unit
+    useDarkTheme: Boolean = isSystemInDarkTheme(),
+    overrideTypography: Typography? = null,
+    overrideColors: ColorScheme? = null,
+    content: @Composable() () -> Unit,
 ) {
-  val colors = if (!useDarkTheme) {
-    LightColors
-  } else {
-    DarkColors
-  }
-  MaterialTheme(
-    colorScheme = colors,
-    content = content
-  )
+    val colors = overrideColors ?: if (!useDarkTheme) {
+        LightColors
+    } else {
+        DarkColors
+    }
+    val typography = overrideTypography ?: MaterialTheme.typography
+    MaterialTheme(
+        colorScheme = colors,
+        content = content,
+        typography = typography
+    )
 }

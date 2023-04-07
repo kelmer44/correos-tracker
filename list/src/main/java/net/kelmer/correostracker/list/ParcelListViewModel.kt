@@ -43,10 +43,10 @@ class ParcelListViewModel @Inject constructor(
             .map { (list, filter) ->
                 State(
                     list = list.filter {
-                    filter.isNullOrBlank() ||
-                        it.parcelName.contains(filter, true) ||
-                        it.trackingCode.contains(filter, true)
-                }
+                        filter.isNullOrBlank() ||
+                            it.parcelName.contains(filter, true) ||
+                            it.trackingCode.contains(filter, true)
+                    }
                 )
             }
             .startWith(State(loading = true))

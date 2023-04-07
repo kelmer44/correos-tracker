@@ -1,6 +1,5 @@
 package net.kelmer.correostracker.list.compose
 
-import android.graphics.Bitmap
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -9,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,8 +17,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -44,9 +44,11 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
+import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.ui.Fase
 import net.kelmer.correostracker.list.ParcelListViewModel
 import net.kelmer.correostracker.list.R
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 import java.text.SimpleDateFormat
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -82,9 +84,21 @@ fun ParcelsScreen(
 
 @Composable
 fun ParcelList(list: List<LocalParcelReference>) {
-    LazyColumn {
-        items(items = list, key = { it.code }) { parcel ->
-            ParcelListItem(parcel = parcel) {}
+    if (list.isNotEmpty()) {
+        LazyColumn {
+            items(items = list, key = { it.code }) { parcel ->
+                ParcelListItem(parcel = parcel) {}
+            }
+        }
+    } else {
+        Box(modifier =  Modifier
+            .fillMaxHeight()
+            .fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(id = R.string.emptystate_parcel_list),
+                modifier = Modifier.align(Alignment.Center)
+            )
         }
     }
 }
@@ -157,9 +171,6 @@ fun ParcelListItem(
                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
             )
             Row {
-                val faseRaw = parcel.ultimoEstado?.fase
-                val faseNumber: Int? = if (faseRaw == "?") null else faseRaw?.toIntOrNull()
-                val fase = if (faseNumber != null) Fase.fromFase(faseNumber) else Fase.OTHER
 
                 Column(
                     Modifier
@@ -167,7 +178,7 @@ fun ParcelListItem(
                         .width(32.dp)
                         .height(32.dp)
                 ) {
-                    FaseIcon(fase)
+                    FaseIcon(parcel)
                 }
                 Column(
                     modifier = Modifier
@@ -194,7 +205,14 @@ fun ParcelListItem(
 
 
 @Composable
-fun FaseIcon(fase: Fase) {
+fun FaseIcon(parcel: LocalParcelReference) {
+
+
+    val faseRaw = parcel.ultimoEstado?.fase
+    val faseNumber: Int? = if (faseRaw == "?") null else faseRaw?.toIntOrNull()
+    val fase = if (faseNumber != null) Fase.fromFase(faseNumber) else Fase.OTHER
+
+
     val color = when (fase) {
         Fase.OTHER -> R.color.stage_unknown
         Fase.ERROR -> R.color.stage_error
@@ -209,7 +227,29 @@ fun FaseIcon(fase: Fase) {
         Fase.ENTREGADO -> R.drawable.ic_check_white
         else -> R.drawable.ic_questionmark
     }
-    CircledIcon(bgColor = colorResource(id = color), icon = icon, contentDescription = "")
+    when (parcel.updateStatus) {
+        LocalParcelReference.UpdateStatus.OK -> {
+            CircledIcon(bgColor = colorResource(id = color), icon = icon, contentDescription = "")
+        }
+        LocalParcelReference.UpdateStatus.ERROR -> {
+            CircledIcon(
+                bgColor = colorResource(id = R.color.stage_error),
+                icon = R.drawable.ic_error,
+                contentDescription = ""
+            )
+        }
+        LocalParcelReference.UpdateStatus.UNKNOWN -> {
+            CircledIcon(
+                bgColor = colorResource(id = R.color.stage_unknown),
+                icon = R.drawable.ic_questionmark,
+                contentDescription = ""
+            )
+        }
+        else -> {
+            CircularProgressIndicator()
+        }
+    }
+
 }
 
 @Composable
@@ -219,9 +259,12 @@ fun CircledIcon(
     contentDescription: String
 ) {
     Box {
-        Canvas(modifier = Modifier.size(32.dp), onDraw = {
-            drawCircle(color = bgColor)
-        })
+        Canvas(
+            modifier = Modifier.size(32.dp),
+            onDraw = {
+                drawCircle(color = bgColor)
+            }
+        )
         Image(
             modifier = Modifier
                 .align(Alignment.Center)
@@ -236,7 +279,15 @@ fun CircledIcon(
 @Preview
 fun previewIcon() {
     FaseIcon(
-        Fase.ENTREGADO
+        LocalParcelReference(
+            "22313",
+            "123123",
+            "bla",
+            LocalParcelReference.Stance.INCOMING,
+            CorreosApiEvent("", "", "", "1", "", "", ""),
+            1, notify = true,
+            updateStatus = LocalParcelReference.UpdateStatus.OK
+        )
     )
 }
 

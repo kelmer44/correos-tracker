@@ -1,11 +1,11 @@
 package net.kelmer.correostracker.ui.theme
 import androidx.compose.ui.graphics.Color
 
-val md_theme_light_primary = Color(0xFF785900)
+val md_theme_light_primary = Color(0xFFffcd00)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
-val md_theme_light_primaryContainer = Color(0xFFFFDF9E)
-val md_theme_light_onPrimaryContainer = Color(0xFF261A00)
-val md_theme_light_secondary = Color(0xFF314DDF)
+val md_theme_light_primaryContainer = Color(0xFF012e69)
+val md_theme_light_onPrimaryContainer = Color(0xFFFFFFFF)
+val md_theme_light_secondary = Color(0xFF052FC8)
 val md_theme_light_onSecondary = Color(0xFFFFFFFF)
 val md_theme_light_secondaryContainer = Color(0xFFDEE0FF)
 val md_theme_light_onSecondaryContainer = Color(0xFF000F5C)
