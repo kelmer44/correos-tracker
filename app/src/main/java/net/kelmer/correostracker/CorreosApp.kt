@@ -7,7 +7,6 @@ import android.content.Context
 import android.os.Build
 import androidx.work.Configuration
 import androidx.work.WorkManager
-import com.facebook.stetho.Stetho
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.HiltAndroidApp
 import net.kelmer.correostracker.di.debug.LumberYard
@@ -32,7 +31,6 @@ class CorreosApp : Application(), Configuration.Provider {
         super.onCreate()
         initCrashlytics()
         setupTimber()
-        setupStetho()
         setupWorkerFactory()
         createNotificationChannel()
     }
@@ -71,12 +69,6 @@ class CorreosApp : Application(), Configuration.Provider {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
             Timber.plant(lumberYard.tree())
-        }
-    }
-
-    private fun setupStetho() {
-        if (BuildConfig.DEBUG) {
-            Stetho.initializeWithDefaults(this)
         }
     }
 

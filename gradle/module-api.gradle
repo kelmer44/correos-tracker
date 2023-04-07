@@ -1,0 +1,24 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply from: rootProject.file('gradle/sdkVersions.gradle')
+
+
+android {
+    buildFeatures.buildConfig = false
+    // fixes "Method not mocked" errors
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+    defaultConfig {
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+}
+
+dependencies {
+
+    implementation libs.androidx.fragment.ktx
+    implementation libs.javax.inject
+    implementation buildLibs.kotlin.stdlib.base
+    implementation libs.rxjava2.core
+    implementation libs.rxandroid
+}

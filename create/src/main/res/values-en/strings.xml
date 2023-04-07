@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="parcel_code">Tracking code</string>
+    <string name="parcel_name">Parcel name (optional)</string>
+    <string name="scan_prompt">Bar code scan</string>
+    <string name="error_nocodigo">Please enter the tracking number.</string>
+    <string name="stance">Direction</string>
+    <string name="code_helper_text">*Only parcels from Correos</string>
+    <string name="parcel_status_alerts">Enable notifications</string>
+</resources>

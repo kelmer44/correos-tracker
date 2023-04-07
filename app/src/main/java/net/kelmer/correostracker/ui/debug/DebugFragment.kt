@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import net.kelmer.correostracker.BuildConfig
 import net.kelmer.correostracker.R
-import net.kelmer.correostracker.base.fragment.BaseFragment
+import net.kelmer.correostracker.fragment.BaseFragment
 import net.kelmer.correostracker.databinding.FragmentDebugBinding
 import net.kelmer.correostracker.ui.debug.views.DebugView
 

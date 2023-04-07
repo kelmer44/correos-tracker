@@ -6,9 +6,9 @@ import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.InstrumentationRegistry
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.runner.AndroidJUnit4
-import net.kelmer.correostracker.data.db.AppDatabase
-import net.kelmer.correostracker.data.db.DbModule
-import net.kelmer.correostracker.data.model.local.LocalParcelReference
+import net.kelmer.correostracker.data.local.AppDatabase
+import net.kelmer.correostracker.data.local.DbModule
+import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -24,7 +24,7 @@ class MigrationTest {
     @JvmField
     public val helper: MigrationTestHelper = MigrationTestHelper(
         InstrumentationRegistry.getInstrumentation(),
-        net.kelmer.correostracker.data.db.AppDatabase::class.java.canonicalName,
+        AppDatabase::class.java.canonicalName,
         FrameworkSQLiteOpenHelperFactory()
     )
 

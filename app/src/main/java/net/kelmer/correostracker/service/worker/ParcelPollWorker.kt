@@ -13,19 +13,17 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import io.reactivex.Single
 import net.kelmer.correostracker.CorreosApp
 import net.kelmer.correostracker.R
-import net.kelmer.correostracker.data.model.local.LocalParcelReference
-import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
-import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
-import net.kelmer.correostracker.data.repository.correos.CorreosRepository
-import net.kelmer.correostracker.data.repository.local.LocalParcelRepository
+import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
+import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
+import net.kelmer.correostracker.dataApi.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.di.worker.ChildWorkerFactory
 import net.kelmer.correostracker.ui.activity.MainActivity
 import timber.log.Timber
 import javax.inject.Inject
 
 class ParcelPollWorker constructor(
-    val parcelRepository: LocalParcelRepository,
-    val correosRepository: CorreosRepository,
+    val parcelRepository: net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository,
+    val correosRepository: net.kelmer.correostracker.dataApi.repository.correos.CorreosRepository,
     appContext: Context,
     workerParams: WorkerParameters
 ) : RxWorker(appContext, workerParams) {
@@ -135,8 +133,8 @@ class ParcelPollWorker constructor(
     }
 
     class Factory @Inject constructor(
-        val myRepository: LocalParcelRepository,
-        val networkService: CorreosRepository
+        val myRepository: net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository,
+        val networkService: net.kelmer.correostracker.dataApi.repository.correos.CorreosRepository
     ) : ChildWorkerFactory {
 
         override fun create(appContext: Context, params: WorkerParameters): ListenableWorker {

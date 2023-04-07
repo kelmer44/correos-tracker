@@ -1,1 +1,42 @@
-include ':app', ':mock-server'
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+
+enableFeaturePreview('VERSION_CATALOGS')
+
+dependencyResolutionManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        maven { url 'https://dl.bintray.com/lisawray/maven' }
+    }
+
+    versionCatalogs {
+        buildLibs {
+            from(files("gradle/buildversions.toml"))
+        }
+        libs {
+            from(files("gradle/versions.toml"))
+        }
+    }
+}
+
+rootProject.name = 'Seguimiento Correos'
+include ':app',
+        ':core',
+        ':dataApi',
+        ':data',
+        ':theme',
+        ':detailsApi',
+        ':details',
+        ':listApi',
+        ':list',
+        ':iapApi',
+        ':iap',
+        ':create',
+        ':createApi'

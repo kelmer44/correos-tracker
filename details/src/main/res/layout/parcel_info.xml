@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="320dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/ref_trackingcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/double_spacing"
+            android:layout_marginEnd="@dimen/double_spacing"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/masinfo_code"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:textStyle="bold"
+                tools:text="SDFDSFSD" />
+
+            <ImageView
+                android:id="@+id/masinfo_copy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:tooltipText="@string/copy"
+                android:layout_margin="@dimen/single_spacing"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_copy"
+                app:tint="?android:attr/textColorSecondary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ref_trackingcode"
+            android:orientation="vertical"
+            android:padding="@dimen/double_spacing">
+
+            <LinearLayout
+                android:id="@+id/ref_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/single_spacing"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/masinfo_ref"
+                    android:textAllCaps="true"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/masinfo_ref"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/single_spacing"
+                    android:layout_weight="3"
+                    tools:text="SDFDSFSD" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cod_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/single_spacing"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/masinfo_codproducto"
+                    android:textAllCaps="true"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/masinfo_codproducto"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/single_spacing"
+                    android:layout_weight="3"
+                    tools:text="PQ" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/peso_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/single_spacing"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/masinfo_peso"
+                    android:textAllCaps="true"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/masinfo_peso"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/single_spacing"
+                    android:layout_weight="3"
+                    tools:text="500gr" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fecha_estimada_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/single_spacing"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/masinfo_fechaestimada"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/masinfo_fechaestimada"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/single_spacing"
+                    android:layout_weight="3"
+                    tools:text="Num. referencia: " />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/dimen_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/single_spacing"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/masinfo_dimensiones"
+                    android:textAllCaps="true"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/masinfo_dimensiones"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/single_spacing"
+                    android:layout_weight="3"
+                    tools:text="40x50x30" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="3"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/box"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_box"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0" />
+
+                    <TextView
+                        android:id="@+id/masinfo_height"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/box"
+                        app:layout_constraintEnd_toStartOf="@+id/box"
+                        app:layout_constraintTop_toTopOf="@+id/box"
+                        tools:text="height" />
+
+                    <TextView
+                        android:id="@+id/masinfo_width"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/single_spacing"
+                        app:layout_constraintEnd_toEndOf="@+id/box"
+                        app:layout_constraintStart_toStartOf="@id/masinfo_height"
+                        app:layout_constraintTop_toBottomOf="@+id/box"
+                        tools:text="width" />
+
+                    <TextView
+                        android:id="@+id/masinfo_depth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="@id/box"
+                        app:layout_constraintStart_toEndOf="@+id/box"
+                        app:layout_constraintTop_toBottomOf="@+id/box"
+                        tools:text="depth" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/disclaimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/single_spacing"
+                android:layout_marginTop="@dimen/double_spacing"
+                android:layout_marginEnd="@dimen/single_spacing"
+                android:gravity="center"
+                android:text="@string/masinfo_disclaimer"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

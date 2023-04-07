@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="unrecognized_code">El código introducido no es válido. Por favor, verifique que es correcto.</string>
+</resources>

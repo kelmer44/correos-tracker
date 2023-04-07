@@ -3,7 +3,7 @@ package net.kelmer.correostracker.util
 import com.nhaarman.mockitokotlin2.KArgumentCaptor
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
-import net.kelmer.correostracker.data.Resource
+import net.kelmer.correostracker.dataApi.Resource
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 

@@ -1,0 +1,16 @@
+apply plugin: 'com.android.library'
+//TODO REMOVE
+apply plugin: 'kotlin-kapt'
+apply from: rootProject.file('gradle/module-api.gradle')
+
+android {
+    namespace 'net.kelmer.correostracker.dataApi'
+}
+
+dependencies {
+    //TODO REMOVE
+    kapt libs.androidx.room.compiler
+    implementation libs.androidx.room.runtime
+    implementation libs.moshi.core
+    implementation libs.moshi.reflect
+}

@@ -1,34 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/parcelListFragment">
+    app:startDestination="@id/list_graph">
 
-    <fragment
-        android:id="@+id/parcelListFragment"
-        tools:layout="@layout/fragment_parcel_list"
-        android:name="net.kelmer.correostracker.ui.list.ParcelListFragment"
-        android:label="@string/app_name">
-        <action
-            android:id="@+id/action_parcelListFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
-        <action
-            android:id="@+id/action_parcelListFragment_to_createParcelFragment"
-            app:destination="@id/createParcelFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/createParcelFragment"
-        tools:layout="@layout/fragment_create_parcel"
-        android:name="net.kelmer.correostracker.ui.create.CreateParcelFragment"
-        android:label="@string/app_name" />
-    <fragment
-        android:id="@+id/detailFragment"
-        tools:layout="@layout/fragment_detail"
-        android:name="net.kelmer.correostracker.ui.detail.DetailFragment"
-        android:label="@string/app_name">
-        <argument
-            android:name="parcel_code"
-            app:argType="string" />
-    </fragment>
+    <include app:graph="@navigation/details" />
+    <include app:graph="@navigation/list" />
+    <include app:graph="@navigation/create" />
+
+
 </navigation>

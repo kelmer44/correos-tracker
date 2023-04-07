@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/single_spacing">
+
+    <ImageView
+        android:id="@+id/feature_circle"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_margin="@dimen/single_spacing"
+        android:src="@drawable/ic_circle"
+        app:tint="@color/secondary_text">
+
+    </ImageView>
+
+
+    <TextView
+        android:id="@+id/feature_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/feature_circle"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textStyle="bold"
+        tools:text="1.6.7" />
+
+    <TextView
+        android:id="@+id/feature_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/feature_version"
+        android:layout_toEndOf="@id/feature_circle"
+        tools:ellipsize="end"
+        android:includeFontPadding="true"
+        tools:maxLines="3"
+        tools:text="@tools:sample/lorem/random" />
+</RelativeLayout>

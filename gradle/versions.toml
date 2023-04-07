@@ -1,0 +1,199 @@
+[versions]
+androidXAppCompat = "1.5.1"
+androidXCoreVersion = "1.8.0"
+androidXLifecycleVersion = "2.5.1"
+androidXRoomVersion = "2.4.1"
+androidXTestCoreVersion = "1.4.0"
+androidXTestEspressoVersion = "3.4.0"
+androidXWindowVersion = "1.0.0-beta03"
+androidXWorkManagerVersion = "2.7.0"
+androidxFragmentVersion = "1.5.4"
+androidxTestVersion = "1.4.0"
+autoDisposeVersion = "1.0.0"
+
+dagger = { strictly = "2.42" }
+
+coroutines = "1.6.4"
+glideVersion = "4.11.0"
+
+groupieVersion = "2.8.1"
+
+leakCanaryVersion = "2.10"
+
+moshiVersion = "1.14.0"
+
+navigation = "2.5.3"
+
+okReplayVersion = "1.6.0"
+okhttpVersion = "5.0.0-alpha.11"
+
+[libraries]
+androidx-activity = { module = "androidx.activity:activity", version = "1.5.1" }
+androidx-annotation = { module = "androidx.annotation:annotation", version = "1.4.0" }
+androidx-appcompat-base = { module = "androidx.appcompat:appcompat", version.ref = "androidXAppCompat" }
+androidx-appcompat-resources = { module = "androidx.appcompat:appcompat-resources", version.ref = "androidXAppCompat" }
+androidx-arch-core-common = { module = "androidx.arch.core:core-common", version = "2.1.0" }
+androidx-arch-core-runtime = { module = "androidx.arch.core:core-runtime", version = "2.1.0" }
+androidx-baseline-profile-installer = { module = "androidx.profileinstaller:profileinstaller", version = "1.1.0" }
+androidx-browser = { module = "androidx.browser:browser", version = "1.3.0" }
+androidx-collection = { module = "androidx.collection:collection", version = "1.1.0" }
+androidx-collection-ktx = { module = "androidx.collection:collection-ktx", version = "1.1.0" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version = "2.1.4" }
+androidx-coordinatorlayout = { module = "androidx.coordinatorlayout:coordinatorlayout", version = "1.1.0" }
+
+androidx-core = { module = "androidx.core:core", version.ref = "androidXCoreVersion" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidXCoreVersion" }
+androidx-core-testing = { module = "androidx.arch.core:core-testing", version = "2.1.0" }
+androidx-dynamic-animations = { module = "androidx.dynamicanimation:dynamicanimation", version = "1.0.0" }
+androidx-fragment = { module = "androidx.fragment:fragment", version.ref = "androidxFragmentVersion" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidxFragmentVersion" }
+androidx-fragment-testing = { module = "androidx.fragment:fragment-testing", version.ref = "androidxFragmentVersion" }
+
+androidx-lifecycle-common = { module = "androidx.lifecycle:lifecycle-common", version.ref = "androidXLifecycleVersion" }
+androidx-lifecycle-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "androidXLifecycleVersion" }
+androidx-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata", version.ref = "androidXLifecycleVersion" }
+androidx-lifecycle-livedata-core = { module = "androidx.lifecycle:lifecycle-livedata-core", version.ref = "androidXLifecycleVersion" }
+androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidXLifecycleVersion" }
+androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidXLifecycleVersion" }
+androidx-lifecycle-runtime-base = { module = "androidx.lifecycle:lifecycle-runtime", version.ref = "androidXLifecycleVersion" }
+androidx-lifecycle-savedstate = { module = "androidx.lifecycle:lifecycle-viewmodel-savedstate", version.ref = "androidXLifecycleVersion" }
+androidx-lifecycle-service = { module = "androidx.lifecycle:lifecycle-service", version.ref = "androidXLifecycleVersion" }
+androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidXLifecycleVersion" }
+androidx-lifecycle-viewmodel-base = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidXLifecycleVersion" }
+
+androidx-media = { module = "androidx.media:media", version = "1.6.0" }
+
+androidx-preferences = { module = "androidx.preference:preference", version = "1.0.0" }
+
+androidx-recyclerView = { module = "androidx.recyclerview:recyclerview", version = "1.2.1" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidXRoomVersion" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidXRoomVersion" }
+androidx-room-rxjava2 = { module = "androidx.room:room-rxjava2", version.ref = "androidXRoomVersion" }
+androidx-room-test = { module = "androidx.room:room-testing", version.ref = "androidXRoomVersion" }
+
+androidx-savedstate = { module = "androidx.savedstate:savedstate", version = "1.2.0" }
+androidx-security = { module = "androidx.security:security-crypto-ktx", version = "1.1.0-alpha02" }
+
+androidx-sqlite-core = { module = "androidx.sqlite:sqlite", version = "2.2.0" }
+androidx-sqlite-framework = { module = "androidx.sqlite:sqlite-framework", version = "2.2.0" }
+
+androidx-startup = { module = "androidx.startup:startup-runtime", version = "1.1.1" }
+
+androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version = "1.1.0" }
+
+androidx-test-core = { module = "androidx.test:core", version.ref = "androidXTestCoreVersion" }
+androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "androidXTestCoreVersion" }
+androidx-test-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "androidXTestEspressoVersion" }
+androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidXTestEspressoVersion" }
+androidx-test-espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "androidXTestEspressoVersion" }
+androidx-test-junit = { module = "androidx.test.ext:junit", version = "1.1.3" }
+androidx-test-junit-ktx = { module = "androidx.test.ext:junit-ktx", version = "1.1.3" }
+androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidxTestVersion" }
+androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidxTestVersion" }
+
+androidx-vectordrawable-animated = { module = "androidx.vectordrawable:vectordrawable-animated", version = "1.1.0" }
+androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version = "1.0.0" }
+androidx-webkit = { module = "androidx.webkit:webkit", version = "1.4.0" }
+androidx-window = { module = "androidx.window:window", version.ref = "androidXWindowVersion" }
+androidx-window-rxjava2 = { module = "androidx.window:window-rxjava2", version.ref = "androidXWindowVersion" }
+
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidXWorkManagerVersion" }
+androidx-work-rxjava2 = { module = "androidx.work:work-rxjava2", version.ref = "androidXWorkManagerVersion" }
+androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidXWorkManagerVersion" }
+
+annotation-experimental = { module = "androidx.annotation:annotation-experimental", version = "1.3.0" }
+
+autodispose-android-archcomponents = { module = "com.uber.autodispose:autodispose-android-archcomponents", version.ref = "autoDisposeVersion" }
+autodispose-android-archcomponents-ktx = { module = "com.uber.autodispose:autodispose-android-archcomponents-ktx", version.ref = "autoDisposeVersion" }
+autodispose-android-ktx = { module = "com.uber.autodispose:autodispose-android-ktx", version.ref = "autoDisposeVersion" }
+autodispose-base = { module = "com.uber.autodispose:autodispose-ktx", version.ref = "autoDisposeVersion" }
+autodispose-lifecycle-ktx = { module = "com.uber.autodispose:autodispose-lifecycle-ktx", version.ref = "autoDisposeVersion" }
+
+barcode-core = { module = "com.google.zxing:core", version = "3.3.0" }
+barcode-android = { module = "com.journeyapps:zxing-android-embedded", version = "3.6.0" }
+
+firebase-bom = { module = "com.google.firebase:firebase-bom", version = "31.2.3" }
+
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
+firebase-common = { module = "com.google.firebase:firebase-common" }
+firebase-components = { module = "com.google.firebase:firebase-components" }
+firebase-database = { module = "com.google.firebase:firebase-database" }
+firebase-encoders-json = { module = "com.google.firebase:firebase-encoders-json" }
+firebase-fcm = { module = "com.google.firebase:firebase-messaging" }
+firebase-iid = { module = "com.google.firebase:firebase-iid" }
+firebase-installations = { module = "com.google.firebase:firebase-installations" }
+firebase-installations-interop = { module = "com.google.firebase:firebase-installations-interop" }
+
+glide-core = { module = "com.github.bumptech.glide:glide", version.ref = "glideVersion" }
+glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glideVersion" }
+glide-okhttp3-integration = { module = "com.github.bumptech.glide:okhttp3-integration", version.ref = "glideVersion" }
+glide-transformations = { module = "jp.wasabeef:glide-transformations", version = "4.0.1" }
+
+google-material = { module = "com.google.android.material:material", version = "1.2.1" }
+google-protobuf = { module = " com.google.protobuf:protobuf-java", version = "3.17.2" }
+
+groupie-core = { module = "com.xwray:groupie", version.ref = "groupieVersion" }
+groupie-viewbinding = { module = "com.xwray:groupie-viewbinding", version.ref = "groupieVersion" }
+
+javax-inject = { module = "javax.inject:javax.inject", version = "1" }
+
+joda-android = { module = "net.danlew:android.joda", version = "2.10.14" }
+joda-test = { module = "joda-time:joda-time", version = "2.10.14" }
+
+json = { module = "org.json:json", version = "20160810" }
+jsr305 = { module = "com.google.code.findbugs:jsr305", version = "3.0.2" }
+junit = { module = "junit:junit", version = "4.13.2" }
+
+kotlin-compile-testing = { module = "com.github.tschuchortdev:kotlin-compile-testing", version = "1.4.9" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-core-jvm = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm", version.ref = "coroutines" }
+kotlinx-coroutines-rx2 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-rx2", version.ref = "coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+kotlinx-metadata-jvm = { module = "org.jetbrains.kotlinx:kotlinx-metadata-jvm", version = "0.5.0" }
+
+leakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakCanaryVersion" }
+leakcanary-core = { module = "com.squareup.leakcanary:leakcanary-android-core", version.ref = "leakCanaryVersion" }
+leakcanary-process = { module = "com.squareup.leakcanary:leakcanary-android-process", version.ref = "leakCanaryVersion" }
+
+mockito-core = { module = "org.mockito:mockito-core", version = "3.12.4" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "3.2.0" }
+
+moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshiVersion" }
+moshi-core = { module = "com.squareup.moshi:moshi", version.ref = "moshiVersion" }
+moshi-reflect = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshiVersion" }
+moshi-adapters = { module = "com.squareup.moshi:moshi-adapters", version.ref = "moshiVersion" }
+
+navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
+navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
+navigation-safeargs = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }
+
+okhttp-library = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttpVersion" }
+okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttpVersion" }
+okhttp-mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okhttpVersion" }
+okio = { module = "com.squareup.okio:okio", version = "3.2.0" }
+okreplay-core = { module = "com.airbnb.okreplay:okreplay", version.ref = "okReplayVersion" }
+okreplay-espresso = { module = "com.airbnb.okreplay:espresso", version.ref = "okReplayVersion" }
+
+play-core = { module = "com.google.android.play:core", version = "1.8.3" }
+
+retrofit-core = { module = "com.squareup.retrofit2:retrofit", version = "2.9.0" }
+retrofit-coroutines = { module = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter", version = "0.9.2" }
+retrofit-moshi = { module = "com.squareup.retrofit2:converter-moshi", version = "2.9.0" }
+retrofit-rxjava2 = { module = "com.squareup.retrofit2:adapter-rxjava2", version = "2.9.0" }
+
+rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version = "2.1.1" }
+rxjava2-core = { module = "io.reactivex.rxjava2:rxjava", version = "2.2.21" }
+rxjava2-rxkotlin = { module = "io.reactivex.rxjava2:rxkotlin", version = "2.4.0" }
+
+test-monitor = { module = "androidx.test:monitor", version = "1.5.0" }
+timber = { module = "com.jakewharton.timber:timber", version = "5.0.1" }
+
+timelineview = { module = "com.github.vipulasri:timelineview", version = "1.0.6" }
+
+
+transport-api = { module = "com.google.android.datatransport:transport-api", version = "3.0.0" }
+transport-backend-cct = { module = "com.google.android.datatransport:transport-backend-cct", version = "3.1.3" }
+transport-runtime = { module = "com.google.android.datatransport:transport-runtime", version = "3.1.3" }
+truth = { module = "com.google.truth:truth", version = "1.1.3" }

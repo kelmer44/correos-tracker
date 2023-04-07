@@ -4,9 +4,9 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Types
-import net.kelmer.correostracker.data.model.remote.CorreosApiEvent
-import net.kelmer.correostracker.data.model.remote.CorreosApiParcel
-import net.kelmer.correostracker.data.model.remote.Error
+import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
+import net.kelmer.correostracker.dataApi.model.remote.CorreosApiParcel
+import net.kelmer.correostracker.dataApi.model.remote.Error
 
 class CorreosApiParcelAdapter(
     private val eventAdapter: JsonAdapter<CorreosApiEvent>,

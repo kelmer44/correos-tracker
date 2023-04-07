@@ -1,0 +1,25 @@
+
+apply plugin: 'com.android.library'
+apply plugin: 'com.google.firebase.crashlytics'
+apply from: rootProject.file('gradle/module-feature.gradle')
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+android {
+    namespace 'net.kelmer.correostracker.create'
+}
+
+dependencies {
+    implementation project(':core')
+    implementation project(':theme')
+    implementation project(':dataApi')
+    implementation project(':createApi')
+
+    implementation platform(libs.firebase.bom)
+    implementation libs.firebase.analytics
+    implementation libs.firebase.common
+    implementation libs.firebase.crashlytics
+
+    //Barcode scanner
+    implementation libs.barcode.core
+    implementation libs.barcode.android
+}

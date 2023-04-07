@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="refresh">Actualizar</string>
+    <string name="copy">Copiar</string>
+    <string name="masinfo_ref">Num. referencia:</string>
+    <string name="masinfo_codproducto">Cod. Producto:</string>
+    <string name="masinfo_dimensiones">Dimensiones:</string>
+    <string name="masinfo_peso">Peso:</string>
+    <string name="masinfo_fechaestimada">Fecha Estimada*:</string>
+    <string name="masinfo_disclaimer">*NOTA: La fecha calculada es estimada por correos y en ningún momento debe tomarse como dato fiable.</string>
+
+</resources>

@@ -1,0 +1,80 @@
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply from: rootProject.file("gradle/sdkversions.gradle")
+
+kapt {
+    useBuildCache = true
+}
+
+android {
+    defaultConfig {
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    packagingOptions {
+        exclude 'META-INF/*'
+    }
+}
+
+dependencies {
+    implementation libs.androidx.appcompat.base
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.collection
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.fragment.ktx
+    implementation libs.androidx.media
+    implementation libs.androidx.preferences
+    implementation libs.androidx.recyclerView
+    implementation libs.androidx.viewpager2
+    implementation libs.androidx.lifecycle.common
+    implementation libs.androidx.lifecycle.viewmodel
+    implementation libs.androidx.lifecycle.process
+    implementation libs.androidx.room.runtime
+    implementation libs.androidx.room.rxjava2
+    implementation libs.androidx.work.runtime.ktx
+    implementation libs.androidx.work.rxjava2
+
+    implementation libs.androidx.lifecycle.livedata
+    implementation libs.androidx.lifecycle.service
+
+    implementation buildLibs.kotlin.stdlib.base
+    implementation buildLibs.kotlin.reflect
+
+    implementation libs.google.material
+
+    kapt buildLibs.dagger.compiler
+    kapt buildLibs.dagger.android.processor
+
+    implementation(buildLibs.dagger.hilt.android.base) {
+        exclude group: 'javax.annotation'
+    }
+    kapt buildLibs.dagger.hilt.compiler
+
+    implementation libs.autodispose.base
+    implementation libs.autodispose.android.archcomponents
+    implementation libs.autodispose.android.archcomponents.ktx
+    implementation libs.autodispose.android.ktx
+    implementation libs.autodispose.lifecycle.ktx
+
+    implementation libs.navigation.fragment
+    implementation libs.navigation.ui
+
+    implementation libs.okhttp.library
+    implementation libs.okhttp.logging.interceptor
+
+    implementation libs.rxjava2.core
+    implementation libs.rxjava2.rxkotlin
+
+    //Timber
+    implementation libs.timber
+
+    //Moshi
+    implementation libs.moshi.core
+    implementation libs.moshi.reflect
+    kapt libs.moshi.codegen
+
+    implementation libs.groupie.core
+    implementation libs.groupie.viewbinding
+}
