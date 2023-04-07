@@ -80,19 +80,6 @@ class ParcelListPresenter @Inject constructor(
     }
 
     fun bindState(state: ParcelListViewModel.State) {
-        binding.composeView.apply {
-            setContent {
-//                va/l darkTheme = fragment.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-                CorreosTheme(false ) {
-                    ParcelsScreen(
-                        state = state,
-                        onTextChange = {
-                            viewModel.filter(it)
-                        }
-                    )
-                }
-            }
-        }
 
         binding.swipeRefresh.isRefreshing = state.loading
         binding.emptyState.isVisible = state.list?.isEmpty() == true

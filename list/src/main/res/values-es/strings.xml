@@ -26,6 +26,7 @@
     <string name="changes_2_1_0">Se ha eliminado el soporte para Correos Express debido a que Correos ha decidido hacerlos privados. Lamentamos las molestias.</string>
     <string name="changes_2_2_6">Implementa nuevos servicios de Correos, que no incluyen Unidad.</string>
     <string name="changes_2_2_7">Vuelve la trazabilidad por localización a la app.</string>
+    <string name="changes_2_3_2">Se ha reescrito la app con una nueva arquitectura. Mejoras en los tiempos de carga.</string>
 
     <string name="feature_dialog_title">Últimas novedades</string>
     <string name="feature_dialog_opensource">Esta app NO tiene afiliación alguna con la Sociedad Estatal Correos y Telégrafos, S.A. sino que ha sido creada por un desarrollador independiente. Seguimiento Correos es gratuita y open source y no tiene anuncios.</string>

@@ -64,6 +64,7 @@ fun featureBlurbDialog(
     val groupAdapter = GroupAdapter<GroupieViewHolder>()
     featureList.adapter = groupAdapter
     groupAdapter.update(listOf(
+        Feature("2.3.2", R.string.changes_2_3_2),
         Feature("2.2.7", R.string.changes_2_2_7),
         Feature("2.2.6", R.string.changes_2_2_6),
         Feature("2.1.0", R.string.changes_2_1_0),
@@ -72,7 +73,6 @@ fun featureBlurbDialog(
         Feature("1.9.0", R.string.changes_1_9_0),
         Feature("1.8.0", R.string.changes_1_8_0),
         Feature("1.7.2", R.string.changes_1_7_2),
-        Feature("1.7.0", R.string.changes_1_7_0),
     ).map { FeatureListItem(it) })
 
     github.setOnClickListener {
