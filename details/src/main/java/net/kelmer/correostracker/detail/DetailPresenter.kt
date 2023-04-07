@@ -16,11 +16,12 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import net.kelmer.correostracker.dataApi.model.dto.ParcelDetailDTO
 import net.kelmer.correostracker.dataApi.model.exception.CorreosException
-import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.detail.adapter.DetailTimelineItem
+import net.kelmer.correostracker.detail.compose.DetailScreen
 import net.kelmer.correostracker.details.databinding.FragmentDetailBinding
 import net.kelmer.correostracker.details.R
+import net.kelmer.correostracker.ui.theme.CorreosTheme
 import net.kelmer.correostracker.util.NetworkInteractor
 import net.kelmer.correostracker.util.copyToClipboard
 import net.kelmer.correostracker.util.ext.isVisible
@@ -70,6 +71,15 @@ class DetailPresenter @Inject constructor(
     }
 
     fun bindState(state: ParcelDetailViewModel.State) {
+
+        binding.composeView.apply {
+            setContent {
+//                va/l darkTheme = fragment.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+                CorreosTheme(false) {
+                    DetailScreen(state)
+                }
+            }
+        }
         binding.detailLoading.isVisible = state.isLoading
         binding.errorContainer.isVisible = state.error != null
         binding.parcelStatusRecyclerView.isVisible = state.error == null && !state.isLoading
