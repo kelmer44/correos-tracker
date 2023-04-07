@@ -31,7 +31,11 @@ def gitTimestamp() {
 
 
 android {
-
+    packagingOptions {
+        resources {
+            excludes += "META-INF/*.version"
+        }
+    }
     defaultConfig {
         applicationId "net.kelmer.correostracker"
 

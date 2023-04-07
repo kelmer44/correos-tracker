@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.list.compose
+package net.kelmer.correostracker.ui.compose
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

@@ -2,10 +2,10 @@ package net.kelmer.correostracker.list.compose
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -33,7 +34,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -47,6 +47,7 @@ import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.ui.Fase
 import net.kelmer.correostracker.list.ParcelListViewModel
 import net.kelmer.correostracker.list.R
+import net.kelmer.correostracker.ui.compose.ActionItem
 import java.text.SimpleDateFormat
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -115,8 +116,8 @@ fun ParcelList(
                     onParcelClicked = onParcelClicked,
                     onRemoveParcel = onRemoveParcel,
                     onToggleNotifications = onToggleNotifications,
-
-                    )
+                    onLongPressParcel = onLongPressParcel
+                )
             }
         }
     } else {
@@ -133,6 +134,7 @@ fun ParcelList(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ParcelListItem(
     parcel: LocalParcelReference,
@@ -145,12 +147,14 @@ fun ParcelListItem(
     ElevatedCard(
         modifier = modifier
             .padding(horizontal = 8.dp, vertical = 8.dp)
-            .clickable { onParcelClicked(parcel.code) }
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onLongPress = { onLongPressParcel(parcel.code) }
-                )
-            },
+            .combinedClickable(
+                interactionSource = remember {
+                    MutableInteractionSource()
+                },
+                indication = rememberRipple(bounded = true),
+                onClick = { onParcelClicked(parcel.trackingCode) },
+                onLongClick = { onLongPressParcel(parcel.trackingCode) },
+            ),
         shape = RoundedCornerShape(4.dp),
     ) {
         Column(
@@ -249,7 +253,6 @@ fun ParcelListItem(
         }
     }
 }
-
 
 @Composable
 fun FaseIcon(parcel: LocalParcelReference) {

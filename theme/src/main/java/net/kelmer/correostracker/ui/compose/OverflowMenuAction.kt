@@ -11,10 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import net.kelmer.correostracker.list.R
+import net.kelmer.correostracker.theme.R
+import net.kelmer.correostracker.ui.compose.ActionItem
 
 @Composable
-internal fun OverflowMenuAction(
+fun OverflowMenuAction(
     expanded: Boolean, setExpanded: (Boolean) -> Unit, options: List<ActionItem>
 ) {
     IconButton(onClick = { setExpanded(true) }) {

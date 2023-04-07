@@ -12,7 +12,6 @@
 
     <string name="refresh_all">Actualizar todos</string>
     <string name="about">Acerca de</string>
-    <string name="see_more">Ver más</string>
     <string name="changes_1_6_0">Soporte para tema oscuro</string>
     <string name="changes_1_6_2">Ahora puedes introducir tus paquetes escaneando el código de barras de tu recibo</string>
     <string name="changes_1_6_5">Soporte para paquetes de Correos Express</string>
