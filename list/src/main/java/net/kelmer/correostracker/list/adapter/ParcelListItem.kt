@@ -1,16 +1,13 @@
 package net.kelmer.correostracker.list.adapter
 
-import android.content.Context
 import android.view.View
 import com.xwray.groupie.Item
 import com.xwray.groupie.viewbinding.BindableItem
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import dagger.hilt.android.qualifiers.ApplicationContext
-import net.kelmer.correostracker.dataApi.model.dto.ParcelDetailStatus
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
-import net.kelmer.correostracker.fase.Fase
+import net.kelmer.correostracker.ui.Fase
 import net.kelmer.correostracker.list.R
 import net.kelmer.correostracker.list.databinding.RvParcelItemBinding
 import net.kelmer.correostracker.util.ext.isVisible
