@@ -10,13 +10,14 @@ Please contribute to the project by buyting me a ko-fi:
 Sample app with Clean architecture using
 
 * RxJava2
-* Dagger2/Dagger-Hilt
-* LiveData & ViewModel from Architecture Components
-* Navigation component
+* Dagger-Hilt
+* ViewModel from Architecture Components
+* Navigation component for Navigation
 * Room as Database provider
 * MVVM
 * ViewBinding
 * WorkManager for job scheduling
+* AutoDispose from Uber
 
 <p align="center">
   <img alt="Demo screen" src="./device-2018-04-20-134010.png" width="250" />
