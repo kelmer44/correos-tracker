@@ -66,7 +66,7 @@ fun ParcelsAppBar(
             SearchWidgetState.CLOSED -> {
                 NoSearchAppBar(
                     title = stringResource(id = R.string.app_name),
-                    listOf(
+                    actionItems = listOf(
                         ActionItem(stringResource(R.string.search), icon = Icons.Filled.Search, action = {
                             searchWidgetState = SearchWidgetState.OPEN
                         }),

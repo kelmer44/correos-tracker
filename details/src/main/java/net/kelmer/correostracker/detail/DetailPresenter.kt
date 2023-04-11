@@ -76,7 +76,14 @@ class DetailPresenter @Inject constructor(
             setContent {
 //                va/l darkTheme = fragment.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
                 CorreosTheme(false) {
-                    DetailScreen(state)
+                    DetailScreen(
+                        state,
+                        backAction = {
+                            findNavController(fragment).popBackStack()
+                        }, onRefresh = {
+                            viewModel.refresh()
+                        }
+                    )
                 }
             }
         }

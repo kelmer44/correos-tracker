@@ -1,5 +1,6 @@
 package net.kelmer.correostracker.ui.compose
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,15 +24,28 @@ import net.kelmer.correostracker.ui.theme.CorreosTheme
 @Composable
 fun NoSearchAppBar(
     title: String,
-    actionItems: List<ActionItem>
+    actionItems: List<ActionItem>,
+    subtitle: String? = null,
+    navigationIcon: @Composable () -> Unit = {},
 ) {
     AppBarTheme(false) {
         TopAppBar(
             title = {
-                Text(
-                    text = title,
-                )
+                Column {
+                    Text(
+                        text = title,
+                    )
+                    if (subtitle != null) {
+                        Text(
+                            text = subtitle,
+                            style = TextStyle(
+                                fontWeight = FontWeight.Normal, fontSize = 18.sp
+                            )
+                        )
+                    }
+                }
             },
+
             colors = TopAppBarDefaults.smallTopAppBarColors(
                 containerColor = MaterialTheme.colorScheme.primary,
                 titleContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -50,6 +64,7 @@ fun NoSearchAppBar(
                     OverflowMenuAction(isExpanded, setExpanded, options)
                 }
             },
+            navigationIcon = navigationIcon
         )
     }
 }
@@ -74,6 +89,7 @@ fun AppBarTheme(
 fun AppBarPreview() {
     NoSearchAppBar(
         title = "My title",
+        subtitle = "My subtitle",
         actionItems = listOf(
             ActionItem(name = "Search", icon = Icons.Filled.Search, action = {}),
             ActionItem("Refresh", action = {})

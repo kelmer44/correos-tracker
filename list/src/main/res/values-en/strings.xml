@@ -32,7 +32,6 @@
     <string name="delete_confirm_desc">Are you sure you want to remove the selected parcel?</string>
     <string name="visit_us_github">Visit us over at github</string>
     <string name="ultimo_estado_header">Last status</string>
-    <string name="add_parcel">Add tracking</string>
 
     <string name="menu_disable_notifications">Disable notifications</string>
     <string name="menu_enable_notifications">Enable notifications</string>

@@ -241,8 +241,8 @@ fun ParcelListItem(
                     Text(
                         text = dateFormat.format(parcel.lastChecked),
                         style = MaterialTheme.typography.bodySmall,
+                        fontSize = 12.sp,
                         fontStyle = FontStyle.Italic,
-                        fontSize = 12.sp
                     )
                 }
             }
@@ -251,7 +251,7 @@ fun ParcelListItem(
 }
 
 @Composable
-fun ListStateIcon(parcel: LocalParcelReference){
+fun ListStateIcon(parcel: LocalParcelReference) {
     when (parcel.updateStatus) {
         LocalParcelReference.UpdateStatus.OK -> {
             FaseIcon(faseString = parcel.ultimoEstado?.fase)
@@ -288,6 +288,33 @@ fun previewIcon() {
             CorreosApiEvent("", "", "", "1", "", "", ""),
             1, notify = true,
             updateStatus = LocalParcelReference.UpdateStatus.OK
+        )
+    )
+}
+
+@Composable
+@Preview
+fun previewList() {
+    ParcelList(
+        listOf(
+            LocalParcelReference(
+                "22313",
+                "123123",
+                "bla",
+                LocalParcelReference.Stance.INCOMING,
+                CorreosApiEvent("", "", "", "1", "", "", ""),
+                1, notify = true,
+                updateStatus = LocalParcelReference.UpdateStatus.OK
+            ),
+            LocalParcelReference(
+                "1242345324654",
+                "1233423423123",
+                "Bla bla",
+                LocalParcelReference.Stance.OUTGOING,
+                CorreosApiEvent("", "", "", "1", "", "", ""),
+                1, notify = true,
+                updateStatus = LocalParcelReference.UpdateStatus.OK
+            )
         )
     )
 }

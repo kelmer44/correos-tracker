@@ -43,12 +43,12 @@ class ParcelDetailViewModel @Inject constructor(
                         correosParcel.eventos ?: emptyList()
                     )
                 }
-                .map { State(parcelDetail = it) }
-                .startWith(State(isLoading = true))
+                .map { State(parcelDetail = it, trackingCode = parcelCode) }
+                .startWith(State(isLoading = true, trackingCode = parcelCode))
         }
         .subscribeOn(schedulerProvider.io())
-        .startWith(State(isLoading = true))
-        .onErrorReturn { throwable -> State(error = throwable) }
+        .startWith(State(isLoading = true, trackingCode = parcelCode))
+        .onErrorReturn { throwable -> State(error = throwable, trackingCode = parcelCode) }
         .distinctUntilChanged()
         .replay(1)
         .connectInViewModelScope()
@@ -56,6 +56,7 @@ class ParcelDetailViewModel @Inject constructor(
     fun refresh() = refreshSubject.onNext(Unit)
 
     data class State(
+        val trackingCode: String,
         val parcelDetail: ParcelDetailDTO? = null,
         val isLoading: Boolean = false,
         val error: Throwable? = null

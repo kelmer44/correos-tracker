@@ -34,7 +34,6 @@
     <string name="delete_confirm_desc">¿Estás seguro de que deseas eliminar el paquete seleccionado?</string>
     <string name="visit_us_github">Visítanos en github</string>
     <string name="ultimo_estado_header">Último estado</string>
-    <string name="add_parcel">Añadir seguimiento</string>
 
     <string name="menu_enable_notifications">Enable notifications</string>
     <string name="menu_disable_notifications">Disable notifications</string>
