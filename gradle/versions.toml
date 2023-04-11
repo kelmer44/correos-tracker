@@ -110,7 +110,7 @@ autodispose-base = { module = "com.uber.autodispose:autodispose-ktx", version.re
 autodispose-lifecycle-ktx = { module = "com.uber.autodispose:autodispose-lifecycle-ktx", version.ref = "autoDisposeVersion" }
 
 barcode-core = { module = "com.google.zxing:core", version = "3.3.0" }
-barcode-android = { module = "com.journeyapps:zxing-android-embedded", version = "3.6.0" }
+barcode-android = { module = "com.journeyapps:zxing-android-embedded", version = "4.3.0" }
 
 firebase-bom = { module = "com.google.firebase:firebase-bom", version = "31.2.3" }
 
