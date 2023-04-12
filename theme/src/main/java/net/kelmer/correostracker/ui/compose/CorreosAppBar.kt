@@ -15,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import net.kelmer.correostracker.list.compose.OverflowMenuAction
@@ -34,13 +35,17 @@ fun NoSearchAppBar(
                 Column {
                     Text(
                         text = title,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                     )
                     if (subtitle != null) {
                         Text(
                             text = subtitle,
                             style = TextStyle(
                                 fontWeight = FontWeight.Normal, fontSize = 18.sp
-                            )
+                            ),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
                         )
                     }
                 }
@@ -52,11 +57,15 @@ fun NoSearchAppBar(
                 actionIconContentColor = MaterialTheme.colorScheme.onPrimary
             ),
             actions = {
-                val (icons, options) = actionItems.partition { it.icon != null }
+                val (icons, options) = actionItems.partition { it.icon != null || it.painterIcon != null }
 
                 icons.forEach {
                     IconButton(onClick = it.action) {
-                        Icon(imageVector = it.icon!!, contentDescription = it.name)
+                        if (it.icon != null) {
+                            Icon(imageVector = it.icon, contentDescription = it.name)
+                        } else if (it.painterIcon != null) {
+                            Icon(painter = it.painterIcon, contentDescription = it.name)
+                        }
                     }
                 }
                 if (options.isNotEmpty()) {

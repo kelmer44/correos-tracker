@@ -80,8 +80,12 @@ class DetailPresenter @Inject constructor(
                         state,
                         backAction = {
                             findNavController(fragment).popBackStack()
-                        }, onRefresh = {
+                        },
+                        onRefresh = {
                             viewModel.refresh()
+                        },
+                        copyAction = {
+                            fragment.requireContext().copyToClipboard(parcelCode)
                         }
                     )
                 }

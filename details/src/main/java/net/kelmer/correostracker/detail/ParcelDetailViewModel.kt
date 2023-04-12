@@ -1,12 +1,14 @@
 package net.kelmer.correostracker.detail
 
-import io.reactivex.Flowable
+import android.graphics.Bitmap
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
+import com.journeyapps.barcodescanner.BarcodeEncoder
 import io.reactivex.processors.BehaviorProcessor
 import net.kelmer.correostracker.dataApi.model.dto.ParcelDetailDTO
-import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
-import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.dataApi.repository.correos.CorreosRepository
 import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository
+import net.kelmer.correostracker.deviceinfo.DeviceInfo
 import net.kelmer.correostracker.util.SchedulerProvider
 import net.kelmer.correostracker.viewmodel.AutoDisposeViewModel
 import timber.log.Timber
@@ -16,7 +18,8 @@ class ParcelDetailViewModel @Inject constructor(
     private val parcelCode: String,
     localParcelRepository: LocalParcelRepository,
     private val correosRepository: CorreosRepository,
-    schedulerProvider: SchedulerProvider
+    schedulerProvider: SchedulerProvider,
+    private val deviceInfo: DeviceInfo
 ) : AutoDisposeViewModel() {
 
     init {
@@ -43,7 +46,7 @@ class ParcelDetailViewModel @Inject constructor(
                         correosParcel.eventos ?: emptyList()
                     )
                 }
-                .map { State(parcelDetail = it, trackingCode = parcelCode) }
+                .map { State(parcelDetail = it, trackingCode = parcelCode, barcode = generateBarcode()) }
                 .startWith(State(isLoading = true, trackingCode = parcelCode))
         }
         .subscribeOn(schedulerProvider.io())
@@ -55,9 +58,23 @@ class ParcelDetailViewModel @Inject constructor(
 
     fun refresh() = refreshSubject.onNext(Unit)
 
+    private fun generateBarcode(): Bitmap? {
+        val barcodeEncoder = BarcodeEncoder()
+        return barcodeEncoder.encodeBitmap(
+            parcelCode,
+            BarcodeFormat.CODE_128,
+            deviceInfo.deviceHeightPixels,
+            deviceInfo.deviceWidthPixels,
+            mapOf(
+                EncodeHintType.MARGIN to 0
+            )
+        )
+    }
+
     data class State(
         val trackingCode: String,
         val parcelDetail: ParcelDetailDTO? = null,
+        val barcode: Bitmap? = null,
         val isLoading: Boolean = false,
         val error: Throwable? = null
     )

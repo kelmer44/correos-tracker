@@ -11,6 +11,7 @@ import net.kelmer.correostracker.R
 import net.kelmer.correostracker.fragment.BaseFragment
 import net.kelmer.correostracker.databinding.FragmentDebugBinding
 import net.kelmer.correostracker.ui.debug.views.DebugView
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DebugFragment : BaseFragment<FragmentDebugBinding>(R.layout.fragment_debug) {

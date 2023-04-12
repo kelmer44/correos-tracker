@@ -20,4 +20,7 @@ dependencies {
     implementation libs.firebase.crashlytics
 
     implementation libs.timelineview
+    //Barcode scanner
+    implementation libs.barcode.core
+    implementation libs.barcode.android
 }

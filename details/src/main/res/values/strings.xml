@@ -9,5 +9,6 @@
     <string name="masinfo_peso">Peso:</string>
     <string name="masinfo_fechaestimada">Fecha Estimada*:</string>
     <string name="masinfo_disclaimer">*NOTA: La fecha calculada es estimada por correos y en ningún momento debe tomarse como dato fiable.</string>
+    <string name="parcel_info">Información extra</string>
 
 </resources>

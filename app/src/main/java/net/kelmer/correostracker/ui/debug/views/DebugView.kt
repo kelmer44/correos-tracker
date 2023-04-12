@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import dagger.hilt.android.AndroidEntryPoint
 import net.kelmer.correostracker.databinding.ViewDebugContentBinding
+import net.kelmer.correostracker.deviceinfo.DeviceInfo
 import net.kelmer.correostracker.di.debug.LumberYard
 import net.kelmer.correostracker.ui.activity.MainActivity
 import net.kelmer.correostracker.ui.debug.dialog.LogsDialog
@@ -35,6 +36,9 @@ class DebugView @JvmOverloads constructor(
 
     @Inject
     lateinit var lumberYard: LumberYard
+
+    @Inject
+    lateinit var deviceInfo: DeviceInfo
 
     var listener: DebugViewListener? = null
 
@@ -84,21 +88,18 @@ class DebugView @JvmOverloads constructor(
     private fun setupDeviceSection() {
         val displayMetrics = context.resources.displayMetrics
         val densityBucket = getDensityString(displayMetrics)
-        binding.debugDeviceMake.text = Build.MANUFACTURER.substring(
-            0,
-            Build.MANUFACTURER.length.coerceAtMost(20)
-        )
-        binding.debugDeviceModel.text = Build.MODEL.substring(0, Build.MODEL.length.coerceAtMost(20))
+        binding.debugDeviceMake.text = deviceInfo.manufacturer
+        binding.debugDeviceModel.text = deviceInfo.model
         binding.debugDeviceResolution.text =
-            displayMetrics.heightPixels.toString() + "x" + displayMetrics.widthPixels
+            deviceInfo.deviceHeightPixels.toString() + "x" + deviceInfo.deviceWidthPixels
         binding.debugDeviceDensity.text =
-            displayMetrics.densityDpi.toString() + "dpi (" + densityBucket + ")"
+            deviceInfo.density.toString() + "dpi (" + densityBucket + ")"
         binding.debugDeviceRelease.text = Build.VERSION.RELEASE
         binding.debugDeviceApi.text = Build.VERSION.SDK_INT.toString()
         binding.debugDeviceInches.text = getInches(context).toString()
 //        binding.debugDeviceIstablet.text = context.resources.getBoolean(R.bool.isTablet).toString()
 
-        binding.debugDevice1dp.text = "${resources.displayMetrics.density * 1} px"
+        binding.debugDevice1dp.text = "${deviceInfo.density1dp} px"
     }
 
     /**
@@ -115,7 +116,7 @@ class DebugView @JvmOverloads constructor(
     }
 
     private fun getDensityString(displayMetrics: DisplayMetrics): String {
-        return when (displayMetrics.densityDpi) {
+        return when (deviceInfo.density) {
             DisplayMetrics.DENSITY_LOW -> "ldpi"
             DisplayMetrics.DENSITY_MEDIUM -> "mdpi"
             DisplayMetrics.DENSITY_HIGH -> "hdpi"

@@ -1,5 +1,7 @@
 package net.kelmer.correostracker.detail.compose
 
+import android.graphics.ImageDecoder.ImageInfo
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -8,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -17,6 +20,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
@@ -26,13 +31,21 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -50,41 +63,36 @@ fun DetailScreen(
     state: ParcelDetailViewModel.State,
     modifier: Modifier = Modifier,
     backAction: () -> Unit = {},
-    onRefresh: () -> Unit = {}
+    onRefresh: () -> Unit = {},
+    copyAction: () -> Unit = {}
 ) {
-    Scaffold(
-        topBar = {
-            DetailAppBar(state, backAction, onRefresh)
-        },
-        contentWindowInsets = ScaffoldDefaults.contentWindowInsets,
-        content = { contentPadding ->
-            Column(
-                modifier = modifier
-                    .padding(contentPadding)
-            ) {
-                if (state.isLoading) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
-                    ) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.align(Alignment.Center),
-                            color = MaterialTheme.colorScheme.secondary
-                        )
-                    }
-                }
-                if (state.parcelDetail != null) {
-                    EventList(
-                        state.parcelDetail.states,
-                    )
-                }
-                if (state.error != null) {
+    Scaffold(topBar = {
+        DetailAppBar(state, backAction, onRefresh)
+    }, contentWindowInsets = ScaffoldDefaults.contentWindowInsets, content = { contentPadding ->
+        Column(
+            modifier = modifier.padding(contentPadding)
+        ) {
+            if (state.isLoading) {
 
+            }
+            if (state.parcelDetail != null) {
+                EventList(
+                    state.parcelDetail.states,
+                )
+            }
+            if (state.error != null) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center), color = MaterialTheme.colorScheme.secondary
+                    )
                 }
             }
         }
-    )
+    })
 }
 
 @Composable
@@ -107,9 +115,7 @@ fun EventList(events: List<CorreosApiEvent>) {
 
 @Composable
 fun Event(
-    event: CorreosApiEvent,
-    isFirst: Boolean,
-    isLast: Boolean
+    event: CorreosApiEvent, isFirst: Boolean, isLast: Boolean
 ) {
     Row(
         modifier = Modifier
@@ -153,8 +159,7 @@ fun Event(
                 .fillMaxWidth()
                 .fillMaxHeight()
                 .padding(
-                    horizontal = 8.dp,
-                    vertical = 8.dp
+                    horizontal = 8.dp, vertical = 8.dp
                 ),
             shape = RoundedCornerShape(4.dp),
         ) {
@@ -176,9 +181,7 @@ fun Event(
                     fontSize = 12.sp
                 )
                 Text(
-                    text = event.horEvento,
-                    style = MaterialTheme.typography.bodySmall,
-                    fontSize = 12.sp
+                    text = event.horEvento, style = MaterialTheme.typography.bodySmall, fontSize = 12.sp
                 )
             }
             Row(
@@ -187,8 +190,7 @@ fun Event(
                     .padding(horizontal = 16.dp, vertical = 4.dp)
             ) {
                 Text(
-                    text = event.desTextoResumen ?: "",
-                    style = MaterialTheme.typography.bodyMedium
+                    text = event.desTextoResumen ?: "", style = MaterialTheme.typography.bodyMedium
                 )
             }
             Row(
@@ -197,9 +199,7 @@ fun Event(
                     .padding(horizontal = 16.dp, vertical = 4.dp)
             ) {
                 Text(
-                    text = event.desTextoAmpliado ?: "",
-                    style = MaterialTheme.typography.bodySmall,
-                    fontSize = 12.sp
+                    text = event.desTextoAmpliado ?: "", style = MaterialTheme.typography.bodySmall, fontSize = 12.sp
                 )
             }
             if (event.unidad.isNullOrBlank().not()) {
@@ -212,8 +212,7 @@ fun Event(
                         painter = painterResource(
                             id = R.drawable.ic_location_on_black_24dp
                         ),
-                        modifier = Modifier
-                            .size(16.dp),
+                        modifier = Modifier.size(16.dp),
                         contentDescription = "",
                         tint = colorResource(id = R.color.primary)
                     )
@@ -249,9 +248,7 @@ fun EventPreview() {
             desTextoResumen = "Clasificado",
             desTextoAmpliado = "Envío clasificado en Centro Logístico",
             unidad = "CTA SANTIAGO DE COMPOSTELA"
-        ),
-        isFirst = true,
-        isLast = false
+        ), isFirst = true, isLast = false
     )
 }
 
@@ -268,8 +265,7 @@ fun EventListSample() {
                 desTextoResumen = "Clasificado",
                 desTextoAmpliado = "Envío clasificado en Centro Logístico",
                 unidad = "CTA SANTIAGO DE COMPOSTELA"
-            ),
-            CorreosApiEvent(
+            ), CorreosApiEvent(
                 fecEvento = "19/03/2018",
                 codEvento = "P040000V",
                 horEvento = "16:32",
@@ -287,8 +283,11 @@ fun EventListSample() {
 fun DetailAppBar(
     state: ParcelDetailViewModel.State,
     backAction: () -> Unit = {},
-    onRefresh: () -> Unit = {}
+    onRefresh: () -> Unit = {},
+    copyAction: () -> Unit = {}
 ) {
+    val openDialog = remember { mutableStateOf(false) }
+
     NoSearchAppBar(
         title = state.parcelDetail?.name ?: state.trackingCode,
         subtitle = state.parcelDetail?.code,
@@ -297,12 +296,65 @@ fun DetailAppBar(
                 Icon(Icons.Filled.ArrowBack, "backIcon", tint = MaterialTheme.colorScheme.onPrimary)
             }
         },
-        actionItems = listOf(
+        actionItems = listOf(ActionItem(stringResource(id = R.string.parcel_info),
+            painterIcon = painterResource(id = R.drawable.ic_info_black_24dp),
+            action = {
+                if(state.parcelDetail != null) {
+                    openDialog.value = true
+                }
+            }),
+
             ActionItem(
-                stringResource(id = R.string.refresh),
-                icon = Icons.Filled.Refresh,
-                action = onRefresh
-            )
-        )
-    )
+                stringResource(id = R.string.refresh), icon = Icons.Filled.Refresh, action = onRefresh
+            )))
+
+    if (openDialog.value) {
+        AlertDialog(shape = MaterialTheme.shapes.medium, onDismissRequest = {
+            // Dismiss the dialog when the user clicks outside the dialog or on the back
+            // button. If you want to disable that functionality, simply use an empty
+            // onCloseRequest.
+            openDialog.value = false
+        }, title = {
+            Text(text = "Extra info")
+        }, text = {
+            Column {
+                if (state.barcode != null) {
+                    Image(
+                        modifier = Modifier.fillMaxWidth(),
+                        bitmap = state.barcode.asImageBitmap(),
+                        contentDescription = "Barcode"
+                    )
+                }
+
+                Row {
+                    IconButton(onClick = copyAction) {
+                        Icon(
+                        modifier = Modifier.align(Alignment.CenterVertically).size(24.dp),
+                            painter = painterResource(id = R.drawable.ic_copy),
+                            contentDescription = stringResource(
+                                id = R.string.copy
+                            ),
+                        )
+                    }
+                    Text(
+                        modifier = Modifier.fillMaxWidth().align(Alignment.CenterVertically).padding(4.dp),
+                        textAlign = TextAlign.Center,
+                        text = state.trackingCode,
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.Bold,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1,
+                    )
+                }
+
+            }
+
+        }, confirmButton = {
+            Button(onClick = {
+                openDialog.value = false
+            }) {
+                Text("Ok")
+            }
+        })
+    }
 }
