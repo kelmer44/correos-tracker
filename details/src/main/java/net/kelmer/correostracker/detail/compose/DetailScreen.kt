@@ -1,6 +1,7 @@
 package net.kelmer.correostracker.detail.compose
 
 import android.graphics.ImageDecoder.ImageInfo
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -49,6 +51,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import net.kelmer.correostracker.dataApi.model.exception.CorreosException
 import net.kelmer.correostracker.details.R
 import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 
@@ -56,6 +60,7 @@ import net.kelmer.correostracker.detail.ParcelDetailViewModel
 import net.kelmer.correostracker.ui.compose.ActionItem
 import net.kelmer.correostracker.ui.compose.FaseIcon
 import net.kelmer.correostracker.ui.compose.NoSearchAppBar
+import net.kelmer.correostracker.util.NetworkInteractor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,7 +78,15 @@ fun DetailScreen(
             modifier = modifier.padding(contentPadding)
         ) {
             if (state.isLoading) {
-
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center), color = MaterialTheme.colorScheme.secondary
+                    )
+                }
             }
             if (state.parcelDetail != null) {
                 EventList(
@@ -86,13 +99,67 @@ fun DetailScreen(
                         .fillMaxWidth()
                         .fillMaxHeight()
                 ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center), color = MaterialTheme.colorScheme.secondary
-                    )
+                    Column(modifier = Modifier.align(Alignment.Center)) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_error),
+                            contentDescription = "Error",
+                            modifier = Modifier
+                                .size(64.dp)
+                                .align(Alignment.CenterHorizontally)
+                        )
+                        ErrorText(
+                            state = state,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                                .align(Alignment.CenterHorizontally)
+                        )
+                    }
                 }
             }
         }
     })
+}
+
+@Composable
+fun ErrorText(state: ParcelDetailViewModel.State, modifier: Modifier) {
+
+    when (state.error) {
+        is CorreosException -> {
+            FirebaseCrashlytics.getInstance().log("Controlled Exception Error ${state.trackingCode}")
+            FirebaseCrashlytics.getInstance().recordException(state.error)
+            Text(
+                text = state.error.message ?: "",
+                textAlign = TextAlign.Center,
+                modifier = modifier
+            )
+        }
+        is NetworkInteractor.NetworkUnavailableException -> {
+            FirebaseCrashlytics.getInstance()
+                .log("Controlled Network Unavailable Exception Error ${state.trackingCode}")
+            FirebaseCrashlytics.getInstance().recordException(state.error)
+            Text(
+                stringResource(
+                    id = R.string.error_no_network
+                ),
+                textAlign = TextAlign.Center,
+                modifier = modifier
+            )
+        }
+        else -> {
+            FirebaseCrashlytics.getInstance().log("Unknown Error ${state.trackingCode}")
+            if (state.error != null) {
+                FirebaseCrashlytics.getInstance().recordException(state.error)
+            }
+            Text(
+                stringResource(
+                    id = R.string.error_unrecognized
+                ),
+                textAlign = TextAlign.Center,
+                modifier = modifier
+            )
+        }
+    }
 }
 
 @Composable
@@ -296,17 +363,20 @@ fun DetailAppBar(
                 Icon(Icons.Filled.ArrowBack, "backIcon", tint = MaterialTheme.colorScheme.onPrimary)
             }
         },
-        actionItems = listOf(ActionItem(stringResource(id = R.string.parcel_info),
-            painterIcon = painterResource(id = R.drawable.ic_info_black_24dp),
-            action = {
-                if(state.parcelDetail != null) {
-                    openDialog.value = true
-                }
-            }),
+        actionItems = listOf(
+            ActionItem(stringResource(id = R.string.parcel_info),
+                painterIcon = painterResource(id = R.drawable.ic_info_black_24dp),
+                action = {
+                    if (state.parcelDetail != null) {
+                        openDialog.value = true
+                    }
+                }),
 
             ActionItem(
                 stringResource(id = R.string.refresh), icon = Icons.Filled.Refresh, action = onRefresh
-            )))
+            )
+        )
+    )
 
     if (openDialog.value) {
         AlertDialog(shape = MaterialTheme.shapes.medium, onDismissRequest = {
@@ -329,7 +399,9 @@ fun DetailAppBar(
                 Row {
                     IconButton(onClick = copyAction) {
                         Icon(
-                        modifier = Modifier.align(Alignment.CenterVertically).size(24.dp),
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically)
+                                .size(24.dp),
                             painter = painterResource(id = R.drawable.ic_copy),
                             contentDescription = stringResource(
                                 id = R.string.copy
@@ -337,7 +409,10 @@ fun DetailAppBar(
                         )
                     }
                     Text(
-                        modifier = Modifier.fillMaxWidth().align(Alignment.CenterVertically).padding(4.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .align(Alignment.CenterVertically)
+                            .padding(4.dp),
                         textAlign = TextAlign.Center,
                         text = state.trackingCode,
                         style = MaterialTheme.typography.bodyLarge,

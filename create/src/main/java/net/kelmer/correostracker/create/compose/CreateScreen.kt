@@ -47,6 +47,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import net.kelmer.correostracker.create.CreateParcelViewModel
 import net.kelmer.correostracker.create.R
+import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.ui.compose.NoSearchAppBar
 import timber.log.Timber
 
@@ -54,7 +55,8 @@ import timber.log.Timber
 @Composable
 fun CreateScreen(
     state: CreateParcelViewModel.State,
-    backAction: () -> Unit = {}
+    backAction: () -> Unit = {},
+    confirmAction: (Form) -> Unit = {}
 ) {
     Scaffold(
         topBar = { CreateAppBar(backAction) },
@@ -68,7 +70,7 @@ fun CreateScreen(
             }
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { /*TODO*/ }) {
+            FloatingActionButton(onClick = { confirmAction }) {
                 Icon(imageVector = Icons.Filled.Check, contentDescription = "Ok")
             }
         })
@@ -78,13 +80,13 @@ fun CreateScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreationForm() {
-    var trackingCode by rememberSaveable { mutableStateOf("") }
-    var parcelName by rememberSaveable { mutableStateOf("") }
-    val enableNotifications = remember { mutableStateOf(true) }
-    val radioOptions = listOf(stringResource(id = R.string.incoming), stringResource(id = R.string.outgoing))
-    val (selectedOption, onOptionSelected) = remember {
-        mutableStateOf(radioOptions[1])
-    }
+    var formResult by remember { mutableStateOf(Form("", "" , true, LocalParcelReference.Stance.INCOMING)) }
+
+    val radioOptions =
+        listOf(
+            LocalParcelReference.Stance.INCOMING to stringResource(id = R.string.incoming),
+            LocalParcelReference.Stance.OUTGOING to stringResource(id = R.string.outgoing)
+        )
     val focusManager = LocalFocusManager.current
     val (code, name, switch, incoming, outgoing) = FocusRequester.createRefs()
 
@@ -101,8 +103,8 @@ fun CreationForm() {
                 }
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-        value = trackingCode,
-        onValueChange = { value: String -> trackingCode = value },
+        value = formResult.trackingCode,
+        onValueChange = { value: String -> formResult = formResult.copy(trackingCode = value) },
         label = {
             Text(stringResource(id = R.string.parcel_code))
         },
@@ -131,8 +133,8 @@ fun CreationForm() {
                 }
             },
         singleLine = true,
-        value = parcelName,
-        onValueChange = { value: String -> parcelName = value },
+        value = formResult.parcelName,
+        onValueChange = { value: String -> formResult = formResult.copy(parcelName = value) },
         label = {
             Text(stringResource(id = R.string.parcel_name))
         },
@@ -150,8 +152,8 @@ fun CreationForm() {
                 .padding(16.dp)
         )
         Switch(
-            checked = enableNotifications.value,
-            onCheckedChange = { enableNotifications.value = it },
+            checked = formResult.enableNotifications,
+            onCheckedChange = { formResult = formResult.copy(enableNotifications = it) },
             modifier = Modifier
         )
     }
@@ -163,19 +165,20 @@ fun CreationForm() {
             .padding(horizontal = 16.dp, vertical = 8.dp)
     )
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-
-        radioOptions.forEach { text ->
+        radioOptions.forEach { (stance, text) ->
             Row(Modifier
                 .selectable(
-                    selected = (text == selectedOption),
+                    selected = ( stance == formResult.stance),
                     onClick = {
-                        onOptionSelected(text)
+                        formResult = formResult.copy(stance = stance)
                     },
                 )) {
                 RadioButton(
                     modifier = Modifier.align(Alignment.CenterVertically),
-                    selected = (text == selectedOption),
-                    onClick = { onOptionSelected(text) }
+                    selected = ( stance == formResult.stance),
+                    onClick = {
+                        formResult = formResult.copy(stance = stance)
+                    }
                 )
                 Text(
                     text = text,
@@ -216,3 +219,11 @@ fun CreateScreenPreview() {
         )
     )
 }
+
+
+data class Form(
+    val trackingCode: String,
+    val parcelName: String,
+    val enableNotifications: Boolean,
+    val stance: LocalParcelReference.Stance
+)

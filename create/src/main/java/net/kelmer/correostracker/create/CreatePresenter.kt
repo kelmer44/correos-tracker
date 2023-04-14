@@ -26,7 +26,7 @@ class CreatePresenter @Inject constructor(
     private val binding = FragmentCreateParcelBinding.bind(fragment.requireView())
 
     init {
-        
+
         NavigationUI.setupWithNavController(binding.createToolbar, findNavController(fragment))
 
         val registerForActivityResult = fragment.registerForActivityResult(
@@ -75,9 +75,13 @@ class CreatePresenter @Inject constructor(
     fun bindState(state: CreateParcelViewModel.State) {
 
         binding.composeView.setContent {
-            CreateScreen(state = state) {
-                findNavController(fragment)
-                    .popBackStack()
+            CreateScreen(
+                state = state,
+                backAction = {
+                    findNavController(fragment)
+                        .popBackStack()
+                }) { form ->
+                Timber.i("Form result = $form")
             }
         }
 
