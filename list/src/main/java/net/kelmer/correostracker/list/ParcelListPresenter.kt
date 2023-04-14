@@ -101,7 +101,7 @@ class ParcelListPresenter @Inject constructor(
 
         toolbar.inflateMenu(R.menu.menu_list)
         val searchViewItem = toolbar.menu.findItem(R.id.app_search)
-        searchView = MenuItemCompat.getActionView(searchViewItem) as SearchView
+        searchView = MenuItemCompat.getActionView(searchViewItem) as? SearchView
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 searchView?.clearFocus()
@@ -159,15 +159,21 @@ class ParcelListPresenter @Inject constructor(
         }
 
         override fun click(parcelReference: LocalParcelReference) {
-            val request = NavDeepLinkRequest.Builder
-                .fromUri("correostracker://details/${parcelReference.trackingCode}".toUri())
-                .build()
-            fragment.findNavController().navigate(
-                request, NavOptions.Builder()
-                    .setEnterAnim(R.anim.nav_default_enter_anim)
-                    .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
+            val fromLiteral = Regex.fromLiteral("^[a-zA-Z0-9]*\$")
+            if(parcelReference.trackingCode.matches(fromLiteral)) {
+                val request = NavDeepLinkRequest.Builder
+                    .fromUri("correostracker://details/${parcelReference.trackingCode}".toUri())
                     .build()
-            )
+                fragment.findNavController().navigate(
+                    request, NavOptions.Builder()
+                        .setEnterAnim(R.anim.nav_default_enter_anim)
+                        .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
+                        .build()
+                )
+            }
+            else {
+                Toast.makeText(fragment.requireContext(), fragment.getString(R.string.error_unrecognized), Toast.LENGTH_LONG).show()
+            }
         }
 
         override fun dots(view: View, parcelReference: LocalParcelReference) {

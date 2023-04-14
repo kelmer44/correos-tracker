@@ -1,6 +1,6 @@
 def versionMajor = 2
 def versionMinor = 3
-def versionPatch = 3
+def versionPatch = 4
 def versionBuild = 0
 
 apply from: rootProject.file('gradle/moduleapp.gradle')
@@ -94,12 +94,10 @@ dependencies {
     implementation project(':iap')
 
 
-    // Check for v11.4.2 or higher
-    implementation 'com.google.firebase:firebase-core:20.0.0'
-
-    // (Recommended) Add Analytics
-    implementation 'com.google.firebase:firebase-crashlytics:18.2.5'
-    implementation 'com.google.firebase:firebase-analytics:20.0.0'
+    implementation platform(libs.firebase.bom)
+    implementation libs.firebase.analytics
+    implementation libs.firebase.common
+    implementation libs.firebase.crashlytics
 
 
     //Test

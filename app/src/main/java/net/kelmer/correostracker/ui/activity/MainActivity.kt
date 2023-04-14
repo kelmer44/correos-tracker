@@ -38,15 +38,21 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
     private fun initWorker() {
         val constraints = Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
 
-        val uploadWorker = PeriodicWorkRequest.Builder(
+        val uploadWorker = PeriodicWorkRequest
+            .Builder(
                 ParcelPollWorker::class.java, 15L, TimeUnit.MINUTES
-        )
-                .setConstraints(constraints)
-                .build()
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(CorreosApp.PARCEL_CHECKER_WORKREQUEST, ExistingPeriodicWorkPolicy.REPLACE, uploadWorker)
+            )
+            .setConstraints(constraints)
+            .build()
+        WorkManager.getInstance(this)
+            .enqueueUniquePeriodicWork(
+                CorreosApp.PARCEL_CHECKER_WORKREQUEST,
+                ExistingPeriodicWorkPolicy.REPLACE,
+                uploadWorker
+            )
 
         parcelListPreferences.themeModeLive.observe(this, ThemeObserver())
     }
