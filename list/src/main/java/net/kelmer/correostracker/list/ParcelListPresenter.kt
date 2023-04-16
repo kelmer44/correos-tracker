@@ -23,6 +23,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import net.kelmer.correostracker.dataApi.model.exception.InvalidDetailDeepLink
+import net.kelmer.correostracker.dataApi.model.exception.WrongCodeException
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.iap.InAppReviewService
 import net.kelmer.correostracker.list.adapter.ParcelClickListener
@@ -158,11 +160,15 @@ class ParcelListPresenter @Inject constructor(
             fragment.context?.copyToClipboard(parcelReference.trackingCode)
         }
 
+        private fun buildDeepLink(parcel: LocalParcelReference): Uri
+        ="correostracker://details/${parcel.trackingCode}".toUri()
+
+
         override fun click(parcelReference: LocalParcelReference) {
-            val fromLiteral = Regex.fromLiteral("^[a-zA-Z0-9]*\$")
+            val fromLiteral ="^[a-zA-Z\\d]*$".toRegex(setOf(RegexOption.IGNORE_CASE))
             if(parcelReference.trackingCode.matches(fromLiteral)) {
                 val request = NavDeepLinkRequest.Builder
-                    .fromUri("correostracker://details/${parcelReference.trackingCode}".toUri())
+                    .fromUri(buildDeepLink(parcelReference))
                     .build()
                 fragment.findNavController().navigate(
                     request, NavOptions.Builder()
@@ -172,7 +178,16 @@ class ParcelListPresenter @Inject constructor(
                 )
             }
             else {
-                Toast.makeText(fragment.requireContext(), fragment.getString(R.string.error_unrecognized), Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    fragment.requireContext(),
+                    fragment.getString(R.string.invalid_code),
+                    Toast.LENGTH_LONG
+                ).show()
+                FirebaseCrashlytics.getInstance().recordException(
+                    InvalidDetailDeepLink(
+                        buildDeepLink(parcelReference).toString()
+                    )
+                )
             }
         }
 

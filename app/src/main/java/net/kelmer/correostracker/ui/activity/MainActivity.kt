@@ -1,7 +1,13 @@
 package net.kelmer.correostracker.ui.activity
 
+import android.app.PendingIntent
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.Observer
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -15,7 +21,10 @@ import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.activity.BaseActivity
 import net.kelmer.correostracker.di.worker.MyWorkerFactory
 import net.kelmer.correostracker.list.ParcelListPreferences
+import net.kelmer.correostracker.service.worker.NotificationID
+import net.kelmer.correostracker.service.worker.PERMISSION_NOTIS
 import net.kelmer.correostracker.service.worker.ParcelPollWorker
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -34,6 +43,18 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initWorker()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+            shouldShowRequestPermissionRationale(PERMISSION_NOTIS)
+        ) {
+            ActivityCompat.requestPermissions(this, arrayOf(PERMISSION_NOTIS), NOTI_REQ_PERMISSION)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == NOTI_REQ_PERMISSION){
+            Timber.i("Permission granted!")
+        }
     }
 
     private fun initWorker() {
@@ -64,5 +85,9 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                 AppCompatDelegate.setDefaultNightMode(t)
             }
         }
+    }
+
+    companion object {
+        const val NOTI_REQ_PERMISSION = 1
     }
 }

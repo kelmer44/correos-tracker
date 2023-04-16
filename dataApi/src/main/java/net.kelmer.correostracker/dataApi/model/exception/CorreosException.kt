@@ -6,5 +6,6 @@ open class CorreosException(val code: String, val mensaje: String?) : Exception(
 
     companion object {
         val CODE_INVALID_CODE = "3"
+        val INVALID_DEEPLINK = "4"
     }
 }
