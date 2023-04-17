@@ -2,7 +2,7 @@
 # NOTA: Este proyecto es gratuito y no tiene publicidad, mantengo la app en solitario y de manera gratuita. Si te gusta la app por favor contribuye en KO-FI, son sólo 2 euros!
 
 <p align="center">
-<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Págame un café ', '#29abe0', 'W7W31AP33');kofiwidget2.draw();</script> 
+<a href='https://ko-fi.com/W7W31AP33' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
   </p>
 
 # Seguimiento Correos
