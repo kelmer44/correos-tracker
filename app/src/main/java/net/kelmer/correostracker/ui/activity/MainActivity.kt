@@ -14,6 +14,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
 import net.kelmer.correostracker.BuildConfig
 import net.kelmer.correostracker.CorreosApp
@@ -43,10 +44,42 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initWorker()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-            shouldShowRequestPermissionRationale(PERMISSION_NOTIS)
-        ) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(PERMISSION_NOTIS)) {
             ActivityCompat.requestPermissions(this, arrayOf(PERMISSION_NOTIS), NOTI_REQ_PERMISSION)
+        }
+    }
+
+    private fun triggerSampleNotification(){
+        val notificationIntent = Intent(applicationContext, MainActivity::class.java)
+        val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PendingIntent.getActivity(
+                applicationContext,
+                0,
+                notificationIntent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
+        } else {
+            PendingIntent.getActivity(applicationContext, 0, notificationIntent, 0)
+        }
+
+        val notification = NotificationCompat.Builder(applicationContext, ParcelPollWorker.CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_reparto)
+            .setContentTitle("Test")
+            .setContentText("This is a test")
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText("This is a big test")
+            )
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(intent)
+            .setAutoCancel(true)
+            .build()
+
+        try {
+            NotificationManagerCompat.from(applicationContext).notify(NotificationID.id, notification)
+        } catch (s: SecurityException){
+            Timber.e(s)
+            FirebaseCrashlytics.getInstance().recordException(s)
         }
     }
 
