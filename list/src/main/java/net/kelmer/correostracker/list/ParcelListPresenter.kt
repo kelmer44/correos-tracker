@@ -138,7 +138,7 @@ class ParcelListPresenter @Inject constructor(
     private fun showFeature() {
         featureBlurbDialog(
             context = fragment.requireContext(),
-            titleText = R.string.feature_dialog_title,
+            titleText = R.string.about,
             okText = android.R.string.ok,
             okListener = {
             },
@@ -165,7 +165,7 @@ class ParcelListPresenter @Inject constructor(
 
 
         override fun click(parcelReference: LocalParcelReference) {
-            val fromLiteral ="^[a-zA-Z\\d]*$".toRegex(setOf(RegexOption.IGNORE_CASE))
+            val fromLiteral ="^[a-zA-Z \\d]*$".toRegex(setOf(RegexOption.IGNORE_CASE))
             if(parcelReference.trackingCode.matches(fromLiteral)) {
                 val request = NavDeepLinkRequest.Builder
                     .fromUri(buildDeepLink(parcelReference))
