@@ -26,9 +26,10 @@
     <string name="changes_2_2_6">Implementa nuevos servicios de Correos, que no incluyen Unidad.</string>
     <string name="changes_2_2_7">Vuelve la trazabilidad por localización a la app.</string>
     <string name="changes_2_3_2">Se ha reescrito la app con una nueva arquitectura. Mejoras en los tiempos de carga.</string>
+    <string name="changes_2_3_3">Arregladas notificaciones.</string>
 
     <string name="feature_dialog_title">Últimas novedades</string>
-    <string name="feature_dialog_opensource">Esta app NO tiene afiliación alguna con la Sociedad Estatal Correos y Telégrafos, S.A. sino que ha sido creada por un desarrollador independiente. Seguimiento Correos es gratuita y open source y no tiene anuncios.</string>
+    <string name="feature_dialog_opensource">Esta app NO tiene afiliación alguna con Correos, sino que es un desarrollo independiente, gratuito y sin anuncios. Colabora con nosotros o reporta errores en nuestra web:</string>
     <string name="feature_dialog_opensource_contribute">Si quieres contribuir con el proyecto haz una donación a través de Kofi:</string>
 
     <string name="delete_confirm_title">Eliminar paquete</string>
@@ -39,4 +40,6 @@
     <string name="menu_disable_notifications">Desactivar alertas</string>
     <string name="menu_enable_notifications">Activar alertas</string>
     <string name="delete">Eliminar</string>
+
+    <string name="visit_web">Visita nuestra web</string>
 </resources>

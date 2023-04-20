@@ -1,5 +1,6 @@
 package net.kelmer.correostracker.ui.compose
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -29,7 +30,7 @@ fun NoSearchAppBar(
     subtitle: String? = null,
     navigationIcon: @Composable () -> Unit = {},
 ) {
-    AppBarTheme(false) {
+    AppBarTheme {
         TopAppBar(
             title = {
                 Column {
@@ -80,7 +81,7 @@ fun NoSearchAppBar(
 
 @Composable
 fun AppBarTheme(
-    useDarkTheme: Boolean,
+    useDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable() () -> Unit,
 ) {
     val typography = MaterialTheme.typography.copy(

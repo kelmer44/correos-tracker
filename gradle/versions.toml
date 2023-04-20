@@ -81,6 +81,8 @@ androidx-startup = { module = "androidx.startup:startup-runtime", version = "1.1
 
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version = "1.1.0" }
 
+androidx-datastore = { module = "androidx.datastore:datastore-preferences", version = "1.0.0" }
+
 androidx-test-core = { module = "androidx.test:core", version.ref = "androidXTestCoreVersion" }
 androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "androidXTestCoreVersion" }
 androidx-test-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "androidXTestEspressoVersion" }

@@ -57,6 +57,7 @@ fun featureBlurbDialog(
     val featureList = inflate.findViewById<RecyclerView>(R.id.dialog_list)
     val ok = inflate.findViewById<Button>(R.id.dialog_yes_button)
     val github = inflate.findViewById<ImageView>(R.id.github_button)
+    val visitUs = inflate.findViewById<Button>(R.id.visit_us)
     val cancel = inflate.findViewById<AppCompatImageButton>(R.id.dialog_no_button)
     ok?.text = okText
     title?.text = titleText
@@ -64,6 +65,7 @@ fun featureBlurbDialog(
     val groupAdapter = GroupAdapter<GroupieViewHolder>()
     featureList.adapter = groupAdapter
     groupAdapter.update(listOf(
+        Feature("2.3.3", R.string.changes_2_3_3),
         Feature("2.3.2", R.string.changes_2_3_2),
         Feature("2.2.7", R.string.changes_2_2_7),
         Feature("2.2.6", R.string.changes_2_2_6),
@@ -72,13 +74,15 @@ fun featureBlurbDialog(
         Feature("1.9.5", R.string.changes_1_9_5),
         Feature("1.9.0", R.string.changes_1_9_0),
         Feature("1.8.0", R.string.changes_1_8_0),
-        Feature("1.7.2", R.string.changes_1_7_2),
     ).map { FeatureListItem(it) })
 
     github.setOnClickListener {
         githubListener()
     }
 
+    visitUs.setOnClickListener {
+        githubListener()
+    }
     ok?.setOnClickListener {
         okListener()
         create.dismiss()

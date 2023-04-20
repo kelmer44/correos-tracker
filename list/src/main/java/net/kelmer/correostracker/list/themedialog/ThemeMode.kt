@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.list.model
+package net.kelmer.correostracker.list.themedialog
 
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate

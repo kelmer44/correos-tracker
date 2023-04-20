@@ -1,5 +1,6 @@
 package net.kelmer.correostracker.list.compose
 
+import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -16,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -44,6 +46,7 @@ import net.kelmer.correostracker.list.R
 import net.kelmer.correostracker.ui.compose.ActionItem
 import net.kelmer.correostracker.ui.compose.CircledIcon
 import net.kelmer.correostracker.ui.compose.FaseIcon
+import net.kelmer.correostracker.ui.theme.CorreosTheme
 import java.text.SimpleDateFormat
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -152,6 +155,9 @@ fun ParcelListItem(
                 onLongClick = { onLongPressParcel(parcel.trackingCode) },
             ),
         shape = RoundedCornerShape(4.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = Color.White
+        )
     ) {
         Column(
             modifier = Modifier
@@ -321,3 +327,38 @@ fun previewList() {
 
 private
 val dateFormat = SimpleDateFormat("dd/MM/yyy HH:mm:ss")
+
+@Composable
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
+fun previewScreen() {
+    CorreosTheme {
+        ParcelsScreen(state = ParcelListViewModel.State(
+            sampleList()
+        ))
+    }
+}
+
+private fun sampleList() =  listOf(
+    LocalParcelReference(
+        "22313",
+        "123123",
+        "bla",
+        LocalParcelReference.Stance.INCOMING,
+        CorreosApiEvent("", "", "", "1", "", "", ""),
+        1, notify = true,
+        updateStatus = LocalParcelReference.UpdateStatus.OK
+    ),
+    LocalParcelReference(
+        "1242345324654",
+        "1233423423123",
+        "Bla bla",
+        LocalParcelReference.Stance.OUTGOING,
+        CorreosApiEvent("", "", "", "1", "", "", ""),
+        1, notify = true,
+        updateStatus = LocalParcelReference.UpdateStatus.OK
+    )
+)

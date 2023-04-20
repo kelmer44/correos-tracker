@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.appcompat.app.AlertDialog
 import net.kelmer.correostracker.list.R
-import net.kelmer.correostracker.list.model.ThemeMode
+import net.kelmer.correostracker.list.themedialog.ThemeMode
 
 /**
  * Created by Gabriel Sanmartín on 11/09/2020.

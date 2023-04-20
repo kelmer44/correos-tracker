@@ -15,6 +15,7 @@ import com.journeyapps.barcodescanner.ScanOptions
 import net.kelmer.correostracker.create.compose.CreateScreen
 import net.kelmer.correostracker.create.databinding.FragmentCreateParcelBinding
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
+import net.kelmer.correostracker.ui.theme.CorreosTheme
 import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject
@@ -75,13 +76,15 @@ class CreatePresenter @Inject constructor(
     fun bindState(state: CreateParcelViewModel.State) {
 
         binding.composeView.setContent {
-            CreateScreen(
-                state = state,
-                backAction = {
-                    findNavController(fragment)
-                        .popBackStack()
-                }) { form ->
-                Timber.i("Form result = $form")
+            CorreosTheme {
+                CreateScreen(
+                    state = state,
+                    backAction = {
+                        findNavController(fragment)
+                            .popBackStack()
+                    }) { form ->
+                    Timber.i("Form result = $form")
+                }
             }
         }
 

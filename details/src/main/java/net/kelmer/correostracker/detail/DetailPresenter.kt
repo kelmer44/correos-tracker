@@ -74,8 +74,7 @@ class DetailPresenter @Inject constructor(
 
         binding.composeView.apply {
             setContent {
-//                va/l darkTheme = fragment.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-                CorreosTheme(false) {
+                CorreosTheme {
                     DetailScreen(
                         state,
                         backAction = {

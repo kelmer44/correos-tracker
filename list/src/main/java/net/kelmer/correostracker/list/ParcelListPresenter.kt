@@ -24,6 +24,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import net.kelmer.correostracker.dataApi.model.exception.InvalidDetailDeepLink
+import net.kelmer.correostracker.dataApi.model.exception.WrongCodeException
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.iap.InAppReviewService
 import net.kelmer.correostracker.list.adapter.ParcelClickListener
@@ -88,7 +90,7 @@ class ParcelListPresenter @Inject constructor(
         binding.composeView.apply {
             setContent {
 //                va/l darkTheme = fragment.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-                CorreosTheme(false ) {
+                CorreosTheme {
                     ParcelsScreen(
                         state = state,
                         onTextChange = {
@@ -103,7 +105,7 @@ class ParcelListPresenter @Inject constructor(
                         onParcelClicked = {
                             details(it)
                         },
-                        onRefreshAll =  {
+                        onRefreshAll = {
                             refreshFromRemote()
                         },
                         onRemoveParcel = {
@@ -121,10 +123,9 @@ class ParcelListPresenter @Inject constructor(
                             }.show()
                         },
                         onToggleNotifications = { code, enabled ->
-                            if(enabled) {
+                            if (enabled) {
                                 viewModel.enableNotifications(code)
-                            }
-                            else {
+                            } else {
                                 viewModel.disableNotifications(code)
                             }
                         },
@@ -150,16 +151,32 @@ class ParcelListPresenter @Inject constructor(
         }
     }
 
+    private fun buildDeepLink(trackingCode: String): Uri = "correostracker://details/${trackingCode}".toUri()
+
     private fun details(trackingCode: String) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri("correostracker://details/$trackingCode".toUri())
-            .build()
-        fragment.findNavController().navigate(
-            request, NavOptions.Builder()
-                .setEnterAnim(R.anim.nav_default_enter_anim)
-                .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
+        val fromLiteral = "^[a-zA-Z \\d]*$".toRegex(setOf(RegexOption.IGNORE_CASE))
+        if (trackingCode.matches(fromLiteral)) {
+            val request = NavDeepLinkRequest.Builder
+                .fromUri(buildDeepLink(trackingCode))
                 .build()
-        )
+            fragment.findNavController().navigate(
+                request, NavOptions.Builder()
+                    .setEnterAnim(R.anim.nav_default_enter_anim)
+                    .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
+                    .build()
+            )
+        } else {
+            Toast.makeText(
+                fragment.requireContext(),
+                fragment.getString(R.string.invalid_code),
+                Toast.LENGTH_LONG
+            ).show()
+            FirebaseCrashlytics.getInstance().recordException(
+                InvalidDetailDeepLink(
+                    buildDeepLink(trackingCode).toString()
+                )
+            )
+        }
     }
 
     var searchView: SearchView? = null
@@ -168,7 +185,7 @@ class ParcelListPresenter @Inject constructor(
 
         toolbar.inflateMenu(R.menu.menu_list)
         val searchViewItem = toolbar.menu.findItem(R.id.app_search)
-        searchView = MenuItemCompat.getActionView(searchViewItem) as SearchView
+        searchView = MenuItemCompat.getActionView(searchViewItem) as? SearchView
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 searchView?.clearFocus()
@@ -203,7 +220,7 @@ class ParcelListPresenter @Inject constructor(
     private fun showFeature() {
         featureBlurbDialog(
             context = fragment.requireContext(),
-            titleText = R.string.feature_dialog_title,
+            titleText = R.string.about,
             okText = android.R.string.ok,
             okListener = {
             },

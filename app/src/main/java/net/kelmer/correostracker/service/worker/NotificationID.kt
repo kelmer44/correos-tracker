@@ -7,3 +7,6 @@ object NotificationID {
     val id: Int
         get() = c.incrementAndGet()
 }
+
+//Permission
+const val PERMISSION_NOTIS = "android.permission.POST_NOTIFICATIONS"

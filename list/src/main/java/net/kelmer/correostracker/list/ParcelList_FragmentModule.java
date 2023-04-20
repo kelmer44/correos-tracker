@@ -20,10 +20,6 @@ abstract class ParcelList_FragmentModule
 {
     @Provides
     static GroupAdapter<GroupieViewHolder> providesGroupieAdapter() {
-        return new GroupAdapter<GroupieViewHolder>();
+        return new GroupAdapter<>();
     }
-
-    @Singleton
-    @Provides
-    static String providesString() { return "!!##$@$"; }
 }

@@ -1,13 +1,16 @@
 package net.kelmer.correostracker.create.compose
 
+import android.content.res.Configuration
 import android.view.KeyEvent.ACTION_DOWN
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
@@ -49,6 +52,7 @@ import net.kelmer.correostracker.create.CreateParcelViewModel
 import net.kelmer.correostracker.create.R
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.ui.compose.NoSearchAppBar
+import net.kelmer.correostracker.ui.theme.CorreosTheme
 import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
@@ -65,6 +69,7 @@ fun CreateScreen(
             Column(
                 modifier = Modifier
                     .padding(contentPadding)
+                    .verticalScroll(rememberScrollState())
             ) {
                 CreationForm()
             }
@@ -149,7 +154,8 @@ fun CreationForm() {
             text = stringResource(id = R.string.parcel_status_alerts),
             modifier = Modifier
                 .weight(1f)
-                .padding(16.dp)
+                .align(Alignment.CenterVertically)
+                .padding(end = 16.dp)
         )
         Switch(
             checked = formResult.enableNotifications,
@@ -212,12 +218,18 @@ fun CreateAppBar(
 
 
 @Composable
-@Preview
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
 fun CreateScreenPreview() {
-    CreateScreen(
-        CreateParcelViewModel.State(
+    CorreosTheme {
+        CreateScreen(
+            CreateParcelViewModel.State(
+            )
         )
-    )
+    }
 }
 
 
