@@ -51,12 +51,11 @@ fun NoSearchAppBar(
                     }
                 }
             },
-
-            colors = TopAppBarDefaults.smallTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                actionIconContentColor = MaterialTheme.colorScheme.onPrimary
-            ),
+//            colors = TopAppBarDefaults.smallTopAppBarColors(
+//                containerColor = MaterialTheme.colorScheme.primary,
+//                titleContentColor = MaterialTheme.colorScheme.onPrimary,
+//                actionIconContentColor = MaterialTheme.colorScheme.onPrimary
+//            ),
             actions = {
                 val (icons, options) = actionItems.partition { it.icon != null || it.painterIcon != null }
 
@@ -90,7 +89,9 @@ fun AppBarTheme(
         )
     )
     CorreosTheme(
-        useDarkTheme, overrideTypography = typography, content = content
+        useDarkTheme = useDarkTheme,
+        overrideTypography = typography,
+        content = content
     )
 }
 

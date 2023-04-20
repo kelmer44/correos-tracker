@@ -48,16 +48,12 @@ class CreatePresenter @Inject constructor(
                     else -> LocalParcelReference.Stance.OUTGOING
                 }
                 val notify = binding.parcelStatusAlerts.isChecked
-                val localParcelReference = LocalParcelReference(
-                    UUID.randomUUID().toString(),
-                    binding.parcelCode.text.toString(),
+                addParcel(
                     binding.parcelName.text.toString(),
+                    binding.parcelCode.text.toString(),
                     stance,
-                    null,
-                    notify = notify,
-                    updateStatus = LocalParcelReference.UpdateStatus.UNKNOWN
+                    notify
                 )
-                viewModel.addParcel(localParcelReference)
             } else {
                 binding.parcelCodeLayout.error = fragment.getString(R.string.error_nocodigo)
             }
@@ -73,6 +69,25 @@ class CreatePresenter @Inject constructor(
         }
     }
 
+    private fun addParcel(
+        parcelName: String,
+        parcelCode: String,
+        stance: LocalParcelReference.Stance,
+        notify: Boolean,
+    ) {
+        viewModel.addParcel(
+            LocalParcelReference(
+                code = UUID.randomUUID().toString(),
+                trackingCode = parcelCode,
+                parcelName = parcelName,
+                stance = stance,
+                ultimoEstado = null,
+                notify = notify,
+                updateStatus = LocalParcelReference.UpdateStatus.UNKNOWN
+            )
+        )
+    }
+
     fun bindState(state: CreateParcelViewModel.State) {
 
         binding.composeView.setContent {
@@ -82,8 +97,15 @@ class CreatePresenter @Inject constructor(
                     backAction = {
                         findNavController(fragment)
                             .popBackStack()
-                    }) { form ->
-                    Timber.i("Form result = $form")
+                    }
+                ) { form ->
+
+                    addParcel(
+                        parcelName = form.parcelName,
+                        parcelCode = form.trackingCode,
+                        stance = form.stance,
+                        notify = form.enableNotifications
+                    )
                 }
             }
         }
@@ -94,25 +116,9 @@ class CreatePresenter @Inject constructor(
             findNavController(fragment)
                 .popBackStack()
         }
-        if (state.isLoading) {
 
-        }
         if (state.error != null) {
             Timber.e(state.error)
-//            (it as? WrongCodeException)?.let {
-//                    ConfirmDialog.confirmDialog(
-//                        requireContext(),
-//                        R.string.create_parcel_error_codigo_title,
-//                        R.string.create_parcel_error_codigo
-//                    ) {
-//                    }
-//                    Toast.makeText(
-//                        context,
-//                        getString(R.string.create_parcel_error_codigo),
-//                        Toast.LENGTH_LONG
-//                    )
-//                        .show()
-//            }
         }
     }
 
