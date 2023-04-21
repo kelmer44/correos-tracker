@@ -1,7 +1,5 @@
 package net.kelmer.correostracker.detail.compose
 
-import android.graphics.ImageDecoder.ImageInfo
-import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -32,16 +29,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -56,7 +50,7 @@ import net.kelmer.correostracker.dataApi.model.exception.CorreosException
 import net.kelmer.correostracker.details.R
 import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 
-import net.kelmer.correostracker.detail.ParcelDetailViewModel
+import net.kelmer.correostracker.detail.DetailViewModel
 import net.kelmer.correostracker.ui.compose.ActionItem
 import net.kelmer.correostracker.ui.compose.FaseIcon
 import net.kelmer.correostracker.ui.compose.NoSearchAppBar
@@ -65,7 +59,7 @@ import net.kelmer.correostracker.util.NetworkInteractor
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
-    state: ParcelDetailViewModel.State,
+    state: DetailViewModel.State,
     modifier: Modifier = Modifier,
     backAction: () -> Unit = {},
     onRefresh: () -> Unit = {},
@@ -122,7 +116,7 @@ fun DetailScreen(
 }
 
 @Composable
-fun ErrorText(state: ParcelDetailViewModel.State, modifier: Modifier) {
+fun ErrorText(state: DetailViewModel.State, modifier: Modifier) {
 
     when (state.error) {
         is CorreosException -> {
@@ -348,7 +342,7 @@ fun EventListSample() {
 
 @Composable
 fun DetailAppBar(
-    state: ParcelDetailViewModel.State,
+    state: DetailViewModel.State,
     backAction: () -> Unit = {},
     onRefresh: () -> Unit = {},
     copyAction: () -> Unit = {}

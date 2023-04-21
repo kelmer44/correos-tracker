@@ -8,15 +8,15 @@ import androidx.lifecycle.LifecycleOwner
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDisposable
 import net.kelmer.correostracker.util.SchedulerProvider
-import timber.log.Timber
 import javax.inject.Inject
 
 class DetailLifecycleObserver @Inject constructor(
+    private val fragment: Fragment,
     private val detailPresenter: DetailPresenter,
     private val schedulerProvider: SchedulerProvider,
-    private val viewModel: ParcelDetailViewModel
 ) : DefaultLifecycleObserver {
 
+    private val viewModel : DetailViewModel by fragment.viewModels()
     override fun onStart(owner: LifecycleOwner) {
         viewModel.stateOnceAndStream
             .subscribeOn(schedulerProvider.io())

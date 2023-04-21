@@ -168,6 +168,7 @@ moshi-reflect = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "mos
 moshi-adapters = { module = "com.squareup.moshi:moshi-adapters", version.ref = "moshiVersion" }
 
 navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
+navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
 navigation-safeargs = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }
 

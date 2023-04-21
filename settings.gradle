@@ -20,9 +20,6 @@ dependencyResolutionManagement {
         buildLibs {
             from(files("gradle/buildversions.toml"))
         }
-        libs {
-            from(files("gradle/versions.toml"))
-        }
     }
 }
 

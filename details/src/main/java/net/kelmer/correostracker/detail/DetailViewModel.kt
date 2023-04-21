@@ -1,9 +1,11 @@
 package net.kelmer.correostracker.detail
 
 import android.graphics.Bitmap
+import androidx.lifecycle.SavedStateHandle
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.journeyapps.barcodescanner.BarcodeEncoder
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.processors.BehaviorProcessor
 import net.kelmer.correostracker.dataApi.model.dto.ParcelDetailDTO
 import net.kelmer.correostracker.dataApi.repository.correos.CorreosRepository
@@ -14,14 +16,17 @@ import net.kelmer.correostracker.viewmodel.AutoDisposeViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
-class ParcelDetailViewModel @Inject constructor(
-    private val parcelCode: String,
+@HiltViewModel
+class DetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     localParcelRepository: LocalParcelRepository,
     private val correosRepository: CorreosRepository,
     schedulerProvider: SchedulerProvider,
     private val deviceInfo: DeviceInfo
 ) : AutoDisposeViewModel() {
 
+    private val _parcelCode: String? = savedStateHandle.get(DetailFragment.KEY_PARCELCODE)
+    private val parcelCode : String = requireNotNull(_parcelCode)
     init {
         Timber.i("Detail - ViewModel Created!")
     }

@@ -64,6 +64,7 @@ dependencies {
 
     implementation libs.navigation.fragment
     implementation libs.navigation.ui
+    implementation libs.navigation.compose
 
     implementation libs.okhttp.library
     implementation libs.okhttp.logging.interceptor
@@ -90,9 +91,13 @@ dependencies {
     // Material Design 3
     implementation 'androidx.compose.material3:material3'
     implementation 'androidx.compose.foundation:foundation'
+
+    implementation "androidx.compose.material3:material3-window-size-class"
     // or only import the main APIs for the underlying toolkit systems,
     // such as input and measurement/layout
     implementation 'androidx.compose.ui:ui'
+    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+
 
     // Android Studio Preview support
     implementation 'androidx.compose.ui:ui-tooling-preview'

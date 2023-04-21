@@ -37,17 +37,4 @@ class CreateParcelFragment : Fragment(R.layout.fragment_create_parcel) {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycle.addObserver(lifecycleObserverProvider.get())
     }
-
-    //TODO : Replace with new Apis
-    override fun onActivityResult(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?
-    ) {
-        val result =
-            IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-        result.contents?.let {
-        }
-    }
-
 }

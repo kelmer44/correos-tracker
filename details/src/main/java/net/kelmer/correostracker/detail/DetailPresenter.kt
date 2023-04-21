@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
@@ -32,11 +33,11 @@ import javax.inject.Inject
 
 class DetailPresenter @Inject constructor(
     private val fragment: Fragment,
-    private val viewModel: ParcelDetailViewModel,
     private val groupieAdapter: GroupAdapter<GroupieViewHolder>,
     private val detailTimelineItem: DetailTimelineItem.Factory
 ) {
     private val binding = FragmentDetailBinding.bind(fragment.requireView())
+    private val viewModel: DetailViewModel by fragment.viewModels()
     private val args: DetailFragmentArgs by fragment.navArgs()
     private val parcelCode = args.parcelCode
 
@@ -70,7 +71,7 @@ class DetailPresenter @Inject constructor(
         }
     }
 
-    fun bindState(state: ParcelDetailViewModel.State) {
+    fun bindState(state: DetailViewModel.State) {
 
         binding.composeView.apply {
             setContent {
