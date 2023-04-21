@@ -297,7 +297,7 @@ fun CreateAppBar(
         actionItems = emptyList(),
         navigationIcon = {
             IconButton(onClick = backAction) {
-                Icon(Icons.Filled.ArrowBack, "backIcon", tint = MaterialTheme.colorScheme.onPrimary)
+                Icon(Icons.Filled.ArrowBack, "backIcon")
             }
         }
     )

@@ -24,7 +24,8 @@ fun featureBlurbDialog(
         @StringRes titleText: Int,
         @StringRes okText: Int,
         okListener: () -> Unit,
-        githubListener: () -> Unit
+        githubListener: () -> Unit,
+        items : List<Feature>
 ): androidx.appcompat.app.AlertDialog {
 
     return featureBlurbDialog(
@@ -33,7 +34,8 @@ fun featureBlurbDialog(
             okText = context.getString(okText),
             okListener = okListener,
             kofiListener = {},
-            githubListener = githubListener
+            githubListener = githubListener,
+         items = items
     )
 }
 
@@ -44,7 +46,8 @@ fun featureBlurbDialog(
         okText: String,
         okListener: () -> Unit,
         kofiListener: () -> Unit,
-        githubListener: () -> Unit
+        githubListener: () -> Unit,
+        items: List<Feature>
 ): androidx.appcompat.app.AlertDialog {
 
     val layoutInflater = LayoutInflater.from(context)
@@ -64,17 +67,7 @@ fun featureBlurbDialog(
 
     val groupAdapter = GroupAdapter<GroupieViewHolder>()
     featureList.adapter = groupAdapter
-    groupAdapter.update(listOf(
-        Feature("2.3.3", R.string.changes_2_3_3),
-        Feature("2.3.2", R.string.changes_2_3_2),
-        Feature("2.2.7", R.string.changes_2_2_7),
-        Feature("2.2.6", R.string.changes_2_2_6),
-        Feature("2.1.0", R.string.changes_2_1_0),
-        Feature("2.0.0", R.string.changes_2_0_0),
-        Feature("1.9.5", R.string.changes_1_9_5),
-        Feature("1.9.0", R.string.changes_1_9_0),
-        Feature("1.8.0", R.string.changes_1_8_0),
-    ).map { FeatureListItem(it) })
+    groupAdapter.update(items.map { FeatureListItem(it) })
 
     github.setOnClickListener {
         githubListener()

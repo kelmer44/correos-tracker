@@ -55,6 +55,7 @@ import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 
 import net.kelmer.correostracker.detail.DetailViewModel
 import net.kelmer.correostracker.ui.compose.ActionItem
+import net.kelmer.correostracker.ui.compose.ErrorView
 import net.kelmer.correostracker.ui.compose.FaseIcon
 import net.kelmer.correostracker.ui.compose.NoSearchAppBar
 import net.kelmer.correostracker.util.NetworkInteractor
@@ -87,33 +88,41 @@ fun DetailScreen(
                     )
                 }
                 if (state.error != null) {
-                    Error(state)
+                    ErrorMap(state)
                 }
             }
         })
 }
 
 @Composable
-private fun Error(state: DetailViewModel.State) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-    ) {
-        Column(modifier = Modifier.align(Alignment.Center)) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_error),
-                contentDescription = "Error",
-                modifier = Modifier
-                    .size(64.dp)
-                    .align(Alignment.CenterHorizontally)
+private fun ErrorMap(state: DetailViewModel.State) {
+    when (state.error) {
+        is CorreosException -> {
+            FirebaseCrashlytics.getInstance().log("Controlled Exception Error ${state.trackingCode}")
+            FirebaseCrashlytics.getInstance().recordException(state.error)
+            ErrorView(
+                message = state.error.message ?: "",
             )
-            ErrorText(
-                state = state,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                    .align(Alignment.CenterHorizontally)
+        }
+        is NetworkInteractor.NetworkUnavailableException -> {
+            FirebaseCrashlytics.getInstance()
+                .log("Controlled Network Unavailable Exception Error ${state.trackingCode}")
+            FirebaseCrashlytics.getInstance().recordException(state.error)
+            ErrorView(
+                stringResource(
+                    id = R.string.error_no_network
+                )
+            )
+        }
+        else -> {
+            FirebaseCrashlytics.getInstance().log("Unknown Error ${state.trackingCode}")
+            if (state.error != null) {
+                FirebaseCrashlytics.getInstance().recordException(state.error)
+            }
+            ErrorView(
+                stringResource(
+                    id = R.string.error_unrecognized
+                )
             )
         }
     }
@@ -129,47 +138,6 @@ private fun Loading() {
         CircularProgressIndicator(
             modifier = Modifier.align(Alignment.Center), color = MaterialTheme.colorScheme.secondary
         )
-    }
-}
-
-@Composable
-fun ErrorText(state: DetailViewModel.State, modifier: Modifier) {
-
-    when (state.error) {
-        is CorreosException -> {
-            FirebaseCrashlytics.getInstance().log("Controlled Exception Error ${state.trackingCode}")
-            FirebaseCrashlytics.getInstance().recordException(state.error)
-            Text(
-                text = state.error.message ?: "",
-                textAlign = TextAlign.Center,
-                modifier = modifier
-            )
-        }
-        is NetworkInteractor.NetworkUnavailableException -> {
-            FirebaseCrashlytics.getInstance()
-                .log("Controlled Network Unavailable Exception Error ${state.trackingCode}")
-            FirebaseCrashlytics.getInstance().recordException(state.error)
-            Text(
-                stringResource(
-                    id = R.string.error_no_network
-                ),
-                textAlign = TextAlign.Center,
-                modifier = modifier
-            )
-        }
-        else -> {
-            FirebaseCrashlytics.getInstance().log("Unknown Error ${state.trackingCode}")
-            if (state.error != null) {
-                FirebaseCrashlytics.getInstance().recordException(state.error)
-            }
-            Text(
-                stringResource(
-                    id = R.string.error_unrecognized
-                ),
-                textAlign = TextAlign.Center,
-                modifier = modifier
-            )
-        }
     }
 }
 
@@ -371,7 +339,7 @@ fun DetailAppBar(
         subtitle = state.parcelDetail?.code,
         navigationIcon = {
             IconButton(onClick = backAction) {
-                Icon(Icons.Filled.ArrowBack, "backIcon", tint = MaterialTheme.colorScheme.onPrimary)
+                Icon(Icons.Filled.ArrowBack, "backIcon")
             }
         },
         actionItems = listOf(

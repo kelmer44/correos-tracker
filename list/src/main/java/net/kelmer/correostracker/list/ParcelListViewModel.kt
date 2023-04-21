@@ -11,6 +11,7 @@ import net.kelmer.correostracker.BuildInfo
 import net.kelmer.correostracker.dataApi.Resource
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository
+import net.kelmer.correostracker.list.featuredialog.Feature
 //import net.kelmer.correostracker.data.prefs.SharedPrefsManager
 import net.kelmer.correostracker.list.notifications.SwitchNotificationsUseCase
 import net.kelmer.correostracker.list.preferences.ParcelListPreferencesImpl
@@ -57,6 +58,20 @@ class ParcelListViewModel @Inject constructor(
 
     init {
         refresh()
+    }
+
+    fun getFeatureList(): List<Feature> {
+        return listOf(
+            Feature("2.3.3", R.string.changes_2_3_3),
+            Feature("2.3.2", R.string.changes_2_3_2),
+            Feature("2.2.7", R.string.changes_2_2_7),
+            Feature("2.2.6", R.string.changes_2_2_6),
+            Feature("2.1.0", R.string.changes_2_1_0),
+            Feature("2.0.0", R.string.changes_2_0_0),
+            Feature("1.9.5", R.string.changes_1_9_5),
+            Feature("1.9.0", R.string.changes_1_9_0),
+            Feature("1.8.0", R.string.changes_1_8_0),
+        )
     }
 
     fun deleteParcel(parcelReference: LocalParcelReference) {

@@ -1,17 +1,12 @@
 package net.kelmer.correostracker.list
 
-import android.app.UiModeManager
-import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.net.Uri
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import androidx.compose.runtime.Composable
 import androidx.core.net.toUri
 import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.Fragment
@@ -25,7 +20,6 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import net.kelmer.correostracker.dataApi.model.exception.InvalidDetailDeepLink
-import net.kelmer.correostracker.dataApi.model.exception.WrongCodeException
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.iap.InAppReviewService
 import net.kelmer.correostracker.list.adapter.ParcelClickListener
@@ -33,7 +27,6 @@ import net.kelmer.correostracker.list.adapter.ParcelListItem
 import net.kelmer.correostracker.list.compose.ParcelsScreen
 import net.kelmer.correostracker.list.databinding.FragmentParcelListBinding
 import net.kelmer.correostracker.list.featuredialog.featureBlurbDialog
-import net.kelmer.correostracker.list.preferences.ParcelListPreferencesImpl
 import net.kelmer.correostracker.ui.theme.CorreosTheme
 import net.kelmer.correostracker.ui.themedialog.themeSelectionDialog
 import net.kelmer.correostracker.util.copyToClipboard
@@ -95,20 +88,8 @@ class ParcelListPresenter @Inject constructor(
                         onAddParcel = {
                             addParcel()
                         },
-                        onAboutClicked = {
-                            showFeature()
-                        },
                         onParcelClicked = {
                             details(it)
-                        },
-                        onRemoveParcel = {
-                            ConfirmDialog.confirmDialog(
-                                fragment.requireContext(),
-                                R.string.delete_confirm_title,
-                                R.string.delete_confirm_desc
-                            ) {
-                                viewModel.deleteParcel(it)
-                            }
                         },
                         onThemeClicked = {
                             themeSelectionDialog(fragment.requireContext()) {
@@ -117,7 +98,9 @@ class ParcelListPresenter @Inject constructor(
                         },
                         onLongPressParcel = {
                             fragment.context?.copyToClipboard(it)
-                        }
+                        },
+                        onWebClicked = this@ParcelListPresenter::onWebClicked
+
                     )
                 }
             }
@@ -210,17 +193,20 @@ class ParcelListPresenter @Inject constructor(
             okText = android.R.string.ok,
             okListener = {
             },
-            githubListener = {
-                val url = "https://github.com/kelmer44/correos-tracker"
-                val i = Intent(Intent.ACTION_VIEW)
-                i.data = Uri.parse(url)
-                fragment.startActivity(i)
-            },
+            githubListener = { onWebClicked() },
+            items = viewModel.getFeatureList()
         ).show()
     }
 
     private fun refreshFromRemote() {
         viewModel.refresh()
+    }
+
+    private fun onWebClicked() {
+        val url = "https://github.com/kelmer44/correos-tracker"
+        val i = Intent(Intent.ACTION_VIEW)
+        i.data = Uri.parse(url)
+        fragment.startActivity(i)
     }
 
     private val clickListener = object : ParcelClickListener {

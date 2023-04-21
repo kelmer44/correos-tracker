@@ -27,6 +27,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rxjava2.subscribeAsState
@@ -45,10 +46,13 @@ import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.list.ParcelListViewModel
 import net.kelmer.correostracker.list.R
+import net.kelmer.correostracker.list.compose.feature.FeatureDialog
 import net.kelmer.correostracker.ui.compose.ActionItem
 import net.kelmer.correostracker.ui.compose.CircledIcon
+import net.kelmer.correostracker.ui.compose.ConfirmDialog
+import net.kelmer.correostracker.ui.compose.ErrorView
 import net.kelmer.correostracker.ui.compose.FaseIcon
-import net.kelmer.correostracker.ui.theme.CorreosTheme
+import net.kelmer.correostracker.ui.compose.OverflowMenuAction
 import java.text.SimpleDateFormat
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,12 +62,13 @@ fun ParcelsScreen(
     viewModel: ParcelListViewModel = viewModel(),
     onAddParcel: () -> Unit = {},
     onParcelClicked: (String) -> Unit = {},
-    onRemoveParcel: (LocalParcelReference) -> Unit = {},
     onThemeClicked: () -> Unit = {},
-    onAboutClicked: () -> Unit = {},
-    onLongPressParcel: (String) -> Unit = {}
+    onLongPressParcel: (String) -> Unit = {},
+    onWebClicked: () -> Unit
 ) {
     val viewState by viewModel.stateOnceAndStream.subscribeAsState(ParcelListViewModel.State())
+
+    var showAbout by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -71,7 +76,7 @@ fun ParcelsScreen(
                 viewModel::filter,
                 viewModel::refresh,
                 onThemeClicked,
-                onAboutClicked,
+                onAboutClicked = { showAbout = true },
             )
         },
         floatingActionButton = {
@@ -86,14 +91,24 @@ fun ParcelsScreen(
                     ParcelList(
                         state.list,
                         onParcelClicked,
-                        onRemoveParcel,
+                        viewModel::deleteParcel,
                         viewModel::toggleNotifications,
                         onLongPressParcel
                     )
                 }
-                if (state.error != null) {
+                if (state.loading) {
 
                 }
+                if (state.error != null) {
+                    val unrecognized = stringResource(id = R.string.error_unrecognized)
+                    ErrorView(message = state.error.message ?: unrecognized)
+                }
+            }
+            if (showAbout) {
+                FeatureDialog(
+                    onWebClick = onWebClicked,
+                    onDismiss = { showAbout = false }
+                )
             }
         }
     )
@@ -164,7 +179,7 @@ fun ParcelListItem(
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
-
+            var openDialog by remember { mutableStateOf(false) }
             Row(modifier = Modifier.fillMaxWidth()) {
                 Column(
                     modifier = Modifier
@@ -194,10 +209,18 @@ fun ParcelListItem(
                             }
                         ),
                         ActionItem(stringResource(id = R.string.delete), action = {
-                            onRemoveParcel(parcel)
+                            openDialog = true
                         })
                     )
                 )
+                if (openDialog) {
+                    ConfirmDialog(
+                        title = stringResource(id = R.string.delete_confirm_title),
+                        text = stringResource(id = R.string.delete_confirm_desc),
+                        onDismiss = { openDialog = false },
+                        onConfirm = { onRemoveParcel(parcel) }
+                    )
+                }
 
             }
             Row(modifier = Modifier.fillMaxWidth()) {
@@ -327,7 +350,7 @@ fun previewList() {
 
 private val dateFormat = SimpleDateFormat("dd/MM/yyy HH:mm:ss")
 
-private fun sampleList() =  listOf(
+private fun sampleList() = listOf(
     LocalParcelReference(
         "22313",
         "123123",

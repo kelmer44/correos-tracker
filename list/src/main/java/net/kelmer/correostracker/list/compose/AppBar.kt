@@ -42,7 +42,6 @@ import net.kelmer.correostracker.ui.compose.ActionItem
 import net.kelmer.correostracker.ui.compose.NoSearchAppBar
 import net.kelmer.correostracker.ui.theme.CorreosTheme
 
-
 @Composable
 fun ParcelsAppBar(
     onTextChange: (String) -> Unit,
