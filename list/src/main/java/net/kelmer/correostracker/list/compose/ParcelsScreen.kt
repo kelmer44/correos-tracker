@@ -1,6 +1,5 @@
 package net.kelmer.correostracker.list.compose
 
-import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -27,8 +26,10 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rxjava2.subscribeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.list.ParcelListViewModel
@@ -52,23 +54,22 @@ import java.text.SimpleDateFormat
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ParcelsScreen(
-    state: ParcelListViewModel.State,
     modifier: Modifier = Modifier,
-    onTextChange: (String) -> Unit = {},
+    viewModel: ParcelListViewModel = viewModel(),
     onAddParcel: () -> Unit = {},
     onParcelClicked: (String) -> Unit = {},
     onRemoveParcel: (LocalParcelReference) -> Unit = {},
-    onToggleNotifications: (String, Boolean) -> Unit = { _, _ -> },
-    onRefreshAll: () -> Unit = {},
     onThemeClicked: () -> Unit = {},
     onAboutClicked: () -> Unit = {},
     onLongPressParcel: (String) -> Unit = {}
 ) {
+    val viewState by viewModel.stateOnceAndStream.subscribeAsState(ParcelListViewModel.State())
+
     Scaffold(
         topBar = {
             ParcelsAppBar(
-                onTextChange,
-                onRefreshAll,
+                viewModel::filter,
+                viewModel::refresh,
                 onThemeClicked,
                 onAboutClicked,
             )
@@ -79,17 +80,16 @@ fun ParcelsScreen(
         contentWindowInsets = ScaffoldDefaults.contentWindowInsets,
         content = { contentPadding ->
             Column(modifier = modifier.padding(contentPadding)) {
+                val state = viewState
+
                 if (state.list != null) {
                     ParcelList(
                         state.list,
                         onParcelClicked,
                         onRemoveParcel,
-                        onToggleNotifications,
+                        viewModel::toggleNotifications,
                         onLongPressParcel
                     )
-                }
-                if (state.loading) {
-
                 }
                 if (state.error != null) {
 
@@ -325,22 +325,7 @@ fun previewList() {
     )
 }
 
-private
-val dateFormat = SimpleDateFormat("dd/MM/yyy HH:mm:ss")
-
-@Composable
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
-)
-fun previewScreen() {
-    CorreosTheme {
-        ParcelsScreen(state = ParcelListViewModel.State(
-            sampleList()
-        ))
-    }
-}
+private val dateFormat = SimpleDateFormat("dd/MM/yyy HH:mm:ss")
 
 private fun sampleList() =  listOf(
     LocalParcelReference(

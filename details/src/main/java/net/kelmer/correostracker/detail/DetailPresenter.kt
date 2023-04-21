@@ -77,12 +77,8 @@ class DetailPresenter @Inject constructor(
             setContent {
                 CorreosTheme {
                     DetailScreen(
-                        state,
                         backAction = {
                             findNavController(fragment).popBackStack()
-                        },
-                        onRefresh = {
-                            viewModel.refresh()
                         },
                         copyAction = {
                             fragment.requireContext().copyToClipboard(parcelCode)

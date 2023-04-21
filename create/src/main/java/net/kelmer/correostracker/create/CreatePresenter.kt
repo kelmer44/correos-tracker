@@ -95,20 +95,11 @@ class CreatePresenter @Inject constructor(
         binding.composeView.setContent {
             CorreosTheme {
                 CreateScreen(
-                    state = state,
                     backAction = {
                         findNavController(fragment)
                             .popBackStack()
                     }
-                ) { form ->
-
-                    addParcel(
-                        parcelName = form.parcelName,
-                        parcelCode = form.trackingCode,
-                        stance = form.stance,
-                        notify = form.enableNotifications
-                    )
-                }
+                )
             }
         }
 

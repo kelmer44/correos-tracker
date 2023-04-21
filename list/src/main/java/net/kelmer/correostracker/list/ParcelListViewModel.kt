@@ -77,6 +77,14 @@ class ParcelListViewModel @Inject constructor(
         statusReportsUpdatesUseCase(Unit, MutableLiveData())
     }
 
+    fun toggleNotifications(code: String, enabled: Boolean) {
+        if (enabled) {
+            enableNotifications(code)
+        } else {
+            disableNotifications(code)
+        }
+    }
+
     fun enableNotifications(code: String): LiveData<Resource<String>> {
         return switchNotificationsUseCase(SwitchNotificationsUseCase.Params(code, true))
     }

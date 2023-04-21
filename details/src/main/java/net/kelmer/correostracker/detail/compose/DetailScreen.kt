@@ -33,9 +33,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rxjava2.subscribeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -45,6 +47,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import net.kelmer.correostracker.dataApi.model.exception.CorreosException
 import net.kelmer.correostracker.details.R
@@ -59,60 +62,74 @@ import net.kelmer.correostracker.util.NetworkInteractor
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
-    state: DetailViewModel.State,
     modifier: Modifier = Modifier,
+    viewModel: DetailViewModel = viewModel(),
     backAction: () -> Unit = {},
-    onRefresh: () -> Unit = {},
     copyAction: () -> Unit = {}
 ) {
-    Scaffold(topBar = {
-        DetailAppBar(state, backAction, onRefresh)
-    }, contentWindowInsets = ScaffoldDefaults.contentWindowInsets, content = { contentPadding ->
-        Column(
-            modifier = modifier.padding(contentPadding)
-        ) {
-            if (state.isLoading) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center), color = MaterialTheme.colorScheme.secondary
+    val viewState by viewModel.stateOnceAndStream.subscribeAsState(DetailViewModel.State(""))
+
+    Scaffold(
+        topBar = {
+            DetailAppBar(viewState, backAction, viewModel::refresh)
+        },
+        contentWindowInsets = ScaffoldDefaults.contentWindowInsets,
+        content = { contentPadding ->
+            val state = viewState
+
+            Column(modifier = modifier.padding(contentPadding)) {
+                if (viewState.isLoading) {
+                    Loading()
+                }
+                if (state.parcelDetail != null) {
+                    EventList(
+                        state.parcelDetail.states,
                     )
                 }
-            }
-            if (state.parcelDetail != null) {
-                EventList(
-                    state.parcelDetail.states,
-                )
-            }
-            if (state.error != null) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                ) {
-                    Column(modifier = Modifier.align(Alignment.Center)) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_error),
-                            contentDescription = "Error",
-                            modifier = Modifier
-                                .size(64.dp)
-                                .align(Alignment.CenterHorizontally)
-                        )
-                        ErrorText(
-                            state = state,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp)
-                                .align(Alignment.CenterHorizontally)
-                        )
-                    }
+                if (state.error != null) {
+                    Error(state)
                 }
             }
+        })
+}
+
+@Composable
+private fun Error(state: DetailViewModel.State) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+    ) {
+        Column(modifier = Modifier.align(Alignment.Center)) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_error),
+                contentDescription = "Error",
+                modifier = Modifier
+                    .size(64.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
+            ErrorText(
+                state = state,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
         }
-    })
+    }
+}
+
+@Composable
+private fun Loading() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier.align(Alignment.Center), color = MaterialTheme.colorScheme.secondary
+        )
+    }
 }
 
 @Composable

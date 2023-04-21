@@ -29,21 +29,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.rxjava2.subscribeAsState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusProperties
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
@@ -59,15 +55,19 @@ import net.kelmer.correostracker.create.R
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.ui.compose.NoSearchAppBar
 import net.kelmer.correostracker.ui.theme.CorreosTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
 import timber.log.Timber
+import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun CreateScreen(
-    state: CreateParcelViewModel.State,
+    modifier: Modifier = Modifier,
+    viewModel: CreateParcelViewModel = viewModel(),
     backAction: () -> Unit = {},
-    confirmAction: (Form) -> Unit = {}
 ) {
+    val viewState by viewModel.stateOnceAndStream.subscribeAsState(CreateParcelViewModel.State())
+
     var formResult by rememberSaveable {
         mutableStateOf(
             Form("", "", true, LocalParcelReference.Stance.INCOMING)
@@ -78,6 +78,7 @@ fun CreateScreen(
         topBar = { CreateAppBar(backAction) },
         contentWindowInsets = ScaffoldDefaults.contentWindowInsets,
         content = { contentPadding ->
+            val state = viewState
             if(!state.isLoading) {
                 Column(
                     modifier = Modifier
@@ -108,12 +109,25 @@ fun CreateScreen(
             }
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { confirmAction(formResult) }) {
+            FloatingActionButton(
+                onClick = {
+                    viewModel.addParcel(
+                        LocalParcelReference(
+                            code = UUID.randomUUID().toString(),
+                            trackingCode = formResult.trackingCode,
+                            parcelName = formResult.parcelName,
+                            stance = formResult.stance,
+                            ultimoEstado = null,
+                            notify = formResult.enableNotifications,
+                            updateStatus = LocalParcelReference.UpdateStatus.UNKNOWN
+                        )
+                    )
+                }
+            ) {
                 Icon(imageVector = Icons.Filled.Check, contentDescription = "Ok")
             }
         })
 }
-
 @ExperimentalComposeUiApi
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -289,21 +303,6 @@ fun CreateAppBar(
     )
 }
 
-
-@Composable
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
-)
-fun CreateScreenPreview() {
-    CorreosTheme {
-        CreateScreen(
-            CreateParcelViewModel.State(
-            )
-        )
-    }
-}
 @Parcelize
 data class Form(
     val trackingCode: String,

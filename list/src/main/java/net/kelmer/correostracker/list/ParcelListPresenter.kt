@@ -92,10 +92,6 @@ class ParcelListPresenter @Inject constructor(
 //                va/l darkTheme = fragment.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
                 CorreosTheme {
                     ParcelsScreen(
-                        state = state,
-                        onTextChange = {
-                            viewModel.filter(it)
-                        },
                         onAddParcel = {
                             addParcel()
                         },
@@ -104,9 +100,6 @@ class ParcelListPresenter @Inject constructor(
                         },
                         onParcelClicked = {
                             details(it)
-                        },
-                        onRefreshAll = {
-                            refreshFromRemote()
                         },
                         onRemoveParcel = {
                             ConfirmDialog.confirmDialog(
@@ -121,13 +114,6 @@ class ParcelListPresenter @Inject constructor(
                             themeSelectionDialog(fragment.requireContext()) {
                                 viewModel.setTheme(it.code)
                             }.show()
-                        },
-                        onToggleNotifications = { code, enabled ->
-                            if (enabled) {
-                                viewModel.enableNotifications(code)
-                            } else {
-                                viewModel.disableNotifications(code)
-                            }
                         },
                         onLongPressParcel = {
                             fragment.context?.copyToClipboard(it)
