@@ -4,10 +4,14 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -25,6 +29,8 @@ import net.kelmer.correostracker.list.ParcelListPreferences
 import net.kelmer.correostracker.service.worker.NotificationID
 import net.kelmer.correostracker.service.worker.PERMISSION_NOTIS
 import net.kelmer.correostracker.service.worker.ParcelPollWorker
+import net.kelmer.correostracker.ui.CorreosApp
+import net.kelmer.correostracker.ui.theme.CorreosTheme
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -33,7 +39,8 @@ import javax.inject.Inject
  * Created by Gabriel Sanmartín on 09/11/2020.
  */
 @AndroidEntryPoint
-class MainActivity : BaseActivity(R.layout.activity_main) {
+ class MainActivity : FragmentActivity() {
+//: BaseActivity(R.layout.activity_main) {
 
     @Inject
     lateinit var myWorkerFactory: MyWorkerFactory
@@ -41,12 +48,24 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     @Inject
     lateinit var parcelListPreferences: ParcelListPreferences
 
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initWorker()
+        setContent {
+            val windowSizeClass = calculateWindowSizeClass(this)
+//            val displayFeatures = calculateDisplayFeatures(this)
+
+            CorreosTheme() {
+                CorreosApp(
+                    windowSizeClass,
+//                    displayFeatures
+                )
+            }
+        }
+       /* initWorker()
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(PERMISSION_NOTIS)) {
             ActivityCompat.requestPermissions(this, arrayOf(PERMISSION_NOTIS), NOTI_REQ_PERMISSION)
-        }
+        }*/
     }
 
     private fun triggerSampleNotification(){

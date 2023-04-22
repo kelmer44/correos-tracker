@@ -47,12 +47,14 @@ import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.list.ParcelListViewModel
 import net.kelmer.correostracker.list.R
 import net.kelmer.correostracker.list.compose.feature.FeatureDialog
+import net.kelmer.correostracker.list.compose.theme.ThemeDialog
 import net.kelmer.correostracker.ui.compose.ActionItem
 import net.kelmer.correostracker.ui.compose.CircledIcon
 import net.kelmer.correostracker.ui.compose.ConfirmDialog
 import net.kelmer.correostracker.ui.compose.ErrorView
 import net.kelmer.correostracker.ui.compose.FaseIcon
 import net.kelmer.correostracker.ui.compose.OverflowMenuAction
+import timber.log.Timber
 import java.text.SimpleDateFormat
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -69,13 +71,14 @@ fun ParcelsScreen(
     val viewState by viewModel.stateOnceAndStream.subscribeAsState(ParcelListViewModel.State())
 
     var showAbout by remember { mutableStateOf(false) }
+    var showThemeDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
             ParcelsAppBar(
                 viewModel::filter,
                 viewModel::refresh,
-                onThemeClicked,
+                onThemeClicked = { showThemeDialog = true },
                 onAboutClicked = { showAbout = true },
             )
         },
@@ -109,6 +112,13 @@ fun ParcelsScreen(
                     onWebClick = onWebClicked,
                     onDismiss = { showAbout = false }
                 )
+            }
+            if (showThemeDialog) {
+                ThemeDialog(
+                    onDismiss = { showThemeDialog = false },
+                    onSelect = {
+                        viewModel.setTheme(it.code)
+                    })
             }
         }
     )

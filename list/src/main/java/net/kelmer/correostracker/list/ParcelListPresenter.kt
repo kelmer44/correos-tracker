@@ -28,7 +28,7 @@ import net.kelmer.correostracker.list.compose.ParcelsScreen
 import net.kelmer.correostracker.list.databinding.FragmentParcelListBinding
 import net.kelmer.correostracker.list.featuredialog.featureBlurbDialog
 import net.kelmer.correostracker.ui.theme.CorreosTheme
-import net.kelmer.correostracker.ui.themedialog.themeSelectionDialog
+import net.kelmer.correostracker.list.themedialog.themeSelectionDialog
 import net.kelmer.correostracker.util.copyToClipboard
 import net.kelmer.correostracker.util.ext.isVisible
 import net.kelmer.correostracker.widget.ConfirmDialog

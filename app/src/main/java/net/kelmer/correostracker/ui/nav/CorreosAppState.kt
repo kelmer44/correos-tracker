@@ -15,7 +15,7 @@ sealed class Screen(val route: String) {
 
     object List: Screen("list")
 
-    object Detail : Screen("detail/{code}"){
+    object Detail : Screen("detail/{parcel_code}"){
         fun createRoute(code: String) = "detail/$code"
     }
 
@@ -38,7 +38,7 @@ class CorreosAppState(
     private val context : Context
 ) {
 
-    fun navigateToCreate(code: String, from: NavBackStackEntry) {
+    fun navigateToCreate(from: NavBackStackEntry) {
         if(from.lifecycleIsResumed()){
             navController.navigate(Screen.Create.route)
         }

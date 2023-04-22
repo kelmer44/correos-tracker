@@ -65,6 +65,7 @@ fun CreateScreen(
     modifier: Modifier = Modifier,
     viewModel: CreateParcelViewModel = viewModel(),
     backAction: () -> Unit = {},
+    onScanClicked: () -> Unit
 ) {
     val viewState by viewModel.stateOnceAndStream.subscribeAsState(CreateParcelViewModel.State())
 
@@ -93,7 +94,8 @@ fun CreateScreen(
                         stance = formResult.stance,
                         onStanceChange = { formResult = formResult.copy(stance = it) },
                         notify = formResult.enableNotifications,
-                        onNotifyChange = { formResult = formResult.copy(enableNotifications = it) }
+                        onNotifyChange = { formResult = formResult.copy(enableNotifications = it) },
+                        onScanClicked = onScanClicked
                     )
                 }
             } else {
@@ -139,7 +141,8 @@ fun CreationForm(
     stance: LocalParcelReference.Stance,
     onStanceChange: (LocalParcelReference.Stance) -> Unit,
     notify: Boolean,
-    onNotifyChange: (Boolean) -> Unit
+    onNotifyChange: (Boolean) -> Unit,
+    onScanClicked: () -> Unit
 ) {
 
 
@@ -150,7 +153,7 @@ fun CreationForm(
         )
     val focusManager = LocalFocusManager.current
 
-    CodeInput(focusManager, trackingCode, onCodeChange)
+    CodeInput(focusManager, trackingCode, onCodeChange, onScanClicked)
     NameInput(focusManager, name, onNameChange)
     NotificationsInput(notify, onNotifyChange)
     StanceInput(radioOptions, stance, onStanceChange)
@@ -254,7 +257,8 @@ private fun NameInput(
 private fun CodeInput(
     focusManager: FocusManager,
     trackingCode: String,
-    onCodeChange: (String) -> Unit
+    onCodeChange: (String) -> Unit,
+    onScanClicked: () -> Unit
 ) {
     OutlinedTextField(
         modifier = Modifier
@@ -276,9 +280,7 @@ private fun CodeInput(
         },
         singleLine = true,
         trailingIcon = {
-            IconButton(onClick = {
-                Timber.i("Scan")
-            }) {
+            IconButton(onClick = onScanClicked) {
                 Icon(painter = painterResource(id = R.drawable.ic_barcode), contentDescription = "Scan barcode")
             }
         },

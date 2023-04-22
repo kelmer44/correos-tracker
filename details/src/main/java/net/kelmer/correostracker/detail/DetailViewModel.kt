@@ -25,7 +25,8 @@ class DetailViewModel @Inject constructor(
     private val deviceInfo: DeviceInfo
 ) : AutoDisposeViewModel() {
 
-    private val _parcelCode: String? = savedStateHandle.get(DetailFragment.KEY_PARCELCODE)
+
+    private val _parcelCode: String? = savedStateHandle[DetailFragment.KEY_PARCELCODE]
     private val parcelCode : String = requireNotNull(_parcelCode)
     init {
         Timber.i("Detail - ViewModel Created!")

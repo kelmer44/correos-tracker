@@ -21,23 +21,22 @@ import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject
 
-
 class CreatePresenter @Inject constructor(
     private val fragment: Fragment,
 ) {
     private val binding = FragmentCreateParcelBinding.bind(fragment.requireView())
     private val viewModel: CreateParcelViewModel by fragment.viewModels()
 
+    private val registerForActivityResult = fragment.registerForActivityResult(
+        ScanContract()
+    ) { result ->
+        if (result.contents != null)
+            binding.parcelCode.setText(result.contents)
+    }
+
     init {
 
         NavigationUI.setupWithNavController(binding.createToolbar, findNavController(fragment))
-
-        val registerForActivityResult = fragment.registerForActivityResult(
-            ScanContract()
-        ) { result ->
-            if (result.contents != null)
-                binding.parcelCode.setText(result.contents)
-        }
 
         binding.createOk.setOnClickListener {
             if (!TextUtils.isEmpty(binding.parcelCode.text.toString())) {
@@ -62,13 +61,17 @@ class CreatePresenter @Inject constructor(
         }
 
         binding.parcelCodeLayout.setEndIconOnClickListener {
-            registerForActivityResult.launch(
-                ScanOptions()
-                    .setOrientationLocked(false)
-                    .setBeepEnabled(true)
-                    .setBarcodeImageEnabled(true)
-            )
+            launchBarcodeScanner()
         }
+    }
+
+    private fun launchBarcodeScanner() {
+        registerForActivityResult.launch(
+            ScanOptions()
+                .setOrientationLocked(false)
+                .setBeepEnabled(true)
+                .setBarcodeImageEnabled(true)
+        )
     }
 
     private fun addParcel(
@@ -98,6 +101,9 @@ class CreatePresenter @Inject constructor(
                     backAction = {
                         findNavController(fragment)
                             .popBackStack()
+                    },
+                    onScanClicked = {
+                        launchBarcodeScanner()
                     }
                 )
             }
