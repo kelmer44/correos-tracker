@@ -1,5 +1,6 @@
 package net.kelmer.correostracker.list.compose
 
+import android.content.res.Resources
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -64,7 +65,7 @@ fun ParcelsScreen(
     viewModel: ParcelListViewModel = viewModel(),
     onAddParcel: () -> Unit = {},
     onParcelClicked: (String) -> Unit = {},
-    onThemeClicked: () -> Unit = {},
+    onThemeClicked: (Resources.Theme) -> Unit = {},
     onLongPressParcel: (String) -> Unit = {},
     onWebClicked: () -> Unit
 ) {

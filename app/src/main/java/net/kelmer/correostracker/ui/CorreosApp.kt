@@ -30,8 +30,13 @@ fun CorreosApp(
                 },
                 onParcelClicked = { code ->
                     appState.navigateToDetails(code, navBackStackEntry)
-                }) {
-            }
+                },
+                onWebClicked = {},
+                onThemeClicked = {
+
+                },
+                onLongPressParcel = {}
+            )
         }
         composable(Screen.Detail.route) { backStackEntry ->
             DetailScreen(
