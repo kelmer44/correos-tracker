@@ -52,9 +52,7 @@ fun CorreosApp(
                 useDarkTheme = useDarkTheme,
                 viewModel = hiltViewModel(),
                 backAction = appState::navigateBack
-            ) {
-
-            }
+            )
         }
     }
 }

@@ -1,6 +1,5 @@
 package net.kelmer.correostracker.list.compose
 
-import android.content.res.Resources
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -55,7 +54,6 @@ import net.kelmer.correostracker.ui.compose.ConfirmDialog
 import net.kelmer.correostracker.ui.compose.ErrorView
 import net.kelmer.correostracker.ui.compose.FaseIcon
 import net.kelmer.correostracker.ui.compose.OverflowMenuAction
-import timber.log.Timber
 import java.text.SimpleDateFormat
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -181,9 +179,6 @@ fun ParcelListItem(
                 onLongClick = { onLongPressParcel(parcel.trackingCode) },
             ),
         shape = RoundedCornerShape(4.dp),
-        colors = CardDefaults.elevatedCardColors(
-            containerColor = Color.White
-        )
     ) {
         Column(
             modifier = Modifier

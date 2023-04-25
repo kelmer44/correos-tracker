@@ -4,6 +4,7 @@ package net.kelmer.correostracker.list.compose
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardActions
@@ -81,18 +82,17 @@ fun ParcelsAppBar(
 
 @Composable
 fun SearchAppBar(
-    onTextChange: (String) -> Unit, onCloseClicked: () -> Unit, onSearchClicked: (String) -> Unit
+    onTextChange: (String) -> Unit,
+    onCloseClicked: () -> Unit,
+    onSearchClicked: (String) -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
-
-    var textState by remember {
-        mutableStateOf("")
-    }
+    var textState by remember { mutableStateOf("") }
 
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .height(64.dp), color = MaterialTheme.colorScheme.primary
+            .height(64.dp),
     ) {
         fun innerTextChange(text: String) {
             textState = text
@@ -111,7 +111,7 @@ fun SearchAppBar(
             },
             placeholder = {
                 Text(
-                    text = "Search here...", color = Color.White
+                    text = "Search here...",
                 )
             },
             textStyle = TextStyle(
@@ -127,12 +127,12 @@ fun SearchAppBar(
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Search Icon",
-                            tint = Color.White
                         )
                     }
                     IconButton(onClick = { }) {
                         Icon(
-                            imageVector = Icons.Default.Search, contentDescription = "Search Icon", tint = Color.White
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Search Icon",
                         )
                     }
                 }
@@ -140,7 +140,8 @@ fun SearchAppBar(
             trailingIcon = {
                 IconButton(onClick = { innerTextChange("") }) {
                     Icon(
-                        imageVector = Icons.Default.Close, contentDescription = "Close Icon", tint = Color.White
+                        imageVector = Icons.Default.Close,
+                        contentDescription = "Close Icon",
                     )
                 }
             },
@@ -150,9 +151,7 @@ fun SearchAppBar(
             keyboardActions = KeyboardActions(onSearch = {
                 onSearchClicked(textState)
             }),
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.Transparent, cursorColor = Color.White
-            ),
+
         )
     }
 }

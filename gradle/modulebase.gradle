@@ -13,10 +13,6 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
-    packagingOptions {
-        exclude 'META-INF/*'
-    }
-
     buildFeatures {
         compose true
     }
@@ -83,7 +79,7 @@ dependencies {
     implementation libs.groupie.core
     implementation libs.groupie.viewbinding
 
-    def composeBom = platform('androidx.compose:compose-bom:2023.03.00')
+    def composeBom = platform('androidx.compose:compose-bom:2023.04.01')
     implementation composeBom
     androidTestImplementation composeBom
 

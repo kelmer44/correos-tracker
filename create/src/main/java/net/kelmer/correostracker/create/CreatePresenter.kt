@@ -104,9 +104,6 @@ class CreatePresenter @Inject constructor(
                         findNavController(fragment)
                             .popBackStack()
                     },
-                    onScanClicked = {
-                        launchBarcodeScanner()
-                    }
                 )
             }
         }
