@@ -80,6 +80,7 @@ fun ParcelsAppBar(
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchAppBar(
     onTextChange: (String) -> Unit,
@@ -151,7 +152,11 @@ fun SearchAppBar(
             keyboardActions = KeyboardActions(onSearch = {
                 onSearchClicked(textState)
             }),
-
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.Transparent,
+                cursorColor = Color.White,
+                focusedIndicatorColor = Color.Transparent
+            ),
         )
     }
 }

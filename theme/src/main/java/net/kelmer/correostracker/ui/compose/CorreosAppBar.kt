@@ -10,6 +10,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,6 +31,9 @@ fun NoSearchAppBar(
     navigationIcon: @Composable () -> Unit = {},
 ) {
     AppBarTheme(useDarkTheme) {
+        val containerColor = if(!useDarkTheme) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface
+        val itemsColor = if(!useDarkTheme) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+
         TopAppBar(
             title = {
                 Column {
@@ -50,11 +54,12 @@ fun NoSearchAppBar(
                     }
                 }
             },
-//            colors = TopAppBarDefaults.smallTopAppBarColors(
-//                containerColor = MaterialTheme.colorScheme.primary,
-//                titleContentColor = MaterialTheme.colorScheme.onPrimary,
-//                actionIconContentColor = MaterialTheme.colorScheme.onPrimary
-//            ),
+            colors = TopAppBarDefaults.smallTopAppBarColors(
+                containerColor = containerColor,
+                titleContentColor =  itemsColor ,
+                actionIconContentColor = itemsColor,
+                navigationIconContentColor = itemsColor
+            ),
             actions = {
                 val (icons, options) = actionItems.partition { it.icon != null || it.painterIcon != null }
 

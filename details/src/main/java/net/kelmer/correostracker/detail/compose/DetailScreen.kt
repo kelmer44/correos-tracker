@@ -1,6 +1,10 @@
 package net.kelmer.correostracker.detail.compose
 
+import android.app.Activity
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -9,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -31,6 +36,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rxjava2.subscribeAsState
@@ -38,6 +44,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -337,7 +347,7 @@ fun DetailAppBar(
     onRefresh: () -> Unit = {},
     copyAction: () -> Unit = {}
 ) {
-    val barCodeShown = remember { mutableStateOf(false) }
+    var barCodeShown by rememberSaveable{ mutableStateOf(false) }
 
     NoSearchAppBar(
         useDarkTheme = useDarkTheme,
@@ -353,7 +363,7 @@ fun DetailAppBar(
                 painterIcon = painterResource(id = R.drawable.ic_info_black_24dp),
                 action = {
                     if (state.parcelDetail != null) {
-                        barCodeShown.value = true
+                        barCodeShown = true
                     }
                 }),
 
@@ -363,30 +373,38 @@ fun DetailAppBar(
         )
     )
 
-    if (barCodeShown.value) {
+    val activity = (LocalContext.current as Activity)
+    var orientation by remember {
+        mutableStateOf(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+    }
+    if (barCodeShown) {
+        // This is where you lock to your preferred one
+
+        orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+
         AlertDialog(
-            properties = DialogProperties(usePlatformDefaultWidth =false),
+            properties = DialogProperties(usePlatformDefaultWidth = false),
             shape = MaterialTheme.shapes.medium,
             onDismissRequest = {
                 // Dismiss the dialog when the user clicks outside the dialog or on the back
                 // button. If you want to disable that functionality, simply use an empty
                 // onCloseRequest.
-                barCodeShown.value = false
+                barCodeShown = false
             },
-            title = {
-                Text(text = "Extra info")
-            },
+            title = { Text(text = "Extra info") },
             text = {
                 Column {
                     if (state.barcode != null) {
                         Image(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f),
                             bitmap = state.barcode.asImageBitmap(),
                             contentDescription = "Barcode"
                         )
                     }
 
-                    Row {
+                    Row(horizontalArrangement = Arrangement.Center) {
                         IconButton(onClick = copyAction) {
                             Icon(
                                 modifier = Modifier
@@ -400,7 +418,6 @@ fun DetailAppBar(
                         }
                         Text(
                             modifier = Modifier
-                                .fillMaxWidth()
                                 .align(Alignment.CenterVertically)
                                 .padding(4.dp),
                             textAlign = TextAlign.Center,
@@ -413,14 +430,16 @@ fun DetailAppBar(
                     }
 
                 }
-
             },
             confirmButton = {
                 Button(onClick = {
-                    barCodeShown.value = false
+                    barCodeShown = false
                 }) {
-                    Text("Ok")
+                    Text(stringResource(id = android.R.string.ok))
                 }
             })
+    } else {
+        orientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
     }
+    activity.requestedOrientation = orientation
 }
