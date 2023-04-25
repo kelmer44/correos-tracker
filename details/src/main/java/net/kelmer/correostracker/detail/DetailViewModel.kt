@@ -69,8 +69,8 @@ class DetailViewModel @Inject constructor(
         return barcodeEncoder.encodeBitmap(
             parcelCode,
             BarcodeFormat.CODE_128,
-            deviceInfo.deviceHeightPixels,
             deviceInfo.deviceWidthPixels,
+            deviceInfo.deviceHeightPixels,
             mapOf(
                 EncodeHintType.MARGIN to 0
             )

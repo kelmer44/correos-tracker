@@ -47,6 +47,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import net.kelmer.correostracker.dataApi.model.exception.CorreosException
@@ -105,6 +106,7 @@ private fun ErrorMap(state: DetailViewModel.State) {
                 message = state.error.message ?: "",
             )
         }
+
         is NetworkInteractor.NetworkUnavailableException -> {
             FirebaseCrashlytics.getInstance()
                 .log("Controlled Network Unavailable Exception Error ${state.trackingCode}")
@@ -115,6 +117,7 @@ private fun ErrorMap(state: DetailViewModel.State) {
                 )
             )
         }
+
         else -> {
             FirebaseCrashlytics.getInstance().log("Unknown Error ${state.trackingCode}")
             if (state.error != null) {
@@ -334,7 +337,7 @@ fun DetailAppBar(
     onRefresh: () -> Unit = {},
     copyAction: () -> Unit = {}
 ) {
-    val openDialog = remember { mutableStateOf(false) }
+    val barCodeShown = remember { mutableStateOf(false) }
 
     NoSearchAppBar(
         useDarkTheme = useDarkTheme,
@@ -350,7 +353,7 @@ fun DetailAppBar(
                 painterIcon = painterResource(id = R.drawable.ic_info_black_24dp),
                 action = {
                     if (state.parcelDetail != null) {
-                        openDialog.value = true
+                        barCodeShown.value = true
                     }
                 }),
 
@@ -360,58 +363,64 @@ fun DetailAppBar(
         )
     )
 
-    if (openDialog.value) {
-        AlertDialog(shape = MaterialTheme.shapes.medium, onDismissRequest = {
-            // Dismiss the dialog when the user clicks outside the dialog or on the back
-            // button. If you want to disable that functionality, simply use an empty
-            // onCloseRequest.
-            openDialog.value = false
-        }, title = {
-            Text(text = "Extra info")
-        }, text = {
-            Column {
-                if (state.barcode != null) {
-                    Image(
-                        modifier = Modifier.fillMaxWidth(),
-                        bitmap = state.barcode.asImageBitmap(),
-                        contentDescription = "Barcode"
-                    )
-                }
-
-                Row {
-                    IconButton(onClick = copyAction) {
-                        Icon(
-                            modifier = Modifier
-                                .align(Alignment.CenterVertically)
-                                .size(24.dp),
-                            painter = painterResource(id = R.drawable.ic_copy),
-                            contentDescription = stringResource(
-                                id = R.string.copy
-                            ),
+    if (barCodeShown.value) {
+        AlertDialog(
+            properties = DialogProperties(usePlatformDefaultWidth =false),
+            shape = MaterialTheme.shapes.medium,
+            onDismissRequest = {
+                // Dismiss the dialog when the user clicks outside the dialog or on the back
+                // button. If you want to disable that functionality, simply use an empty
+                // onCloseRequest.
+                barCodeShown.value = false
+            },
+            title = {
+                Text(text = "Extra info")
+            },
+            text = {
+                Column {
+                    if (state.barcode != null) {
+                        Image(
+                            modifier = Modifier.fillMaxWidth(),
+                            bitmap = state.barcode.asImageBitmap(),
+                            contentDescription = "Barcode"
                         )
                     }
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(Alignment.CenterVertically)
-                            .padding(4.dp),
-                        textAlign = TextAlign.Center,
-                        text = state.trackingCode,
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontWeight = FontWeight.Bold,
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 1,
-                    )
+
+                    Row {
+                        IconButton(onClick = copyAction) {
+                            Icon(
+                                modifier = Modifier
+                                    .align(Alignment.CenterVertically)
+                                    .size(24.dp),
+                                painter = painterResource(id = R.drawable.ic_copy),
+                                contentDescription = stringResource(
+                                    id = R.string.copy
+                                ),
+                            )
+                        }
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.CenterVertically)
+                                .padding(4.dp),
+                            textAlign = TextAlign.Center,
+                            text = state.trackingCode,
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.Bold,
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1,
+                        )
+                    }
+
                 }
 
-            }
-
-        }, confirmButton = {
-            Button(onClick = {
-                openDialog.value = false
-            }) {
-                Text("Ok")
-            }
-        })
+            },
+            confirmButton = {
+                Button(onClick = {
+                    barCodeShown.value = false
+                }) {
+                    Text("Ok")
+                }
+            })
     }
 }
