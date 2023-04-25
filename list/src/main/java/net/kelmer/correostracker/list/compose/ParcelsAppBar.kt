@@ -32,18 +32,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import net.kelmer.correostracker.list.R
 import net.kelmer.correostracker.ui.compose.ActionItem
 import net.kelmer.correostracker.ui.compose.NoSearchAppBar
-import net.kelmer.correostracker.ui.theme.CorreosTheme
 
 @Composable
 fun ParcelsAppBar(
+    useDarkTheme: Boolean,
     onTextChange: (String) -> Unit,
     onRefreshAll: () -> Unit = {},
     onThemeClicked: () -> Unit = {},
@@ -64,6 +62,7 @@ fun ParcelsAppBar(
             }
             SearchWidgetState.CLOSED -> {
                 NoSearchAppBar(
+                    useDarkTheme = useDarkTheme,
                     title = stringResource(id = R.string.app_name),
                     actionItems = listOf(
                         ActionItem(stringResource(R.string.search), icon = Icons.Filled.Search, action = {
@@ -78,7 +77,6 @@ fun ParcelsAppBar(
         }
     }
 }
-
 
 
 @Composable

@@ -1,8 +1,8 @@
-package net.kelmer.correostracker.list.themedialog
+package net.kelmer.correostracker.ui.theme
 
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
-import net.kelmer.correostracker.list.R
+import net.kelmer.correostracker.theme.R
 
 /**
  * Created by Gabriel Sanmartín on 11/09/2020.
@@ -14,12 +14,6 @@ enum class ThemeMode(val code: Int, @StringRes val stringRes: Int) {
 
     companion object {
 
-        fun fromPosition(number: Int): ThemeMode {
-            ThemeMode.values().forEach {
-                if (it.ordinal == number)
-                    return it
-            }
-            return SYSTEM
-        }
+        fun fromOrdinal(number: Int): ThemeMode = values()[number]
     }
 }

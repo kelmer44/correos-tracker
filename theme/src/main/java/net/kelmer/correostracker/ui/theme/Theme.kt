@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
+import timber.log.Timber
 
 private val LightColors = lightColorScheme(
     primary = primaryLight,
@@ -33,6 +34,7 @@ fun CorreosTheme(
     overrideColors: ColorScheme? = null,
     content: @Composable () -> Unit,
 ) {
+    Timber.i("Recreating Theme")
     val colors = overrideColors ?: if (!useDarkTheme) {
         LightColors
     } else {

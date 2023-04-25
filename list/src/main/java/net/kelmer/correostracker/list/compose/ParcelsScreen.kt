@@ -61,11 +61,11 @@ import java.text.SimpleDateFormat
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ParcelsScreen(
+    useDarkTheme: Boolean,
     modifier: Modifier = Modifier,
     viewModel: ParcelListViewModel = viewModel(),
     onAddParcel: () -> Unit = {},
     onParcelClicked: (String) -> Unit = {},
-    onThemeClicked: (Resources.Theme) -> Unit = {},
     onLongPressParcel: (String) -> Unit = {},
     onWebClicked: () -> Unit
 ) {
@@ -77,6 +77,7 @@ fun ParcelsScreen(
     Scaffold(
         topBar = {
             ParcelsAppBar(
+                useDarkTheme,
                 viewModel::filter,
                 viewModel::refresh,
                 onThemeClicked = { showThemeDialog = true },
@@ -117,9 +118,8 @@ fun ParcelsScreen(
             if (showThemeDialog) {
                 ThemeDialog(
                     onDismiss = { showThemeDialog = false },
-                    onSelect = {
-                        viewModel.setTheme(it.code)
-                    })
+                    onSelect = viewModel::setTheme
+                )
             }
         }
     )

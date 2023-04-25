@@ -23,12 +23,13 @@ import net.kelmer.correostracker.ui.theme.CorreosTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoSearchAppBar(
+    useDarkTheme: Boolean,
     title: String,
     actionItems: List<ActionItem>,
     subtitle: String? = null,
     navigationIcon: @Composable () -> Unit = {},
 ) {
-    AppBarTheme {
+    AppBarTheme(useDarkTheme) {
         TopAppBar(
             title = {
                 Column {
@@ -97,6 +98,7 @@ fun AppBarTheme(
 @Preview
 fun AppBarPreview() {
     NoSearchAppBar(
+        useDarkTheme = true,
         title = "My title",
         subtitle = "My subtitle",
         actionItems = listOf(

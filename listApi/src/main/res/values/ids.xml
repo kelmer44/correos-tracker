@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="theme_light" type="id" />
+    <item name="theme_dark" type="id" />
+    <item name="theme_system" type="id" />
+
+</resources>

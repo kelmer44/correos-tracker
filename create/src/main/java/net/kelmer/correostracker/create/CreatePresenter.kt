@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
@@ -98,6 +99,7 @@ class CreatePresenter @Inject constructor(
         binding.composeView.setContent {
             CorreosTheme {
                 CreateScreen(
+                    useDarkTheme = isSystemInDarkTheme(),
                     backAction = {
                         findNavController(fragment)
                             .popBackStack()

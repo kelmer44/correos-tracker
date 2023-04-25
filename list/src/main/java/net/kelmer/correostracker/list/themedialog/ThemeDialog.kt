@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.appcompat.app.AlertDialog
 import net.kelmer.correostracker.list.R
+import net.kelmer.correostracker.ui.theme.ThemeMode
 
 /**
  * Created by Gabriel Sanmartín on 11/09/2020.
@@ -24,7 +25,7 @@ fun themeSelectionDialog(
         context.getString(it.stringRes)
     }.toTypedArray()
     builder.setItems(themes) { _, which ->
-        listener(ThemeMode.fromPosition(which))
+        listener(ThemeMode.fromOrdinal(which))
     }
 
     // create and show the alert dialog

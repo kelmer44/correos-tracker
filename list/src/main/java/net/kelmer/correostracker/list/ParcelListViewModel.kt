@@ -16,6 +16,7 @@ import net.kelmer.correostracker.list.featuredialog.Feature
 import net.kelmer.correostracker.list.notifications.SwitchNotificationsUseCase
 import net.kelmer.correostracker.list.preferences.ParcelListPreferencesImpl
 import net.kelmer.correostracker.list.statusreports.StatusReportsUpdatesUseCase
+import net.kelmer.correostracker.ui.theme.ThemeMode
 import net.kelmer.correostracker.util.SchedulerProvider
 import net.kelmer.correostracker.viewmodel.AutoDisposeViewModel
 import timber.log.Timber
@@ -29,7 +30,7 @@ class ParcelListViewModel @Inject constructor(
     private val localParcelRepository: LocalParcelRepository,
     private val switchNotificationsUseCase: SwitchNotificationsUseCase,
     private val statusReportsUpdatesUseCase: StatusReportsUpdatesUseCase,
-    private val parcelListPreferences: ParcelListPreferencesImpl,
+    private val parcelListPreferences: ParcelListPreferences<ThemeMode>,
     private val buildInfo: BuildInfo,
     private val schedulerProvider: SchedulerProvider
 ) : AutoDisposeViewModel() {
@@ -116,8 +117,8 @@ class ParcelListViewModel @Inject constructor(
         parcelListPreferences.setSeenFeatureBlurb(buildInfo.versionName)
     }
 
-    fun setTheme(theme: Int) {
-        parcelListPreferences.themeMode = theme
+    fun setTheme(theme: ThemeMode) {
+        parcelListPreferences.theme = theme
     }
 
     fun filter(newText: String) = filterSubject.onNext(newText)

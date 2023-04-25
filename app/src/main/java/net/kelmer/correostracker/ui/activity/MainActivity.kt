@@ -4,19 +4,22 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.uber.autodispose.android.lifecycle.scope
+import com.uber.autodispose.autoDisposable
 import dagger.hilt.android.AndroidEntryPoint
-import net.kelmer.correostracker.BuildConfig
 import net.kelmer.correostracker.CorreosApp
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.base.activity.BaseActivity
@@ -38,8 +41,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     @Inject
     lateinit var myWorkerFactory: MyWorkerFactory
 
-    @Inject
-    lateinit var parcelListPreferences: ParcelListPreferences
+    private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +51,18 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         }
     }
 
-    private fun triggerSampleNotification(){
+    override fun onStart() {
+        super.onStart()
+//        viewModel
+//            .stateOnceAndStream
+//            .autoDisposable(this.scope())
+//            .subscribe(
+//                { AppCompatDelegate.setDefaultNightMode(it.theme.code) },
+//                Timber::e
+//            )
+    }
+
+    private fun triggerSampleNotification() {
         val notificationIntent = Intent(applicationContext, MainActivity::class.java)
         val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PendingIntent.getActivity(
@@ -77,7 +90,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
         try {
             NotificationManagerCompat.from(applicationContext).notify(NotificationID.id, notification)
-        } catch (s: SecurityException){
+        } catch (s: SecurityException) {
             Timber.e(s)
             FirebaseCrashlytics.getInstance().recordException(s)
         }
@@ -85,7 +98,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode == NOTI_REQ_PERMISSION){
+        if (requestCode == NOTI_REQ_PERMISSION) {
             Timber.i("Permission granted!")
         }
     }
@@ -107,17 +120,6 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                 ExistingPeriodicWorkPolicy.REPLACE,
                 uploadWorker
             )
-
-        parcelListPreferences.themeModeLive.observe(this, ThemeObserver())
-    }
-
-
-    inner class ThemeObserver : Observer<Int> {
-        override fun onChanged(t: Int) {
-            if (t != null) {
-                AppCompatDelegate.setDefaultNightMode(t)
-            }
-        }
     }
 
     companion object {

@@ -6,6 +6,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
@@ -77,6 +78,7 @@ class DetailPresenter @Inject constructor(
             setContent {
                 CorreosTheme {
                     DetailScreen(
+                        useDarkTheme = isSystemInDarkTheme(),
                         backAction = {
                             findNavController(fragment).popBackStack()
                         },

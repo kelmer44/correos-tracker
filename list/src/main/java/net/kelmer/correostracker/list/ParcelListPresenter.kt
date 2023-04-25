@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.core.net.toUri
 import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.Fragment
@@ -82,25 +83,19 @@ class ParcelListPresenter @Inject constructor(
     fun bindState(state: ParcelListViewModel.State) {
         binding.composeView.apply {
             setContent {
-//                va/l darkTheme = fragment.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
                 CorreosTheme {
                     ParcelsScreen(
+                        useDarkTheme = isSystemInDarkTheme(),
                         onAddParcel = {
                             addParcel()
                         },
                         onParcelClicked = {
                             details(it)
                         },
-                        onThemeClicked = {
-                            themeSelectionDialog(fragment.requireContext()) {
-                                viewModel.setTheme(it.code)
-                            }.show()
-                        },
                         onLongPressParcel = {
                             fragment.context?.copyToClipboard(it)
                         },
                         onWebClicked = this@ParcelListPresenter::onWebClicked
-
                     )
                 }
             }
@@ -175,7 +170,7 @@ class ParcelListPresenter @Inject constructor(
                 }
                 R.id.app_theme -> {
                     themeSelectionDialog(fragment.requireContext()) {
-                        viewModel.setTheme(it.code)
+                        viewModel.setTheme(it)
                     }.show()
                 }
                 R.id.app_about -> {

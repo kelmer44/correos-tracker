@@ -2,5 +2,7 @@
 <resources>
 
     <string name="see_more">See more</string>
-
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_system">Same as system</string>
 </resources>

@@ -62,6 +62,7 @@ import java.util.UUID
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun CreateScreen(
+    useDarkTheme: Boolean,
     modifier: Modifier = Modifier,
     viewModel: CreateParcelViewModel = viewModel(),
     backAction: () -> Unit = {},
@@ -76,7 +77,7 @@ fun CreateScreen(
     }
 
     Scaffold(
-        topBar = { CreateAppBar(backAction) },
+        topBar = { CreateAppBar(useDarkTheme, backAction) },
         contentWindowInsets = ScaffoldDefaults.contentWindowInsets,
         content = { contentPadding ->
             val state = viewState
@@ -292,9 +293,11 @@ private fun CodeInput(
 
 @Composable
 fun CreateAppBar(
+    useDarkTheme: Boolean,
     backAction: () -> Unit = {}
 ) {
     NoSearchAppBar(
+        useDarkTheme,
         title = stringResource(id = R.string.add_parcel),
         actionItems = emptyList(),
         navigationIcon = {

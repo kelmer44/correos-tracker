@@ -5,9 +5,6 @@
     <string name="status_unknown">Unknown status</string>
     <string name="search">Filter</string>
     <string name="menu_theme">Theme</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_dark">Dark</string>
-    <string name="theme_system">Same as system</string>
     <string name="theme_title">Theme</string>
     <string name="refresh_all">Update all</string>
     <string name="about">About</string>

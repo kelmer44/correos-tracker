@@ -1,16 +1,25 @@
 package net.kelmer.correostracker.ui.activity
 
 import android.app.PendingIntent
+import android.app.UiModeManager.MODE_NIGHT_YES
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rxjava2.subscribeAsState
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -18,15 +27,19 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.uber.autodispose.android.lifecycle.scope
+import com.uber.autodispose.autoDisposable
 import dagger.hilt.android.AndroidEntryPoint
 import net.kelmer.correostracker.CorreosApp
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.di.worker.MyWorkerFactory
 import net.kelmer.correostracker.list.ParcelListPreferences
 import net.kelmer.correostracker.service.worker.NotificationID
+import net.kelmer.correostracker.service.worker.PERMISSION_NOTIS
 import net.kelmer.correostracker.service.worker.ParcelPollWorker
 import net.kelmer.correostracker.ui.CorreosApp
 import net.kelmer.correostracker.ui.theme.CorreosTheme
+import net.kelmer.correostracker.ui.theme.ThemeMode
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -41,26 +54,37 @@ import javax.inject.Inject
     lateinit var myWorkerFactory: MyWorkerFactory
 
     @Inject
-    lateinit var parcelListPreferences: ParcelListPreferences
+    lateinit var parcelListPreferences: ParcelListPreferences<ThemeMode>
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            val windowSizeClass = calculateWindowSizeClass(this)
-//            val displayFeatures = calculateDisplayFeatures(this)
 
-            CorreosTheme() {
+        Timber.i("Recreating activity")
+        setContent {
+
+            val viewModel : MainActivityViewModel = hiltViewModel()
+            val activityState by viewModel.stateOnceAndStream.subscribeAsState(MainActivityViewModel.State())
+
+            val useDarkColors = when (activityState.theme) {
+                ThemeMode.SYSTEM -> isSystemInDarkTheme()
+                ThemeMode.LIGHT -> false
+                ThemeMode.DARK -> true
+            }
+            val windowSizeClass = calculateWindowSizeClass(this)
+            CorreosTheme(useDarkColors) {
                 CorreosApp(
+                    useDarkColors,
                     windowSizeClass,
 //                    displayFeatures
                 )
             }
         }
-       /* initWorker()
+
+        initWorker()
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(PERMISSION_NOTIS)) {
             ActivityCompat.requestPermissions(this, arrayOf(PERMISSION_NOTIS), NOTI_REQ_PERMISSION)
-        }*/
+        }
     }
 
     private fun triggerSampleNotification(){
@@ -110,26 +134,16 @@ import javax.inject.Inject
             .build()
 
         val uploadWorker = PeriodicWorkRequest
-            .Builder(
-                ParcelPollWorker::class.java, 15L, TimeUnit.MINUTES
-            )
+            .Builder(ParcelPollWorker::class.java, 15L, TimeUnit.MINUTES)
             .setConstraints(constraints)
             .build()
+
         WorkManager.getInstance(this)
             .enqueueUniquePeriodicWork(
                 CorreosApp.PARCEL_CHECKER_WORKREQUEST,
                 ExistingPeriodicWorkPolicy.REPLACE,
                 uploadWorker
             )
-
-        parcelListPreferences.themeModeLive.observe(this, ThemeObserver())
-    }
-
-
-    inner class ThemeObserver : Observer<Int> {
-        override fun onChanged(value: Int) {
-            AppCompatDelegate.setDefaultNightMode(value)
-        }
     }
 
     companion object {

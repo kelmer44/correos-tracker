@@ -6,9 +6,6 @@
     <string name="search">Filter</string>
     <string name="theme_title">Elige un tema</string>
     <string name="menu_theme">Tema</string>
-    <string name="theme_light">Claro</string>
-    <string name="theme_dark">Oscuro</string>
-    <string name="theme_system">Igual que el sistema</string>
 
     <string name="refresh_all">Actualizar todos</string>
     <string name="about">Acerca de</string>

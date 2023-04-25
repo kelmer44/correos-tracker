@@ -63,6 +63,7 @@ import net.kelmer.correostracker.util.NetworkInteractor
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
+    useDarkTheme: Boolean,
     modifier: Modifier = Modifier,
     viewModel: DetailViewModel = viewModel(),
     backAction: () -> Unit = {},
@@ -72,7 +73,7 @@ fun DetailScreen(
 
     Scaffold(
         topBar = {
-            DetailAppBar(viewState, backAction, viewModel::refresh)
+            DetailAppBar(useDarkTheme, viewState, backAction, viewModel::refresh)
         },
         contentWindowInsets = ScaffoldDefaults.contentWindowInsets,
         content = { contentPadding ->
@@ -327,6 +328,7 @@ fun EventListSample() {
 
 @Composable
 fun DetailAppBar(
+    useDarkTheme: Boolean,
     state: DetailViewModel.State,
     backAction: () -> Unit = {},
     onRefresh: () -> Unit = {},
@@ -335,6 +337,7 @@ fun DetailAppBar(
     val openDialog = remember { mutableStateOf(false) }
 
     NoSearchAppBar(
+        useDarkTheme = useDarkTheme,
         title = state.parcelDetail?.name ?: state.trackingCode,
         subtitle = state.parcelDetail?.code,
         navigationIcon = {

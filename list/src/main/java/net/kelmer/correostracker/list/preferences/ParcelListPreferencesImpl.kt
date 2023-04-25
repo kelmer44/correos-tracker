@@ -3,58 +3,51 @@ package net.kelmer.correostracker.list.preferences
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
+import io.reactivex.Flowable
+import io.reactivex.processors.BehaviorProcessor
+import kotlinx.coroutines.flow.MutableStateFlow
 import net.kelmer.correostracker.dataApi.LazySharedPreferences
 import net.kelmer.correostracker.list.ParcelListPreferences
+import net.kelmer.correostracker.ui.theme.ThemeMode
+import timber.log.Timber
 import javax.inject.Inject
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 class ParcelListPreferencesImpl @Inject constructor(@ApplicationContext context: Context) :
     LazySharedPreferences(
         context,
         PARCELLIST_PREFS_KEY
-    ), ParcelListPreferences {
+    ), ParcelListPreferences<ThemeMode> {
 
-    private val _themeModeLive: MutableLiveData<Int> = MutableLiveData()
-    override val themeModeLive: LiveData<Int>
-        get() = _themeModeLive
+    override var theme: ThemeMode by ThemeModePreferenceDelegate(PREFERENCE_NIGHT_MODE, ThemeMode.SYSTEM)
+    private val processor = BehaviorProcessor.createDefault(theme)
+    override val themeModeStream: Flowable<ThemeMode> = processor
+    override fun hasSeenFeatureBlurb(versionName: String) = get(FEATURE_SEEN + "_" + versionName, false)
 
-    var themeMode: Int = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-        get() = getInt(PREFERENCE_NIGHT_MODE, PREFERENCE_NIGHT_MODE_DEF_VAL)
-        set(value) {
-            edit().putInt(
-                PREFERENCE_NIGHT_MODE, value
-            ).apply()
-            field = value
-        }
-
-    private val preferenceChangedListener =
-        SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-            when (key) {
-                PREFERENCE_NIGHT_MODE -> {
-                    _themeModeLive.value = themeMode
-                }
-            }
-        }
-
-    init {
-        _themeModeLive.value = themeMode
-        registerOnSharedPreferenceChangeListener(preferenceChangedListener)
-    }
-
-
-    fun hasSeenFeatureBlurb(versionName: String) = get(FEATURE_SEEN + "_" + versionName, false)
-
-    fun setSeenFeatureBlurb(versionName: String) {
+    override fun setSeenFeatureBlurb(versionName: String) {
         set(FEATURE_SEEN + "_" + versionName, true)
     }
 
+    inner class ThemeModePreferenceDelegate(
+        private val name: String,
+        private val default: ThemeMode,
+    ) : ReadWriteProperty<Any?, ThemeMode> {
+
+        override fun getValue(thisRef: Any?, property: KProperty<*>): ThemeMode =
+            ThemeMode.fromOrdinal(getInt(name, default.ordinal))
+
+        override fun setValue(thisRef: Any?, property: KProperty<*>, value: ThemeMode) {
+            processor.onNext(value)
+            this@ParcelListPreferencesImpl.edit { putInt(name, value.ordinal) }
+        }
+    }
 
     companion object {
         const val PARCELLIST_PREFS_KEY = "ParcelList"
         private const val FEATURE_SEEN = "C_FEATURE_SEEN"
         private const val PREFERENCE_NIGHT_MODE = "preference_night_mode"
-        private const val PREFERENCE_NIGHT_MODE_DEF_VAL = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     }
 }
