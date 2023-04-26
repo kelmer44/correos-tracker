@@ -259,7 +259,9 @@ fun Event(
                     .padding(horizontal = 16.dp, vertical = 4.dp)
             ) {
                 Text(
-                    text = event.desTextoResumen ?: "", style = MaterialTheme.typography.bodyMedium
+                    text = event.desTextoResumen ?: "",
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.SemiBold
                 )
             }
             Row(

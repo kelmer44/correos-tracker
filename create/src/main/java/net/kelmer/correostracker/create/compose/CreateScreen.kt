@@ -1,6 +1,5 @@
 package net.kelmer.correostracker.create.compose
 
-import android.content.res.Configuration
 import android.os.Parcelable
 import android.view.KeyEvent.ACTION_DOWN
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -10,9 +9,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -34,7 +35,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rxjava2.subscribeAsState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -46,17 +46,16 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.parcelize.Parcelize
 import net.kelmer.correostracker.create.CreateParcelViewModel
 import net.kelmer.correostracker.create.R
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.ui.compose.NoSearchAppBar
-import net.kelmer.correostracker.ui.theme.CorreosTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
@@ -86,9 +85,8 @@ fun CreateScreen(
     })
     if (viewState.savedParcel != null) {
         backAction()
-    }
-    else {
-        Scaffold(modifier = modifier,
+    } else {
+        Scaffold(modifier = modifier.imePadding(),
             topBar = { CreateAppBar(useDarkTheme, backAction) },
             contentWindowInsets = ScaffoldDefaults.contentWindowInsets,
             content = { contentPadding ->
@@ -99,7 +97,8 @@ fun CreateScreen(
                             .padding(contentPadding)
                             .verticalScroll(rememberScrollState())
                     ) {
-                        CreationForm(trackingCode = formResult.trackingCode,
+                        CreationForm(
+                            trackingCode = formResult.trackingCode,
                             onCodeChange = { formResult = formResult.copy(trackingCode = it) },
                             name = formResult.parcelName,
                             onNameChange = { formResult = formResult.copy(parcelName = it) },
@@ -112,7 +111,9 @@ fun CreateScreen(
                                     ScanOptions().setOrientationLocked(false).setBeepEnabled(true)
                                         .setBarcodeImageEnabled(true)
                                 )
-                            })
+                            },
+                            onOk = { addParcel(viewModel = viewModel, formResult = formResult) }
+                        )
                     }
                 } else {
                     Box(
@@ -127,24 +128,33 @@ fun CreateScreen(
                 }
             },
             floatingActionButton = {
-                FloatingActionButton(onClick = {
-                    viewModel.addParcel(
-                        LocalParcelReference(
-                            code = UUID.randomUUID().toString(),
-                            trackingCode = formResult.trackingCode,
-                            parcelName = formResult.parcelName,
-                            stance = formResult.stance,
-                            ultimoEstado = null,
-                            notify = formResult.enableNotifications,
-                            updateStatus = LocalParcelReference.UpdateStatus.UNKNOWN
-                        )
-                    )
-                }) {
+                FloatingActionButton(
+                    modifier = Modifier.imePadding(),
+                    onClick = { addParcel(viewModel, formResult) }
+                ) {
                     Icon(imageVector = Icons.Filled.Check, contentDescription = "Ok")
                 }
             })
     }
 }
+
+private fun addParcel(
+    viewModel: CreateParcelViewModel,
+    formResult: Form
+) {
+    viewModel.addParcel(
+        LocalParcelReference(
+            code = UUID.randomUUID().toString(),
+            trackingCode = formResult.trackingCode,
+            parcelName = formResult.parcelName,
+            stance = formResult.stance,
+            ultimoEstado = null,
+            notify = formResult.enableNotifications,
+            updateStatus = LocalParcelReference.UpdateStatus.UNKNOWN
+        )
+    )
+}
+
 
 @ExperimentalComposeUiApi
 @OptIn(ExperimentalMaterial3Api::class)
@@ -158,7 +168,8 @@ fun CreationForm(
     onStanceChange: (LocalParcelReference.Stance) -> Unit,
     notify: Boolean,
     onNotifyChange: (Boolean) -> Unit,
-    onScanClicked: () -> Unit
+    onScanClicked: () -> Unit,
+    onOk: () -> Unit
 ) {
 
 
@@ -167,8 +178,9 @@ fun CreationForm(
         LocalParcelReference.Stance.OUTGOING to stringResource(id = R.string.outgoing)
     )
     val focusManager = LocalFocusManager.current
+
     CodeInput(focusManager, trackingCode, onCodeChange, onScanClicked)
-    NameInput(focusManager, name, onNameChange)
+    NameInput(focusManager, name, onNameChange, onOk)
     NotificationsInput(notify, onNotifyChange)
     StanceInput(radioOptions, stance, onStanceChange)
 }
@@ -177,7 +189,7 @@ fun CreationForm(
 private fun StanceInput(
     radioOptions: List<Pair<LocalParcelReference.Stance, String>>,
     stance: LocalParcelReference.Stance,
-    onStanceChange: (LocalParcelReference.Stance) -> Unit
+    onStanceChange: (LocalParcelReference.Stance) -> Unit,
 ) {
     Text(
         text = stringResource(id = R.string.stance).uppercase(),
@@ -234,7 +246,7 @@ private fun NotificationsInput(notify: Boolean, onNotifyChange: (Boolean) -> Uni
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun NameInput(
-    focusManager: FocusManager, name: String, onNameChange: (String) -> Unit
+    focusManager: FocusManager, name: String, onNameChange: (String) -> Unit, onOk: () -> Unit
 ) {
     OutlinedTextField(
         modifier = Modifier
@@ -254,7 +266,10 @@ private fun NameInput(
         label = {
             Text(stringResource(id = R.string.parcel_name))
         },
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        keyboardActions = KeyboardActions(
+            onDone = { onOk() }
+        )
     )
 }
 
