@@ -12,7 +12,7 @@ val secondaryLight = Color(0xFF000F5C)
 val backgroundLight = Color(0xFFf9f9f9)
 
 
-val primaryDark = Color(0xFF000F5C)
+val primaryDark = Color(0xFFFFCD00)
 val onPrimaryDark = Color(0xFFCCCCCC)
 val surfaceDark = Color(0xFF2b2b2e)
 val onSurfaceDark = Color(0xFFCCCCCC)

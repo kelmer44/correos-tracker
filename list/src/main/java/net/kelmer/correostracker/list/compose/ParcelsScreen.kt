@@ -1,6 +1,7 @@
 package net.kelmer.correostracker.list.compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +17,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -32,12 +32,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rxjava2.subscribeAsState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -48,6 +50,7 @@ import net.kelmer.correostracker.list.ParcelListViewModel
 import net.kelmer.correostracker.list.R
 import net.kelmer.correostracker.list.compose.feature.FeatureDialog
 import net.kelmer.correostracker.list.compose.theme.ThemeDialog
+import net.kelmer.correostracker.theme.R.*
 import net.kelmer.correostracker.ui.compose.ActionItem
 import net.kelmer.correostracker.ui.compose.CircledIcon
 import net.kelmer.correostracker.ui.compose.ConfirmDialog
@@ -91,13 +94,17 @@ fun ParcelsScreen(
                 val state = viewState
 
                 if (state.list != null) {
-                    ParcelList(
-                        state.list,
-                        onParcelClicked,
-                        viewModel::deleteParcel,
-                        viewModel::toggleNotifications,
-                        onLongPressParcel
-                    )
+                    if (state.list.isNotEmpty()) {
+                        ParcelList(
+                            state.list,
+                            onParcelClicked,
+                            viewModel::deleteParcel,
+                            viewModel::toggleNotifications,
+                            onLongPressParcel
+                        )
+                    } else {
+                        EmptyState(onAddParcel)
+                    }
                 }
                 if (state.loading) {
 
@@ -131,27 +138,46 @@ fun ParcelList(
     onToggleNotifications: (String, Boolean) -> Unit = { _, _ -> },
     onLongPressParcel: (String) -> Unit = {}
 ) {
-    if (list.isNotEmpty()) {
-        LazyColumn {
-            items(items = list, key = { it.code }) { parcel ->
-                ParcelListItem(
-                    parcel = parcel,
-                    onParcelClicked = onParcelClicked,
-                    onRemoveParcel = onRemoveParcel,
-                    onToggleNotifications = onToggleNotifications,
-                    onLongPressParcel = onLongPressParcel
-                )
-            }
+    LazyColumn {
+        items(items = list, key = { it.code }) { parcel ->
+            ParcelListItem(
+                parcel = parcel,
+                onParcelClicked = onParcelClicked,
+                onRemoveParcel = onRemoveParcel,
+                onToggleNotifications = onToggleNotifications,
+                onLongPressParcel = onLongPressParcel
+            )
         }
-    } else {
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
-        ) {
+    }
+}
+
+@Composable
+fun EmptyState(onAddParcel: () -> Unit = {}) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(modifier = Modifier.align(Alignment.Center)) {
+            CircledIcon(
+                bgColor = MaterialTheme.colorScheme.secondary,
+                icon = R.drawable.ic_package,
+                contentDescription = "",
+                modifier = Modifier
+                    .align(CenterHorizontally)
+                    .clickable {
+                        onAddParcel()
+                    }
+            )
             Text(
                 text = stringResource(id = R.string.emptystate_parcel_list),
-                modifier = Modifier.align(Alignment.Center)
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .align(Alignment.CenterHorizontally)
             )
         }
     }
@@ -236,6 +262,7 @@ fun ParcelListItem(
                             LocalParcelReference.Stance.INCOMING -> {
                                 R.string.incoming
                             }
+
                             LocalParcelReference.Stance.OUTGOING -> {
                                 R.string.outgoing
                             }
@@ -253,7 +280,6 @@ fun ParcelListItem(
                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
             )
             Row {
-
                 Column(
                     Modifier
                         .padding(horizontal = 8.dp, vertical = 4.dp)
@@ -291,24 +317,32 @@ fun ListStateIcon(parcel: LocalParcelReference) {
         LocalParcelReference.UpdateStatus.OK -> {
             FaseIcon(faseString = parcel.ultimoEstado?.fase)
         }
+
         LocalParcelReference.UpdateStatus.ERROR -> {
             CircledIcon(
-                bgColor = colorResource(id = net.kelmer.correostracker.theme.R.color.stage_error),
-                icon = net.kelmer.correostracker.theme.R.drawable.ic_error,
+                bgColor = colorResource(id = color.stage_error),
+                icon = drawable.ic_error,
                 contentDescription = ""
             )
         }
         LocalParcelReference.UpdateStatus.UNKNOWN -> {
             CircledIcon(
-                bgColor = colorResource(id = net.kelmer.correostracker.theme.R.color.stage_unknown),
-                icon = net.kelmer.correostracker.theme.R.drawable.ic_questionmark,
+                bgColor = colorResource(id = color.stage_unknown),
+                icon = drawable.ic_questionmark,
                 contentDescription = ""
             )
         }
+
         else -> {
             CircularProgressIndicator()
         }
     }
+}
+
+@Composable
+@Preview
+fun emptyState() {
+    EmptyState()
 }
 
 @Composable

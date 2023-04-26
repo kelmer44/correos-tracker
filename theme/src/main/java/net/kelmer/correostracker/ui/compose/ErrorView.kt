@@ -38,6 +38,7 @@ fun ErrorView(message: String) {
             Text(
                 text = message,
                 textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
