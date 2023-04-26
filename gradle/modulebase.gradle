@@ -38,7 +38,6 @@ dependencies {
     implementation libs.androidx.work.runtime.ktx
     implementation libs.androidx.work.rxjava2
 
-
     implementation buildLibs.kotlin.stdlib.base
     implementation buildLibs.kotlin.reflect
 
@@ -100,4 +99,6 @@ dependencies {
     // Android Studio Preview support
     implementation 'androidx.compose.ui:ui-tooling-preview'
     debugImplementation 'androidx.compose.ui:ui-tooling'
+
+    testImplementation libs.mockito.kotlin
 }

@@ -74,8 +74,8 @@ import javax.inject.Inject
             val windowSizeClass = calculateWindowSizeClass(this)
             CorreosTheme(useDarkColors) {
                 CorreosApp(
-                    useDarkColors,
-                    windowSizeClass,
+                    useDarkTheme = useDarkColors,
+                    windowSizeClass = windowSizeClass,
 //                    displayFeatures
                 )
             }

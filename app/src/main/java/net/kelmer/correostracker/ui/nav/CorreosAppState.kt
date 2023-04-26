@@ -9,6 +9,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import timber.log.Timber
 
 
 sealed class Screen(val route: String) {
@@ -51,7 +52,8 @@ class CorreosAppState(
     }
 
     fun navigateBack(){
-        navController.popBackStack()
+        Timber.i("Popping backstack")
+        navController.navigateUp()
     }
 }
 /**

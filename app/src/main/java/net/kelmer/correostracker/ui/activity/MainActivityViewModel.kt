@@ -22,27 +22,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-    private val parcelListPreferences: ParcelListPreferences<ThemeMode>
+    parcelListPreferences: ParcelListPreferences<ThemeMode>
 ) : AutoDisposeViewModel() {
 
-
-//    val state =
-//        parcelListPreferences.themeModeStream.map {
-//            State(
-//                isLoading = false,
-//                useDynamicColors = false,
-//                theme = it
-//            )
-//        }.stateIn(
-//            scope = viewModelScope,
-//            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000),
-//            initialValue = State(theme = parcelListPreferences.theme)
-//        )
-
-
-//    val stateOnceAndStream =
-
-    //
     val stateOnceAndStream : Flowable<State> =
         parcelListPreferences.themeModeStream
             .doOnNext {
@@ -52,6 +34,8 @@ class MainActivityViewModel @Inject constructor(
             .distinctUntilChanged()
             .replay(1)
             .connectInViewModelScope()
+
+    fun sanitizeCode(code: String) = code.trim().replace("/", "")
 
     data class State(
         val isLoading: Boolean = false,

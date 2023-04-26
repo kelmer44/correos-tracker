@@ -72,7 +72,7 @@ fun CreateScreen(
     backAction: () -> Unit = {},
 ) {
     val viewState by viewModel.stateOnceAndStream.subscribeAsState(CreateParcelViewModel.State())
-
+    Timber.w("Got app state $viewState")
     var formResult by rememberSaveable {
         mutableStateOf(
             Form("", "", true, LocalParcelReference.Stance.INCOMING)
@@ -84,62 +84,66 @@ fun CreateScreen(
             formResult = formResult.copy(trackingCode = result.contents)
         }
     })
-
-    Scaffold(modifier = modifier,
-        topBar = { CreateAppBar(useDarkTheme, backAction) },
-        contentWindowInsets = ScaffoldDefaults.contentWindowInsets,
-        content = { contentPadding ->
-            val state = viewState
-            if (!state.isLoading) {
-                Column(
-                    modifier = Modifier
-                        .padding(contentPadding)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    CreationForm(trackingCode = formResult.trackingCode,
-                        onCodeChange = { formResult = formResult.copy(trackingCode = it) },
-                        name = formResult.parcelName,
-                        onNameChange = { formResult = formResult.copy(parcelName = it) },
-                        stance = formResult.stance,
-                        onStanceChange = { formResult = formResult.copy(stance = it) },
-                        notify = formResult.enableNotifications,
-                        onNotifyChange = { formResult = formResult.copy(enableNotifications = it) },
-                        onScanClicked = {
-                            barcode.launch(
-                                ScanOptions().setOrientationLocked(false).setBeepEnabled(true)
-                                    .setBarcodeImageEnabled(true)
-                            )
-                        })
+    if (viewState.savedParcel != null) {
+        backAction()
+    }
+    else {
+        Scaffold(modifier = modifier,
+            topBar = { CreateAppBar(useDarkTheme, backAction) },
+            contentWindowInsets = ScaffoldDefaults.contentWindowInsets,
+            content = { contentPadding ->
+                val state = viewState
+                if (!state.isLoading) {
+                    Column(
+                        modifier = Modifier
+                            .padding(contentPadding)
+                            .verticalScroll(rememberScrollState())
+                    ) {
+                        CreationForm(trackingCode = formResult.trackingCode,
+                            onCodeChange = { formResult = formResult.copy(trackingCode = it) },
+                            name = formResult.parcelName,
+                            onNameChange = { formResult = formResult.copy(parcelName = it) },
+                            stance = formResult.stance,
+                            onStanceChange = { formResult = formResult.copy(stance = it) },
+                            notify = formResult.enableNotifications,
+                            onNotifyChange = { formResult = formResult.copy(enableNotifications = it) },
+                            onScanClicked = {
+                                barcode.launch(
+                                    ScanOptions().setOrientationLocked(false).setBeepEnabled(true)
+                                        .setBarcodeImageEnabled(true)
+                                )
+                            })
+                    }
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center), color = MaterialTheme.colorScheme.secondary
+                        )
+                    }
                 }
-            } else {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center), color = MaterialTheme.colorScheme.secondary
+            },
+            floatingActionButton = {
+                FloatingActionButton(onClick = {
+                    viewModel.addParcel(
+                        LocalParcelReference(
+                            code = UUID.randomUUID().toString(),
+                            trackingCode = formResult.trackingCode,
+                            parcelName = formResult.parcelName,
+                            stance = formResult.stance,
+                            ultimoEstado = null,
+                            notify = formResult.enableNotifications,
+                            updateStatus = LocalParcelReference.UpdateStatus.UNKNOWN
+                        )
                     )
+                }) {
+                    Icon(imageVector = Icons.Filled.Check, contentDescription = "Ok")
                 }
-            }
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = {
-                viewModel.addParcel(
-                    LocalParcelReference(
-                        code = UUID.randomUUID().toString(),
-                        trackingCode = formResult.trackingCode,
-                        parcelName = formResult.parcelName,
-                        stance = formResult.stance,
-                        ultimoEstado = null,
-                        notify = formResult.enableNotifications,
-                        updateStatus = LocalParcelReference.UpdateStatus.UNKNOWN
-                    )
-                )
-            }) {
-                Icon(imageVector = Icons.Filled.Check, contentDescription = "Ok")
-            }
-        })
+            })
+    }
 }
 
 @ExperimentalComposeUiApi
@@ -186,9 +190,9 @@ private fun StanceInput(
         radioOptions.forEach { (thisStance, text) ->
             Row(
                 Modifier.selectable(
-                        selected = thisStance == stance,
-                        onClick = { onStanceChange(thisStance) },
-                    )
+                    selected = thisStance == stance,
+                    onClick = { onStanceChange(thisStance) },
+                )
             ) {
                 RadioButton(modifier = Modifier.align(Alignment.CenterVertically),
                     selected = thisStance == stance,

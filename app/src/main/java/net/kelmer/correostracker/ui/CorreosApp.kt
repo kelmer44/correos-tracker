@@ -19,6 +19,7 @@ import net.kelmer.correostracker.ui.nav.rememberCorreosAppState
 @Composable
 fun CorreosApp(
     useDarkTheme : Boolean = isSystemInDarkTheme(),
+    viewModel: MainActivityViewModel = hiltViewModel(),
     windowSizeClass: WindowSizeClass,
     appState: CorreosAppState = rememberCorreosAppState()
 ) {
@@ -34,7 +35,9 @@ fun CorreosApp(
                     appState.navigateToCreate(navBackStackEntry)
                 },
                 onParcelClicked = { code ->
-                    appState.navigateToDetails(code, navBackStackEntry)
+                    if(code.isNotBlank()) {
+                        appState.navigateToDetails(viewModel.sanitizeCode(code = code), navBackStackEntry)
+                    }
                 },
                 onWebClicked = {},
                 onLongPressParcel = {}
