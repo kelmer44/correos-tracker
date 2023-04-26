@@ -41,25 +41,12 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     @Inject
     lateinit var myWorkerFactory: MyWorkerFactory
 
-    private val viewModel: MainActivityViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initWorker()
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(PERMISSION_NOTIS)) {
             ActivityCompat.requestPermissions(this, arrayOf(PERMISSION_NOTIS), NOTI_REQ_PERMISSION)
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-//        viewModel
-//            .stateOnceAndStream
-//            .autoDisposable(this.scope())
-//            .subscribe(
-//                { AppCompatDelegate.setDefaultNightMode(it.theme.code) },
-//                Timber::e
-//            )
     }
 
     private fun triggerSampleNotification() {

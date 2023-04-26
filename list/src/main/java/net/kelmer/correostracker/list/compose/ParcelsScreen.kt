@@ -1,5 +1,6 @@
 package net.kelmer.correostracker.list.compose
 
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -36,8 +37,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -61,6 +65,7 @@ import net.kelmer.correostracker.ui.compose.ConfirmDialog
 import net.kelmer.correostracker.ui.compose.ErrorView
 import net.kelmer.correostracker.ui.compose.FaseIcon
 import net.kelmer.correostracker.ui.compose.OverflowMenuAction
+import net.kelmer.correostracker.util.copyToClipboard
 import java.text.SimpleDateFormat
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,12 +76,11 @@ fun ParcelsScreen(
     viewModel: ParcelListViewModel = viewModel(),
     onAddParcel: () -> Unit = {},
     onParcelClicked: (String) -> Unit = {},
-    onLongPressParcel: (String) -> Unit = {},
     onWebClicked: () -> Unit
 ) {
     val viewState by viewModel.stateOnceAndStream.subscribeAsState(ParcelListViewModel.State())
 
-    var showAbout by remember { mutableStateOf(false) }
+    var showAbout by remember { mutableStateOf(!viewModel.showFeature()) }
     var showThemeDialog by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -94,7 +98,9 @@ fun ParcelsScreen(
         },
         contentWindowInsets = ScaffoldDefaults.contentWindowInsets,
         content = { contentPadding ->
-            Column(modifier = modifier.padding(contentPadding).fillMaxHeight()) {
+            Column(modifier = modifier
+                .padding(contentPadding)
+                .fillMaxHeight()) {
                 val state = viewState
 
                 val refreshing by remember { mutableStateOf(state.loading) }
@@ -105,16 +111,12 @@ fun ParcelsScreen(
                             onParcelClicked,
                             viewModel::deleteParcel,
                             viewModel::toggleNotifications,
-                            onLongPressParcel,
                             viewModel::refresh,
                             refreshing
                         )
                     } else {
                         EmptyState(onAddParcel)
                     }
-                }
-                if (state.loading) {
-
                 }
                 if (state.error != null) {
                     val unrecognized = stringResource(id = R.string.error_unrecognized)
@@ -124,7 +126,10 @@ fun ParcelsScreen(
             if (showAbout) {
                 FeatureDialog(
                     onWebClick = onWebClicked,
-                    onDismiss = { showAbout = false }
+                    onDismiss = {
+                        showAbout = false
+                        viewModel.setShownFeature()
+                    }
                 )
             }
             if (showThemeDialog) {
@@ -143,7 +148,6 @@ fun ParcelList(
     onParcelClicked: (String) -> Unit = {},
     onRemoveParcel: (LocalParcelReference) -> Unit = {},
     onToggleNotifications: (String, Boolean) -> Unit = { _, _ -> },
-    onLongPressParcel: (String) -> Unit = {},
     refresh: () -> Unit,
     refreshing: Boolean
 ) {
@@ -151,7 +155,10 @@ fun ParcelList(
 
     val state = rememberPullRefreshState(refreshing, refresh)
 
-    Box(Modifier.pullRefresh(state).fillMaxHeight()) {
+    Box(
+        Modifier
+            .pullRefresh(state)
+            .fillMaxHeight()) {
 
         LazyColumn(state = listState, modifier = Modifier.fillMaxHeight()) {
             items(items = list, key = { it.code }) { parcel ->
@@ -159,8 +166,7 @@ fun ParcelList(
                     parcel = parcel,
                     onParcelClicked = onParcelClicked,
                     onRemoveParcel = onRemoveParcel,
-                    onToggleNotifications = onToggleNotifications,
-                    onLongPressParcel = onLongPressParcel
+                    onToggleNotifications = onToggleNotifications
                 )
             }
         }
@@ -207,9 +213,9 @@ fun ParcelListItem(
     modifier: Modifier = Modifier,
     onParcelClicked: (String) -> Unit,
     onRemoveParcel: (LocalParcelReference) -> Unit,
-    onToggleNotifications: (String, Boolean) -> Unit,
-    onLongPressParcel: (String) -> Unit = {}
+    onToggleNotifications: (String, Boolean) -> Unit
 ) {
+    val context = LocalContext.current
     ElevatedCard(
         modifier = modifier
             .padding(horizontal = 8.dp, vertical = 8.dp)
@@ -219,7 +225,9 @@ fun ParcelListItem(
                 },
                 indication = rememberRipple(bounded = true),
                 onClick = { onParcelClicked(parcel.trackingCode) },
-                onLongClick = { onLongPressParcel(parcel.trackingCode) },
+                onLongClick = {
+                    context.copyToClipboard(parcel.trackingCode)
+                },
             ),
         shape = RoundedCornerShape(4.dp),
     ) {

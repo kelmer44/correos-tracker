@@ -92,9 +92,6 @@ class ParcelListPresenter @Inject constructor(
                         onParcelClicked = {
                             details(it)
                         },
-                        onLongPressParcel = {
-                            fragment.context?.copyToClipboard(it)
-                        },
                         onWebClicked = this@ParcelListPresenter::onWebClicked
                     )
                 }

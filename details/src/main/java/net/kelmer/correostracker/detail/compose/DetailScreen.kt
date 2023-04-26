@@ -70,6 +70,7 @@ import net.kelmer.correostracker.ui.compose.ErrorView
 import net.kelmer.correostracker.ui.compose.FaseIcon
 import net.kelmer.correostracker.ui.compose.NoSearchAppBar
 import net.kelmer.correostracker.util.NetworkInteractor
+import net.kelmer.correostracker.util.copyToClipboard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -356,7 +357,6 @@ fun DetailAppBar(
     state: DetailViewModel.State,
     backAction: () -> Unit = {},
     onRefresh: () -> Unit = {},
-    copyAction: () -> Unit = {}
 ) {
     var barCodeShown by rememberSaveable { mutableStateOf(false) }
 
@@ -392,7 +392,7 @@ fun DetailAppBar(
         // This is where you lock to your preferred one
 
         orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-
+        val context = LocalContext.current
         AlertDialog(
             properties = DialogProperties(usePlatformDefaultWidth = false),
             shape = MaterialTheme.shapes.medium,
@@ -415,8 +415,8 @@ fun DetailAppBar(
                         )
                     }
 
-                    Row(horizontalArrangement = Arrangement.Center) {
-                        IconButton(onClick = copyAction) {
+                    Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
+                        IconButton(onClick = { context.copyToClipboard(state.trackingCode) }) {
                             Icon(
                                 modifier = Modifier
                                     .align(Alignment.CenterVertically)

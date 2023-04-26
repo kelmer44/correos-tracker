@@ -3,6 +3,7 @@ package net.kelmer.correostracker.ui.activity
 import android.app.PendingIntent
 import android.app.UiModeManager.MODE_NIGHT_YES
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -27,13 +28,11 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.uber.autodispose.android.lifecycle.scope
-import com.uber.autodispose.autoDisposable
 import dagger.hilt.android.AndroidEntryPoint
 import net.kelmer.correostracker.CorreosApp
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.di.worker.MyWorkerFactory
-import net.kelmer.correostracker.list.ParcelListPreferences
+import net.kelmer.correostracker.iap.InAppReviewService
 import net.kelmer.correostracker.service.worker.NotificationID
 import net.kelmer.correostracker.service.worker.PERMISSION_NOTIS
 import net.kelmer.correostracker.service.worker.ParcelPollWorker
@@ -54,7 +53,7 @@ import javax.inject.Inject
     lateinit var myWorkerFactory: MyWorkerFactory
 
     @Inject
-    lateinit var parcelListPreferences: ParcelListPreferences<ThemeMode>
+    lateinit var inAppReviewService: InAppReviewService
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +75,7 @@ import javax.inject.Inject
                 CorreosApp(
                     useDarkTheme = useDarkColors,
                     windowSizeClass = windowSizeClass,
+                    onWebClicked = ::onWebClicked
 //                    displayFeatures
                 )
             }
@@ -85,6 +85,15 @@ import javax.inject.Inject
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(PERMISSION_NOTIS)) {
             ActivityCompat.requestPermissions(this, arrayOf(PERMISSION_NOTIS), NOTI_REQ_PERMISSION)
         }
+
+        inAppReviewService.showIfNeeded()
+    }
+
+    private fun onWebClicked() {
+        val url = "https://github.com/kelmer44/correos-tracker"
+        val i = Intent(Intent.ACTION_VIEW)
+        i.data = Uri.parse(url)
+        startActivity(i)
     }
 
     private fun triggerSampleNotification(){

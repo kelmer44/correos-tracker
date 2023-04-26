@@ -50,7 +50,8 @@ fun FeatureDialog(
                 }
             }
             Divider(
-                thickness = 2.dp
+                thickness = 2.dp,
+                color = MaterialTheme.colorScheme.onSurface
             )
             Text(
                 modifier = Modifier
@@ -63,12 +64,15 @@ fun FeatureDialog(
                 modifier = Modifier.height(192.dp)
             ) {
                 items(items = viewModel.getFeatureList()) { feature ->
-                    Column(modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp)) {
+                    Column(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp)) {
                         Text(
                             modifier = Modifier.align(Alignment.Start),
                             text = buildAnnotatedString {
                                     append(feature.version)
                             },
+                            style = MaterialTheme.typography.labelLarge,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
@@ -76,14 +80,15 @@ fun FeatureDialog(
                                 val text = stringResource(id = feature.text)
                                 append(text)
                             },
-                            style = MaterialTheme.typography.labelMedium
+                            style = MaterialTheme.typography.bodySmall
                         )
                     }
                 }
             }
             Divider(
-                modifier = Modifier.padding(top = 8.dp),
-                thickness = 2.dp
+                modifier = Modifier.padding(top = 0.dp),
+                thickness = 2.dp,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }

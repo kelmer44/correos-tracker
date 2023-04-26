@@ -21,7 +21,8 @@ fun CorreosApp(
     useDarkTheme : Boolean = isSystemInDarkTheme(),
     viewModel: MainActivityViewModel = hiltViewModel(),
     windowSizeClass: WindowSizeClass,
-    appState: CorreosAppState = rememberCorreosAppState()
+    appState: CorreosAppState = rememberCorreosAppState(),
+    onWebClicked: () -> Unit
 ) {
     NavHost(
         navController = appState.navController,
@@ -39,8 +40,7 @@ fun CorreosApp(
                         appState.navigateToDetails(viewModel.sanitizeCode(code = code), navBackStackEntry)
                     }
                 },
-                onWebClicked = {},
-                onLongPressParcel = {}
+                onWebClicked = onWebClicked,
             )
         }
         composable(Screen.Detail.route) { backStackEntry ->
