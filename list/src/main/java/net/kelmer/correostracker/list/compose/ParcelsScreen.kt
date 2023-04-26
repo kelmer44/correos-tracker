@@ -27,12 +27,10 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rxjava2.subscribeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -47,12 +45,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.launch
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.list.ParcelListViewModel
 import net.kelmer.correostracker.list.R
 import net.kelmer.correostracker.list.compose.feature.FeatureDialog
+import net.kelmer.correostracker.list.compose.pullrefresh.PullRefreshIndicator
+import net.kelmer.correostracker.list.compose.pullrefresh.pullRefresh
+import net.kelmer.correostracker.list.compose.pullrefresh.rememberPullRefreshState
 import net.kelmer.correostracker.list.compose.theme.ThemeDialog
 import net.kelmer.correostracker.theme.R.*
 import net.kelmer.correostracker.ui.compose.ActionItem
@@ -94,9 +94,10 @@ fun ParcelsScreen(
         },
         contentWindowInsets = ScaffoldDefaults.contentWindowInsets,
         content = { contentPadding ->
-            Column(modifier = modifier.padding(contentPadding)) {
+            Column(modifier = modifier.padding(contentPadding).fillMaxHeight()) {
                 val state = viewState
 
+                val refreshing by remember { mutableStateOf(state.loading) }
                 if (state.list != null) {
                     if (state.list.isNotEmpty()) {
                         ParcelList(
@@ -104,7 +105,9 @@ fun ParcelsScreen(
                             onParcelClicked,
                             viewModel::deleteParcel,
                             viewModel::toggleNotifications,
-                            onLongPressParcel
+                            onLongPressParcel,
+                            viewModel::refresh,
+                            refreshing
                         )
                     } else {
                         EmptyState(onAddParcel)
@@ -140,19 +143,28 @@ fun ParcelList(
     onParcelClicked: (String) -> Unit = {},
     onRemoveParcel: (LocalParcelReference) -> Unit = {},
     onToggleNotifications: (String, Boolean) -> Unit = { _, _ -> },
-    onLongPressParcel: (String) -> Unit = {}
+    onLongPressParcel: (String) -> Unit = {},
+    refresh: () -> Unit,
+    refreshing: Boolean
 ) {
     val listState = rememberLazyListState()
-    LazyColumn(state = listState) {
-        items(items = list, key = { it.code }) { parcel ->
-            ParcelListItem(
-                parcel = parcel,
-                onParcelClicked = onParcelClicked,
-                onRemoveParcel = onRemoveParcel,
-                onToggleNotifications = onToggleNotifications,
-                onLongPressParcel = onLongPressParcel
-            )
+
+    val state = rememberPullRefreshState(refreshing, refresh)
+
+    Box(Modifier.pullRefresh(state).fillMaxHeight()) {
+
+        LazyColumn(state = listState, modifier = Modifier.fillMaxHeight()) {
+            items(items = list, key = { it.code }) { parcel ->
+                ParcelListItem(
+                    parcel = parcel,
+                    onParcelClicked = onParcelClicked,
+                    onRemoveParcel = onRemoveParcel,
+                    onToggleNotifications = onToggleNotifications,
+                    onLongPressParcel = onLongPressParcel
+                )
+            }
         }
+        PullRefreshIndicator(refreshing, state, Modifier.align(Alignment.TopCenter))
     }
 }
 
@@ -330,6 +342,7 @@ fun ListStateIcon(parcel: LocalParcelReference) {
                 contentDescription = ""
             )
         }
+
         LocalParcelReference.UpdateStatus.UNKNOWN -> {
             CircledIcon(
                 bgColor = colorResource(id = color.stage_unknown),
@@ -389,7 +402,9 @@ fun previewList() {
                 1, notify = true,
                 updateStatus = LocalParcelReference.UpdateStatus.OK
             )
-        )
+        ),
+        refresh = { },
+        refreshing = false
     )
 }
 
