@@ -2,9 +2,11 @@
 
 package net.kelmer.correostracker.list.compose
 
+import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardActions
@@ -39,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import net.kelmer.correostracker.list.R
 import net.kelmer.correostracker.ui.compose.ActionItem
 import net.kelmer.correostracker.ui.compose.NoSearchAppBar
+import net.kelmer.correostracker.ui.theme.CorreosTheme
 
 @Composable
 fun ParcelsAppBar(
@@ -56,11 +59,13 @@ fun ParcelsAppBar(
         when (searchState) {
             SearchWidgetState.OPEN -> {
                 SearchAppBar(
+                    useDarkTheme = useDarkTheme,
                     onTextChange = onTextChange,
                     onCloseClicked = { searchWidgetState = SearchWidgetState.CLOSED },
                     onSearchClicked = {},
                 )
             }
+
             SearchWidgetState.CLOSED -> {
                 NoSearchAppBar(
                     useDarkTheme = useDarkTheme,
@@ -85,16 +90,23 @@ fun ParcelsAppBar(
 fun SearchAppBar(
     onTextChange: (String) -> Unit,
     onCloseClicked: () -> Unit,
-    onSearchClicked: (String) -> Unit
+    onSearchClicked: (String) -> Unit,
+    useDarkTheme: Boolean
 ) {
     val focusRequester = remember { FocusRequester() }
     var textState by remember { mutableStateOf("") }
+    var surfaceColor = if (useDarkTheme) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.primary
+    val elementsColor =
+        if (useDarkTheme) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSecondary
 
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .height(64.dp),
+        color = surfaceColor
     ) {
+
+
         fun innerTextChange(text: String) {
             textState = text
             onTextChange(text)
@@ -107,16 +119,12 @@ fun SearchAppBar(
                     focusRequester.requestFocus() // IMPORTANT
                 },
             value = textState,
-            onValueChange = {
-                innerTextChange(it)
-            },
+            onValueChange = ::innerTextChange,
             placeholder = {
-                Text(
-                    text = "Search here...",
-                )
+                Text(text = stringResource(R.string.search_placeholder))
             },
             textStyle = TextStyle(
-                fontSize = MaterialTheme.typography.bodySmall.fontSize
+                fontSize = MaterialTheme.typography.bodyMedium.fontSize
             ),
             singleLine = true,
             leadingIcon = {
@@ -127,13 +135,13 @@ fun SearchAppBar(
                     }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Search Icon",
+                            contentDescription = "Back",
                         )
                     }
                     IconButton(onClick = { }) {
                         Icon(
                             imageVector = Icons.Default.Search,
-                            contentDescription = "Search Icon",
+                            contentDescription = stringResource(id = R.string.search),
                         )
                     }
                 }
@@ -153,17 +161,30 @@ fun SearchAppBar(
                 onSearchClicked(textState)
             }),
             colors = TextFieldDefaults.textFieldColors(
+                textColor = elementsColor,
                 containerColor = Color.Transparent,
-                cursorColor = Color.White,
-                focusedIndicatorColor = Color.Transparent
+                cursorColor = elementsColor,
+                focusedIndicatorColor = Color.Transparent,
+                focusedTrailingIconColor = elementsColor,
+                focusedLeadingIconColor = elementsColor,
+                unfocusedIndicatorColor = elementsColor,
+                unfocusedTrailingIconColor = elementsColor,
+                focusedLabelColor = elementsColor,
+                placeholderColor = elementsColor
             ),
         )
     }
 }
 
-
 @Composable
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 fun SearchBarPreview() {
-    SearchAppBar(onTextChange = {}, onCloseClicked = { }, onSearchClicked = {})
+    CorreosTheme(false) {
+        SearchAppBar(
+            onTextChange = {},
+            onCloseClicked = {},
+            onSearchClicked = {},
+            useDarkTheme = false
+        )
+    }
 }

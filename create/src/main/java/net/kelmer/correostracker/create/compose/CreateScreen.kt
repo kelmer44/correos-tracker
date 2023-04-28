@@ -1,64 +1,43 @@
 package net.kelmer.correostracker.create.compose
 
 import android.os.Parcelable
-import android.view.KeyEvent.ACTION_DOWN
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rxjava2.subscribeAsState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.focus.FocusManager
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.dp
 import kotlinx.parcelize.Parcelize
 import net.kelmer.correostracker.create.CreateParcelViewModel
-import net.kelmer.correostracker.create.R
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
-import net.kelmer.correostracker.ui.compose.NoSearchAppBar
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
+import net.kelmer.correostracker.create.R
 import timber.log.Timber
 import java.util.UUID
 
@@ -77,9 +56,15 @@ fun CreateScreen(
             Form("", "", true, LocalParcelReference.Stance.INCOMING)
         )
     }
+    val noCodeError = stringResource(id = R.string.error_nocodigo)
+    var validationError by rememberSaveable { mutableStateOf("") }
+    val validationAction: () -> Unit = {
+        validationError = noCodeError
+    }
 
     val barcode = rememberLauncherForActivityResult(contract = ScanContract(), onResult = { result ->
-        if (result.contents != null) {
+        if (result.contents != null && result.contents.isNotBlank()) {
+            validationError = ""
             formResult = formResult.copy(trackingCode = result.contents)
         }
     })
@@ -99,7 +84,10 @@ fun CreateScreen(
                     ) {
                         CreationForm(
                             trackingCode = formResult.trackingCode,
-                            onCodeChange = { formResult = formResult.copy(trackingCode = it) },
+                            onCodeChange = {
+                                formResult = formResult.copy(trackingCode = it)
+                                validationError = ""
+                            },
                             name = formResult.parcelName,
                             onNameChange = { formResult = formResult.copy(parcelName = it) },
                             stance = formResult.stance,
@@ -108,11 +96,15 @@ fun CreateScreen(
                             onNotifyChange = { formResult = formResult.copy(enableNotifications = it) },
                             onScanClicked = {
                                 barcode.launch(
-                                    ScanOptions().setOrientationLocked(false).setBeepEnabled(true)
+                                    ScanOptions()
+                                        .setOrientationLocked(false)
                                         .setBarcodeImageEnabled(true)
                                 )
                             },
-                            onOk = { addParcel(viewModel = viewModel, formResult = formResult) }
+                            onOk = {
+                                addParcel(viewModel = viewModel, formResult = formResult, onValidationError = validationAction)
+                            },
+                            error = validationError
                         )
                     }
                 } else {
@@ -130,7 +122,9 @@ fun CreateScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     modifier = Modifier.imePadding(),
-                    onClick = { addParcel(viewModel, formResult) }
+                    onClick = {
+                        addParcel(viewModel = viewModel, formResult = formResult, onValidationError = validationAction)
+                    }
                 ) {
                     Icon(imageVector = Icons.Filled.Check, contentDescription = "Ok")
                 }
@@ -140,19 +134,24 @@ fun CreateScreen(
 
 private fun addParcel(
     viewModel: CreateParcelViewModel,
-    formResult: Form
+    formResult: Form,
+    onValidationError: () -> Unit
 ) {
-    viewModel.addParcel(
-        LocalParcelReference(
-            code = UUID.randomUUID().toString(),
-            trackingCode = formResult.trackingCode,
-            parcelName = formResult.parcelName,
-            stance = formResult.stance,
-            ultimoEstado = null,
-            notify = formResult.enableNotifications,
-            updateStatus = LocalParcelReference.UpdateStatus.UNKNOWN
+    if (formResult.trackingCode.isEmpty()) {
+        onValidationError()
+    } else {
+        viewModel.addParcel(
+            LocalParcelReference(
+                code = UUID.randomUUID().toString(),
+                trackingCode = formResult.trackingCode,
+                parcelName = formResult.parcelName,
+                stance = formResult.stance,
+                ultimoEstado = null,
+                notify = formResult.enableNotifications,
+                updateStatus = LocalParcelReference.UpdateStatus.UNKNOWN
+            )
         )
-    )
+    }
 }
 
 
@@ -169,156 +168,17 @@ fun CreationForm(
     notify: Boolean,
     onNotifyChange: (Boolean) -> Unit,
     onScanClicked: () -> Unit,
-    onOk: () -> Unit
+    onOk: () -> Unit,
+    error: String
 ) {
 
 
-    val radioOptions = listOf(
-        LocalParcelReference.Stance.INCOMING to stringResource(id = R.string.incoming),
-        LocalParcelReference.Stance.OUTGOING to stringResource(id = R.string.outgoing)
-    )
     val focusManager = LocalFocusManager.current
 
-    CodeInput(focusManager, trackingCode, onCodeChange, onScanClicked)
+    CodeInput(focusManager, trackingCode, onCodeChange, onScanClicked, error)
     NameInput(focusManager, name, onNameChange, onOk)
     NotificationsInput(notify, onNotifyChange)
-    StanceInput(radioOptions, stance, onStanceChange)
-}
-
-@Composable
-private fun StanceInput(
-    radioOptions: List<Pair<LocalParcelReference.Stance, String>>,
-    stance: LocalParcelReference.Stance,
-    onStanceChange: (LocalParcelReference.Stance) -> Unit,
-) {
-    Text(
-        text = stringResource(id = R.string.stance).uppercase(),
-        style = MaterialTheme.typography.titleSmall,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-    )
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-        radioOptions.forEach { (thisStance, text) ->
-            Row(
-                Modifier.selectable(
-                    selected = thisStance == stance,
-                    onClick = { onStanceChange(thisStance) },
-                )
-            ) {
-                RadioButton(modifier = Modifier.align(Alignment.CenterVertically),
-                    selected = thisStance == stance,
-                    onClick = { onStanceChange(thisStance) })
-                Text(
-                    text = text,
-                    style = MaterialTheme.typography.bodyMedium.merge(),
-                    modifier = Modifier
-                        .padding(start = 8.dp)
-                        .align(Alignment.CenterVertically)
-                )
-            }
-
-        }
-    }
-}
-
-@Composable
-private fun NotificationsInput(notify: Boolean, onNotifyChange: (Boolean) -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-    ) {
-        Text(
-            text = stringResource(id = R.string.parcel_status_alerts),
-            modifier = Modifier
-                .weight(1f)
-                .align(Alignment.CenterVertically)
-                .padding(end = 16.dp)
-        )
-        Switch(
-            checked = notify, onCheckedChange = onNotifyChange, modifier = Modifier
-        )
-    }
-}
-
-@ExperimentalComposeUiApi
-@Composable
-@OptIn(ExperimentalMaterial3Api::class)
-private fun NameInput(
-    focusManager: FocusManager, name: String, onNameChange: (String) -> Unit, onOk: () -> Unit
-) {
-    OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .onPreviewKeyEvent {
-                if (it.key == Key.Tab && it.nativeKeyEvent.action == ACTION_DOWN) {
-                    focusManager.moveFocus(FocusDirection.Down)
-                    true
-                } else {
-                    false
-                }
-            },
-        singleLine = true,
-        value = name,
-        onValueChange = onNameChange,
-        label = {
-            Text(stringResource(id = R.string.parcel_name))
-        },
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-        keyboardActions = KeyboardActions(
-            onDone = { onOk() }
-        )
-    )
-}
-
-@ExperimentalComposeUiApi
-@Composable
-@OptIn(ExperimentalMaterial3Api::class)
-private fun CodeInput(
-    focusManager: FocusManager, trackingCode: String, onCodeChange: (String) -> Unit, onScanClicked: () -> Unit
-) {
-    OutlinedTextField(modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 16.dp, vertical = 8.dp)
-        .onPreviewKeyEvent {
-            if (it.key == Key.Tab && it.nativeKeyEvent.action == ACTION_DOWN) {
-                focusManager.moveFocus(FocusDirection.Down)
-                true
-            } else {
-                false
-            }
-        },
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-        value = trackingCode,
-        onValueChange = onCodeChange,
-        label = {
-            Text(stringResource(id = R.string.parcel_code))
-        },
-        singleLine = true,
-        trailingIcon = {
-            IconButton(onClick = onScanClicked) {
-                Icon(painter = painterResource(id = R.drawable.ic_barcode), contentDescription = "Scan barcode")
-            }
-        },
-        supportingText = {
-            Text(text = stringResource(id = R.string.code_helper_text))
-        })
-}
-
-@Composable
-fun CreateAppBar(
-    useDarkTheme: Boolean, backAction: () -> Unit = {}
-) {
-    NoSearchAppBar(useDarkTheme,
-        title = stringResource(id = R.string.add_parcel),
-        actionItems = emptyList(),
-        navigationIcon = {
-            IconButton(onClick = backAction) {
-                Icon(Icons.Filled.ArrowBack, "backIcon")
-            }
-        })
+    StanceInput(stance, onStanceChange)
 }
 
 @Parcelize

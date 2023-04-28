@@ -9,5 +9,6 @@
     <string name="masinfo_peso">Weight:</string>
     <string name="masinfo_ref">Ref. number:</string>
     <string name="parcel_info">Extra info</string>
+    <string name="barcode">Barcode</string>
 
 </resources>

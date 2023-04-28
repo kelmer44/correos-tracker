@@ -31,8 +31,8 @@ fun NoSearchAppBar(
     navigationIcon: @Composable () -> Unit = {},
 ) {
     AppBarTheme(useDarkTheme) {
-        val containerColor = if(!useDarkTheme) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface
-        val itemsColor = if(!useDarkTheme) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+        val containerColor = if (!useDarkTheme) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface
+        val itemsColor = if (!useDarkTheme) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
 
         TopAppBar(
             title = {
@@ -56,7 +56,7 @@ fun NoSearchAppBar(
             },
             colors = TopAppBarDefaults.smallTopAppBarColors(
                 containerColor = containerColor,
-                titleContentColor =  itemsColor ,
+                titleContentColor = itemsColor,
                 actionIconContentColor = itemsColor,
                 navigationIconContentColor = itemsColor
             ),
@@ -64,7 +64,10 @@ fun NoSearchAppBar(
                 val (icons, options) = actionItems.partition { it.icon != null || it.painterIcon != null }
 
                 icons.forEach {
-                    IconButton(onClick = it.action) {
+                    IconButton(
+                        onClick = it.action,
+                        enabled = it.enabled
+                    ) {
                         if (it.icon != null) {
                             Icon(imageVector = it.icon, contentDescription = it.name)
                         } else if (it.painterIcon != null) {

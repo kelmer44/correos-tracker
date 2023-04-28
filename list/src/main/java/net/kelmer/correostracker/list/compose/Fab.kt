@@ -36,7 +36,7 @@ fun AddParcelFAB(onClick: () -> Unit) {
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 fun previewFAB() {
-    CorreosTheme {
+    CorreosTheme(true) {
         AddParcelFAB {
 
         }

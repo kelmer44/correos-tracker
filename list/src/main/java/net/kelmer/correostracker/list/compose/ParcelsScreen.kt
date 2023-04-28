@@ -1,6 +1,5 @@
 package net.kelmer.correostracker.list.compose
 
-import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -37,11 +36,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -58,7 +55,6 @@ import net.kelmer.correostracker.list.compose.pullrefresh.PullRefreshIndicator
 import net.kelmer.correostracker.list.compose.pullrefresh.pullRefresh
 import net.kelmer.correostracker.list.compose.pullrefresh.rememberPullRefreshState
 import net.kelmer.correostracker.list.compose.theme.ThemeDialog
-import net.kelmer.correostracker.theme.R.*
 import net.kelmer.correostracker.ui.compose.ActionItem
 import net.kelmer.correostracker.ui.compose.CircledIcon
 import net.kelmer.correostracker.ui.compose.ConfirmDialog
@@ -115,7 +111,7 @@ fun ParcelsScreen(
                             refreshing
                         )
                     } else {
-                        EmptyState(onAddParcel)
+                        EmptyState(state.filter, onAddParcel)
                     }
                 }
                 if (state.error != null) {
@@ -134,6 +130,7 @@ fun ParcelsScreen(
             }
             if (showThemeDialog) {
                 ThemeDialog(
+                    preSelectedTheme = viewState.theme,
                     onDismiss = { showThemeDialog = false },
                     onSelect = viewModel::setTheme
                 )
@@ -175,13 +172,14 @@ fun ParcelList(
 }
 
 @Composable
-fun EmptyState(onAddParcel: () -> Unit = {}) {
+fun EmptyState(filter: String?, onAddParcel: () -> Unit = {}) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(),
         contentAlignment = Alignment.Center
     ) {
+        val emptyStateString = if(filter.isNullOrBlank()) R.string.emptystate_parcel_list else R.string.noresults
         Column(modifier = Modifier.align(Alignment.Center)) {
             CircledIcon(
                 bgColor = MaterialTheme.colorScheme.secondary,
@@ -194,7 +192,7 @@ fun EmptyState(onAddParcel: () -> Unit = {}) {
                     }
             )
             Text(
-                text = stringResource(id = R.string.emptystate_parcel_list),
+                text = stringResource(id = emptyStateString),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
@@ -345,16 +343,16 @@ fun ListStateIcon(parcel: LocalParcelReference) {
 
         LocalParcelReference.UpdateStatus.ERROR -> {
             CircledIcon(
-                bgColor = colorResource(id = color.stage_error),
-                icon = drawable.ic_error,
+                bgColor = colorResource(id = R.color.stage_error),
+                icon = R.drawable.ic_error,
                 contentDescription = ""
             )
         }
 
         LocalParcelReference.UpdateStatus.UNKNOWN -> {
             CircledIcon(
-                bgColor = colorResource(id = color.stage_unknown),
-                icon = drawable.ic_questionmark,
+                bgColor = colorResource(id = R.color.stage_unknown),
+                icon = R.drawable.ic_questionmark,
                 contentDescription = ""
             )
         }
@@ -368,7 +366,7 @@ fun ListStateIcon(parcel: LocalParcelReference) {
 @Composable
 @Preview
 fun emptyState() {
-    EmptyState()
+    EmptyState("sf")
 }
 
 @Composable

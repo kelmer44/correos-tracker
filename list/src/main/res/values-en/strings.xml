@@ -36,4 +36,6 @@
     <string name="delete">Remove</string>
 
     <string name="visit_web">Visit our website</string>
+    <string name="search_placeholder">Search here…</string>
+    <string name="noresults">Could not find any tracking with the given search.</string>
 </resources>

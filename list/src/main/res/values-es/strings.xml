@@ -40,4 +40,6 @@
     <string name="delete">Eliminar</string>
 
     <string name="visit_web">Visita nuestra web</string>
+    <string name="search_placeholder">Introduzca la búsqueda…</string>
+    <string name="noresults">No se encontraron seguimientos con el criterio indicado.</string>
 </resources>

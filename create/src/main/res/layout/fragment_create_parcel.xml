@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/parcel_code"
                     android:importantForAutofill="no"
-                    app:endIconDrawable="@drawable/ic_barcode"
+                    app:endIconDrawable="@drawable/ic_scan_barcode"
                     app:endIconMode="custom"
                     app:errorEnabled="true"
                     app:helperText="@string/code_helper_text"

@@ -40,15 +40,18 @@ class ParcelListViewModel @Inject constructor(
     val stateOnceAndStream =
         localParcelRepository.getParcels()
             .combineLatest(
-                filterSubject.startWith("")
+                filterSubject.startWith(""),
+                parcelListPreferences.themeModeStream
             )
-            .map { (list, filter) ->
+            .map { (list, filter, theme) ->
                 State(
                     list = list.filter {
                         filter.isNullOrBlank() ||
                             it.parcelName.contains(filter, true) ||
                             it.trackingCode.contains(filter, true)
-                    }
+                    },
+                    filter = filter,
+                    theme = theme
                 )
             }
             .startWith(State(loading = true))
@@ -127,5 +130,7 @@ class ParcelListViewModel @Inject constructor(
         val list: List<LocalParcelReference>? = null,
         val loading: Boolean = false,
         val error: Throwable? = null,
+        val filter: String? = null,
+        val theme: ThemeMode? = null
     )
 }

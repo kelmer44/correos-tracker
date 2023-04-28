@@ -78,14 +78,10 @@ class DetailPresenter @Inject constructor(
             setContent {
                 CorreosTheme {
                     DetailScreen(
-                        useDarkTheme = isSystemInDarkTheme(),
-                        backAction = {
-                            findNavController(fragment).popBackStack()
-                        },
-                        copyAction = {
-                            fragment.requireContext().copyToClipboard(parcelCode)
-                        }
-                    )
+                        useDarkTheme = isSystemInDarkTheme()
+                    ) {
+                        findNavController(fragment).popBackStack()
+                    }
                 }
             }
         }

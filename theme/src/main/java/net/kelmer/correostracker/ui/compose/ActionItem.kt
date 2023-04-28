@@ -9,5 +9,6 @@ data class ActionItem(
     val name: String,
     val icon: ImageVector? = null,
     val painterIcon: Painter? = null,
-    val action: () -> Unit = {}
+    val action: () -> Unit = {},
+    val enabled: Boolean = true
 )
