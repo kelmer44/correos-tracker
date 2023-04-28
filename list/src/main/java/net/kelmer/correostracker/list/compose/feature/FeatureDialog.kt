@@ -17,18 +17,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import net.kelmer.correostracker.list.ParcelListViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import net.kelmer.correostracker.list.R
+import net.kelmer.correostracker.list.compose.preview.PreviewData
+import net.kelmer.correostracker.list.featuredialog.Feature
 import net.kelmer.correostracker.ui.compose.CorreosDialog
+import net.kelmer.correostracker.ui.theme.CorreosTheme
 
 @Composable
 fun FeatureDialog(
-    viewModel: ParcelListViewModel = viewModel(),
+    featureList: List<Feature>,
     modifier: Modifier = Modifier,
-    onDismiss: () -> Unit,
-    onWebClick: () -> Unit
+    onDismiss: () -> Unit = {},
+    onWebClick: () -> Unit = {}
 ) {
 
     CorreosDialog(title = stringResource(id = R.string.about), onDismiss = onDismiss, onConfirm = onDismiss) {
@@ -63,7 +66,7 @@ fun FeatureDialog(
             LazyColumn(
                 modifier = Modifier.height(192.dp)
             ) {
-                items(items = viewModel.getFeatureList()) { feature ->
+                items(items = featureList) { feature ->
                     Column(modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp)) {
@@ -91,5 +94,13 @@ fun FeatureDialog(
                 color = MaterialTheme.colorScheme.onSurface
             )
         }
+    }
+}
+
+@Composable
+@Preview
+fun FeatureDialogPreview(){
+    CorreosTheme {
+        FeatureDialog(featureList = PreviewData.featureList)
     }
 }

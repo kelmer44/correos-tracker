@@ -26,6 +26,7 @@
     <string name="changes_2_3_2">Se ha reescrito la app con una nueva arquitectura. Mejoras en los tiempos de carga.</string>
     <string name="changes_2_3_3">Arregladas notificaciones.</string>
 
+    <string name="changes_3_0_0">Interfaz renovada.</string>
     <string name="feature_dialog_title">Últimas novedades</string>
     <string name="feature_dialog_opensource">Esta app NO tiene afiliación alguna con Correos, sino que es un desarrollo independiente, gratuito y sin anuncios. Colabora con nosotros o reporta errores en nuestra web:</string>
     <string name="feature_dialog_opensource_contribute">Si quieres contribuir con el proyecto haz una donación a través de Kofi:</string>

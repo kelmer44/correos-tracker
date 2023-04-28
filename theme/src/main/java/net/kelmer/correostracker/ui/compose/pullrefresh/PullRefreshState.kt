@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.kelmer.correostracker.list.compose.pullrefresh
+package net.kelmer.correostracker.ui.compose.pullrefresh
 
 import androidx.compose.animation.core.animate
 import androidx.compose.foundation.MutatorMutex

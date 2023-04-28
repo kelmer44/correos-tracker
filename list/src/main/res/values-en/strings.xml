@@ -23,6 +23,7 @@
     <string name="changes_2_3_2">App has been rewritten with a new architecture. Load times have been massively improved.</string>
     <string name="changes_2_3_3">Notifications are now fixed again.</string>
 
+    <string name="changes_3_0_0">New interface.</string>
     <string name="feature_dialog_title">New features</string>
     <string name="feature_dialog_opensource">This app has no affiliation with Sociedad Estatal Correos y Telegrafos, S.A. and has been created by an independent developer. It is free, open-source and add-free.</string>
     <string name="feature_dialog_opensource_contribute">If you wish to contribute feel free to donate with a ko-fi:</string>

@@ -28,6 +28,7 @@ import kotlinx.coroutines.launch
 import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 
 import net.kelmer.correostracker.detail.DetailViewModel
+import net.kelmer.correostracker.detail.compose.preview.PreviewData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -97,8 +98,6 @@ fun EventList(events: List<CorreosApiEvent>) {
                 }
             }
         }
-    } else {
-        TODO("Empty state")
     }
 }
 
@@ -106,24 +105,6 @@ fun EventList(events: List<CorreosApiEvent>) {
 @Preview
 fun EventListSample() {
     EventList(
-        listOf(
-            CorreosApiEvent(
-                fecEvento = "19/03/2018",
-                codEvento = "P040000V",
-                horEvento = "16:32",
-                fase = "2",
-                desTextoResumen = "Clasificado",
-                desTextoAmpliado = "Envío clasificado en Centro Logístico",
-                unidad = "CTA SANTIAGO DE COMPOSTELA"
-            ), CorreosApiEvent(
-                fecEvento = "19/03/2018",
-                codEvento = "P040000V",
-                horEvento = "16:32",
-                fase = "4",
-                desTextoResumen = "Entregado",
-                desTextoAmpliado = "Envío clasificado en Centro Logístico",
-                unidad = "CTA SANTIAGO DE COMPOSTELA"
-            )
-        )
+        PreviewData.eventList
     )
 }

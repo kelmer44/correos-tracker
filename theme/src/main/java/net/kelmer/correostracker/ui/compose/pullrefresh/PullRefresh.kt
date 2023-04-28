@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.kelmer.correostracker.list.compose.pullrefresh
+package net.kelmer.correostracker.ui.compose.pullrefresh
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset

@@ -3,8 +3,6 @@
 package net.kelmer.correostracker.list.compose
 
 import android.content.res.Configuration
-import android.content.res.Configuration.UI_MODE_NIGHT_NO
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,6 +37,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import net.kelmer.correostracker.list.R
+import net.kelmer.correostracker.list.compose.appbar.SearchWidgetState
 import net.kelmer.correostracker.ui.compose.ActionItem
 import net.kelmer.correostracker.ui.compose.NoSearchAppBar
 import net.kelmer.correostracker.ui.theme.CorreosTheme
@@ -175,7 +174,17 @@ fun SearchAppBar(
         )
     }
 }
-
+@Composable
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
+fun NoSearchBarPreview() {
+    CorreosTheme(false) {
+        NoSearchAppBar(
+            title = "Seguimiento de correos",
+            actionItems = listOf(),
+            useDarkTheme = false
+        )
+    }
+}
 @Composable
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 fun SearchBarPreview() {

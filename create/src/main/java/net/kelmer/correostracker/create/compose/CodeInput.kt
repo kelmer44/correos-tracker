@@ -17,21 +17,24 @@ import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import net.kelmer.correostracker.create.R
+import net.kelmer.correostracker.ui.theme.CorreosTheme
 
 @ExperimentalComposeUiApi
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun CodeInput(
-    focusManager: FocusManager,
+    focusManager: FocusManager = LocalFocusManager.current,
     trackingCode: String,
-    onCodeChange: (String) -> Unit,
-    onScanClicked: () -> Unit,
-    error: String
+    onCodeChange: (String) -> Unit = {},
+    onScanClicked: () -> Unit = {},
+    error: String = ""
 ) {
     OutlinedTextField(modifier = Modifier
         .fillMaxWidth()
@@ -61,4 +64,13 @@ fun CodeInput(
         },
         isError = error.isNotBlank(),
     )
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+@Preview
+fun CodeInputPreview(){
+    CorreosTheme {
+        CodeInput(trackingCode = "1234")
+    }
 }
