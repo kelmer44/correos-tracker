@@ -36,7 +36,7 @@ fun DetailAppBar(
 
     NoSearchAppBar(
         useDarkTheme = useDarkTheme,
-        title = state.parcelDetail?.name ?: state.trackingCode,
+        title = (state.parcelDetail?.name ?: state.trackingCode).uppercase(),
         subtitle = state.parcelDetail?.code,
         navigationIcon = {
             IconButton(onClick = backAction) {

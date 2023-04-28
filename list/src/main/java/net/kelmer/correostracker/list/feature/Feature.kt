@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.list.featuredialog
+package net.kelmer.correostracker.list.feature
 
 import androidx.annotation.StringRes
 

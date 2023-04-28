@@ -45,9 +45,7 @@ fun NoSearchAppBar(
                     if (subtitle != null) {
                         Text(
                             text = subtitle,
-                            style = TextStyle(
-                                fontWeight = FontWeight.Normal, fontSize = 18.sp
-                            ),
+                            style = MaterialTheme.typography.titleSmall,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )
@@ -93,7 +91,8 @@ fun AppBarTheme(
     val typography = MaterialTheme.typography.copy(
         titleLarge = TextStyle(
             fontWeight = FontWeight.SemiBold, fontSize = 20.sp, lineHeight = 28.sp, letterSpacing = 0.sp
-        )
+        ),
+
     )
     CorreosTheme(
         useDarkTheme = useDarkTheme,

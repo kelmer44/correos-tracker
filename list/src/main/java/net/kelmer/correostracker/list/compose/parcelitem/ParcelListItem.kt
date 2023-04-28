@@ -88,7 +88,9 @@ fun ParcelListItem(
                         style = MaterialTheme.typography.labelLarge,
                         fontWeight = FontWeight.Bold
                     )
-                    Text(text = parcel.trackingCode, style = MaterialTheme.typography.labelLarge)
+                    Text(text = parcel.trackingCode,
+                        style = MaterialTheme.typography.labelMedium
+                    )
                 }
                 val (isExpanded, setExpanded) = remember { mutableStateOf(false) }
                 OverflowMenuAction(
@@ -159,7 +161,7 @@ fun ParcelListItem(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = parcel.ultimoEstado?.desTextoResumen ?: "",
+                        text = parcel.ultimoEstado?.buildUltimoEstado() ?: "",
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Bold
                     )

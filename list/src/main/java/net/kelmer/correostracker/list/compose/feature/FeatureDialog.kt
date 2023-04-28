@@ -19,10 +19,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import net.kelmer.correostracker.list.R
 import net.kelmer.correostracker.list.compose.preview.PreviewData
-import net.kelmer.correostracker.list.featuredialog.Feature
+import net.kelmer.correostracker.list.feature.Feature
 import net.kelmer.correostracker.ui.compose.CorreosDialog
 import net.kelmer.correostracker.ui.theme.CorreosTheme
 

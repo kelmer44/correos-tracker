@@ -3,7 +3,7 @@ package net.kelmer.correostracker.list.compose.preview
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.list.R
-import net.kelmer.correostracker.list.featuredialog.Feature
+import net.kelmer.correostracker.list.feature.Feature
 
 object PreviewData {
 

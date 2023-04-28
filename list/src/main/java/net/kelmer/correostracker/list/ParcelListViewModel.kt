@@ -4,17 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.uber.autodispose.autoDisposable
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.Flowable
 import io.reactivex.processors.PublishProcessor
 import io.reactivex.rxkotlin.combineLatest
 import net.kelmer.correostracker.BuildInfo
 import net.kelmer.correostracker.dataApi.Resource
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository
-import net.kelmer.correostracker.list.featuredialog.Feature
-//import net.kelmer.correostracker.data.prefs.SharedPrefsManager
+import net.kelmer.correostracker.list.feature.Feature
 import net.kelmer.correostracker.list.notifications.SwitchNotificationsUseCase
-import net.kelmer.correostracker.list.preferences.ParcelListPreferencesImpl
 import net.kelmer.correostracker.list.statusreports.StatusReportsUpdatesUseCase
 import net.kelmer.correostracker.ui.theme.ThemeMode
 import net.kelmer.correostracker.util.SchedulerProvider
@@ -75,6 +72,7 @@ class ParcelListViewModel @Inject constructor(
             Feature("2.0.0", R.string.changes_2_0_0),
             Feature("1.9.5", R.string.changes_1_9_5),
             Feature("1.9.0", R.string.changes_1_9_0),
+            Feature("1.8.0", R.string.changes_1_8_0),
         )
     }
 

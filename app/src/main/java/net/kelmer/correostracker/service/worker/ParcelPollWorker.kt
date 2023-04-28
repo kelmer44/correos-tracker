@@ -1,13 +1,9 @@
 package net.kelmer.correostracker.service.worker
 
-import android.Manifest
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
-import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.ListenableWorker
@@ -23,7 +19,7 @@ import net.kelmer.correostracker.dataApi.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.dataApi.repository.correos.CorreosRepository
 import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository
 import net.kelmer.correostracker.di.worker.ChildWorkerFactory
-import net.kelmer.correostracker.ui.activity.MainActivity
+import net.kelmer.correostracker.ui.activity.MainActivityCompose
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -87,7 +83,7 @@ class ParcelPollWorker constructor(
                 applicationContext.getString(R.string.new_events_multiple, newEvents.size)
             }
 
-            val notificationIntent = Intent(applicationContext, MainActivity::class.java)
+            val notificationIntent = Intent(applicationContext, MainActivityCompose::class.java)
 
             notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
 
