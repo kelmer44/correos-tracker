@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import kotlinx.parcelize.Parcelize
@@ -68,7 +69,9 @@ fun CreateScreen(
             formResult = formResult.copy(trackingCode = result.contents)
         }
     })
+    val focusManager = LocalFocusManager.current
     if (viewState.savedParcel != null) {
+        focusManager.clearFocus()
         backAction()
     } else {
         Scaffold(modifier = modifier.imePadding(),
@@ -83,6 +86,7 @@ fun CreateScreen(
                             .verticalScroll(rememberScrollState())
                     ) {
                         CreationForm(
+                            focusManager = focusManager,
                             trackingCode = formResult.trackingCode,
                             onCodeChange = {
                                 formResult = formResult.copy(trackingCode = it)
@@ -150,6 +154,7 @@ private fun addParcel(
                 notify = formResult.enableNotifications,
                 updateStatus = LocalParcelReference.UpdateStatus.UNKNOWN
             )
+
         )
     }
 }
@@ -159,6 +164,7 @@ private fun addParcel(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreationForm(
+    focusManager: FocusManager,
     trackingCode: String,
     onCodeChange: (String) -> Unit,
     name: String,
@@ -171,9 +177,6 @@ fun CreationForm(
     onOk: () -> Unit,
     error: String
 ) {
-
-
-    val focusManager = LocalFocusManager.current
 
     CodeInput(focusManager, trackingCode, onCodeChange, onScanClicked, error)
     NameInput(focusManager, name, onNameChange, onOk)

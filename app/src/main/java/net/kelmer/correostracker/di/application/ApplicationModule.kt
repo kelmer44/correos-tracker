@@ -3,13 +3,13 @@ package net.kelmer.correostracker.di.application
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
+import androidx.viewbinding.BuildConfig
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import net.kelmer.correostracker.BuildConfig
 import net.kelmer.correostracker.BuildInfo
 import net.kelmer.correostracker.di.BuildInfoImpl
 import net.kelmer.correostracker.util.AppSchedulerProvider
