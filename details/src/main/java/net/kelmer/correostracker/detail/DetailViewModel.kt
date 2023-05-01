@@ -57,7 +57,10 @@ class DetailViewModel @Inject constructor(
         }
         .subscribeOn(schedulerProvider.io())
         .startWith(State(isLoading = true, trackingCode = parcelCode))
-        .onErrorReturn { throwable -> State(error = throwable, trackingCode = parcelCode) }
+        .onErrorReturn { throwable ->
+            State(error = throwable, trackingCode = parcelCode)
+                .also { Timber.e(throwable) }
+        }
         .distinctUntilChanged()
         .replay(1)
         .connectInViewModelScope()

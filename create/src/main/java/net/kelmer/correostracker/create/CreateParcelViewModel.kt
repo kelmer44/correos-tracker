@@ -37,7 +37,7 @@ class CreateParcelViewModel @Inject constructor(
                 .startWith(State(isLoading = true))
         }
         .startWith(State())
-        .onErrorReturn { State(error = it) }
+        .onErrorReturn { throwable -> State(error = throwable).also { Timber.e(throwable) } }
         .subscribeOn(schedulerProvider.io())
         .distinctUntilChanged()
         .replay(1)

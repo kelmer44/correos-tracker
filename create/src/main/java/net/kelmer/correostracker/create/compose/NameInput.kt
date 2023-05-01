@@ -16,6 +16,7 @@ import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -27,6 +28,8 @@ import net.kelmer.correostracker.create.R
 fun NameInput(
     focusManager: FocusManager, name: String, onNameChange: (String) -> Unit, onOk: () -> Unit
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
@@ -47,7 +50,10 @@ fun NameInput(
         },
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(
-            onDone = { onOk() }
+            onDone = {
+                keyboardController?.hide()
+                onOk()
+            }
         )
     )
 }

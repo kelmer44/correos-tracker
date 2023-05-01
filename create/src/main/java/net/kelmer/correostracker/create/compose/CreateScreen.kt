@@ -23,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rxjava2.subscribeAsState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -31,6 +30,8 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import kotlinx.parcelize.Parcelize
 import net.kelmer.correostracker.create.CreateParcelViewModel
@@ -39,7 +40,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 import net.kelmer.correostracker.create.R
-import timber.log.Timber
 import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
@@ -51,7 +51,6 @@ fun CreateScreen(
     backAction: () -> Unit = {},
 ) {
     val viewState by viewModel.stateOnceAndStream.subscribeAsState(CreateParcelViewModel.State())
-    Timber.w("Got app state $viewState")
     var formResult by rememberSaveable {
         mutableStateOf(
             Form("", "", true, LocalParcelReference.Stance.INCOMING)
@@ -69,8 +68,11 @@ fun CreateScreen(
             formResult = formResult.copy(trackingCode = result.contents)
         }
     })
+    val kc = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     if (viewState.savedParcel != null) {
+
+        kc?.hide()
         focusManager.clearFocus()
         backAction()
     } else {
@@ -106,7 +108,12 @@ fun CreateScreen(
                                 )
                             },
                             onOk = {
-                                addParcel(viewModel = viewModel, formResult = formResult, onValidationError = validationAction)
+                                addParcel(
+                                    viewModel = viewModel,
+                                    formResult = formResult,
+                                    onValidationError = validationAction,
+                                    keyboardController = kc
+                                )
                             },
                             error = validationError
                         )
@@ -127,7 +134,12 @@ fun CreateScreen(
                 FloatingActionButton(
                     modifier = Modifier.imePadding(),
                     onClick = {
-                        addParcel(viewModel = viewModel, formResult = formResult, onValidationError = validationAction)
+                        addParcel(
+                            viewModel = viewModel,
+                            formResult = formResult,
+                            onValidationError = validationAction,
+                            keyboardController = kc
+                        )
                     }
                 ) {
                     Icon(imageVector = Icons.Filled.Check, contentDescription = "Ok")
@@ -135,20 +147,23 @@ fun CreateScreen(
             })
     }
 }
-
+@OptIn(ExperimentalComposeUiApi::class)
 private fun addParcel(
     viewModel: CreateParcelViewModel,
     formResult: Form,
-    onValidationError: () -> Unit
+    onValidationError: () -> Unit,
+    keyboardController: SoftwareKeyboardController? = null,
 ) {
+
     if (formResult.trackingCode.isEmpty()) {
         onValidationError()
     } else {
+        keyboardController?.hide()
         viewModel.addParcel(
             LocalParcelReference(
                 code = UUID.randomUUID().toString(),
-                trackingCode = formResult.trackingCode,
-                parcelName = formResult.parcelName,
+                trackingCode = formResult.trackingCode.trim() ,
+                parcelName = formResult.parcelName.trim().takeIf { it.isNotBlank() } ?: formResult.trackingCode.trim(),
                 stance = formResult.stance,
                 ultimoEstado = null,
                 notify = formResult.enableNotifications,

@@ -1,7 +1,7 @@
 def versionMajor = 3
 def versionMinor = 0
 def versionPatch = 0
-def versionBuild = 1
+def versionBuild = 4
 
 apply from: rootProject.file('gradle/moduleapp.gradle')
 apply plugin: 'com.google.firebase.crashlytics'
