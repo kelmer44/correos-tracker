@@ -7,6 +7,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -88,7 +90,8 @@ fun ParcelListItem(
                         style = MaterialTheme.typography.labelLarge,
                         fontWeight = FontWeight.Bold
                     )
-                    Text(text = parcel.trackingCode,
+                    Text(
+                        text = parcel.trackingCode,
                         style = MaterialTheme.typography.labelMedium
                     )
                 }
@@ -154,23 +157,30 @@ fun ParcelListItem(
                 ) {
                     ListStateIcon(parcel)
                 }
-                Column(
+                 Column(
                     modifier = Modifier
                         .weight(1f)
+                        .align(Alignment.CenterVertically)
                         .padding(horizontal = 8.dp, vertical = 4.dp),
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = parcel.ultimoEstado?.buildUltimoEstado() ?: "",
+                        text = if (parcel.updateStatus == LocalParcelReference.UpdateStatus.ERROR)
+                            stringResource(id = R.string.status_unknown)
+                        else parcel.ultimoEstado?.buildUltimoEstado() ?: "",
                         style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
                     )
-                    Text(
-                        text = dateFormat.format(parcel.lastChecked),
-                        style = MaterialTheme.typography.bodySmall,
-                        fontSize = 12.sp,
-                        fontStyle = FontStyle.Italic,
-                    )
+                    with(parcel.lastChecked){
+                        if(this != null && this >0) {
+                            Text(
+                                text = dateFormat.format(parcel.lastChecked),
+                                style = MaterialTheme.typography.bodySmall,
+                                fontSize = 12.sp,
+                                fontStyle = FontStyle.Italic,
+                            )
+                        }
+                    }
                 }
             }
         }

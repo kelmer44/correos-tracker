@@ -25,16 +25,14 @@ class DetailViewModel @Inject constructor(
     private val deviceInfo: DeviceInfo
 ) : AutoDisposeViewModel() {
 
-
     private val _parcelCode: String? = savedStateHandle[KEY_PARCELCODE]
-    private val parcelCode : String = requireNotNull(_parcelCode)
-    init {
-        Timber.i("Detail - ViewModel Created!")
-    }
+    private val parcelCode: String = requireNotNull(_parcelCode)
 
     private val refreshSubject = BehaviorProcessor.createDefault(Unit)
 
     val stateOnceAndStream = refreshSubject
+        .doOnNext { Timber.i("Refresh!") }
+        // see https://medium.com/@wasyl/rxjava-threading-when-subscribeon-doesnt-work-ee467a21935b
         .observeOn(schedulerProvider.io())
         .switchMap {
             correosRepository.getParcelStatus(parcelCode).toFlowable()
@@ -54,13 +52,12 @@ class DetailViewModel @Inject constructor(
                 }
                 .map { State(parcelDetail = it, trackingCode = parcelCode, barcode = generateBarcode()) }
                 .startWith(State(isLoading = true, trackingCode = parcelCode))
+                .onErrorReturn { throwable ->
+                    State(error = throwable, trackingCode = parcelCode)
+                        .also { Timber.e(throwable) }
+                }
         }
-        .subscribeOn(schedulerProvider.io())
         .startWith(State(isLoading = true, trackingCode = parcelCode))
-        .onErrorReturn { throwable ->
-            State(error = throwable, trackingCode = parcelCode)
-                .also { Timber.e(throwable) }
-        }
         .distinctUntilChanged()
         .replay(1)
         .connectInViewModelScope()

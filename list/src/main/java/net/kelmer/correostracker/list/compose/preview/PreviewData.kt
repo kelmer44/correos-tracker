@@ -18,16 +18,16 @@ object PreviewData {
             "123123",
             "bla",
             LocalParcelReference.Stance.INCOMING,
-            CorreosApiEvent("", "", "", "1", "", "", ""),
+            CorreosApiEvent("", "", "", "1", "Resumen 1", "Texto ampliado 1", "CTA Santiago de Compostela"),
             1, notify = true,
-            updateStatus = LocalParcelReference.UpdateStatus.OK
+            updateStatus = LocalParcelReference.UpdateStatus.OK,
         ),
         LocalParcelReference(
             "1242345324654",
             "1233423423123",
             "Bla bla",
             LocalParcelReference.Stance.OUTGOING,
-            CorreosApiEvent("", "", "", "1", "", "", ""),
+            CorreosApiEvent("", "", "", "1", "Resumen 2", "Texto ampliado 1", "CTA Santiago de Compostela"),
             1, notify = true,
             updateStatus = LocalParcelReference.UpdateStatus.OK
         )
