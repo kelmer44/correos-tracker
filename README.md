@@ -19,17 +19,14 @@ La app se ha construido usando:
 * RxJava2
 * Dagger-Hilt
 * ViewModel from Architecture Components
-* Navigation component for Navigation
 * Room as Database provider
 * MVVM
-* ViewBinding
 * WorkManager for job scheduling
-* AutoDispose from Uber
-* Groupie for RecyclerView Items
+* 100% built in Jetpack Compose
 
 Future:
  * Replace RxJava2 with Coroutines
- * Rebuild UI in Jetpack Compose
+
 
 <p align="center">
   <img alt="Demo screen" src="./device-2018-04-20-134010.png" width="250" />
