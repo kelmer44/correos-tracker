@@ -12,8 +12,6 @@
         <!--selection controls.-->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/primaryVariant</item>
-        <!--        <item name="colorSecondary">@color/secondary</item>-->
-        <!--        <item name="colorSecondaryVariant">@color/secondaryVariant</item>-->
         <item name="colorSecondary">@color/secondary</item>
         <item name="colorSecondaryVariant">@color/secondaryVariant</item>
 
@@ -32,17 +30,9 @@
         <item name="colorOnSurface">@color/onSurface</item>
         <item name="colorOnError">@color/onError</item>
 
-
         <!-- Text colors -->
         <item name="android:textColorPrimary">?attr/colorOnBackground</item>
-<!--        <item name="android:textColorSecondary">@color/steel</item>-->
 
-        <!-- i.e. Edit text cursor color -->
-        <!--        <item name="android:colorControlActivated">@color/colorControlActivated</item>-->
-        <!-- i.e. Ripple effect color -->
-        <!--        <item name="android:colorControlHighlight">@color/colorControlHighlight</item>-->
-
-        <!--Material type attributes-->
         <!--Material shape attributes-->
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.CorreosTracker.SmallComponent
         </item>
@@ -64,14 +54,6 @@
     <!-- Base stuff for windows, statusbars, stuff not related to the app itself -->
     <style name="Base.Theme.CorreosTrackerThemeBuilder" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
-<!--        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>-->
-<!--        <item name="android:navigationBarColor" tools:ignore="NewApi">-->
-<!--            ?android:attr/colorBackground-->
-<!--        </item>-->
-<!--        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>-->
-<!--        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">-->
-<!--            ?attr/colorControlHighlight-->
-<!--        </item>-->
     </style>
 
 

@@ -1,7 +1,11 @@
 package net.kelmer.correostracker.list
 
-import androidx.lifecycle.LiveData
+import io.reactivex.Flowable
+import kotlinx.coroutines.flow.StateFlow
 
-interface ParcelListPreferences {
-    val themeModeLive: LiveData<Int>
+interface ParcelListPreferences<T> {
+    val themeModeStream: Flowable<T>
+    var theme: T
+    fun hasSeenFeatureBlurb(versionName: String): Boolean
+    fun setSeenFeatureBlurb(versionName: String)
 }

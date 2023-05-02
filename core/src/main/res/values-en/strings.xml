@@ -7,5 +7,6 @@
     <string name="error_unrecognized">There was an error, please try again later.</string>
     <string name="incoming">Incoming</string>
     <string name="outgoing">Outgoing</string>
+    <string name="add_parcel">Add tracking</string>
     <string name="invalid_code">The code you entered is not valid.</string>
 </resources>

@@ -1,0 +1,91 @@
+package net.kelmer.correostracker.create.compose
+
+import android.view.KeyEvent
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.job
+import net.kelmer.correostracker.create.R
+import net.kelmer.correostracker.ui.theme.CorreosTheme
+
+@ExperimentalComposeUiApi
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+fun CodeInput(
+    focusManager: FocusManager = LocalFocusManager.current,
+    trackingCode: String,
+    onCodeChange: (String) -> Unit = {},
+    onScanClicked: () -> Unit = {},
+    error: String = ""
+) {
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(Unit) {
+        this.coroutineContext.job.invokeOnCompletion {
+            focusRequester.requestFocus()
+        }
+    }
+
+    OutlinedTextField(modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 16.dp, vertical = 8.dp)
+        .onPreviewKeyEvent {
+            if (it.key == Key.Tab && it.nativeKeyEvent.action == KeyEvent.ACTION_DOWN) {
+                focusManager.moveFocus(FocusDirection.Down)
+                true
+            } else {
+                false
+            }
+        }
+        .focusRequester(focusRequester),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+        value = trackingCode,
+        onValueChange = onCodeChange,
+        label = {
+            Text(stringResource(id = R.string.parcel_code))
+        },
+        singleLine = true,
+        trailingIcon = {
+            IconButton(onClick = onScanClicked) {
+                Icon(painter = painterResource(id = R.drawable.ic_scan_barcode), contentDescription = "Scan barcode")
+            }
+        },
+        supportingText = {
+            Text(text = error.ifBlank { stringResource(id = R.string.code_helper_text) })
+        },
+        isError = error.isNotBlank(),
+    )
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+@Preview
+fun CodeInputPreview(){
+    CorreosTheme {
+        CodeInput(trackingCode = "1234")
+    }
+}

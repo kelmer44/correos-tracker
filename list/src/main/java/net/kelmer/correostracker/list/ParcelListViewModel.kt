@@ -4,17 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.uber.autodispose.autoDisposable
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.Flowable
 import io.reactivex.processors.PublishProcessor
 import io.reactivex.rxkotlin.combineLatest
 import net.kelmer.correostracker.BuildInfo
 import net.kelmer.correostracker.dataApi.Resource
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository
-//import net.kelmer.correostracker.data.prefs.SharedPrefsManager
+import net.kelmer.correostracker.list.feature.Feature
 import net.kelmer.correostracker.list.notifications.SwitchNotificationsUseCase
-import net.kelmer.correostracker.list.preferences.ParcelListPreferencesImpl
 import net.kelmer.correostracker.list.statusreports.StatusReportsUpdatesUseCase
+import net.kelmer.correostracker.ui.theme.ThemeMode
 import net.kelmer.correostracker.util.SchedulerProvider
 import net.kelmer.correostracker.viewmodel.AutoDisposeViewModel
 import timber.log.Timber
@@ -28,7 +27,7 @@ class ParcelListViewModel @Inject constructor(
     private val localParcelRepository: LocalParcelRepository,
     private val switchNotificationsUseCase: SwitchNotificationsUseCase,
     private val statusReportsUpdatesUseCase: StatusReportsUpdatesUseCase,
-    private val parcelListPreferences: ParcelListPreferencesImpl,
+    private val parcelListPreferences: ParcelListPreferences<ThemeMode>,
     private val buildInfo: BuildInfo,
     private val schedulerProvider: SchedulerProvider
 ) : AutoDisposeViewModel() {
@@ -38,15 +37,18 @@ class ParcelListViewModel @Inject constructor(
     val stateOnceAndStream =
         localParcelRepository.getParcels()
             .combineLatest(
-                filterSubject.startWith("")
+                filterSubject.startWith(""),
+                parcelListPreferences.themeModeStream
             )
-            .map { (list, filter) ->
+            .map { (list, filter, theme) ->
                 State(
                     list = list.filter {
                         filter.isNullOrBlank() ||
                             it.parcelName.contains(filter, true) ||
                             it.trackingCode.contains(filter, true)
-                    }
+                    },
+                    filter = filter,
+                    theme = theme
                 )
             }
             .startWith(State(loading = true))
@@ -57,6 +59,21 @@ class ParcelListViewModel @Inject constructor(
 
     init {
         refresh()
+    }
+
+    fun getFeatureList(): List<Feature> {
+        return listOf(
+            Feature("3.0.0", R.string.changes_3_0_0),
+            Feature("2.3.3", R.string.changes_2_3_3),
+            Feature("2.3.2", R.string.changes_2_3_2),
+            Feature("2.2.7", R.string.changes_2_2_7),
+            Feature("2.2.6", R.string.changes_2_2_6),
+            Feature("2.1.0", R.string.changes_2_1_0),
+            Feature("2.0.0", R.string.changes_2_0_0),
+            Feature("1.9.5", R.string.changes_1_9_5),
+            Feature("1.9.0", R.string.changes_1_9_0),
+            Feature("1.8.0", R.string.changes_1_8_0),
+        )
     }
 
     fun deleteParcel(parcelReference: LocalParcelReference) {
@@ -77,6 +94,14 @@ class ParcelListViewModel @Inject constructor(
         statusReportsUpdatesUseCase(Unit, MutableLiveData())
     }
 
+    fun toggleNotifications(code: String, enabled: Boolean) {
+        if (enabled) {
+            enableNotifications(code)
+        } else {
+            disableNotifications(code)
+        }
+    }
+
     fun enableNotifications(code: String): LiveData<Resource<String>> {
         return switchNotificationsUseCase(SwitchNotificationsUseCase.Params(code, true))
     }
@@ -93,8 +118,8 @@ class ParcelListViewModel @Inject constructor(
         parcelListPreferences.setSeenFeatureBlurb(buildInfo.versionName)
     }
 
-    fun setTheme(theme: Int) {
-        parcelListPreferences.themeMode = theme
+    fun setTheme(theme: ThemeMode) {
+        parcelListPreferences.theme = theme
     }
 
     fun filter(newText: String) = filterSubject.onNext(newText)
@@ -103,5 +128,7 @@ class ParcelListViewModel @Inject constructor(
         val list: List<LocalParcelReference>? = null,
         val loading: Boolean = false,
         val error: Throwable? = null,
+        val filter: String? = null,
+        val theme: ThemeMode? = null
     )
 }

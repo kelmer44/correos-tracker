@@ -1,236 +1,160 @@
 package net.kelmer.correostracker.list.compose
 
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rxjava2.subscribeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.drawable.toBitmap
+import androidx.lifecycle.viewmodel.compose.viewModel
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
-import net.kelmer.correostracker.ui.Fase
 import net.kelmer.correostracker.list.ParcelListViewModel
 import net.kelmer.correostracker.list.R
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
-import java.text.SimpleDateFormat
+import net.kelmer.correostracker.list.compose.emptystate.EmptyState
+import net.kelmer.correostracker.list.compose.feature.FeatureDialog
+import net.kelmer.correostracker.list.compose.parcelitem.ParcelListItem
+import net.kelmer.correostracker.list.compose.preview.PreviewData
+import net.kelmer.correostracker.ui.compose.pullrefresh.PullRefreshIndicator
+import net.kelmer.correostracker.ui.compose.pullrefresh.pullRefresh
+import net.kelmer.correostracker.ui.compose.pullrefresh.rememberPullRefreshState
+import net.kelmer.correostracker.list.compose.theme.ThemeDialog
+import net.kelmer.correostracker.ui.compose.CircledIcon
+import net.kelmer.correostracker.ui.compose.ErrorView
+import net.kelmer.correostracker.ui.compose.FaseIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ParcelsScreen(
-    state: ParcelListViewModel.State,
+    useDarkTheme: Boolean,
     modifier: Modifier = Modifier,
-    onTextChange: (String) -> Unit
+    viewModel: ParcelListViewModel = viewModel(),
+    onAddParcel: () -> Unit = {},
+    onParcelClicked: (String) -> Unit = {},
+    onWebClicked: () -> Unit
 ) {
+    val viewState by viewModel.stateOnceAndStream.subscribeAsState(ParcelListViewModel.State())
+
+    var showAbout by remember { mutableStateOf(!viewModel.showFeature()) }
+    var showThemeDialog by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
-            ParcelsAppBar(onTextChange)
+            ParcelsAppBar(
+                useDarkTheme,
+                viewModel::filter,
+                viewModel::refresh,
+                onThemeClicked = { showThemeDialog = true },
+                onAboutClicked = { showAbout = true },
+            )
         },
         floatingActionButton = {
-            AddParcelFAB()
+            AddParcelFAB(onAddParcel)
         },
         contentWindowInsets = ScaffoldDefaults.contentWindowInsets,
         content = { contentPadding ->
-            Column(modifier = modifier.padding(contentPadding)) {
-                if (state.list != null) {
-                    ParcelList(state.list)
-                }
-                if (state.loading) {
+            Column(modifier = modifier
+                .padding(contentPadding)
+                .fillMaxHeight()) {
+                val state = viewState
 
+                val refreshing by remember { mutableStateOf(state.loading) }
+                if (state.list != null) {
+                    if (state.list.isNotEmpty()) {
+                        ParcelList(
+                            state.list,
+                            onParcelClicked,
+                            viewModel::deleteParcel,
+                            viewModel::toggleNotifications,
+                            viewModel::refresh,
+                            refreshing
+                        )
+                    } else {
+                        EmptyState(state.filter, onAddParcel)
+                    }
                 }
                 if (state.error != null) {
-
+                    val unrecognized = stringResource(id = R.string.error_unrecognized)
+                    ErrorView(message = state.error.message ?: unrecognized)
                 }
+            }
+            if (showAbout) {
+                FeatureDialog(
+                    featureList = viewModel.getFeatureList(),
+                    onWebClick = onWebClicked,
+                    onDismiss = {
+                        showAbout = false
+                        viewModel.setShownFeature()
+                    }
+                )
+            }
+            if (showThemeDialog) {
+                ThemeDialog(
+                    preSelectedTheme = viewState.theme,
+                    onDismiss = { showThemeDialog = false },
+                    onSelect = viewModel::setTheme
+                )
             }
         }
     )
 }
 
 @Composable
-fun ParcelList(list: List<LocalParcelReference>) {
-    if (list.isNotEmpty()) {
-        LazyColumn {
-            items(items = list, key = { it.code }) { parcel ->
-                ParcelListItem(parcel = parcel) {}
-            }
-        }
-    } else {
-        Box(modifier =  Modifier
-            .fillMaxHeight()
-            .fillMaxWidth()
-        ) {
-            Text(
-                text = stringResource(id = R.string.emptystate_parcel_list),
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
-    }
-}
-
-@Composable
-fun ParcelListItem(
-    parcel: LocalParcelReference,
-    modifier: Modifier = Modifier,
-    navigateToDetail: (String) -> Unit
+fun ParcelList(
+    list: List<LocalParcelReference>,
+    onParcelClicked: (String) -> Unit = {},
+    onRemoveParcel: (LocalParcelReference) -> Unit = {},
+    onToggleNotifications: (String, Boolean) -> Unit = { _, _ -> },
+    refresh: () -> Unit,
+    refreshing: Boolean
 ) {
-    ElevatedCard(
-        modifier = modifier
-            .padding(horizontal = 8.dp, vertical = 8.dp)
-            .clickable { navigateToDetail(parcel.code) },
-        shape = RoundedCornerShape(4.dp),
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-        ) {
+    val listState = rememberLazyListState()
 
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 8.dp, vertical = 4.dp),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = parcel.parcelName.uppercase(),
-                        style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(text = parcel.trackingCode, style = MaterialTheme.typography.labelLarge)
-                }
-                val (isExpanded, setExpanded) = remember { mutableStateOf(false) }
-                OverflowMenuAction(
-                    expanded = isExpanded, setExpanded = setExpanded, options =
-                    listOf(
-                        ActionItem(
-                            stringResource(id = R.string.menu_enable_notifications),
-                            action = {}),
-                        ActionItem(stringResource(id = R.string.delete), action = {})
-                    )
+    val state = rememberPullRefreshState(refreshing, refresh)
+
+    Box(
+        Modifier
+            .pullRefresh(state)
+            .fillMaxHeight()) {
+
+        LazyColumn(state = listState, modifier = Modifier.fillMaxHeight()) {
+            items(items = list, key = { it.code }) { parcel ->
+                ParcelListItem(
+                    parcel = parcel,
+                    onParcelClicked = onParcelClicked,
+                    onRemoveParcel = onRemoveParcel,
+                    onToggleNotifications = onToggleNotifications
                 )
-
-            }
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    text = stringResource(
-                        when (parcel.stance) {
-                            LocalParcelReference.Stance.INCOMING -> {
-                                R.string.incoming
-                            }
-                            LocalParcelReference.Stance.OUTGOING -> {
-                                R.string.outgoing
-                            }
-                        }
-                    ),
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                    style = MaterialTheme.typography.bodySmall,
-                    fontStyle = FontStyle.Italic,
-                    fontSize = 12.sp
-                )
-            }
-            Divider(
-                color = Color.Gray,
-                thickness = 1.dp,
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-            )
-            Row {
-
-                Column(
-                    Modifier
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                        .width(32.dp)
-                        .height(32.dp)
-                ) {
-                    FaseIcon(parcel)
-                }
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 8.dp, vertical = 4.dp),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = parcel.ultimoEstado?.desTextoResumen ?: "",
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = dateFormat.format(parcel.lastChecked),
-                        style = MaterialTheme.typography.bodySmall,
-                        fontStyle = FontStyle.Italic,
-                        fontSize = 12.sp
-                    )
-                }
             }
         }
+        PullRefreshIndicator(refreshing, state, Modifier.align(Alignment.TopCenter))
     }
 }
 
 
 @Composable
-fun FaseIcon(parcel: LocalParcelReference) {
-
-
-    val faseRaw = parcel.ultimoEstado?.fase
-    val faseNumber: Int? = if (faseRaw == "?") null else faseRaw?.toIntOrNull()
-    val fase = if (faseNumber != null) Fase.fromFase(faseNumber) else Fase.OTHER
-
-
-    val color = when (fase) {
-        Fase.OTHER -> R.color.stage_unknown
-        Fase.ERROR -> R.color.stage_error
-        Fase.ENTREGADO -> R.color.stage_delivered
-        else -> R.color.stage_delivering
-    }
-    val icon = when (fase) {
-        Fase.ERROR -> R.drawable.ic_error
-        Fase.PRE -> R.drawable.ic_assignment_turned_in
-        Fase.ENCAMINO -> R.drawable.ic_delivering
-        Fase.REPARTO -> R.drawable.ic_reparto
-        Fase.ENTREGADO -> R.drawable.ic_check_white
-        else -> R.drawable.ic_questionmark
-    }
+fun ListStateIcon(parcel: LocalParcelReference) {
     when (parcel.updateStatus) {
         LocalParcelReference.UpdateStatus.OK -> {
-            CircledIcon(bgColor = colorResource(id = color), icon = icon, contentDescription = "")
+            FaseIcon(faseString = parcel.ultimoEstado?.fase)
         }
+
         LocalParcelReference.UpdateStatus.ERROR -> {
             CircledIcon(
                 bgColor = colorResource(id = R.color.stage_error),
@@ -238,6 +162,7 @@ fun FaseIcon(parcel: LocalParcelReference) {
                 contentDescription = ""
             )
         }
+
         LocalParcelReference.UpdateStatus.UNKNOWN -> {
             CircledIcon(
                 bgColor = colorResource(id = R.color.stage_unknown),
@@ -245,51 +170,27 @@ fun FaseIcon(parcel: LocalParcelReference) {
                 contentDescription = ""
             )
         }
+
         else -> {
             CircularProgressIndicator()
         }
-    }
-
-}
-
-@Composable
-fun CircledIcon(
-    bgColor: Color,
-    @DrawableRes icon: Int,
-    contentDescription: String
-) {
-    Box {
-        Canvas(
-            modifier = Modifier.size(32.dp),
-            onDraw = {
-                drawCircle(color = bgColor)
-            }
-        )
-        Image(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .padding(8.dp),
-            painter = painterResource(id = icon),
-            contentDescription = contentDescription
-        )
     }
 }
 
 @Composable
 @Preview
 fun previewIcon() {
-    FaseIcon(
-        LocalParcelReference(
-            "22313",
-            "123123",
-            "bla",
-            LocalParcelReference.Stance.INCOMING,
-            CorreosApiEvent("", "", "", "1", "", "", ""),
-            1, notify = true,
-            updateStatus = LocalParcelReference.UpdateStatus.OK
-        )
+    ListStateIcon(
+        PreviewData.parcelList[0]
     )
 }
 
-private
-val dateFormat = SimpleDateFormat("dd/MM/yyy HH:mm:ss")
+@Composable
+@Preview
+fun previewList() {
+    ParcelList(
+        PreviewData.parcelList,
+        refresh = { },
+        refreshing = false
+    )
+}

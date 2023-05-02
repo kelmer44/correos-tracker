@@ -7,5 +7,6 @@
 
     <string name="incoming">Lo voy a recibir</string>
     <string name="outgoing">Lo he enviado</string>
+    <string name="add_parcel">Añadir seguimiento</string>
     <string name="invalid_code">El código introducido no es válido.</string>
 </resources>

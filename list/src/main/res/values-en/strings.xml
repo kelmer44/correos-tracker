@@ -5,13 +5,9 @@
     <string name="status_unknown">Unknown status</string>
     <string name="search">Filter</string>
     <string name="menu_theme">Theme</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_dark">Dark</string>
-    <string name="theme_system">Same as system</string>
     <string name="theme_title">Theme</string>
     <string name="refresh_all">Update all</string>
     <string name="about">About</string>
-    <string name="see_more">See more</string>
     <string name="changes_1_6_0">Dark Theme support</string>
     <string name="changes_1_6_2">Enter your parcels by scanning the barcode in the receipt</string>
     <string name="changes_1_6_5">Correos Express support</string>
@@ -27,6 +23,7 @@
     <string name="changes_2_3_2">App has been rewritten with a new architecture. Load times have been massively improved.</string>
     <string name="changes_2_3_3">Notifications are now fixed again.</string>
 
+    <string name="changes_3_0_0">New interface.</string>
     <string name="feature_dialog_title">New features</string>
     <string name="feature_dialog_opensource">This app has no affiliation with Sociedad Estatal Correos y Telegrafos, S.A. and has been created by an independent developer. It is free, open-source and add-free.</string>
     <string name="feature_dialog_opensource_contribute">If you wish to contribute feel free to donate with a ko-fi:</string>
@@ -34,11 +31,12 @@
     <string name="delete_confirm_desc">Are you sure you want to remove the selected parcel?</string>
     <string name="visit_us_github">Visit us over at github</string>
     <string name="ultimo_estado_header">Last status</string>
-    <string name="add_parcel">Add tracking</string>
 
     <string name="menu_disable_notifications">Disable notifications</string>
     <string name="menu_enable_notifications">Enable notifications</string>
     <string name="delete">Remove</string>
 
     <string name="visit_web">Visit our website</string>
+    <string name="search_placeholder">Search here…</string>
+    <string name="noresults">Could not find any tracking with the given search.</string>
 </resources>

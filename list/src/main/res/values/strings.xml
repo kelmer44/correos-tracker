@@ -6,13 +6,9 @@
     <string name="search">Filter</string>
     <string name="theme_title">Elige un tema</string>
     <string name="menu_theme">Tema</string>
-    <string name="theme_light">Claro</string>
-    <string name="theme_dark">Oscuro</string>
-    <string name="theme_system">Igual que el sistema</string>
 
     <string name="refresh_all">Actualizar todos</string>
     <string name="about">Acerca de</string>
-    <string name="see_more">Ver más</string>
     <string name="changes_1_6_0">Soporte para tema oscuro</string>
     <string name="changes_1_6_2">Ahora puedes introducir tus paquetes escaneando el código de barras de tu recibo</string>
     <string name="changes_1_6_5">Soporte para paquetes de Correos Express</string>
@@ -27,7 +23,7 @@
     <string name="changes_2_2_7">Vuelve la trazabilidad por localización a la app.</string>
     <string name="changes_2_3_2">Se ha reescrito la app con una nueva arquitectura. Mejoras en los tiempos de carga.</string>
     <string name="changes_2_3_3">Arregladas notificaciones.</string>
-
+    <string name="changes_3_0_0">Interfaz renovada.</string>
     <string name="feature_dialog_title">Novedades</string>
     <string name="feature_dialog_opensource">Esta app NO tiene afiliación alguna con la Sociedad Estatal Correos y Telégrafos, S.A. sino que ha sido creada por un desarrollador independiente. Seguimiento Correos es gratuita y open source y no tiene anuncios.</string>
     <string name="feature_dialog_opensource_contribute">Si quieres contribuir con el proyecto haz una donación a través de Kofi:</string>
@@ -36,10 +32,11 @@
     <string name="delete_confirm_desc">¿Estás seguro de que deseas eliminar el paquete seleccionado?</string>
     <string name="visit_us_github">Visítanos en github</string>
     <string name="ultimo_estado_header">Último estado</string>
-    <string name="add_parcel">Añadir seguimiento</string>
 
     <string name="menu_enable_notifications">Enable notifications</string>
     <string name="menu_disable_notifications">Disable notifications</string>
     <string name="delete">Eliminar</string>
     <string name="visit_web">Visita nuestra web</string>
+    <string name="search_placeholder">Introduzca la búsqueda…</string>
+    <string name="noresults">No se encontraron seguimientos con el criterio indicado.</string>
 </resources>

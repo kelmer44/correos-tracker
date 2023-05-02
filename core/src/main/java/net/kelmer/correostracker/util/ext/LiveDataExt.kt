@@ -3,7 +3,6 @@ package net.kelmer.correostracker.util.ext
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.Transformations
 import net.kelmer.correostracker.dataApi.Resource
 
 fun <T> LiveData<T>.subscribe(owner: LifecycleOwner, observer: (T) -> Unit) =
@@ -35,4 +34,4 @@ fun <T> LiveData<Resource<T>>.observeResource(
     )
 
 fun <X, Y> LiveData<X>.map(transformer: (X) -> Y): LiveData<Y> =
-    Transformations.map(this) { transformer(it) }
+    this.map { transformer(it) }
