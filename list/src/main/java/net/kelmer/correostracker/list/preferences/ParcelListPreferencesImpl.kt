@@ -37,7 +37,7 @@ class ParcelListPreferencesImpl @Inject constructor(@ApplicationContext context:
     ) : ReadWriteProperty<Any?, ThemeMode> {
 
         override fun getValue(thisRef: Any?, property: KProperty<*>): ThemeMode =
-            ThemeMode.fromOrdinal(getInt(name, default.ordinal))
+            ThemeMode.fromPosition(getInt(name, default.ordinal))
 
         override fun setValue(thisRef: Any?, property: KProperty<*>, value: ThemeMode) {
             processor.onNext(value)

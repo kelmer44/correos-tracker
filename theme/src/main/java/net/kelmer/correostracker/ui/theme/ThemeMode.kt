@@ -13,7 +13,12 @@ enum class ThemeMode(val code: Int, @StringRes val stringRes: Int) {
     SYSTEM(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM, R.string.theme_system);
 
     companion object {
-
-        fun fromOrdinal(number: Int): ThemeMode = values()[number]
+        fun fromPosition(number: Int): ThemeMode {
+            ThemeMode.values().forEach {
+                if (it.ordinal == number)
+                    return it
+            }
+            return SYSTEM
+        }
     }
 }
