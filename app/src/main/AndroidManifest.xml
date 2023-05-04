@@ -21,16 +21,6 @@
         android:theme="@style/Theme.CorreosTracker"
         tools:ignore="GoogleAppIndexingWarning">
 
-<!--        <activity-->
-<!--            android:name=".ui.activity.MainActivity"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
-
         <activity
             android:name=".ui.activity.MainActivityCompose"
             android:windowSoftInputMode="adjustResize"
@@ -41,7 +31,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
@@ -55,7 +44,8 @@
 
         </provider>
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-5636438460945141~2275135274"/>
     </application>
-
-
 </manifest>

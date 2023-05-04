@@ -36,4 +36,5 @@ include ':app',
         ':iapApi',
         ':iap',
         ':create',
-        ':createApi'
+        ':createApi',
+        ':ads'

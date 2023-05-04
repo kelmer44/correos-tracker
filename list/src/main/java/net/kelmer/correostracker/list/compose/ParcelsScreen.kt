@@ -3,6 +3,8 @@ package net.kelmer.correostracker.list.compose
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,9 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
-import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.list.ParcelListViewModel
 import net.kelmer.correostracker.list.R
 import net.kelmer.correostracker.list.compose.emptystate.EmptyState
@@ -35,9 +37,11 @@ import net.kelmer.correostracker.ui.compose.pullrefresh.PullRefreshIndicator
 import net.kelmer.correostracker.ui.compose.pullrefresh.pullRefresh
 import net.kelmer.correostracker.ui.compose.pullrefresh.rememberPullRefreshState
 import net.kelmer.correostracker.list.compose.theme.ThemeDialog
+import net.kelmer.correostracker.ads.BannerView
 import net.kelmer.correostracker.ui.compose.CircledIcon
 import net.kelmer.correostracker.ui.compose.ErrorView
 import net.kelmer.correostracker.ui.compose.FaseIcon
+import kotlin.math.min
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,84 +58,91 @@ fun ParcelsScreen(
     var showAbout by remember { mutableStateOf(!viewModel.showFeature()) }
     var showThemeDialog by remember { mutableStateOf(false) }
 
-    Scaffold(
-        topBar = {
-            ParcelsAppBar(
-                useDarkTheme,
-                viewModel::filter,
-                viewModel::refresh,
-                onThemeClicked = { showThemeDialog = true },
-                onAboutClicked = { showAbout = true },
-            )
-        },
-        floatingActionButton = {
-            AddParcelFAB(onAddParcel)
-        },
-        contentWindowInsets = ScaffoldDefaults.contentWindowInsets,
-        content = { contentPadding ->
-            Column(modifier = modifier
-                .padding(contentPadding)
-                .fillMaxHeight()) {
-                val state = viewState
+    Column() {
+        Scaffold(
+            modifier = modifier.weight(1f),
+            topBar = {
+                ParcelsAppBar(
+                    useDarkTheme,
+                    viewModel::filter,
+                    viewModel::refresh,
+                    onThemeClicked = { showThemeDialog = true },
+                    onAboutClicked = { showAbout = true },
+                )
+            },
+            floatingActionButton = {
+                AddParcelFAB(onAddParcel)
+            },
+            contentWindowInsets = ScaffoldDefaults.contentWindowInsets,
+            content = { contentPadding ->
+                Column(modifier = modifier
+                    .padding(contentPadding)) {
+                    val state = viewState
 
-                val refreshing by remember { mutableStateOf(state.loading) }
-                if (state.list != null) {
-                    if (state.list.isNotEmpty()) {
-                        ParcelList(
-                            state.list,
-                            onParcelClicked,
-                            viewModel::deleteParcel,
-                            viewModel::toggleNotifications,
-                            viewModel::refresh,
-                            refreshing
-                        )
-                    } else {
-                        EmptyState(state.filter, onAddParcel)
+                    val refreshing by remember { mutableStateOf(state.loading) }
+                    if (state.list != null) {
+                        if (state.list.isNotEmpty()) {
+                            ParcelList(
+                                state.list,
+                                modifier = Modifier.weight(1f),
+                                onParcelClicked,
+                                viewModel::deleteParcel,
+                                viewModel::toggleNotifications,
+                                viewModel::refresh,
+                                refreshing
+                            )
+                        } else {
+                            EmptyState(state.filter, onAddParcel)
+                        }
+                    }
+                    if (state.error != null) {
+                        val unrecognized = stringResource(id = R.string.error_unrecognized)
+                        ErrorView(message = state.error.message ?: unrecognized)
                     }
                 }
-                if (state.error != null) {
-                    val unrecognized = stringResource(id = R.string.error_unrecognized)
-                    ErrorView(message = state.error.message ?: unrecognized)
+                if (showAbout) {
+                    FeatureDialog(
+                        featureList = viewModel.getFeatureList(),
+                        onWebClick = onWebClicked,
+                        onDismiss = {
+                            showAbout = false
+                            viewModel.setShownFeature()
+                        }
+                    )
+                }
+                if (showThemeDialog) {
+                    ThemeDialog(
+                        preSelectedTheme = viewState.theme,
+                        onDismiss = { showThemeDialog = false },
+                        onSelect = viewModel::setTheme
+                    )
                 }
             }
-            if (showAbout) {
-                FeatureDialog(
-                    featureList = viewModel.getFeatureList(),
-                    onWebClick = onWebClicked,
-                    onDismiss = {
-                        showAbout = false
-                        viewModel.setShownFeature()
-                    }
-                )
-            }
-            if (showThemeDialog) {
-                ThemeDialog(
-                    preSelectedTheme = viewState.theme,
-                    onDismiss = { showThemeDialog = false },
-                    onSelect = viewModel::setTheme
-                )
-            }
-        }
-    )
+        )
+        BannerView(
+            modifier = Modifier.fillMaxWidth().heightIn(min = 50.dp),
+            isTest = false
+        )
+    }
 }
 
 @Composable
 fun ParcelList(
     list: List<LocalParcelReference>,
+    modifier: Modifier = Modifier,
     onParcelClicked: (String) -> Unit = {},
     onRemoveParcel: (LocalParcelReference) -> Unit = {},
     onToggleNotifications: (String, Boolean) -> Unit = { _, _ -> },
-    refresh: () -> Unit,
-    refreshing: Boolean
+    refresh: () -> Unit = {},
+    refreshing: Boolean = false
 ) {
     val listState = rememberLazyListState()
 
     val state = rememberPullRefreshState(refreshing, refresh)
 
     Box(
-        Modifier
-            .pullRefresh(state)
-            .fillMaxHeight()) {
+        modifier
+            .pullRefresh(state)) {
 
         LazyColumn(state = listState, modifier = Modifier.fillMaxHeight()) {
             items(items = list, key = { it.code }) { parcel ->

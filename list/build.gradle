@@ -16,6 +16,7 @@ dependencies {
     implementation project(':dataApi')
     implementation project(':listApi')
     implementation project(':iapApi')
+    implementation project(':ads')
 
     implementation platform(libs.firebase.bom)
     implementation libs.firebase.analytics
