@@ -2,7 +2,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.google.firebase.crashlytics'
 apply from: rootProject.file('gradle/module-feature.gradle')
-apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     namespace 'net.kelmer.correostracker.details'
@@ -19,7 +18,6 @@ dependencies {
     implementation libs.firebase.common
     implementation libs.firebase.crashlytics
 
-    implementation libs.timelineview
     //Barcode scanner
     implementation libs.barcode.core
     implementation libs.barcode.android

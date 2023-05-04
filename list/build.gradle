@@ -2,7 +2,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.google.firebase.crashlytics'
 apply from: rootProject.file('gradle/module-feature.gradle')
-apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     namespace 'net.kelmer.correostracker.list'
@@ -17,8 +16,6 @@ dependencies {
     implementation project(':dataApi')
     implementation project(':listApi')
     implementation project(':iapApi')
-
-    implementation libs.androidx.swiperefreshlayout
 
     implementation platform(libs.firebase.bom)
     implementation libs.firebase.analytics

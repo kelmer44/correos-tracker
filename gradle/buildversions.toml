@@ -5,16 +5,9 @@ kotlin = { strictly = "1.7.0" }
 
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
-androidx-viewbinding = { module = "androidx.databinding:viewbinding", version = "3.5.0" }
-androidx-navigation-safeargs = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version = "2.5.3" }
 
 google-services = { module = "com.google.gms:google-services", version = "4.3.15" }
 
-dagger-base = { module = "com.google.dagger:dagger", version.ref = "dagger" }
-dagger-android-base = { module = "com.google.dagger:dagger-android", version.ref = "dagger" }
-dagger-android-processor = { module = "com.google.dagger:dagger-android-processor", version.ref = "dagger" }
-dagger-android-support = { module = "com.google.dagger:dagger-android-support", version.ref = "dagger" }
-dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 dagger-hilt-android-base = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
 dagger-hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "dagger" }
 dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }

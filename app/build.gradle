@@ -5,7 +5,6 @@ def versionBuild = 0
 
 apply from: rootProject.file('gradle/moduleapp.gradle')
 apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: "androidx.navigation.safeargs.kotlin"
 apply from: '../ktlint.gradle'
 
 
@@ -100,6 +99,7 @@ dependencies {
     implementation libs.firebase.common
     implementation libs.firebase.crashlytics
 
+    implementation libs.play.services.ads
 
     //Test
     testImplementation libs.junit
