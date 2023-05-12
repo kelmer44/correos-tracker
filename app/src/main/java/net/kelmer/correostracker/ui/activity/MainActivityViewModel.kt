@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.Flowable
+import io.reactivex.rxkotlin.combineLatest
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import net.kelmer.correostracker.iap.IapApi
 import net.kelmer.correostracker.list.ParcelListPreferences
 import net.kelmer.correostracker.ui.theme.ThemeMode
 import net.kelmer.correostracker.viewmodel.AutoDisposeViewModel
@@ -22,15 +24,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-    parcelListPreferences: ParcelListPreferences<ThemeMode>
+    parcelListPreferences: ParcelListPreferences<ThemeMode>,
+    iap: IapApi
 ) : AutoDisposeViewModel() {
 
-    val stateOnceAndStream : Flowable<State> =
+    val stateOnceAndStream: Flowable<State> =
         parcelListPreferences.themeModeStream
-            .doOnNext {
-                Timber.w("THEME - got new value! $it")
+            .combineLatest(iap.isPremium())
+            .map { (themeMode, premium) ->
+                State(
+                    theme = themeMode,
+                    isPremium = premium
+                )
             }
-            .map { State(theme = it) }
             .distinctUntilChanged()
             .replay(1)
             .connectInViewModelScope()
@@ -40,6 +46,7 @@ class MainActivityViewModel @Inject constructor(
     data class State(
         val isLoading: Boolean = false,
         val useDynamicColors: Boolean = false,
-        val theme: ThemeMode = ThemeMode.SYSTEM
+        val theme: ThemeMode = ThemeMode.SYSTEM,
+        val isPremium: Boolean = false
     )
 }
