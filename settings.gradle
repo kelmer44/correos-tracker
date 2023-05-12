@@ -33,8 +33,10 @@ include ':app',
         ':details',
         ':listApi',
         ':list',
-        ':iapApi',
-        ':iap',
+        ':iarApi',
+        ':iar',
         ':create',
         ':createApi',
-        ':ads'
+        ':ads',
+        ':iap',
+        ':iapApi'

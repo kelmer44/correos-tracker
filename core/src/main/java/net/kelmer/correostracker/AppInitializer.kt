@@ -1,8 +1,8 @@
-package net.kelmer.correostracker.initializer
+package net.kelmer.correostracker
 
 import android.app.Application
 
-interface Initializer {
+interface AppInitializer {
 
     fun initialize(application: Application)
 }

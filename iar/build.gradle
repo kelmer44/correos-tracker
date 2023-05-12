@@ -4,22 +4,19 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply from: rootProject.file('gradle/module-feature.gradle')
 
 android {
-    namespace 'net.kelmer.correostracker.list'
-    buildFeatures {
-        compose true
-    }
+    namespace 'net.kelmer.correostracker.iar'
 }
 
 dependencies {
     implementation project(':core')
-    implementation project(':theme')
     implementation project(':dataApi')
-    implementation project(':listApi')
     implementation project(':iarApi')
-    implementation project(':ads')
+
+    implementation libs.play.core
 
     implementation platform(libs.firebase.bom)
     implementation libs.firebase.analytics
     implementation libs.firebase.common
     implementation libs.firebase.crashlytics
+
 }

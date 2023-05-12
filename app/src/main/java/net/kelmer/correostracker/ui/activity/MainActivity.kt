@@ -1,18 +1,14 @@
 package net.kelmer.correostracker.ui.activity
 
 import android.app.PendingIntent
-import android.app.UiModeManager.MODE_NIGHT_YES
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rxjava2.subscribeAsState
 import androidx.core.app.ActivityCompat
@@ -20,6 +16,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.LifecycleObserver
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
@@ -28,10 +25,11 @@ import androidx.work.WorkManager
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
+import net.kelmer.correostracker.ActivityLifecycleObserver
 import net.kelmer.correostracker.CorreosApp
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.di.worker.MyWorkerFactory
-import net.kelmer.correostracker.iap.InAppReviewService
+import net.kelmer.correostracker.iar.InAppReviewService
 import net.kelmer.correostracker.service.worker.NotificationID
 import net.kelmer.correostracker.service.worker.PERMISSION_NOTIS
 import net.kelmer.correostracker.service.worker.ParcelPollWorker
@@ -46,7 +44,7 @@ import javax.inject.Inject
  * Created by Gabriel Sanmartín on 09/11/2020.
  */
 @AndroidEntryPoint
- class MainActivityCompose : FragmentActivity() {
+ class MainActivity : FragmentActivity() {
 
     @Inject
     lateinit var myWorkerFactory: MyWorkerFactory
@@ -54,10 +52,20 @@ import javax.inject.Inject
     @Inject
     lateinit var inAppReviewService: InAppReviewService
 
+    @Inject
+    @ActivityLifecycleObserver
+    lateinit var lifecycleObservers: Set<@JvmSuppressWildcards LifecycleObserver>
+
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         MobileAds.initialize(this) {}
+
+        lifecycleObservers.forEach {
+            Timber.i("Adding lifecycleObserver $it")
+            lifecycle.addObserver(it)
+        }
+
         Timber.i("Recreating activity")
         setContent {
 
@@ -96,7 +104,7 @@ import javax.inject.Inject
     }
 
     private fun triggerSampleNotification(){
-        val notificationIntent = Intent(applicationContext, MainActivityCompose::class.java)
+        val notificationIntent = Intent(applicationContext, MainActivity::class.java)
         val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PendingIntent.getActivity(
                 applicationContext,

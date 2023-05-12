@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.iap
+package net.kelmer.correostracker.iar
 
 interface InAppReviewService {
     fun showIfNeeded()

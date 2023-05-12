@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.iap
+package net.kelmer.correostracker.iar
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext

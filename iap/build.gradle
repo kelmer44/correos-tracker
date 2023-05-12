@@ -9,14 +9,10 @@ android {
 
 dependencies {
     implementation project(':core')
-    implementation project(':dataApi')
     implementation project(':iapApi')
 
     implementation libs.play.core
 
-    implementation platform(libs.firebase.bom)
-    implementation libs.firebase.analytics
-    implementation libs.firebase.common
-    implementation libs.firebase.crashlytics
-
+    implementation 'com.github.betterme-dev:RxBilling:5.0.1-beta'
+    implementation libs.billingclient
 }

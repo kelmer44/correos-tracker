@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.iap
+package net.kelmer.correostracker.iar
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -6,7 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import net.kelmer.correostracker.iap.InAppSharedPreferences.Companion.MIN_CLEAN_STARTS
+import net.kelmer.correostracker.iar.InAppSharedPreferences.Companion.MIN_CLEAN_STARTS
 import timber.log.Timber
 import javax.inject.Inject
 

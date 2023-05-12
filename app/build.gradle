@@ -90,6 +90,8 @@ dependencies {
     implementation project(':listApi')
     implementation project(':list')
     implementation project(':create')
+    implementation project(':iarApi')
+    implementation project(':iar')
     implementation project(':iapApi')
     implementation project(':iap')
 

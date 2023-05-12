@@ -3,6 +3,7 @@ package net.kelmer.correostracker.di.application
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
+import androidx.lifecycle.LifecycleObserver
 import androidx.viewbinding.BuildConfig
 import dagger.Binds
 import dagger.Module
@@ -10,7 +11,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.Multibinds
+import net.kelmer.correostracker.ActivityLifecycleObserver
 import net.kelmer.correostracker.BuildInfo
+import net.kelmer.correostracker.ProcessLifecycleObserver
 import net.kelmer.correostracker.di.BuildInfoImpl
 import net.kelmer.correostracker.util.AppSchedulerProvider
 import net.kelmer.correostracker.util.NetworkInteractor
@@ -24,6 +28,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class ApplicationModule {
+
+    @Multibinds
+    @ProcessLifecycleObserver
+    abstract fun processLifecycleObservers(): Set<@JvmSuppressWildcards LifecycleObserver>
 
     @Binds
     abstract fun bindsBuildInfo(info: BuildInfoImpl): BuildInfo

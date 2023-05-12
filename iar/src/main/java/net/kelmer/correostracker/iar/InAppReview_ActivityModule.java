@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.iap;
+package net.kelmer.correostracker.iar;
 
 import dagger.Binds;
 import dagger.Module;

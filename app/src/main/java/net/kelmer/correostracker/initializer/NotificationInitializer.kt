@@ -5,11 +5,12 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import net.kelmer.correostracker.AppInitializer
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.service.worker.ParcelPollWorker
 import javax.inject.Inject
 
-class NotificationInitializer @Inject constructor() : Initializer {
+class NotificationInitializer @Inject constructor() : AppInitializer {
     override fun initialize(application: Application) {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
