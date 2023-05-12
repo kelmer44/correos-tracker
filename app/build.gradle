@@ -1,6 +1,6 @@
 def versionMajor = 3
-def versionMinor = 0
-def versionPatch = 2
+def versionMinor = 1
+def versionPatch = 0
 def versionBuild = 0
 
 apply from: rootProject.file('gradle/moduleapp.gradle')
@@ -51,7 +51,7 @@ android {
     }
     buildTypes {
         debug {
-            applicationIdSuffix '.debug'
+//            applicationIdSuffix '.debug'
             resValue("string", "PORT_NUMBER", "8081")
         }
         release {
@@ -106,6 +106,7 @@ dependencies {
     //Test
     testImplementation libs.junit
     testImplementation libs.mockito.core
+    implementation libs.billingclient
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package net.kelmer.correostracker.list.compose
+package net.kelmer.correostracker.list.ui
 
 import android.content.res.Configuration
 import androidx.compose.animation.Crossfade
@@ -37,7 +37,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import net.kelmer.correostracker.list.R
-import net.kelmer.correostracker.list.compose.appbar.SearchWidgetState
+import net.kelmer.correostracker.list.ui.appbar.SearchWidgetState
 import net.kelmer.correostracker.ui.compose.ActionItem
 import net.kelmer.correostracker.ui.compose.NoSearchAppBar
 import net.kelmer.correostracker.ui.theme.CorreosTheme

@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.list.compose.preview
+package net.kelmer.correostracker.list.ui.preview
 
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent

@@ -8,19 +8,20 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import net.kelmer.correostracker.create.compose.CreateScreen
 import net.kelmer.correostracker.detail.compose.DetailScreen
-import net.kelmer.correostracker.list.compose.ParcelsScreen
+import net.kelmer.correostracker.list.ui.ParcelsScreen
 import net.kelmer.correostracker.ui.activity.MainActivityViewModel
 import net.kelmer.correostracker.ui.nav.CorreosAppState
 import net.kelmer.correostracker.ui.nav.Screen
 import net.kelmer.correostracker.ui.nav.rememberCorreosAppState
 
 @Composable
-fun CorreosApp(
-    useDarkTheme : Boolean = isSystemInDarkTheme(),
+fun CorreosComposeApp(
+    useDarkTheme: Boolean = isSystemInDarkTheme(),
     viewModel: MainActivityViewModel = hiltViewModel(),
     windowSizeClass: WindowSizeClass,
     appState: CorreosAppState = rememberCorreosAppState(),
-    onWebClicked: () -> Unit
+    onWebClicked: () -> Unit,
+    onBuyClicked: () -> Unit
 ) {
     NavHost(
         navController = appState.navController,
@@ -39,6 +40,7 @@ fun CorreosApp(
                     }
                 },
                 onWebClicked = onWebClicked,
+                onBuyClicked = onBuyClicked
             )
         }
         composable(Screen.Detail.route) { backStackEntry ->

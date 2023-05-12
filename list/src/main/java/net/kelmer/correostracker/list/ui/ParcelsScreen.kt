@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.list.compose
+package net.kelmer.correostracker.list.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,19 +29,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.list.ParcelListViewModel
 import net.kelmer.correostracker.list.R
-import net.kelmer.correostracker.list.compose.emptystate.EmptyState
-import net.kelmer.correostracker.list.compose.feature.FeatureDialog
-import net.kelmer.correostracker.list.compose.parcelitem.ParcelListItem
-import net.kelmer.correostracker.list.compose.preview.PreviewData
+import net.kelmer.correostracker.list.ui.emptystate.EmptyState
+import net.kelmer.correostracker.list.ui.feature.FeatureDialog
+import net.kelmer.correostracker.list.ui.parcelitem.ParcelListItem
+import net.kelmer.correostracker.list.ui.preview.PreviewData
 import net.kelmer.correostracker.ui.compose.pullrefresh.PullRefreshIndicator
 import net.kelmer.correostracker.ui.compose.pullrefresh.pullRefresh
 import net.kelmer.correostracker.ui.compose.pullrefresh.rememberPullRefreshState
-import net.kelmer.correostracker.list.compose.theme.ThemeDialog
+import net.kelmer.correostracker.list.ui.theme.ThemeDialog
 import net.kelmer.correostracker.ads.BannerView
 import net.kelmer.correostracker.ui.compose.CircledIcon
 import net.kelmer.correostracker.ui.compose.ErrorView
 import net.kelmer.correostracker.ui.compose.FaseIcon
-import kotlin.math.min
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,7 +50,8 @@ fun ParcelsScreen(
     viewModel: ParcelListViewModel = viewModel(),
     onAddParcel: () -> Unit = {},
     onParcelClicked: (String) -> Unit = {},
-    onWebClicked: () -> Unit
+    onWebClicked: () -> Unit,
+    onBuyClicked: () -> Unit
 ) {
     val viewState by viewModel.stateOnceAndStream.subscribeAsState(ParcelListViewModel.State())
 
@@ -107,7 +107,8 @@ fun ParcelsScreen(
                         onDismiss = {
                             showAbout = false
                             viewModel.setShownFeature()
-                        }
+                        },
+                        onBuyClick = onBuyClicked
                     )
                 }
                 if (showThemeDialog) {

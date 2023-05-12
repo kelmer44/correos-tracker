@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.list.compose.parcelitem
+package net.kelmer.correostracker.list.ui.parcelitem
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -7,7 +7,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -35,8 +34,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.list.R
-import net.kelmer.correostracker.list.compose.ListStateIcon
-import net.kelmer.correostracker.list.compose.preview.PreviewData
+import net.kelmer.correostracker.list.ui.ListStateIcon
+import net.kelmer.correostracker.list.ui.preview.PreviewData
 import net.kelmer.correostracker.ui.compose.ActionItem
 import net.kelmer.correostracker.ui.compose.ConfirmDialog
 import net.kelmer.correostracker.ui.compose.OverflowMenuAction

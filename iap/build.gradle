@@ -13,6 +13,5 @@ dependencies {
 
     implementation libs.play.core
 
-    implementation 'com.github.betterme-dev:RxBilling:5.0.1-beta'
     implementation libs.billingclient
 }

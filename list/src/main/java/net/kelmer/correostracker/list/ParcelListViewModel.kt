@@ -10,9 +10,10 @@ import net.kelmer.correostracker.BuildInfo
 import net.kelmer.correostracker.dataApi.Resource
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository
+import net.kelmer.correostracker.iap.IapApi
 import net.kelmer.correostracker.list.feature.Feature
-import net.kelmer.correostracker.list.notifications.SwitchNotificationsUseCase
-import net.kelmer.correostracker.list.statusreports.StatusReportsUpdatesUseCase
+import net.kelmer.correostracker.list.usecases.notifications.SwitchNotificationsUseCase
+import net.kelmer.correostracker.list.usecases.statusreports.StatusReportsUpdatesUseCase
 import net.kelmer.correostracker.ui.theme.ThemeMode
 import net.kelmer.correostracker.util.SchedulerProvider
 import net.kelmer.correostracker.viewmodel.AutoDisposeViewModel
@@ -29,7 +30,8 @@ class ParcelListViewModel @Inject constructor(
     private val statusReportsUpdatesUseCase: StatusReportsUpdatesUseCase,
     private val parcelListPreferences: ParcelListPreferences<ThemeMode>,
     private val buildInfo: BuildInfo,
-    private val schedulerProvider: SchedulerProvider
+    private val schedulerProvider: SchedulerProvider,
+    private val iapApi: IapApi
 ) : AutoDisposeViewModel() {
 
     private val filterSubject: PublishProcessor<String> = PublishProcessor.create()
@@ -38,7 +40,7 @@ class ParcelListViewModel @Inject constructor(
         localParcelRepository.getParcels()
             .combineLatest(
                 filterSubject.startWith(""),
-                parcelListPreferences.themeModeStream
+                parcelListPreferences.themeModeStream,
             )
             .map { (list, filter, theme) ->
                 State(

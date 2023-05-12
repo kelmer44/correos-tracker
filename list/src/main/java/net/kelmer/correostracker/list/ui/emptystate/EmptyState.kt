@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.list.compose.emptystate
+package net.kelmer.correostracker.list.ui.emptystate
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

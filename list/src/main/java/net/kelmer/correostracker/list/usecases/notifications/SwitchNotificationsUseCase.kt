@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.list.notifications
+package net.kelmer.correostracker.list.usecases.notifications
 
 import io.reactivex.Single
 import net.kelmer.correostracker.usecase.rx.RxSingleUseCase

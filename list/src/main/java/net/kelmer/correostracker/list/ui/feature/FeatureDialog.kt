@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.list.compose.feature
+package net.kelmer.correostracker.list.ui.feature
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import net.kelmer.correostracker.list.R
-import net.kelmer.correostracker.list.compose.preview.PreviewData
+import net.kelmer.correostracker.list.ui.preview.PreviewData
 import net.kelmer.correostracker.list.feature.Feature
 import net.kelmer.correostracker.ui.compose.CorreosDialog
 import net.kelmer.correostracker.ui.theme.CorreosTheme
@@ -30,7 +30,8 @@ fun FeatureDialog(
     featureList: List<Feature>,
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit = {},
-    onWebClick: () -> Unit = {}
+    onWebClick: () -> Unit = {},
+    onBuyClick: () -> Unit = {}
 ) {
 
     CorreosDialog(title = stringResource(id = R.string.about), onDismiss = onDismiss, onConfirm = onDismiss) {
@@ -49,6 +50,14 @@ fun FeatureDialog(
                         .padding(vertical = 8.dp)
                 ) {
                     Text(text = stringResource(id = R.string.visit_web))
+                }
+                OutlinedButton(
+                    onClick = onBuyClick,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(vertical = 8.dp)
+                ) {
+                    Text(text = "Comprar premium")
                 }
             }
             Divider(

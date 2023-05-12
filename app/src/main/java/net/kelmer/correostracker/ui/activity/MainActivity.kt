@@ -16,24 +16,32 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
+import com.android.billingclient.api.BillingClient.ProductType
+import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.ProductDetails
+import com.android.billingclient.api.QueryProductDetailsParams
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.uber.autodispose.android.lifecycle.scope
+import com.uber.autodispose.autoDisposable
 import dagger.hilt.android.AndroidEntryPoint
 import net.kelmer.correostracker.ActivityLifecycleObserver
 import net.kelmer.correostracker.CorreosApp
 import net.kelmer.correostracker.R
 import net.kelmer.correostracker.di.worker.MyWorkerFactory
+import net.kelmer.correostracker.iap.IapApi
 import net.kelmer.correostracker.iar.InAppReviewService
 import net.kelmer.correostracker.service.worker.NotificationID
 import net.kelmer.correostracker.service.worker.PERMISSION_NOTIS
 import net.kelmer.correostracker.service.worker.ParcelPollWorker
-import net.kelmer.correostracker.ui.CorreosApp
+import net.kelmer.correostracker.ui.CorreosComposeApp
 import net.kelmer.correostracker.ui.theme.CorreosTheme
 import net.kelmer.correostracker.ui.theme.ThemeMode
 import timber.log.Timber
@@ -44,7 +52,7 @@ import javax.inject.Inject
  * Created by Gabriel Sanmartín on 09/11/2020.
  */
 @AndroidEntryPoint
- class MainActivity : FragmentActivity() {
+class MainActivity : FragmentActivity() {
 
     @Inject
     lateinit var myWorkerFactory: MyWorkerFactory
@@ -55,6 +63,9 @@ import javax.inject.Inject
     @Inject
     @ActivityLifecycleObserver
     lateinit var lifecycleObservers: Set<@JvmSuppressWildcards LifecycleObserver>
+
+    @Inject
+    lateinit var iapApi: IapApi
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,7 +80,7 @@ import javax.inject.Inject
         Timber.i("Recreating activity")
         setContent {
 
-            val viewModel : MainActivityViewModel = hiltViewModel()
+            val viewModel: MainActivityViewModel = hiltViewModel()
             val activityState by viewModel.stateOnceAndStream.subscribeAsState(MainActivityViewModel.State())
 
             val useDarkColors = when (activityState.theme) {
@@ -77,12 +88,14 @@ import javax.inject.Inject
                 ThemeMode.LIGHT -> false
                 ThemeMode.DARK -> true
             }
+            Timber.w("IsPremium = ${activityState.isPremium}")
             val windowSizeClass = calculateWindowSizeClass(this)
             CorreosTheme(useDarkColors) {
-                CorreosApp(
+                CorreosComposeApp(
                     useDarkTheme = useDarkColors,
                     windowSizeClass = windowSizeClass,
-                    onWebClicked = ::onWebClicked
+                    onWebClicked = ::onWebClicked,
+                    onBuyClicked = ::onBuyClicked
 //                    displayFeatures
                 )
             }
@@ -96,6 +109,14 @@ import javax.inject.Inject
         inAppReviewService.showIfNeeded()
     }
 
+    private fun onBuyClicked() {
+        iapApi.launchFlow(this)
+            .autoDisposable(lifecycle.scope(Lifecycle.Event.ON_STOP))
+            .subscribe({
+                Timber.i("Successfully launched Purchase flow")
+            }, Timber::e)
+    }
+
     private fun onWebClicked() {
         val url = "https://github.com/kelmer44/correos-tracker"
         val i = Intent(Intent.ACTION_VIEW)
@@ -103,7 +124,7 @@ import javax.inject.Inject
         startActivity(i)
     }
 
-    private fun triggerSampleNotification(){
+    private fun triggerSampleNotification() {
         val notificationIntent = Intent(applicationContext, MainActivity::class.java)
         val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PendingIntent.getActivity(
@@ -131,7 +152,7 @@ import javax.inject.Inject
 
         try {
             NotificationManagerCompat.from(applicationContext).notify(NotificationID.id, notification)
-        } catch (s: SecurityException){
+        } catch (s: SecurityException) {
             Timber.e(s)
             FirebaseCrashlytics.getInstance().recordException(s)
         }
@@ -139,7 +160,7 @@ import javax.inject.Inject
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode == NOTI_REQ_PERMISSION){
+        if (requestCode == NOTI_REQ_PERMISSION) {
             Timber.i("Permission granted!")
         }
     }

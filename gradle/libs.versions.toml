@@ -197,4 +197,4 @@ compose-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version = "1.0.0" }
 
-billingclient = { module = "com.android.billingclient:billing-ktx", version = "5.2.0" }
+billingclient = { module = "com.android.billingclient:billing-ktx", version = "5.0.0" }
