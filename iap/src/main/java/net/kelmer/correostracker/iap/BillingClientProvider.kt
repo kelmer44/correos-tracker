@@ -129,7 +129,7 @@ class BillingClientProvider @Inject constructor(
     private fun isPremiumPurchase(purchases: List<Purchase>) =
         purchases
             .any { purchase ->
-//                purchase.isAcknowledged &&
+                purchase.isAcknowledged &&
                 purchase.products.any { it == PRODUCT_SKU } &&
                 purchase.purchaseState == PurchaseState.PURCHASED
             }
