@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package net.kelmer.correostracker.list.ui
+package net.kelmer.correostracker.list.ui.appbar
 
 import android.content.res.Configuration
 import androidx.compose.animation.Crossfade
@@ -37,18 +37,19 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import net.kelmer.correostracker.list.R
-import net.kelmer.correostracker.list.ui.appbar.SearchWidgetState
 import net.kelmer.correostracker.ui.compose.ActionItem
 import net.kelmer.correostracker.ui.compose.NoSearchAppBar
 import net.kelmer.correostracker.ui.theme.CorreosTheme
 
 @Composable
 fun ParcelsAppBar(
+    isPremium: Boolean,
     useDarkTheme: Boolean,
     onTextChange: (String) -> Unit,
     onRefreshAll: () -> Unit = {},
     onThemeClicked: () -> Unit = {},
-    onAboutClicked: () -> Unit = {}
+    onAboutClicked: () -> Unit = {},
+    onPremiumClicked: () -> Unit = {}
 ) {
 
     var searchWidgetState by remember {
@@ -67,14 +68,21 @@ fun ParcelsAppBar(
 
             SearchWidgetState.CLOSED -> {
                 NoSearchAppBar(
+                    withPremiumBadge = isPremium,
                     useDarkTheme = useDarkTheme,
                     title = stringResource(id = R.string.app_name),
-                    actionItems = listOf(
-                        ActionItem(stringResource(R.string.search), icon = Icons.Filled.Search, action = {
+                    actionItems = listOfNotNull(
+                        ActionItem(stringResource(R.string.search),
+                            icon = Icons.Filled.Search,
+                            action = {
                             searchWidgetState = SearchWidgetState.OPEN
                         }),
                         ActionItem(stringResource(R.string.refresh_all), action = onRefreshAll),
                         ActionItem(stringResource(R.string.menu_theme), action = onThemeClicked),
+                        ActionItem(
+                            stringResource(R.string.menu_premium),
+                            action = onPremiumClicked
+                        ).takeIf { !isPremium },
                         ActionItem(stringResource(R.string.about), action = onAboutClicked),
                     )
                 )
@@ -94,7 +102,7 @@ fun SearchAppBar(
 ) {
     val focusRequester = remember { FocusRequester() }
     var textState by remember { mutableStateOf("") }
-    var surfaceColor = if (useDarkTheme) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.primary
+    val surfaceColor = if (useDarkTheme) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.primary
     val elementsColor =
         if (useDarkTheme) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSecondary
 
@@ -181,7 +189,8 @@ fun NoSearchBarPreview() {
         NoSearchAppBar(
             title = "Seguimiento de correos",
             actionItems = listOf(),
-            useDarkTheme = false
+            useDarkTheme = false,
+            withPremiumBadge = true
         )
     }
 }

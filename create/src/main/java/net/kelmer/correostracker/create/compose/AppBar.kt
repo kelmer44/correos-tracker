@@ -15,14 +15,16 @@ import net.kelmer.correostracker.ui.theme.CorreosTheme
 fun CreateAppBar(
     useDarkTheme: Boolean = false, backAction: () -> Unit = {}
 ) {
-    NoSearchAppBar(useDarkTheme,
+    NoSearchAppBar(
+        useDarkTheme = useDarkTheme,
         title = stringResource(id = R.string.add_parcel),
         actionItems = emptyList(),
         navigationIcon = {
             IconButton(onClick = backAction) {
                 Icon(Icons.Filled.ArrowBack, "backIcon")
             }
-        })
+        }
+    )
 }
 
 @Composable

@@ -41,7 +41,7 @@ fun FeatureDialog(
             Column {
                 Text(
                     text = stringResource(id = R.string.feature_dialog_opensource),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Justify
                 )
                 OutlinedButton(
                     onClick = onWebClick,
@@ -50,14 +50,6 @@ fun FeatureDialog(
                         .padding(vertical = 8.dp)
                 ) {
                     Text(text = stringResource(id = R.string.visit_web))
-                }
-                OutlinedButton(
-                    onClick = onBuyClick,
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(vertical = 8.dp)
-                ) {
-                    Text(text = "Comprar premium")
                 }
             }
             Divider(

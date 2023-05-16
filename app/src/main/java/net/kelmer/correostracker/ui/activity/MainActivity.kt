@@ -92,6 +92,7 @@ class MainActivity : FragmentActivity() {
             val windowSizeClass = calculateWindowSizeClass(this)
             CorreosTheme(useDarkColors) {
                 CorreosComposeApp(
+                    premium = activityState.isPremium,
                     useDarkTheme = useDarkColors,
                     windowSizeClass = windowSizeClass,
                     onWebClicked = ::onWebClicked,

@@ -16,6 +16,7 @@ import net.kelmer.correostracker.ui.nav.rememberCorreosAppState
 
 @Composable
 fun CorreosComposeApp(
+    premium : Boolean = false,
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     viewModel: MainActivityViewModel = hiltViewModel(),
     windowSizeClass: WindowSizeClass,
@@ -29,6 +30,7 @@ fun CorreosComposeApp(
     ) {
         composable(Screen.List.route) { navBackStackEntry ->
             ParcelsScreen(
+                isPremium = premium,
                 useDarkTheme = useDarkTheme,
                 viewModel = hiltViewModel(),
                 onAddParcel = {
@@ -45,6 +47,7 @@ fun CorreosComposeApp(
         }
         composable(Screen.Detail.route) { backStackEntry ->
             DetailScreen(
+                isPremium = premium,
                 useDarkTheme = useDarkTheme,
                 viewModel = hiltViewModel(),
                 backAction = appState::navigateBack

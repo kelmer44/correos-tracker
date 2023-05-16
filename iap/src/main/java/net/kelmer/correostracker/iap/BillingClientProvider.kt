@@ -107,19 +107,36 @@ class BillingClientProvider @Inject constructor(
                     .map { it.purchases }
                     .map { purchase ->
                         isPremiumPurchase(purchase)
-                    }.filter { it }
+                    }
+                    .filter { it }
             )
             .doOnNext { Timber.w("New state for premium BEFORE = $it") }
             .takeUntil { it }
             .doOnNext { Timber.w("New state for premium AFTER = $it") }
             .distinctUntilChanged()
 
+    override fun getProductDetails(): Single<net.kelmer.correostracker.iap.ProductDetails> = loadProductDetails()
+        .map {
+            val pd: ProductDetails? = it.firstOrNull()
+            val formattedPrice = checkNotNull(pd?.oneTimePurchaseOfferDetails?.formattedPrice)
+            ProductDetails(
+                pd!!.name,
+                pd.description,
+                formattedPrice
+            )
+        }
+
     private fun isPremiumPurchase(purchases: List<Purchase>) =
-        purchases.any { it.isAcknowledged && it.products.any { it == PRODUCT_SKU } && it.purchaseState == PurchaseState.PURCHASED }
+        purchases
+            .any { purchase ->
+//                purchase.isAcknowledged &&
+                purchase.products.any { it == PRODUCT_SKU } &&
+                purchase.purchaseState == PurchaseState.PURCHASED
+            }
 
     private fun loadPurchases(@ProductType skuType: String): Single<List<Purchase>> = rxBilling.getPurchases(skuType)
 
     companion object {
-        const val PRODUCT_SKU = "premium_noads"
+        const val PRODUCT_SKU = "noads_premium"
     }
 }

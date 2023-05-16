@@ -5,12 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import com.uber.autodispose.autoDisposable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.processors.PublishProcessor
+import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.combineLatest
 import net.kelmer.correostracker.BuildInfo
 import net.kelmer.correostracker.dataApi.Resource
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository
 import net.kelmer.correostracker.iap.IapApi
+import net.kelmer.correostracker.iap.ProductDetails
 import net.kelmer.correostracker.list.feature.Feature
 import net.kelmer.correostracker.list.usecases.notifications.SwitchNotificationsUseCase
 import net.kelmer.correostracker.list.usecases.statusreports.StatusReportsUpdatesUseCase
@@ -37,27 +39,29 @@ class ParcelListViewModel @Inject constructor(
     private val filterSubject: PublishProcessor<String> = PublishProcessor.create()
 
     val stateOnceAndStream =
-        localParcelRepository.getParcels()
-            .combineLatest(
-                filterSubject.startWith(""),
-                parcelListPreferences.themeModeStream,
+        Flowables.combineLatest(
+            localParcelRepository.getParcels(),
+            filterSubject.startWith(""),
+            parcelListPreferences.themeModeStream,
+            iapApi.getProductDetails().toFlowable().startWith(ProductDetails("", "", ""))
+        )
+        { list, filter, theme, product ->
+            State(
+                list = list.filter {
+                    filter.isNullOrBlank() ||
+                        it.parcelName.contains(filter, true) ||
+                        it.trackingCode.contains(filter, true)
+                },
+                filter = filter,
+                theme = theme,
+                price = product.price
             )
-            .map { (list, filter, theme) ->
-                State(
-                    list = list.filter {
-                        filter.isNullOrBlank() ||
-                            it.parcelName.contains(filter, true) ||
-                            it.trackingCode.contains(filter, true)
-                    },
-                    filter = filter,
-                    theme = theme
-                )
-            }
-            .startWith(State(loading = true))
-            .onErrorReturn { throwable -> State(error = throwable) }
-            .distinctUntilChanged()
-            .replay(1)
-            .connectInViewModelScope()
+        }
+        .startWith(State(loading = true))
+        .onErrorReturn { throwable -> State(error = throwable) }
+        .distinctUntilChanged()
+        .replay(1)
+        .connectInViewModelScope()
 
     init {
         refresh()
@@ -131,6 +135,7 @@ class ParcelListViewModel @Inject constructor(
         val loading: Boolean = false,
         val error: Throwable? = null,
         val filter: String? = null,
-        val theme: ThemeMode? = null
+        val theme: ThemeMode? = null,
+        val price: String? = null
     )
 }

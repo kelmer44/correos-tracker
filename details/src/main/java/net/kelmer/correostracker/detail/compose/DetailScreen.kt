@@ -35,6 +35,7 @@ import net.kelmer.correostracker.detail.compose.preview.PreviewData
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
+    isPremium: Boolean,
     useDarkTheme: Boolean,
     modifier: Modifier = Modifier,
     viewModel: DetailViewModel = viewModel(),
@@ -65,12 +66,14 @@ fun DetailScreen(
                     }
                 }
             })
-        BannerView(
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(min = 50.dp),
-            isTest = false
-        )
+        if (!isPremium) {
+            BannerView(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 50.dp),
+                isTest = false
+            )
+        }
     }
 
 }

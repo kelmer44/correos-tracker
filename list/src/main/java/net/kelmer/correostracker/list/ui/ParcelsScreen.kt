@@ -38,6 +38,8 @@ import net.kelmer.correostracker.ui.compose.pullrefresh.pullRefresh
 import net.kelmer.correostracker.ui.compose.pullrefresh.rememberPullRefreshState
 import net.kelmer.correostracker.list.ui.theme.ThemeDialog
 import net.kelmer.correostracker.ads.BannerView
+import net.kelmer.correostracker.list.ui.appbar.ParcelsAppBar
+import net.kelmer.correostracker.list.ui.premium.PremiumDialog
 import net.kelmer.correostracker.ui.compose.CircledIcon
 import net.kelmer.correostracker.ui.compose.ErrorView
 import net.kelmer.correostracker.ui.compose.FaseIcon
@@ -45,6 +47,7 @@ import net.kelmer.correostracker.ui.compose.FaseIcon
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ParcelsScreen(
+    isPremium: Boolean,
     useDarkTheme: Boolean,
     modifier: Modifier = Modifier,
     viewModel: ParcelListViewModel = viewModel(),
@@ -57,17 +60,20 @@ fun ParcelsScreen(
 
     var showAbout by remember { mutableStateOf(!viewModel.showFeature()) }
     var showThemeDialog by remember { mutableStateOf(false) }
+    var showPremiumDialog by remember { mutableStateOf(false) }
 
     Column() {
         Scaffold(
             modifier = modifier.weight(1f),
             topBar = {
                 ParcelsAppBar(
+                    isPremium,
                     useDarkTheme,
                     viewModel::filter,
                     viewModel::refresh,
                     onThemeClicked = { showThemeDialog = true },
                     onAboutClicked = { showAbout = true },
+                    onPremiumClicked = { showPremiumDialog = true }
                 )
             },
             floatingActionButton = {
@@ -75,8 +81,10 @@ fun ParcelsScreen(
             },
             contentWindowInsets = ScaffoldDefaults.contentWindowInsets,
             content = { contentPadding ->
-                Column(modifier = modifier
-                    .padding(contentPadding)) {
+                Column(
+                    modifier = modifier
+                        .padding(contentPadding)
+                ) {
                     val state = viewState
 
                     val refreshing by remember { mutableStateOf(state.loading) }
@@ -118,12 +126,26 @@ fun ParcelsScreen(
                         onSelect = viewModel::setTheme
                     )
                 }
+                if (showPremiumDialog) {
+                    val price = viewState.price
+                    if (price != null) {
+                        PremiumDialog(
+                            price = price,
+                            onBuyClick = onBuyClicked,
+                            onDismiss = { showPremiumDialog = false }
+                        )
+                    }
+                }
             }
         )
-        BannerView(
-            modifier = Modifier.fillMaxWidth().heightIn(min = 50.dp),
-            isTest = false
-        )
+        if (!isPremium) {
+            BannerView(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 50.dp),
+                isTest = false
+            )
+        }
     }
 }
 
@@ -143,7 +165,8 @@ fun ParcelList(
 
     Box(
         modifier
-            .pullRefresh(state)) {
+            .pullRefresh(state)
+    ) {
 
         LazyColumn(state = listState, modifier = Modifier.fillMaxHeight()) {
             items(items = list, key = { it.code }) { parcel ->

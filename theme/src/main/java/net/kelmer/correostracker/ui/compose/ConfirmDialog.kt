@@ -16,6 +16,7 @@ fun CorreosDialog(
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit,
     onConfirm: () -> Unit,
+    okText: String = stringResource(id = R.string.ok),
     content: @Composable () -> Unit,
 ) {
     AlertDialog(
@@ -30,7 +31,7 @@ fun CorreosDialog(
         },
         confirmButton = {
             Button(onClick = onConfirm) {
-                Text(stringResource(id = R.string.ok))
+                Text(okText)
             }
         })
 }
