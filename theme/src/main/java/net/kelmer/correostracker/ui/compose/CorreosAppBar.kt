@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -52,14 +53,15 @@ fun NoSearchAppBar(
                                     containerColor =
                                     if(useDarkTheme) MaterialTheme.colorScheme.primary
                                     else MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier.padding(top = 24.dp)
+                                    modifier = Modifier.padding(top = 24.dp, start = 8.dp),
+                                    contentColor = Color.White
                                 ) {
                                     Icon(
                                         imageVector = Icons.Filled.Star,
                                         contentDescription = "",
                                         Modifier
                                             .padding(top = 4.dp, bottom = 4.dp)
-                                            .size(8.dp)
+                                            .size(12.dp)
                                     )
                                 }
                             }

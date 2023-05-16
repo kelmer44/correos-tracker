@@ -50,11 +50,11 @@ class BillingClientProvider @Inject constructor(
             .filter { !it.isAcknowledged }
             .flatMapCompletable {
                 Timber.i("Acknowledging purchase: $it")
-//                rxBilling.acknowledge(
-//                    AcknowledgePurchaseParams.newBuilder()
-//                        .setPurchaseToken(it.purchaseToken)
-//                        .build()
-//                )
+                rxBilling.acknowledge(
+                    AcknowledgePurchaseParams.newBuilder()
+                        .setPurchaseToken(it.purchaseToken)
+                        .build()
+                )
                 Completable.complete()
             }
             .autoDisposable(owner.scope(Lifecycle.Event.ON_STOP))

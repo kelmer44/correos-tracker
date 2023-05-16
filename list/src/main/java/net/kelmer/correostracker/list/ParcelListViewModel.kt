@@ -33,7 +33,7 @@ class ParcelListViewModel @Inject constructor(
     private val parcelListPreferences: ParcelListPreferences<ThemeMode>,
     private val buildInfo: BuildInfo,
     private val schedulerProvider: SchedulerProvider,
-    private val iapApi: IapApi
+    iapApi: IapApi
 ) : AutoDisposeViewModel() {
 
     private val filterSubject: PublishProcessor<String> = PublishProcessor.create()

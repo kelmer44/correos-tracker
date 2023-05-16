@@ -18,6 +18,7 @@ fun PremiumDialog(
     onDismiss: () -> Unit = {},
 ) {
     CorreosDialog(
+        modifier = modifier,
         title = stringResource(id = R.string.premium_title),
         onDismiss = onDismiss,
         onConfirm = onBuyClick,

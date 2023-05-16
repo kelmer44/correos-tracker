@@ -116,7 +116,6 @@ fun ParcelsScreen(
                             showAbout = false
                             viewModel.setShownFeature()
                         },
-                        onBuyClick = onBuyClicked
                     )
                 }
                 if (showThemeDialog) {

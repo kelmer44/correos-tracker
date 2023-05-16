@@ -30,8 +30,7 @@ fun FeatureDialog(
     featureList: List<Feature>,
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit = {},
-    onWebClick: () -> Unit = {},
-    onBuyClick: () -> Unit = {}
+    onWebClick: () -> Unit = {}
 ) {
 
     CorreosDialog(title = stringResource(id = R.string.about), onDismiss = onDismiss, onConfirm = onDismiss) {
