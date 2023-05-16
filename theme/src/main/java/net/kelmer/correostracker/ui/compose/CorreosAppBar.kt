@@ -53,7 +53,7 @@ fun NoSearchAppBar(
                                     containerColor =
                                     if(useDarkTheme) MaterialTheme.colorScheme.primary
                                     else MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier.padding(top = 24.dp, start = 8.dp),
+                                    modifier = Modifier.padding(top = 24.dp, start = 4.dp),
                                     contentColor = Color.White
                                 ) {
                                     Icon(
@@ -61,7 +61,7 @@ fun NoSearchAppBar(
                                         contentDescription = "",
                                         Modifier
                                             .padding(top = 4.dp, bottom = 4.dp)
-                                            .size(12.dp)
+                                            .size(8.dp)
                                     )
                                 }
                             }

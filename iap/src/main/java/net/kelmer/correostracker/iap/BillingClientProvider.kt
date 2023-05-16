@@ -50,11 +50,11 @@ class BillingClientProvider @Inject constructor(
             .filter { !it.isAcknowledged }
             .flatMapCompletable {
                 Timber.i("Acknowledging purchase: $it")
-                rxBilling.acknowledge(
-                    AcknowledgePurchaseParams.newBuilder()
-                        .setPurchaseToken(it.purchaseToken)
-                        .build()
-                )
+//                rxBilling.acknowledge(
+//                    AcknowledgePurchaseParams.newBuilder()
+//                        .setPurchaseToken(it.purchaseToken)
+//                        .build()
+//                )
                 Completable.complete()
             }
             .autoDisposable(owner.scope(Lifecycle.Event.ON_STOP))
@@ -104,11 +104,17 @@ class BillingClientProvider @Inject constructor(
             .mergeWith(
                 //Future updates we only care about new values
                 getBillingUpdates()
+                    .doOnNext {
+                        Timber.i("PREMIUM - New billing update value!! $it")
+                    }
                     .map { it.purchases }
                     .map { purchase ->
                         isPremiumPurchase(purchase)
                     }
                     .filter { it }
+                    .doOnNext {
+                        Timber.i("PREMIUM - New billing update value!! $it")
+                    }
             )
             .doOnNext { Timber.w("New state for premium BEFORE = $it") }
             .takeUntil { it }
@@ -129,9 +135,9 @@ class BillingClientProvider @Inject constructor(
     private fun isPremiumPurchase(purchases: List<Purchase>) =
         purchases
             .any { purchase ->
-                purchase.isAcknowledged &&
-                purchase.products.any { it == PRODUCT_SKU } &&
-                purchase.purchaseState == PurchaseState.PURCHASED
+//                purchase.isAcknowledged &&
+                    purchase.products.any { it == PRODUCT_SKU } &&
+                    purchase.purchaseState == PurchaseState.PURCHASED
             }
 
     private fun loadPurchases(@ProductType skuType: String): Single<List<Purchase>> = rxBilling.getPurchases(skuType)

@@ -30,11 +30,23 @@ class MainActivityViewModel @Inject constructor(
 
     val stateOnceAndStream: Flowable<State> =
         parcelListPreferences.themeModeStream
-            .combineLatest(iap.isPremium())
+            .combineLatest(
+                iap.isPremium()
+                    .map { PremiumState(it, true) }
+                    .doOnError {
+                        Timber.e(it, "Error on premium observable")
+                    }
+                    .onErrorReturnItem(
+                        PremiumState(
+                            isPremium = false,
+                            isBillingAvailable = false
+                        )
+                    )
+            )
             .map { (themeMode, premium) ->
                 State(
                     theme = themeMode,
-                    isPremium = premium
+                    premiumState = premium
                 )
             }
             .distinctUntilChanged()
@@ -43,10 +55,15 @@ class MainActivityViewModel @Inject constructor(
 
     fun sanitizeCode(code: String) = code.trim().replace("/", "")
 
+    data class PremiumState(
+        val isPremium: Boolean,
+        val isBillingAvailable: Boolean
+    )
+
     data class State(
         val isLoading: Boolean = false,
         val useDynamicColors: Boolean = false,
         val theme: ThemeMode = ThemeMode.SYSTEM,
-        val isPremium: Boolean = false
+        val premiumState: PremiumState = PremiumState(isPremium = false, isBillingAvailable = true)
     )
 }

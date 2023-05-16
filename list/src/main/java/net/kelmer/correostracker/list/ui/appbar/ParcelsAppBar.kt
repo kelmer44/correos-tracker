@@ -44,6 +44,7 @@ import net.kelmer.correostracker.ui.theme.CorreosTheme
 @Composable
 fun ParcelsAppBar(
     isPremium: Boolean,
+    isBillingAvailable: Boolean,
     useDarkTheme: Boolean,
     onTextChange: (String) -> Unit,
     onRefreshAll: () -> Unit = {},
@@ -82,7 +83,7 @@ fun ParcelsAppBar(
                         ActionItem(
                             stringResource(R.string.menu_premium),
                             action = onPremiumClicked
-                        ).takeIf { !isPremium },
+                        ).takeIf { !isPremium && isBillingAvailable },
                         ActionItem(stringResource(R.string.about), action = onAboutClicked),
                     )
                 )

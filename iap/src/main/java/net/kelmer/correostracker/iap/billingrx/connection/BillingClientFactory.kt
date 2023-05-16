@@ -18,7 +18,7 @@ class BillingClientFactory(
 ) {
 
     fun createBillingFlowable(listener: PurchasesUpdatedListener): Flowable<BillingClient> {
-        val flowable = Flowable.create<BillingClient>({
+        val flowable = Flowable.create<BillingClient>({ emitter->
             val billingClient = BillingClient.newBuilder(context)
                 .enablePendingPurchases()
                 .setListener(listener)
@@ -27,19 +27,19 @@ class BillingClientFactory(
             billingClient.startConnection(object : BillingClientStateListener {
                 override fun onBillingServiceDisconnected() {
                     Timber.d("onBillingServiceDisconnected")
-                    if (!it.isCancelled) {
-                        it.onComplete()
+                    if (!emitter.isCancelled) {
+                        emitter.onComplete()
                     }
                 }
 
                 override fun onBillingSetupFinished(result: BillingResult) {
                     val responseCode = result.responseCode
                     Timber.d("onBillingSetupFinished response $responseCode isReady ${billingClient.isReady}")
-                    if (!it.isCancelled) {
+                    if (!emitter.isCancelled) {
                         if (responseCode == BillingClient.BillingResponseCode.OK) {
-                            it.onNext(billingClient)
+                            emitter.onNext(billingClient)
                         } else {
-                            it.onError(BillingException.fromResult(result))
+                            emitter.onError(BillingException.fromResult(result))
                         }
                     } else {
                         if (billingClient.isReady) {
@@ -50,7 +50,7 @@ class BillingClientFactory(
                 }
             })
             // Finish connection when no subscribers
-            it.setCancellable {
+            emitter.setCancellable {
                 Timber.d("endConnection")
                 if (billingClient.isReady) {
                     billingClient.endConnection()

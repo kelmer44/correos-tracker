@@ -88,11 +88,11 @@ class MainActivity : FragmentActivity() {
                 ThemeMode.LIGHT -> false
                 ThemeMode.DARK -> true
             }
-            Timber.w("IsPremium = ${activityState.isPremium}")
+            Timber.w("IsPremium = ${activityState.premiumState.isPremium}, billingAvailable = ${activityState.premiumState.isBillingAvailable}")
             val windowSizeClass = calculateWindowSizeClass(this)
             CorreosTheme(useDarkColors) {
                 CorreosComposeApp(
-                    premium = activityState.isPremium,
+                    premium = activityState.premiumState,
                     useDarkTheme = useDarkColors,
                     windowSizeClass = windowSizeClass,
                     onWebClicked = ::onWebClicked,

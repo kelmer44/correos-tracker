@@ -21,7 +21,10 @@ fun PremiumDialog(
         modifier = modifier,
         title = stringResource(id = R.string.premium_title),
         onDismiss = onDismiss,
-        onConfirm = onBuyClick,
+        onConfirm = {
+            onBuyClick()
+            onDismiss()
+        },
         okText = stringResource(id = R.string.premium_cta)
     ) {
         Column {

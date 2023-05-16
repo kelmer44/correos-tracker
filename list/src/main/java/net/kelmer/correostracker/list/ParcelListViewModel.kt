@@ -44,6 +44,7 @@ class ParcelListViewModel @Inject constructor(
             filterSubject.startWith(""),
             parcelListPreferences.themeModeStream,
             iapApi.getProductDetails().toFlowable().startWith(ProductDetails("", "", ""))
+                .onErrorReturnItem(ProductDetails("", "", ""))
         )
         { list, filter, theme, product ->
             State(
@@ -57,11 +58,11 @@ class ParcelListViewModel @Inject constructor(
                 price = product.price
             )
         }
-        .startWith(State(loading = true))
-        .onErrorReturn { throwable -> State(error = throwable) }
-        .distinctUntilChanged()
-        .replay(1)
-        .connectInViewModelScope()
+            .startWith(State(loading = true))
+            .onErrorReturn { throwable -> State(error = throwable) }
+            .distinctUntilChanged()
+            .replay(1)
+            .connectInViewModelScope()
 
     init {
         refresh()
@@ -69,6 +70,7 @@ class ParcelListViewModel @Inject constructor(
 
     fun getFeatureList(): List<Feature> {
         return listOf(
+            Feature("3.1.0", R.string.changes_3_1_0),
             Feature("3.0.0", R.string.changes_3_0_0),
             Feature("2.3.3", R.string.changes_2_3_3),
             Feature("2.3.2", R.string.changes_2_3_2),

@@ -24,6 +24,7 @@
     <string name="changes_2_3_2">Se ha reescrito la app con una nueva arquitectura. Mejoras en los tiempos de carga.</string>
     <string name="changes_2_3_3">Arregladas notificaciones.</string>
     <string name="changes_3_0_0">Interfaz renovada.</string>
+    <string name="changes_3_1_0">Debido a las escasas donaciones la app incluye anuncios, que se pueden eliminar con el modo Premium. Si ya has hecho una donación, por favor contacta conmigo.</string>
     <string name="feature_dialog_title">Novedades</string>
     <string name="feature_dialog_opensource">Esta app NO tiene afiliación alguna con la Sociedad Estatal Correos y Telégrafos, S.A. sino que ha sido creada por un desarrollador independiente. Seguimiento Correos es gratuita y open source.</string>
     <string name="feature_dialog_opensource_contribute">Si quieres contribuir con el proyecto haz una donación a través de Kofi:</string>

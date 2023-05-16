@@ -25,8 +25,10 @@
     <string name="changes_2_2_7">Vuelve la trazabilidad por localización a la app.</string>
     <string name="changes_2_3_2">Se ha reescrito la app con una nueva arquitectura. Mejoras en los tiempos de carga.</string>
     <string name="changes_2_3_3">Arregladas notificaciones.</string>
-
     <string name="changes_3_0_0">Interfaz renovada.</string>
+    <string name="changes_3_1_0">Debido a las escasas donaciones la app incluye anuncios, que se pueden eliminar con el modo Premium. Si ya has hecho una donación, por favor contacta conmigo.</string>
+
+
     <string name="feature_dialog_title">Últimas novedades</string>
     <string name="feature_dialog_opensource">Esta app NO tiene afiliación alguna con Correos, sino que es un desarrollo independiente, gratuito y sin anuncios. Colabora con nosotros o reporta errores en nuestra web:</string>
     <string name="feature_dialog_opensource_contribute">Si quieres contribuir con el proyecto haz una donación a través de Kofi:</string>
@@ -45,7 +47,7 @@
     <string name="noresults">No se encontraron seguimientos con el criterio indicado.</string>
 
     <string name="premium_title">Modo premium</string>
-    <string name="premium_desc">Por desgracia, debido a los gastos de mantenimiento hemos tenido que poner anuncios en la app. Por una contribución de solo %1$s puedes eliminarlos y contribuir al desarrollo de la app.</string>
+    <string name="premium_desc">Por desgracia, debido a los gastos de mantenimiento hemos tenido que poner anuncios en la app. Por una contribución de solo %1$s puedes eliminarlos para siempre y contribuir al desarrollo de la app.</string>
     <string name="premium_cta">Obtener premium</string>
     <string name="menu_premium">Premium</string>
 </resources>

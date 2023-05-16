@@ -48,6 +48,7 @@ import net.kelmer.correostracker.ui.compose.FaseIcon
 @Composable
 fun ParcelsScreen(
     isPremium: Boolean,
+    isBillingAvailable: Boolean,
     useDarkTheme: Boolean,
     modifier: Modifier = Modifier,
     viewModel: ParcelListViewModel = viewModel(),
@@ -68,6 +69,7 @@ fun ParcelsScreen(
             topBar = {
                 ParcelsAppBar(
                     isPremium,
+                    isBillingAvailable,
                     useDarkTheme,
                     viewModel::filter,
                     viewModel::refresh,
