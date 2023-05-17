@@ -1,6 +1,6 @@
 def versionMajor = 3
 def versionMinor = 1
-def versionPatch = 0
+def versionPatch = 2
 def versionBuild = 0
 
 apply from: rootProject.file('gradle/moduleapp.gradle')

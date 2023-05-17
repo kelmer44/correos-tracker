@@ -13,6 +13,7 @@ import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.Purchase.PurchaseState
 import com.android.billingclient.api.QueryProductDetailsParams
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDisposable
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -50,15 +51,17 @@ class BillingClientProvider @Inject constructor(
             .filter { !it.isAcknowledged }
             .flatMapCompletable {
                 Timber.i("Acknowledging purchase: $it")
-//                rxBilling.acknowledge(
-//                    AcknowledgePurchaseParams.newBuilder()
-//                        .setPurchaseToken(it.purchaseToken)
-//                        .build()
-//                )
-                Completable.complete()
+                rxBilling.acknowledge(
+                    AcknowledgePurchaseParams.newBuilder()
+                        .setPurchaseToken(it.purchaseToken)
+                        .build()
+                )
             }
             .autoDisposable(owner.scope(Lifecycle.Event.ON_STOP))
-            .subscribe({}, Timber::e)
+            .subscribe({}, {
+                FirebaseCrashlytics.getInstance().log("Error observing Billing updates!")
+                FirebaseCrashlytics.getInstance().recordException(it)
+            })
     }
 
     private fun getBillingUpdates(): Flowable<PurchasesUpdate> = rxBilling.observeUpdates()
@@ -98,25 +101,17 @@ class BillingClientProvider @Inject constructor(
 
     override fun isPremium(): Flowable<Boolean> =
         loadPurchases(ProductType.INAPP)
-            .doOnSuccess { Timber.i("New state for loadPurchases: $it") }
             .toFlowable()
             .map { purchases -> isPremiumPurchase(purchases) }
             .mergeWith(
                 //Future updates we only care about new values
                 getBillingUpdates()
-                    .doOnNext {
-                        Timber.i("PREMIUM - New billing update value!! $it")
-                    }
                     .map { it.purchases }
                     .map { purchase ->
                         isPremiumPurchase(purchase)
                     }
                     .filter { it }
-                    .doOnNext {
-                        Timber.i("PREMIUM - New billing update value!! $it")
-                    }
             )
-            .doOnNext { Timber.w("New state for premium BEFORE = $it") }
             .takeUntil { it }
             .doOnNext { Timber.w("New state for premium AFTER = $it") }
             .distinctUntilChanged()

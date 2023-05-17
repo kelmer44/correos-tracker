@@ -14,4 +14,8 @@ dependencies {
     implementation libs.play.core
 
     implementation libs.billingclient
+
+    implementation platform(libs.firebase.bom)
+    implementation libs.firebase.common
+    implementation libs.firebase.crashlytics
 }

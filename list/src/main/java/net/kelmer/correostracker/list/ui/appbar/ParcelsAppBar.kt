@@ -11,8 +11,10 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,6 +33,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -81,7 +84,8 @@ fun ParcelsAppBar(
                         ActionItem(stringResource(R.string.refresh_all), action = onRefreshAll),
                         ActionItem(stringResource(R.string.menu_theme), action = onThemeClicked),
                         ActionItem(
-                            stringResource(R.string.menu_premium),
+                            painterIcon = painterResource(id = R.drawable.ic_medal),
+                            name = stringResource(R.string.menu_premium),
                             action = onPremiumClicked
                         ).takeIf { !isPremium && isBillingAvailable },
                         ActionItem(stringResource(R.string.about), action = onAboutClicked),
