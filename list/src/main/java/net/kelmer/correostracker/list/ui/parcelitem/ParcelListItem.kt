@@ -50,7 +50,8 @@ fun ParcelListItem(
     modifier: Modifier = Modifier,
     onParcelClicked: (String) -> Unit = {},
     onRemoveParcel: (LocalParcelReference) -> Unit = {},
-    onToggleNotifications: (String, Boolean) -> Unit = { _, _ -> }
+    onToggleNotifications: (String, Boolean) -> Unit = { _, _ -> },
+    compactMode: Boolean = false
 ) {
 
     val dateFormat = SimpleDateFormat("dd/MM/yyy HH:mm:ss")
@@ -89,14 +90,20 @@ fun ParcelListItem(
                         style = MaterialTheme.typography.labelLarge,
                         fontWeight = FontWeight.Bold
                     )
-                    Text(
-                        text = parcel.trackingCode,
-                        style = MaterialTheme.typography.labelMedium
-                    )
+                    if (!compactMode) {
+                        Text(
+                            text = parcel.trackingCode,
+                            style = MaterialTheme.typography.labelMedium
+                        )
+                    }
                 }
                 val (isExpanded, setExpanded) = remember { mutableStateOf(false) }
                 OverflowMenuAction(
-                    expanded = isExpanded, setExpanded = setExpanded, options =
+                    compact = compactMode,
+                    expanded = isExpanded,
+                    setExpanded = setExpanded,
+                    modifier = Modifier.align(Alignment.CenterVertically),
+                    options =
                     listOf(
                         ActionItem(
                             if (parcel.notify) {
@@ -123,24 +130,26 @@ fun ParcelListItem(
                 }
 
             }
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    text = stringResource(
-                        when (parcel.stance) {
-                            LocalParcelReference.Stance.INCOMING -> {
-                                R.string.incoming
-                            }
+            if (!compactMode) {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        text = stringResource(
+                            when (parcel.stance) {
+                                LocalParcelReference.Stance.INCOMING -> {
+                                    R.string.incoming
+                                }
 
-                            LocalParcelReference.Stance.OUTGOING -> {
-                                R.string.outgoing
+                                LocalParcelReference.Stance.OUTGOING -> {
+                                    R.string.outgoing
+                                }
                             }
-                        }
-                    ),
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                    style = MaterialTheme.typography.bodySmall,
-                    fontStyle = FontStyle.Italic,
-                    fontSize = 12.sp
-                )
+                        ),
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                        style = MaterialTheme.typography.bodySmall,
+                        fontStyle = FontStyle.Italic,
+                        fontSize = 12.sp
+                    )
+                }
             }
             Divider(
                 color = Color.Gray,
@@ -156,7 +165,7 @@ fun ParcelListItem(
                 ) {
                     ListStateIcon(parcel)
                 }
-                 Column(
+                Column(
                     modifier = Modifier
                         .weight(1f)
                         .align(Alignment.CenterVertically)
@@ -170,8 +179,8 @@ fun ParcelListItem(
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Bold,
                     )
-                    with(parcel.lastChecked){
-                        if(this != null && this >0) {
+                    with(parcel.lastChecked) {
+                        if (this != null && this > 0) {
                             Text(
                                 text = dateFormat.format(parcel.lastChecked),
                                 style = MaterialTheme.typography.bodySmall,
@@ -191,5 +200,14 @@ fun ParcelListItem(
 fun previewList() {
     ParcelListItem(
         PreviewData.parcelList.first(),
+    )
+}
+
+@Composable
+@Preview
+fun previewListCompact() {
+    ParcelListItem(
+        PreviewData.parcelList.first(),
+        compactMode = true
     )
 }

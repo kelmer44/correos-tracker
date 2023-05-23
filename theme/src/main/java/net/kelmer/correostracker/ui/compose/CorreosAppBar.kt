@@ -108,7 +108,7 @@ fun NoSearchAppBar(
                 }
                 if (options.isNotEmpty()) {
                     val (isExpanded, setExpanded) = remember { mutableStateOf(false) }
-                    OverflowMenuAction(isExpanded, setExpanded, options)
+                    OverflowMenuAction( isExpanded, setExpanded, options, false)
                 }
             },
             navigationIcon = navigationIcon

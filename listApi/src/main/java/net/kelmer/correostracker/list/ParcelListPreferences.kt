@@ -8,4 +8,6 @@ interface ParcelListPreferences<T> {
     var theme: T
     fun hasSeenFeatureBlurb(versionName: String): Boolean
     fun setSeenFeatureBlurb(versionName: String)
+    var compactMode: Boolean
+    val compactModeStream: Flowable<Boolean>
 }

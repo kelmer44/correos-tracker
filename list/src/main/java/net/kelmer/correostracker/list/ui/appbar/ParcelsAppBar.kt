@@ -11,10 +11,8 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -53,7 +51,9 @@ fun ParcelsAppBar(
     onRefreshAll: () -> Unit = {},
     onThemeClicked: () -> Unit = {},
     onAboutClicked: () -> Unit = {},
-    onPremiumClicked: () -> Unit = {}
+    onPremiumClicked: () -> Unit = {},
+    onCompactModeClicked: (Boolean) -> Unit = {},
+    compactMode: Boolean = false
 ) {
 
     var searchWidgetState by remember {
@@ -79,8 +79,15 @@ fun ParcelsAppBar(
                         ActionItem(stringResource(R.string.search),
                             icon = Icons.Filled.Search,
                             action = {
-                            searchWidgetState = SearchWidgetState.OPEN
-                        }),
+                                searchWidgetState = SearchWidgetState.OPEN
+                            }),
+                        ActionItem(
+                            if (!compactMode)
+                                stringResource(id = R.string.compact)
+                            else
+                                stringResource(id = R.string.detailed),
+                            action = { onCompactModeClicked(!compactMode) }
+                        ),
                         ActionItem(stringResource(R.string.refresh_all), action = onRefreshAll),
                         ActionItem(stringResource(R.string.menu_theme), action = onThemeClicked),
                         ActionItem(
@@ -187,6 +194,7 @@ fun SearchAppBar(
         )
     }
 }
+
 @Composable
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 fun NoSearchBarPreview() {
@@ -199,6 +207,7 @@ fun NoSearchBarPreview() {
         )
     }
 }
+
 @Composable
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 fun SearchBarPreview() {

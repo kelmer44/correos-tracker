@@ -44,9 +44,10 @@ class ParcelListViewModel @Inject constructor(
             filterSubject.startWith(""),
             parcelListPreferences.themeModeStream,
             iapApi.getProductDetails().toFlowable().startWith(ProductDetails("", "", ""))
-                .onErrorReturnItem(ProductDetails("", "", ""))
+                .onErrorReturnItem(ProductDetails("", "", "")),
+            parcelListPreferences.compactModeStream
         )
-        { list, filter, theme, product ->
+        { list, filter, theme, product, compactMode ->
             State(
                 list = list.filter {
                     filter.isNullOrBlank() ||
@@ -55,7 +56,8 @@ class ParcelListViewModel @Inject constructor(
                 },
                 filter = filter,
                 theme = theme,
-                price = product.price
+                price = product.price,
+                compact = compactMode
             )
         }
             .startWith(State(loading = true))
@@ -70,6 +72,7 @@ class ParcelListViewModel @Inject constructor(
 
     fun getFeatureList(): List<Feature> {
         return listOf(
+            Feature("3.1.5", R.string.changes_3_1_5),
             Feature("3.1.0", R.string.changes_3_1_0),
             Feature("3.0.0", R.string.changes_3_0_0),
             Feature("2.3.3", R.string.changes_2_3_3),
@@ -132,12 +135,17 @@ class ParcelListViewModel @Inject constructor(
 
     fun filter(newText: String) = filterSubject.onNext(newText)
 
+    fun setCompactMode(enable: Boolean) {
+        parcelListPreferences.compactMode = enable
+    }
+
     data class State(
         val list: List<LocalParcelReference>? = null,
         val loading: Boolean = false,
         val error: Throwable? = null,
         val filter: String? = null,
         val theme: ThemeMode? = null,
-        val price: String? = null
+        val price: String? = null,
+        val compact: Boolean = false
     )
 }

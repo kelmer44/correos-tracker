@@ -62,7 +62,6 @@ fun ParcelsScreen(
     var showAbout by remember { mutableStateOf(!viewModel.showFeature()) }
     var showThemeDialog by remember { mutableStateOf(false) }
     var showPremiumDialog by remember { mutableStateOf(false) }
-
     Column() {
         Scaffold(
             modifier = modifier.weight(1f),
@@ -75,7 +74,9 @@ fun ParcelsScreen(
                     viewModel::refresh,
                     onThemeClicked = { showThemeDialog = true },
                     onAboutClicked = { showAbout = true },
-                    onPremiumClicked = { showPremiumDialog = true }
+                    onPremiumClicked = { showPremiumDialog = true },
+                    onCompactModeClicked = viewModel::setCompactMode,
+                    compactMode = viewState.compact
                 )
             },
             floatingActionButton = {
@@ -99,7 +100,8 @@ fun ParcelsScreen(
                                 viewModel::deleteParcel,
                                 viewModel::toggleNotifications,
                                 viewModel::refresh,
-                                refreshing
+                                refreshing,
+                                compactMode = viewState.compact
                             )
                         } else {
                             EmptyState(state.filter, onAddParcel)
@@ -158,7 +160,8 @@ fun ParcelList(
     onRemoveParcel: (LocalParcelReference) -> Unit = {},
     onToggleNotifications: (String, Boolean) -> Unit = { _, _ -> },
     refresh: () -> Unit = {},
-    refreshing: Boolean = false
+    refreshing: Boolean = false,
+    compactMode: Boolean = false
 ) {
     val listState = rememberLazyListState()
 
@@ -175,7 +178,8 @@ fun ParcelList(
                     parcel = parcel,
                     onParcelClicked = onParcelClicked,
                     onRemoveParcel = onRemoveParcel,
-                    onToggleNotifications = onToggleNotifications
+                    onToggleNotifications = onToggleNotifications,
+                    compactMode = compactMode
                 )
             }
         }

@@ -13,7 +13,6 @@
 Seguimiento Correos es un proyecto open source para tracking de paquetes del servicio público de Correos España, que ofrece funcionalidades no presentes en la app oficial, como notificaciones de cambio de estado (via polling), renderizado como código de barras o ubicación de estados de tracking.
 
 
-
 La app se ha construido usando:
 
 * RxJava2
@@ -26,7 +25,6 @@ La app se ha construido usando:
 
 Future:
  * Replace RxJava2 with Coroutines
-
 
 <p align="center">
   <img alt="Demo screen" src="./device-2018-04-20-134010.png" width="250" />

@@ -23,8 +23,12 @@ class ParcelListPreferencesImpl @Inject constructor(@ApplicationContext context:
     ), ParcelListPreferences<ThemeMode> {
 
     override var theme: ThemeMode by ThemeModePreferenceDelegate(PREFERENCE_NIGHT_MODE, ThemeMode.SYSTEM)
-    private val processor = BehaviorProcessor.createDefault(theme)
-    override val themeModeStream: Flowable<ThemeMode> = processor
+    override var compactMode: Boolean by CompactModeDelegate(false)
+
+    private val themeProcessor = BehaviorProcessor.createDefault(theme)
+    private val compactModeProcessor = BehaviorProcessor.createDefault(compactMode)
+    override val themeModeStream: Flowable<ThemeMode> = themeProcessor
+    override val compactModeStream: Flowable<Boolean> = compactModeProcessor
     override fun hasSeenFeatureBlurb(versionName: String) = get(FEATURE_SEEN + "_" + versionName, false)
 
     override fun setSeenFeatureBlurb(versionName: String) {
@@ -40,14 +44,28 @@ class ParcelListPreferencesImpl @Inject constructor(@ApplicationContext context:
             ThemeMode.fromPosition(getInt(name, default.ordinal))
 
         override fun setValue(thisRef: Any?, property: KProperty<*>, value: ThemeMode) {
-            processor.onNext(value)
+            themeProcessor.onNext(value)
             this@ParcelListPreferencesImpl.edit { putInt(name, value.ordinal) }
+        }
+    }
+
+    inner class CompactModeDelegate(
+        private val default: Boolean,
+    ) : ReadWriteProperty<Any?, Boolean> {
+
+        override fun getValue(thisRef: Any?, property: KProperty<*>): Boolean =
+            getBoolean(COMPACT_MODE, default)
+
+        override fun setValue(thisRef: Any?, property: KProperty<*>, value: Boolean) {
+            compactModeProcessor.onNext(value)
+            this@ParcelListPreferencesImpl.edit { putBoolean(COMPACT_MODE, value) }
         }
     }
 
     companion object {
         const val PARCELLIST_PREFS_KEY = "ParcelList"
         private const val FEATURE_SEEN = "C_FEATURE_SEEN"
+        private const val COMPACT_MODE = "C_COMPACT_MODE"
         private const val PREFERENCE_NIGHT_MODE = "preference_night_mode"
     }
 }
