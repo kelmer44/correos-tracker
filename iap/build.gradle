@@ -2,7 +2,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.google.firebase.crashlytics'
 apply from: rootProject.file('gradle/module-feature.gradle')
-apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     namespace 'net.kelmer.correostracker.iap'
@@ -10,14 +9,13 @@ android {
 
 dependencies {
     implementation project(':core')
-    implementation project(':dataApi')
     implementation project(':iapApi')
 
     implementation libs.play.core
 
+    implementation libs.billingclient
+
     implementation platform(libs.firebase.bom)
-    implementation libs.firebase.analytics
     implementation libs.firebase.common
     implementation libs.firebase.crashlytics
-
 }

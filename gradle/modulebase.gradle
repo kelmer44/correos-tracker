@@ -26,7 +26,6 @@ dependencies {
     implementation libs.androidx.fragment.ktx
     implementation libs.androidx.media
     implementation libs.androidx.preferences
-    implementation libs.androidx.recyclerView
     implementation libs.androidx.viewpager2
     implementation libs.androidx.lifecycle.common
     implementation libs.androidx.lifecycle.viewmodel
@@ -43,9 +42,6 @@ dependencies {
 
     implementation libs.google.material
 
-    kapt buildLibs.dagger.compiler
-    kapt buildLibs.dagger.android.processor
-
     implementation(buildLibs.dagger.hilt.android.base) {
         exclude group: 'javax.annotation'
     }
@@ -57,8 +53,6 @@ dependencies {
     implementation libs.autodispose.android.ktx
     implementation libs.autodispose.lifecycle.ktx
 
-    implementation libs.navigation.fragment
-    implementation libs.navigation.ui
     implementation libs.navigation.compose
 
     implementation libs.okhttp.library
@@ -75,30 +69,26 @@ dependencies {
     implementation libs.moshi.reflect
     kapt libs.moshi.codegen
 
-    implementation libs.groupie.core
-    implementation libs.groupie.viewbinding
-
-    def composeBom = platform('androidx.compose:compose-bom:2023.04.01')
-    implementation composeBom
-    androidTestImplementation composeBom
+    implementation platform(libs.compose.bom)
+    androidTestImplementation libs.compose.bom
 
     // Choose one of the following:
     // Material Design 3
-    implementation 'androidx.compose.material3:material3'
-    implementation 'androidx.compose.foundation:foundation'
+    implementation libs.compose.material3.core
+    implementation libs.compose.foundation
 
-    implementation "androidx.compose.material3:material3-window-size-class"
+    implementation libs.compose.material3.windowsize
     // or only import the main APIs for the underlying toolkit systems,
     // such as input and measurement/layout
-    implementation 'androidx.compose.ui:ui'
-    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
-    implementation "androidx.compose.runtime:runtime-rxjava2"
+    implementation libs.compose.ui
+    implementation libs.hilt.navigation.compose
+    implementation libs.compose.runtime.rxjava2
 
     implementation libs.androidx.datastore
 
     // Android Studio Preview support
-    implementation 'androidx.compose.ui:ui-tooling-preview'
-    debugImplementation 'androidx.compose.ui:ui-tooling'
+    implementation libs.compose.preview
+    debugImplementation libs.compose.tooling
 
     testImplementation libs.mockito.kotlin
 }

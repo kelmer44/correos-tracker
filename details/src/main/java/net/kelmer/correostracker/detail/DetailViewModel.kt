@@ -2,6 +2,7 @@ package net.kelmer.correostracker.detail
 
 import android.graphics.Bitmap
 import androidx.lifecycle.SavedStateHandle
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.journeyapps.barcodescanner.BarcodeEncoder
@@ -52,6 +53,10 @@ class DetailViewModel @Inject constructor(
                 }
                 .map { State(parcelDetail = it, trackingCode = parcelCode, barcode = generateBarcode()) }
                 .startWith(State(isLoading = true, trackingCode = parcelCode))
+                .doOnError {
+                    FirebaseCrashlytics.getInstance().log("Error on detail screen for code $parcelCode!")
+                    FirebaseCrashlytics.getInstance().recordException(it)
+                }
                 .onErrorReturn { throwable ->
                     State(error = throwable, trackingCode = parcelCode)
                         .also { Timber.e(throwable) }

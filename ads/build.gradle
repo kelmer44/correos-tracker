@@ -1,0 +1,12 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.google.firebase.crashlytics'
+apply from: rootProject.file('gradle/module-feature.gradle')
+
+android {
+    namespace 'net.kelmer.correostracker.ads'
+}
+
+dependencies {
+
+    implementation libs.play.services.ads
+}

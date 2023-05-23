@@ -6,3 +6,7 @@ android {
     namespace 'net.kelmer.correostracker.theme'
 
 }
+
+dependencies {
+    implementation 'com.google.android.gms:play-services-ads-lite:22.0.0'
+}

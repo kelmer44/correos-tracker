@@ -19,7 +19,7 @@ import net.kelmer.correostracker.dataApi.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.dataApi.repository.correos.CorreosRepository
 import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository
 import net.kelmer.correostracker.di.worker.ChildWorkerFactory
-import net.kelmer.correostracker.ui.activity.MainActivityCompose
+import net.kelmer.correostracker.ui.activity.MainActivity
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -83,7 +83,7 @@ class ParcelPollWorker constructor(
                 applicationContext.getString(R.string.new_events_multiple, newEvents.size)
             }
 
-            val notificationIntent = Intent(applicationContext, MainActivityCompose::class.java)
+            val notificationIntent = Intent(applicationContext, MainActivity::class.java)
 
             notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
 

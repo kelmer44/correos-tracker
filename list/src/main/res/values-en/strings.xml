@@ -22,10 +22,11 @@
     <string name="changes_2_2_7">The app can track the parcel by location again.</string>
     <string name="changes_2_3_2">App has been rewritten with a new architecture. Load times have been massively improved.</string>
     <string name="changes_2_3_3">Notifications are now fixed again.</string>
-
     <string name="changes_3_0_0">New interface.</string>
+    <string name="changes_3_1_0">Due to the small number of donations the app now includes ads, which can be removed with Premium mode. If you have already made a donation, please get in touch!</string>
+
     <string name="feature_dialog_title">New features</string>
-    <string name="feature_dialog_opensource">This app has no affiliation with Sociedad Estatal Correos y Telegrafos, S.A. and has been created by an independent developer. It is free, open-source and add-free.</string>
+    <string name="feature_dialog_opensource">This app has no affiliation with Sociedad Estatal Correos y Telegrafos, S.A. and has been created by an independent developer. It is free and open-source.</string>
     <string name="feature_dialog_opensource_contribute">If you wish to contribute feel free to donate with a ko-fi:</string>
     <string name="delete_confirm_title">Remove parcel</string>
     <string name="delete_confirm_desc">Are you sure you want to remove the selected parcel?</string>
@@ -39,4 +40,9 @@
     <string name="visit_web">Visit our website</string>
     <string name="search_placeholder">Search here…</string>
     <string name="noresults">Could not find any tracking with the given search.</string>
+
+    <string name="premium_title">Premium mode</string>
+    <string name="premium_desc">Unfortunately, due to the costs of maintaining this app we\'ve had to incorporate ads. With a contribution of only %1$s you can remove them forever and contribute to the project.</string>
+    <string name="premium_cta">Get premium</string>
+    <string name="menu_premium">Premium</string>
 </resources>

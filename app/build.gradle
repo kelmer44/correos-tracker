@@ -1,11 +1,10 @@
 def versionMajor = 3
-def versionMinor = 0
-def versionPatch = 2
+def versionMinor = 1
+def versionPatch = 3
 def versionBuild = 0
 
 apply from: rootProject.file('gradle/moduleapp.gradle')
 apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: "androidx.navigation.safeargs.kotlin"
 apply from: '../ktlint.gradle'
 
 
@@ -52,11 +51,10 @@ android {
     }
     buildTypes {
         debug {
-            applicationIdSuffix '.debug'
+//            applicationIdSuffix '.debug'
             resValue("string", "PORT_NUMBER", "8081")
         }
         release {
-
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -91,6 +89,8 @@ dependencies {
     implementation project(':listApi')
     implementation project(':list')
     implementation project(':create')
+    implementation project(':iarApi')
+    implementation project(':iar')
     implementation project(':iapApi')
     implementation project(':iap')
 
@@ -100,10 +100,12 @@ dependencies {
     implementation libs.firebase.common
     implementation libs.firebase.crashlytics
 
+    implementation libs.play.services.ads
 
     //Test
     testImplementation libs.junit
     testImplementation libs.mockito.core
+    implementation libs.billingclient
 }
 
 apply plugin: 'com.google.gms.google-services'

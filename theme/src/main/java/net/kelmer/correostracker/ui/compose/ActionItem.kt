@@ -10,5 +10,6 @@ data class ActionItem(
     val icon: ImageVector? = null,
     val painterIcon: Painter? = null,
     val action: () -> Unit = {},
-    val enabled: Boolean = true
+    val enabled: Boolean = true,
+    val visible: Boolean = true
 )

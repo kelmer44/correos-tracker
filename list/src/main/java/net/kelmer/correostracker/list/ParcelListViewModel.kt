@@ -5,14 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import com.uber.autodispose.autoDisposable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.processors.PublishProcessor
+import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.combineLatest
 import net.kelmer.correostracker.BuildInfo
 import net.kelmer.correostracker.dataApi.Resource
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository
+import net.kelmer.correostracker.iap.IapApi
+import net.kelmer.correostracker.iap.ProductDetails
 import net.kelmer.correostracker.list.feature.Feature
-import net.kelmer.correostracker.list.notifications.SwitchNotificationsUseCase
-import net.kelmer.correostracker.list.statusreports.StatusReportsUpdatesUseCase
+import net.kelmer.correostracker.list.usecases.notifications.SwitchNotificationsUseCase
+import net.kelmer.correostracker.list.usecases.statusreports.StatusReportsUpdatesUseCase
 import net.kelmer.correostracker.ui.theme.ThemeMode
 import net.kelmer.correostracker.util.SchedulerProvider
 import net.kelmer.correostracker.viewmodel.AutoDisposeViewModel
@@ -29,28 +32,32 @@ class ParcelListViewModel @Inject constructor(
     private val statusReportsUpdatesUseCase: StatusReportsUpdatesUseCase,
     private val parcelListPreferences: ParcelListPreferences<ThemeMode>,
     private val buildInfo: BuildInfo,
-    private val schedulerProvider: SchedulerProvider
+    private val schedulerProvider: SchedulerProvider,
+    iapApi: IapApi
 ) : AutoDisposeViewModel() {
 
     private val filterSubject: PublishProcessor<String> = PublishProcessor.create()
 
     val stateOnceAndStream =
-        localParcelRepository.getParcels()
-            .combineLatest(
-                filterSubject.startWith(""),
-                parcelListPreferences.themeModeStream
+        Flowables.combineLatest(
+            localParcelRepository.getParcels(),
+            filterSubject.startWith(""),
+            parcelListPreferences.themeModeStream,
+            iapApi.getProductDetails().toFlowable().startWith(ProductDetails("", "", ""))
+                .onErrorReturnItem(ProductDetails("", "", ""))
+        )
+        { list, filter, theme, product ->
+            State(
+                list = list.filter {
+                    filter.isNullOrBlank() ||
+                        it.parcelName.contains(filter, true) ||
+                        it.trackingCode.contains(filter, true)
+                },
+                filter = filter,
+                theme = theme,
+                price = product.price
             )
-            .map { (list, filter, theme) ->
-                State(
-                    list = list.filter {
-                        filter.isNullOrBlank() ||
-                            it.parcelName.contains(filter, true) ||
-                            it.trackingCode.contains(filter, true)
-                    },
-                    filter = filter,
-                    theme = theme
-                )
-            }
+        }
             .startWith(State(loading = true))
             .onErrorReturn { throwable -> State(error = throwable) }
             .distinctUntilChanged()
@@ -63,6 +70,7 @@ class ParcelListViewModel @Inject constructor(
 
     fun getFeatureList(): List<Feature> {
         return listOf(
+            Feature("3.1.0", R.string.changes_3_1_0),
             Feature("3.0.0", R.string.changes_3_0_0),
             Feature("2.3.3", R.string.changes_2_3_3),
             Feature("2.3.2", R.string.changes_2_3_2),
@@ -129,6 +137,7 @@ class ParcelListViewModel @Inject constructor(
         val loading: Boolean = false,
         val error: Throwable? = null,
         val filter: String? = null,
-        val theme: ThemeMode? = null
+        val theme: ThemeMode? = null,
+        val price: String? = null
     )
 }
