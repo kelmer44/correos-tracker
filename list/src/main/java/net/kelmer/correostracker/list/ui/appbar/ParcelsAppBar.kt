@@ -12,6 +12,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -82,7 +83,7 @@ fun ParcelsAppBar(
                                 searchWidgetState = SearchWidgetState.OPEN
                             }),
                         ActionItem(
-                            if (!compactMode)
+                            name = if (!compactMode)
                                 stringResource(id = R.string.compact)
                             else
                                 stringResource(id = R.string.detailed),

@@ -52,7 +52,7 @@ fun DetailAppBar(
                         barCodeShown = true
                     }
                 },
-                enabled = !state.isLoading && state.error == null && state.barcode != null
+                enabled = state.error == null && state.barcode != null
             ),
 
             ActionItem(
@@ -68,9 +68,18 @@ fun DetailAppBar(
     if (barCodeShown && state.barcode != null) {
         // This is where you lock to your preferred one
         orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        BarCodeDialog(state.trackingCode, state.barcode) {
-            barCodeShown = false
-        }
+        BarCodeDialog(
+            state.trackingCode,
+            state.barcode,
+            ExtraInfo(
+                peso = state.parcelDetail?.peso,
+                largo = state.parcelDetail?.largo,
+                alto = state.parcelDetail?.alto,
+                ancho = state.parcelDetail?.ancho
+            ))
+            {
+                barCodeShown = false
+            }
     } else {
         orientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
     }

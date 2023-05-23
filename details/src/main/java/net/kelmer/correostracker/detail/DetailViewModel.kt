@@ -9,6 +9,7 @@ import com.journeyapps.barcodescanner.BarcodeEncoder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.processors.BehaviorProcessor
 import net.kelmer.correostracker.dataApi.model.dto.ParcelDetailDTO
+import net.kelmer.correostracker.dataApi.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.dataApi.repository.correos.CorreosRepository
 import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository
 import net.kelmer.correostracker.deviceinfo.DeviceInfo
@@ -36,8 +37,18 @@ class DetailViewModel @Inject constructor(
         // see https://medium.com/@wasyl/rxjava-threading-when-subscribeon-doesnt-work-ee467a21935b
         .observeOn(schedulerProvider.io())
         .switchMap {
-            correosRepository.getParcelStatus(parcelCode).toFlowable()
-                .zipWith(localParcelRepository.getParcel(parcelCode)) { correosParcel, localParcel ->
+            localParcelRepository.getParcel(parcelCode)
+                .zipWith(
+                    correosRepository.getParcelStatus(parcelCode)
+                        .toFlowable()
+                        .startWith(
+                            CorreosApiParcel(
+                                codEnvio = parcelCode,
+                                error = null,
+                                fechaCalculada = ""
+                            )
+                        )
+                ) { localParcel, correosParcel ->
                     ParcelDetailDTO(
                         localParcel.parcelName,
                         localParcel.trackingCode,
@@ -51,7 +62,14 @@ class DetailViewModel @Inject constructor(
                         correosParcel.eventos ?: emptyList()
                     )
                 }
-                .map { State(parcelDetail = it, trackingCode = parcelCode, barcode = generateBarcode()) }
+                .map {
+                    State(
+                        parcelDetail = it,
+                        trackingCode = parcelCode,
+                        barcode = generateBarcode(),
+                        isLoading = it.states.isEmpty()
+                    )
+                }
                 .startWith(State(isLoading = true, trackingCode = parcelCode))
                 .doOnError {
                     FirebaseCrashlytics.getInstance().log("Error on detail screen for code $parcelCode!")
@@ -62,7 +80,6 @@ class DetailViewModel @Inject constructor(
                         .also { Timber.e(throwable) }
                 }
         }
-        .startWith(State(isLoading = true, trackingCode = parcelCode))
         .distinctUntilChanged()
         .replay(1)
         .connectInViewModelScope()

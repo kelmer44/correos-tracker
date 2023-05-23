@@ -1,7 +1,6 @@
 package net.kelmer.correostracker.data;
 
-import net.kelmer.correostracker.data.remote.CorreosV1;
-import net.kelmer.correostracker.data.remote.UnidadesApi;
+import net.kelmer.correostracker.data.remote.CorreosApi;
 import net.kelmer.correostracker.data.remote.CorreosV1;
 import net.kelmer.correostracker.data.remote.UnidadesApi;
 import net.kelmer.correostracker.dataApi.repository.correos.CorreosRepository;
@@ -31,6 +30,12 @@ abstract class Data_ApplicationModule {
     @Provides
     static CorreosV1 providesCorreosV1(@Named("parcelService") Retrofit retrofit) {
         return retrofit.create(CorreosV1.class);
+    }
+
+    @Singleton
+    @Provides
+    static CorreosApi providesCorreosApi(@Named("oldApi") Retrofit retrofit) {
+        return retrofit.create(CorreosApi.class);
     }
 
     @Singleton
