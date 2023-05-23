@@ -27,7 +27,7 @@
     <string name="changes_2_3_3">Arregladas notificaciones.</string>
     <string name="changes_3_0_0">Interfaz renovada.</string>
     <string name="changes_3_1_0">Debido a las escasas donaciones la app incluye anuncios, que se pueden eliminar con el modo Premium. Si ya has hecho una donación, por favor contacta conmigo.</string>
-    <string name="changes_3_1_5">Añadido modo compacto, mejoras en la introducción de texto.</string>
+    <string name="changes_3_1_6">Añadido modo compacto, mejoras en la introducción de texto, añadidos peso y medidas (si presentes) a información extra</string>
 
     <string name="feature_dialog_title">Últimas novedades</string>
     <string name="feature_dialog_opensource">Esta app NO tiene afiliación alguna con Correos, sino que es un desarrollo independiente y gratuito. Colabora con nosotros o reporta errores en nuestra web:</string>

@@ -24,7 +24,7 @@
     <string name="changes_2_3_3">Notifications are now fixed again.</string>
     <string name="changes_3_0_0">New interface.</string>
     <string name="changes_3_1_0">Due to the small number of donations the app now includes ads, which can be removed with Premium mode. If you have already made a donation, please get in touch!</string>
-    <string name="changes_3_1_5">Added a compact mode, improvements in text input.</string>
+    <string name="changes_3_1_6">Added a compact mode, improvements in text input, added weight and dimensions to extra info screen.</string>
     <string name="feature_dialog_title">New features</string>
     <string name="feature_dialog_opensource">This app has no affiliation with Sociedad Estatal Correos y Telegrafos, S.A. and has been created by an independent developer. It is free and open-source.</string>
     <string name="feature_dialog_opensource_contribute">If you wish to contribute feel free to donate with a ko-fi:</string>
