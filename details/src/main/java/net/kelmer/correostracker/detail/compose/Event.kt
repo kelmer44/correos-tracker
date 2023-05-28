@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.detail.compose.preview.PreviewData
 import net.kelmer.correostracker.details.R
+import net.kelmer.correostracker.ui.compose.AlphaText
 import net.kelmer.correostracker.ui.compose.FaseIcon
 
 
@@ -91,15 +93,17 @@ fun Event(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 4.dp)
             ) {
-                Text(
-                    text = event.fecEvento,
-                    modifier = Modifier.weight(1f),
-                    style = MaterialTheme.typography.bodySmall,
-                    fontSize = 12.sp
-                )
-                Text(
-                    text = event.horEvento, style = MaterialTheme.typography.bodySmall, fontSize = 12.sp
-                )
+                AlphaText(alpha = 0.5f) {
+                    Text(
+                        text = event.fecEvento,
+                        modifier = Modifier.weight(1f),
+                        style = MaterialTheme.typography.bodySmall,
+                        fontSize = 12.sp
+                    )
+                    Text(
+                        text = event.horEvento, style = MaterialTheme.typography.bodySmall, fontSize = 12.sp
+                    )
+                }
             }
             Row(
                 modifier = Modifier
@@ -107,7 +111,7 @@ fun Event(
                     .padding(horizontal = 16.dp, vertical = 4.dp)
             ) {
                 Text(
-                    text = event.desTextoResumen ?: "",
+                    text = (event.desTextoResumen ?: ""),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -115,11 +119,16 @@ fun Event(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 4.dp)
+                    .padding(start = 16.dp, end = 16.dp, bottom = 4.dp, top = 0.dp)
             ) {
-                Text(
-                    text = event.desTextoAmpliado ?: "", style = MaterialTheme.typography.bodySmall, fontSize = 12.sp
-                )
+                AlphaText(alpha = 0.5f) {
+                    Text(
+                        text = event.desTextoAmpliado ?: "",
+                        style = MaterialTheme.typography.bodySmall,
+                        fontSize = 12.sp,
+                        fontStyle = FontStyle.Italic
+                    )
+                }
             }
             if (event.unidad.isNullOrBlank().not()) {
                 Row(

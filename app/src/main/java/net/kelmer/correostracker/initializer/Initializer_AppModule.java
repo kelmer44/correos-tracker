@@ -17,7 +17,6 @@ import dagger.multibindings.Multibinds;
 @InstallIn(SingletonComponent.class)
 abstract class Initializer_AppModule {
 
-
    @Binds
    @IntoSet
    abstract AppInitializer bindsNotificationInitializer(NotificationInitializer impl);

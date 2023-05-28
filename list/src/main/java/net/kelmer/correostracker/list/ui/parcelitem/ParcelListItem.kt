@@ -15,9 +15,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,6 +39,7 @@ import net.kelmer.correostracker.list.R
 import net.kelmer.correostracker.list.ui.ListStateIcon
 import net.kelmer.correostracker.list.ui.preview.PreviewData
 import net.kelmer.correostracker.ui.compose.ActionItem
+import net.kelmer.correostracker.ui.compose.AlphaText
 import net.kelmer.correostracker.ui.compose.ConfirmDialog
 import net.kelmer.correostracker.ui.compose.OverflowMenuAction
 import net.kelmer.correostracker.util.copyToClipboard
@@ -91,10 +94,12 @@ fun ParcelListItem(
                         fontWeight = FontWeight.Bold
                     )
                     if (!compactMode) {
-                        Text(
-                            text = parcel.trackingCode,
-                            style = MaterialTheme.typography.labelMedium
-                        )
+                        AlphaText(0.7f) {
+                            Text(
+                                text = parcel.trackingCode,
+                                style = MaterialTheme.typography.labelMedium
+                            )
+                        }
                     }
                 }
                 val (isExpanded, setExpanded) = remember { mutableStateOf(false) }
@@ -132,23 +137,25 @@ fun ParcelListItem(
             }
             if (!compactMode) {
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        text = stringResource(
-                            when (parcel.stance) {
-                                LocalParcelReference.Stance.INCOMING -> {
-                                    R.string.incoming
-                                }
+                    AlphaText(0.5f) {
+                        Text(
+                            text = stringResource(
+                                when (parcel.stance) {
+                                    LocalParcelReference.Stance.INCOMING -> {
+                                        R.string.incoming
+                                    }
 
-                                LocalParcelReference.Stance.OUTGOING -> {
-                                    R.string.outgoing
+                                    LocalParcelReference.Stance.OUTGOING -> {
+                                        R.string.outgoing
+                                    }
                                 }
-                            }
-                        ),
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                        style = MaterialTheme.typography.bodySmall,
-                        fontStyle = FontStyle.Italic,
-                        fontSize = 12.sp
-                    )
+                            ),
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                            style = MaterialTheme.typography.bodySmall,
+                            fontStyle = FontStyle.Italic,
+                            fontSize = 12.sp
+                        )
+                    }
                 }
             }
             Divider(
@@ -172,17 +179,19 @@ fun ParcelListItem(
                         .padding(horizontal = 8.dp, vertical = 4.dp),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text(
-                        text = if (parcel.updateStatus == LocalParcelReference.UpdateStatus.ERROR)
-                            stringResource(id = R.string.status_unknown)
-                        else parcel.ultimoEstado?.buildUltimoEstado() ?: "",
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Bold,
-                    )
+                    AlphaText(alpha = 0.8f) {
+                        Text(
+                            text = if (parcel.updateStatus == LocalParcelReference.UpdateStatus.ERROR)
+                                stringResource(id = R.string.status_unknown)
+                            else parcel.ultimoEstado?.buildUltimoEstado() ?: "",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Bold,
+                        )
+                    }
                     with(parcel.lastChecked) {
                         if (this != null && this > 0) {
                             Text(
-                                text = dateFormat.format(parcel.lastChecked),
+                                text = stringResource(id = R.string.lastchecked, dateFormat.format(parcel.lastChecked)),
                                 style = MaterialTheme.typography.bodySmall,
                                 fontSize = 12.sp,
                                 fontStyle = FontStyle.Italic,
