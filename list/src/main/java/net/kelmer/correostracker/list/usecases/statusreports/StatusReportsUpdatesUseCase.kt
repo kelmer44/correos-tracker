@@ -21,18 +21,40 @@ class StatusReportsUpdatesUseCase @Inject constructor(
             .onErrorReturnItem(emptyList())
             .toFlowable()
             .flatMap { parcelList ->
-                val map = parcelList.mapIndexed { _, item ->
+                val map = parcelList.map { item ->
+                    val ultimoEstado = item.ultimoEstado
                     item.updateStatus = LocalParcelReference.UpdateStatus.INPROGRESS
-                    localParcelRepository.saveParcel(item)
-                        .andThen(
-                            parcelRepository.getParcelStatus(item.trackingCode)
+
+                    //Si el paquete ha sido entregado nos podemos saltar la request
+                    if (ultimoEstado != null && ultimoEstado.isEntregado()) {
+                        return@map Single.just(
+                            Resource.success(
+                                CorreosApiParcel(
+                                    codEnvio = item.trackingCode,
+                                    refCliente = item.refCliente,
+                                    codProducto = item.codProducto,
+                                    fechaCalculada = item.fechaCalculada,
+                                    largo = item.largo,
+                                    ancho = item.ancho,
+                                    alto = item.alto,
+                                    peso = item.peso,
+                                    eventos = listOf(ultimoEstado),
+                                    error = null
+                                )
+                            )
                         )
-                        .map { parcel ->
-                            Resource.success(parcel)
-                        }
-                        .onErrorReturn { throwable ->
-                            Resource.failure(throwable)
-                        }
+                    } else {
+                        return@map localParcelRepository.saveParcel(item)
+                            .andThen(
+                                parcelRepository.getParcelStatus(item.trackingCode)
+                            )
+                            .map { parcel ->
+                                Resource.success(parcel)
+                            }
+                            .onErrorReturn { throwable ->
+                                Resource.failure(throwable)
+                            }
+                    }
                 }
                 Single.merge(map)
             }

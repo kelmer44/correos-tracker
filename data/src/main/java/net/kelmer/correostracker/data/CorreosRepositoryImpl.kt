@@ -4,7 +4,9 @@ import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.Maybe
 import io.reactivex.Single
+import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
+import net.kelmer.correostracker.data.remote.CorreosApi
 import net.kelmer.correostracker.dataApi.model.exception.CorreosExceptionFactory
 import net.kelmer.correostracker.dataApi.model.exception.WrongCodeException
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelDao
@@ -28,6 +30,7 @@ import javax.inject.Inject
 class CorreosRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val correosApi: CorreosV1,
+    private val oldApi: CorreosApi,
     private val unidadDao: LocalUnidadDao,
     private val unidades: UnidadesApi,
     private val dao: LocalParcelDao
@@ -78,27 +81,44 @@ class CorreosRepositoryImpl @Inject constructor(
     }
 
     override fun retrieveParcel(parcelCode: String): Single<CorreosApiParcel> {
-        return parcelAndUnits(parcelCode).map { (shipment, unidades) ->
-            CorreosApiParcel(codEnvio = shipment.shipmentCode,
-                refCliente = null,
-                codProducto = null,
-                fechaCalculada = shipment.dateDeliverySum,
-                error = shipment.error?.let {
-                    Error(
-                        codError = it.errorCode, desError = null
-                    )
-                },
-                eventos = fixSummary(shipment.events).map {
-                    CorreosApiEvent(
-                        fecEvento = it.eventDate,
-                        horEvento = it.eventTime,
-                        fase = it.phase,
-                        desTextoResumen = it.summaryText,
-                        desTextoAmpliado = it.extendedText,
-                        unidad = unidades[it.codired]?.name
-                    )
-                })
-        }
+        return parcelAndUnits(parcelCode)
+            .map { (shipment, unidades) ->
+                CorreosApiParcel(codEnvio = shipment.shipmentCode,
+                    refCliente = null,
+                    codProducto = null,
+                    fechaCalculada = shipment.dateDeliverySum,
+                    error = shipment.error?.let {
+                        Error(
+                            codError = it.errorCode, desError = null
+                        )
+                    },
+                    eventos = fixSummary(shipment.events).map {
+                        CorreosApiEvent(
+                            fecEvento = it.eventDate,
+                            horEvento = it.eventTime,
+                            fase = it.phase,
+                            desTextoResumen = it.summaryText,
+                            desTextoAmpliado = it.extendedText,
+                            unidad = unidades[it.codired]?.name
+                        )
+                    })
+            }
+            .zipWith(
+                oldApi.getParcelStatus(parcelCode)
+                    .timeout(OLD_API_TIMEOUT, TimeUnit.SECONDS)
+                    .doOnError {
+                        Timber.e(it, "Error on old Api Services!!")
+                    }
+                    .onErrorReturnItem(listOf())
+                    .map { it.firstOrNull() ?: CorreosApiParcel.allNull() }) { t1, t2 ->
+                t1.copy(
+                    peso = t2.peso,
+                    ancho = t2.ancho,
+                    alto = t2.alto,
+                    largo = t2.largo
+                )
+            }
+
     }
 
     private fun fixSummary(list: List<ShipmentEvent>) =
@@ -154,5 +174,9 @@ class CorreosRepositoryImpl @Inject constructor(
                     Timber.w("Saving $p to database! $value saved")
                 }
             }
+    }
+
+    companion object {
+        const val OLD_API_TIMEOUT = 1000L
     }
 }

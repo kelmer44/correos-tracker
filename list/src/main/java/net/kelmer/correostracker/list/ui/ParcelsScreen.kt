@@ -38,6 +38,7 @@ import net.kelmer.correostracker.ui.compose.pullrefresh.pullRefresh
 import net.kelmer.correostracker.ui.compose.pullrefresh.rememberPullRefreshState
 import net.kelmer.correostracker.list.ui.theme.ThemeDialog
 import net.kelmer.correostracker.ads.BannerView
+import net.kelmer.correostracker.ads.BuildConfig
 import net.kelmer.correostracker.list.ui.appbar.ParcelsAppBar
 import net.kelmer.correostracker.list.ui.premium.PremiumDialog
 import net.kelmer.correostracker.ui.compose.CircledIcon
@@ -146,7 +147,7 @@ fun ParcelsScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(min = 50.dp),
-                isTest = false
+                isTest = BuildConfig.DEBUG
             )
         }
     }

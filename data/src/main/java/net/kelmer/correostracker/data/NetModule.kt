@@ -96,6 +96,21 @@ open class NetModule {
             }
         return builder.build()
     }
+    @Provides
+    @Singleton
+    @Named("oldApi")
+    fun provideOldApiRetrofit(
+        okHttpClient: OkHttpClient,
+        rxJavaCallAdapterFactory: RxJava2CallAdapterFactory,
+        gsonConverterFactory: MoshiConverterFactory
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://localizador.correos.es/canonico/")
+            .addCallAdapterFactory(rxJavaCallAdapterFactory)
+            .addConverterFactory(gsonConverterFactory)
+            .client(okHttpClient)
+            .build()
+    }
 
     @Provides
     @Singleton

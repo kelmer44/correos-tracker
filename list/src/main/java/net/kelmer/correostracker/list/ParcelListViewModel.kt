@@ -72,7 +72,7 @@ class ParcelListViewModel @Inject constructor(
 
     fun getFeatureList(): List<Feature> {
         return listOf(
-            Feature("3.1.5", R.string.changes_3_1_5),
+            Feature("3.1.6", R.string.changes_3_1_6),
             Feature("3.1.0", R.string.changes_3_1_0),
             Feature("3.0.0", R.string.changes_3_0_0),
             Feature("2.3.3", R.string.changes_2_3_3),

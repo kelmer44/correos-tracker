@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import net.kelmer.correostracker.ads.BannerView
+import net.kelmer.correostracker.ads.BuildConfig
 import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 
 import net.kelmer.correostracker.detail.DetailViewModel
@@ -71,7 +72,7 @@ fun DetailScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(min = 50.dp),
-                isTest = false
+                isTest = BuildConfig.DEBUG
             )
         }
     }
