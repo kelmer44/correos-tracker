@@ -1,5 +1,6 @@
 package net.kelmer.correostracker.detail.compose
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -164,7 +165,7 @@ fun Event(
 }
 
 @Composable
-@Preview
+@Preview(uiMode = UI_MODE_NIGHT_YES)
 fun EventPreview() {
     Event(
         event = PreviewData.eventList.first(), isFirst = true, isLast = false

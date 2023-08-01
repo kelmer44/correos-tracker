@@ -156,6 +156,7 @@ inline fun CharSequence?.isNullOrZero(): Boolean {
 @Composable
 @Preview(
     widthDp = 600,
+
     device = Devices.NEXUS_6
 )
 fun previewDialog() {

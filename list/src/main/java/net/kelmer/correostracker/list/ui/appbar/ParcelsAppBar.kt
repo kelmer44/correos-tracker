@@ -197,7 +197,7 @@ fun SearchAppBar(
 }
 
 @Composable
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 fun NoSearchBarPreview() {
     CorreosTheme(false) {
         NoSearchAppBar(
@@ -210,7 +210,7 @@ fun NoSearchBarPreview() {
 }
 
 @Composable
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 fun SearchBarPreview() {
     CorreosTheme(false) {
         SearchAppBar(

@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.list.ui
+package net.kelmer.correostracker.list.ui.fab
 
 import android.content.res.Configuration
 import androidx.compose.material.icons.Icons
