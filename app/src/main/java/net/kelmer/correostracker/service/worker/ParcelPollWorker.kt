@@ -43,6 +43,7 @@ class ParcelPollWorker constructor(
 
         return parcelRepository.getNotifiableParcels()
             .flattenAsFlowable { it }
+            .filter { it.ultimoEstado?.isEntregado() != true }
             .flatMapSingle { local ->
                 Timber.d("Parcel poll checking parcel with code ${local.trackingCode}")
                 correosRepository.getParcelStatus(local.trackingCode)
