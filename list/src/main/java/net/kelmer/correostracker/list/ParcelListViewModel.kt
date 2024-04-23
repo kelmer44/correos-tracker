@@ -6,7 +6,6 @@ import com.uber.autodispose.autoDisposable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.processors.PublishProcessor
 import io.reactivex.rxkotlin.Flowables
-import io.reactivex.rxkotlin.combineLatest
 import net.kelmer.correostracker.BuildInfo
 import net.kelmer.correostracker.dataApi.Resource
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
@@ -72,7 +71,7 @@ class ParcelListViewModel @Inject constructor(
 
     fun getFeatureList(): List<Feature> {
         return listOf(
-            Feature("3.2.0", R.string.changes_3_2_0),
+            Feature("3.2.0", R.string.changes_3_3_0),
             Feature("3.1.6", R.string.changes_3_1_6),
             Feature("3.1.0", R.string.changes_3_1_0),
             Feature("3.0.0", R.string.changes_3_0_0),
