@@ -23,12 +23,12 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
-import com.android.billingclient.api.BillingClient.ProductType
-import com.android.billingclient.api.BillingFlowParams
-import com.android.billingclient.api.ProductDetails
-import com.android.billingclient.api.QueryProductDetailsParams
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
+import com.google.android.ump.ConsentDebugSettings
+import com.google.android.ump.ConsentInformation
+import com.google.android.ump.ConsentRequestParameters
+import com.google.android.ump.UserMessagingPlatform
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDisposable
@@ -47,6 +47,7 @@ import net.kelmer.correostracker.ui.theme.CorreosTheme
 import net.kelmer.correostracker.ui.theme.ThemeMode
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 
 /**
@@ -68,15 +69,15 @@ class MainActivity : FragmentActivity() {
     @Inject
     lateinit var iapApi: IapApi
 
+    private lateinit var consentInformation: ConsentInformation
+    private var isMobileAdsInitializeCalled = AtomicBoolean(false)
+
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MobileAds.initialize(this) {}
-        MobileAds.setRequestConfiguration(
-            RequestConfiguration.Builder().setTestDeviceIds(
-                listOf("11FFB04655CCB851EBC6E015D5ECDB0F", "149B05EAFE1941F7B62AF10E6B45270A"),
-            ).build()
-        )
+
+        requestConsent()
+
         lifecycleObservers.forEach {
             Timber.i("Adding lifecycleObserver $it")
             lifecycle.addObserver(it)
@@ -108,11 +109,64 @@ class MainActivity : FragmentActivity() {
         }
 
         initWorker()
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(PERMISSION_NOTIS)) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(
+                PERMISSION_NOTIS
+            )
+        ) {
             ActivityCompat.requestPermissions(this, arrayOf(PERMISSION_NOTIS), NOTI_REQ_PERMISSION)
         }
 
         inAppReviewService.showIfNeeded()
+    }
+
+    private fun requestConsent() {
+        val params = ConsentRequestParameters
+            .Builder()
+            .build()
+        ConsentDebugSettings
+            .Builder(this)
+            .addTestDeviceHashedId("8D36569186B06E4C7C60D856AC0E4A7B")
+
+        consentInformation = UserMessagingPlatform.getConsentInformation(this)
+        consentInformation.requestConsentInfoUpdate(this, params, {
+            UserMessagingPlatform.loadAndShowConsentFormIfRequired(
+                this@MainActivity
+            ) { loadAndShowError ->
+                if (loadAndShowError != null) {
+                    // Consent gathering failed.
+                    Timber.w("${loadAndShowError.errorCode}: ${loadAndShowError.message}")
+                }
+
+                // Consent has been gathered.
+                if (consentInformation.canRequestAds()) {
+                    initializeMobileAdsSdk()
+                }
+            }
+
+        }, { requestConsentError ->
+            Timber.w("${requestConsentError.errorCode}: ${requestConsentError.message}")
+        }
+        )
+        // Check if you can initialize the Google Mobile Ads SDK in parallel
+        // while checking for new consent information. Consent obtained in
+        // the previous session can be used to request ads.
+        if (consentInformation.canRequestAds()) {
+            initializeMobileAdsSdk()
+        }
+    }
+
+    private fun initializeMobileAdsSdk() {
+        if (isMobileAdsInitializeCalled.getAndSet(true)) {
+            return
+        }
+
+        // Initialize the Google Mobile Ads SDK.
+        MobileAds.initialize(this) {}
+        MobileAds.setRequestConfiguration(
+            RequestConfiguration.Builder().setTestDeviceIds(
+                listOf("11FFB04655CCB851EBC6E015D5ECDB0F", "149B05EAFE1941F7B62AF10E6B45270A"),
+            ).build()
+        )
     }
 
     private fun onBuyClicked() {
@@ -140,31 +194,42 @@ class MainActivity : FragmentActivity() {
                 PendingIntent.FLAG_IMMUTABLE
             )
         } else {
-            PendingIntent.getActivity(applicationContext, 0, notificationIntent, 0)
+            PendingIntent.getActivity(
+                applicationContext,
+                0,
+                notificationIntent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
         }
 
-        val notification = NotificationCompat.Builder(applicationContext, ParcelPollWorker.CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_reparto)
-            .setContentTitle("Test")
-            .setContentText("This is a test")
-            .setStyle(
-                NotificationCompat.BigTextStyle()
-                    .bigText("This is a big test")
-            )
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setContentIntent(intent)
-            .setAutoCancel(true)
-            .build()
+        val notification =
+            NotificationCompat.Builder(applicationContext, ParcelPollWorker.CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_reparto)
+                .setContentTitle("Test")
+                .setContentText("This is a test")
+                .setStyle(
+                    NotificationCompat.BigTextStyle()
+                        .bigText("This is a big test")
+                )
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(intent)
+                .setAutoCancel(true)
+                .build()
 
         try {
-            NotificationManagerCompat.from(applicationContext).notify(NotificationID.id, notification)
+            NotificationManagerCompat.from(applicationContext)
+                .notify(NotificationID.id, notification)
         } catch (s: SecurityException) {
             Timber.e(s)
             FirebaseCrashlytics.getInstance().recordException(s)
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray,
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == NOTI_REQ_PERMISSION) {
             Timber.i("Permission granted!")

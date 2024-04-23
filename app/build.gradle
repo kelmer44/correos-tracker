@@ -1,6 +1,6 @@
 def versionMajor = 3
-def versionMinor = 1
-def versionPatch = 11
+def versionMinor = 2
+def versionPatch = 0
 def versionBuild = 0
 
 apply from: rootProject.file('gradle/moduleapp.gradle')
@@ -101,6 +101,7 @@ dependencies {
     implementation libs.firebase.crashlytics
 
     implementation libs.play.services.ads
+    implementation("com.google.android.ump:user-messaging-platform:2.2.0")
 
     //Test
     testImplementation libs.junit
