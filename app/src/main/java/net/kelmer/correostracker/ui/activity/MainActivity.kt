@@ -74,6 +74,7 @@ class MainActivity : FragmentActivity() {
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
+        window.decorView
         super.onCreate(savedInstanceState)
 
         requestConsent()
