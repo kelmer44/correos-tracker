@@ -11,7 +11,7 @@ dependencies {
     implementation project(':core')
     implementation project(':iapApi')
 
-    implementation libs.play.core
+    implementation libs.play.review
 
     implementation libs.billingclient
 

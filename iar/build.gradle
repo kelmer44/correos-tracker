@@ -12,7 +12,7 @@ dependencies {
     implementation project(':dataApi')
     implementation project(':iarApi')
 
-    implementation libs.play.core
+    implementation libs.play.review
 
     implementation platform(libs.firebase.bom)
     implementation libs.firebase.analytics
