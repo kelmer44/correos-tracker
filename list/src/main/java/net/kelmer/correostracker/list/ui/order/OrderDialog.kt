@@ -1,4 +1,4 @@
-package net.kelmer.correostracker.list.ui.theme
+package net.kelmer.correostracker.list.ui.order
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,31 +10,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import net.kelmer.correostracker.list.R
-import net.kelmer.correostracker.ui.theme.ThemeMode
 import net.kelmer.correostracker.ui.compose.CorreosDialog
 import net.kelmer.correostracker.ui.compose.TextRadioButton
 import net.kelmer.correostracker.ui.theme.CorreosTheme
 
 @Composable
-fun ThemeDialog(
-    onDismiss: () -> Unit = {},
-    onSelect: (ThemeMode) -> Unit = {},
+fun SortDialog(
     modifier: Modifier = Modifier,
-    preSelectedTheme: ThemeMode? = ThemeMode.LIGHT
-) {
-    val (selectedOption, onOptionSelected) = remember { mutableStateOf(preSelectedTheme ?: ThemeMode.LIGHT) }
+    onDismiss: () -> Unit = {},
+    onSelect: (SortOption) -> Unit = {},
+){
+    val (selectedOption, onOptionSelected) = remember { mutableStateOf(SortOption.NAME) }
     CorreosDialog(
         modifier = modifier,
-        title = stringResource(id = R.string.theme_title),
+        title = stringResource(id = R.string.order_by_title),
         onDismiss = onDismiss,
-        onConfirm = {
+        onConfirm =  {
             onSelect(selectedOption)
             onDismiss()
         }
     ) {
-
         Column(modifier = modifier.selectableGroup()) {
-            ThemeMode.values().forEach { mode ->
+            SortOption.values().forEach { mode ->
                 TextRadioButton(
                     modifier = Modifier.fillMaxWidth(),
                     item = mode,
@@ -46,10 +43,12 @@ fun ThemeDialog(
         }
     }
 }
+
+
 @Composable
 @Preview
-fun ThemeDialogPreview(){
+fun SortDialogPreview() {
     CorreosTheme {
-        ThemeDialog()
+        SortDialog()
     }
 }

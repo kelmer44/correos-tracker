@@ -5,4 +5,6 @@
     <string name="theme_light">Claro</string>
     <string name="theme_dark">Oscuro</string>
     <string name="theme_system">Igual que el sistema</string>
+    <string name="sort_name">Nombre</string>
+    <string name="sort_date">Fecha de adición</string>
 </resources>

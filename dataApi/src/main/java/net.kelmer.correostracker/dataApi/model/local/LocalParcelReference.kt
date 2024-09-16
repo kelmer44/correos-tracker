@@ -5,6 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
+import java.time.Instant
+import java.util.Date
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -35,7 +37,9 @@ data class LocalParcelReference(
     var fechaCalculada: String? = " ",
     var notify: Boolean = true,
     @TypeConverters(UpdateStatusConverter::class)
-    var updateStatus: UpdateStatus
+    var updateStatus: UpdateStatus,
+    @TypeConverters(DateConverter::class)
+    val fechaAdicion: Date
 ) {
 
     fun containsDimensions(): Boolean =

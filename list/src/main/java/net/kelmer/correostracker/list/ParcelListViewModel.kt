@@ -13,6 +13,7 @@ import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository
 import net.kelmer.correostracker.iap.IapApi
 import net.kelmer.correostracker.iap.ProductDetails
 import net.kelmer.correostracker.list.feature.Feature
+import net.kelmer.correostracker.list.ui.order.SortOption
 import net.kelmer.correostracker.list.usecases.notifications.SwitchNotificationsUseCase
 import net.kelmer.correostracker.list.usecases.statusreports.StatusReportsUpdatesUseCase
 import net.kelmer.correostracker.ui.theme.ThemeMode
@@ -137,6 +138,9 @@ class ParcelListViewModel @Inject constructor(
 
     fun setCompactMode(enable: Boolean) {
         parcelListPreferences.compactMode = enable
+    }
+
+    fun setSortOption(sortOption: SortOption) {
     }
 
     data class State(

@@ -41,6 +41,7 @@ import net.kelmer.correostracker.ads.BannerView
 import net.kelmer.correostracker.ads.BuildConfig
 import net.kelmer.correostracker.list.ui.appbar.ParcelsAppBar
 import net.kelmer.correostracker.list.ui.fab.AddParcelFAB
+import net.kelmer.correostracker.list.ui.order.SortDialog
 import net.kelmer.correostracker.list.ui.premium.PremiumDialog
 import net.kelmer.correostracker.ui.compose.CircledIcon
 import net.kelmer.correostracker.ui.compose.ErrorView
@@ -64,6 +65,7 @@ fun ParcelsScreen(
     var showAbout by remember { mutableStateOf(!viewModel.showFeature()) }
     var showThemeDialog by remember { mutableStateOf(false) }
     var showPremiumDialog by remember { mutableStateOf(false) }
+    var showOrderDialog by remember { mutableStateOf(false) }
     Column() {
         Scaffold(
             modifier = modifier.weight(1f),
@@ -77,6 +79,9 @@ fun ParcelsScreen(
                     onThemeClicked = { showThemeDialog = true },
                     onAboutClicked = { showAbout = true },
                     onPremiumClicked = { showPremiumDialog = true },
+                    onOrderByClicked = {
+                        showOrderDialog = true
+                    },
                     onCompactModeClicked = viewModel::setCompactMode,
                     compactMode = viewState.compact
                 )
@@ -140,6 +145,12 @@ fun ParcelsScreen(
                             onDismiss = { showPremiumDialog = false }
                         )
                     }
+                }
+                if (showOrderDialog) {
+                    SortDialog(
+                        onDismiss = { showOrderDialog = false },
+                        onSelect = viewModel::setSortOption
+                    )
                 }
             }
         )

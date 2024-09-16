@@ -86,6 +86,89 @@ class DbModule {
                     ")")
             }
         }
+
+        val MIGRATION_9_10: Migration = object : Migration(9, 10) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("""
+                    CREATE TABLE LocalParcelReference_tmp (
+                        code TEXT NOT NULL PRIMARY KEY,
+                        trackingCode TEXT NOT NULL,
+                        parcelName TEXT NOT NULL,
+                        stance INTEGER NOT NULL,
+                        lastChecked INTEGER,
+                        largo TEXT,
+                        ancho TEXT,
+                        alto TEXT,
+                        peso TEXT,
+                        refCliente TEXT,
+                        codProducto TEXT,
+                        fechaCalculada TEXT,
+                        notify INTEGER NOT NULL,
+                        updateStatus INTEGER NOT NULL,
+                        fecEvento TEXT,
+                        codEvento TEXT,
+                        horEvento TEXT,
+                        fase TEXT,
+                        desTextoResumen TEXT,
+                        desTextoAmpliado TEXT,
+                        unidad TEXT,
+                        fechaAdicion INTEGER NOT NULL
+                )
+                """.trimIndent())
+                database.execSQL("""
+                    INSERT INTO LocalParcelReference_tmp (
+                        code, 
+                        trackingCode, 
+                        parcelName,
+                        stance,
+                        lastChecked,
+                        largo,
+                        ancho,
+                        alto,
+                        peso,
+                        refCliente,
+                        codProducto,
+                        fechaCalculada,
+                        notify,
+                        updateStatus,
+                        fecEvento,
+                        codEvento,
+                        horEvento,
+                        fase,
+                        desTextoResumen,
+                        desTextoAmpliado,
+                        unidad,
+                        fechaAdicion
+                    )
+                    SELECT 
+                        code, 
+                        trackingCode, 
+                        parcelName,
+                        stance,
+                        lastChecked,
+                        largo,
+                        ancho,
+                        alto,
+                        peso,
+                        refCliente,
+                        codProducto,
+                        fechaCalculada,
+                        notify,
+                        updateStatus,
+                        fecEvento,
+                        codEvento,
+                        horEvento,
+                        fase,
+                        desTextoResumen,
+                        desTextoAmpliado,
+                        unidad,
+                        (strftime('%s', 'now') * 1000)
+                    FROM LocalParcelReference;
+                """.trimIndent())
+                database.execSQL("DROP TABLE LocalParcelReference;")
+                database.execSQL("ALTER TABLE LocalParcelReference_tmp RENAME TO LocalParcelReference;")
+            }
+        }
     }
 
     @Provides
@@ -103,7 +186,8 @@ class DbModule {
                 MIGRATION_5_6,
                 MIGRATION_6_7,
                 MIGRATION_7_8,
-                MIGRATION_8_9
+                MIGRATION_8_9,
+                MIGRATION_9_10
             )
             .build()
     }

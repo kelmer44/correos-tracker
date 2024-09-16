@@ -3,6 +3,7 @@ package net.kelmer.correostracker.data.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import net.kelmer.correostracker.dataApi.model.local.DateConverter
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelDao
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.dataApi.model.local.LocalUnidad
@@ -19,9 +20,9 @@ import net.kelmer.correostracker.dataApi.model.remote.unidad.Unidad
         LocalParcelReference::class,
         LocalUnidad::class
     ],
-    version = 9
+    version = 10
 )
-@TypeConverters(StanceConverter::class, UpdateStatusConverter::class)
+@TypeConverters(StanceConverter::class, UpdateStatusConverter::class, DateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun localParcelDao(): LocalParcelDao
     abstract fun localUnidadDao(): LocalUnidadDao

@@ -40,6 +40,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 import net.kelmer.correostracker.create.R
+import java.util.Date
 import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
@@ -167,7 +168,8 @@ private fun addParcel(
                 stance = formResult.stance,
                 ultimoEstado = null,
                 notify = formResult.enableNotifications,
-                updateStatus = LocalParcelReference.UpdateStatus.UNKNOWN
+                updateStatus = LocalParcelReference.UpdateStatus.UNKNOWN,
+                fechaAdicion = Date()
             )
 
         )

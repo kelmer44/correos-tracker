@@ -8,6 +8,8 @@
     <string name="menu_theme">Tema</string>
 
     <string name="refresh_all">Actualizar todos</string>
+    <string name="order_by">Ordenar por...</string>
+
     <string name="about">Acerca de</string>
     <string name="changes_1_6_0">Soporte para tema oscuro</string>
     <string name="changes_1_6_2">Ahora puedes introducir tus paquetes escaneando el código de barras de tu recibo</string>
@@ -28,7 +30,7 @@
     <string name="changes_3_1_6">Añadido modo compacto, mejoras en la introducción de texto, añadidos peso y medidas (si presentes) a información extra.</string>
     <string name="changes_3_3_0">Añadidas opciones de privacidad.</string>
     <string name="feature_dialog_title">Novedades</string>
-    <string name="feature_dialog_opensource">Esta app NO tiene afiliación alguna con la Sociedad Estatal Correos y Telégrafos, S.A. sino que ha sido creada por un desarrollador independiente. Seguimiento Correos es gratuita y open source.</string>
+    <string name="feature_dialog_opensource">Esta app NO tiene afiliación alguna con Correos, sino que es un desarrollo independiente y gratuito (La información oficial se encuentra en http://correos.es). Colabora con nosotros o reporta errores en nuestra web:</string>
     <string name="feature_dialog_opensource_contribute">Si quieres contribuir con el proyecto haz una donación a través de Kofi:</string>
 
     <string name="delete_confirm_title">Eliminar paquete</string>
@@ -50,5 +52,6 @@
     <string name="menu_premium">Premium</string>
     <string name="compact">Modo compacto</string>
     <string name="detailed">Modo detallado</string>
+    <string name="order_by_title">Ordenar por</string>
 
 </resources>

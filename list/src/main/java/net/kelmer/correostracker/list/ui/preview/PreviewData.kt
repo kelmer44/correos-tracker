@@ -4,6 +4,7 @@ import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.list.R
 import net.kelmer.correostracker.list.feature.Feature
+import java.util.Date
 
 object PreviewData {
 
@@ -21,6 +22,7 @@ object PreviewData {
             CorreosApiEvent("", "", "", "1", "Resumen 1", "Texto ampliado 1", "CTA Santiago de Compostela"),
             1, notify = true,
             updateStatus = LocalParcelReference.UpdateStatus.OK,
+            fechaAdicion = Date()
         ),
         LocalParcelReference(
             "1242345324654",
@@ -29,7 +31,8 @@ object PreviewData {
             LocalParcelReference.Stance.OUTGOING,
             CorreosApiEvent("", "", "", "1", "Resumen 2", "Texto ampliado 1", "CTA Santiago de Compostela"),
             1, notify = true,
-            updateStatus = LocalParcelReference.UpdateStatus.OK
+            updateStatus = LocalParcelReference.UpdateStatus.OK,
+            fechaAdicion = Date()
         )
     )
 
