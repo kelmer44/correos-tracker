@@ -4,6 +4,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelDao
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
+import net.kelmer.correostracker.dataApi.model.local.SortOption
 import net.kelmer.correostracker.dataApi.repository.local.LocalParcelRepository
 import timber.log.Timber
 import javax.inject.Inject
@@ -22,8 +23,8 @@ class LocalParcelRepositoryImpl @Inject constructor(private val localParcelDao: 
         return localParcelDao.getNotifiableParcels()
     }
 
-    override fun getParcels() =
-        localParcelDao.getParcels()
+    override fun getParcels(sortOption: SortOption) =
+        localParcelDao.getParcels(sortOption.key)
 
     override fun getParcel(code: String) = localParcelDao.getParcel(code)
 

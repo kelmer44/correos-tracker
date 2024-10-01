@@ -16,8 +16,8 @@ import io.reactivex.Single
 @Dao
 interface LocalParcelDao {
 
-    @Query("select * from LocalParcelReference ORDER BY parcelName ")
-    fun getParcels(): Flowable<List<LocalParcelReference>>
+    @Query("select * from LocalParcelReference ORDER BY :sortOption")
+    fun getParcels(sortOption: String): Flowable<List<LocalParcelReference>>
 
     @Query("select * from LocalParcelReference where trackingCode = :code")
     fun getParcel(code: String): Flowable<LocalParcelReference>
