@@ -77,7 +77,7 @@ class CorreosRepositoryImpl @Inject constructor(
                             .toMaybe<Unit>()
                             .flatMap { unidadDao.getUnidad(officeId) }
                     }
-            )
+            ).onErrorComplete()
     }
 
     override fun retrieveParcel(parcelCode: String): Single<CorreosApiParcel> {

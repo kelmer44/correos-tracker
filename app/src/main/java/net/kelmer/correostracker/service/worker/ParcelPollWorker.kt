@@ -53,12 +53,6 @@ class ParcelPollWorker constructor(
                     .onErrorReturn {
                         ParcelStatusComparator(local, null)
                     }
-                    .doOnError {
-                        Timber.w("Error emitting from innger single")
-                    }
-                    .doOnSuccess {
-                        Timber.i("Success emitting from inner single")
-                    }
             }
             .toList()
             .doOnSuccess {
