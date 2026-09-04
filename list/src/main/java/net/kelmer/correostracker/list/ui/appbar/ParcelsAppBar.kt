@@ -75,7 +75,7 @@ fun ParcelsAppBar(
                 NoSearchAppBar(
                     withPremiumBadge = isPremium,
                     useDarkTheme = useDarkTheme,
-                    title = stringResource(id = R.string.app_name),
+                    title = stringResource(id = net.kelmer.correostracker.core.R.string.app_name),
                     actionItems = listOfNotNull(
                         ActionItem(stringResource(R.string.search),
                             icon = Icons.Filled.Search,

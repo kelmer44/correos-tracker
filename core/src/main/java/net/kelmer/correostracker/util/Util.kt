@@ -2,8 +2,6 @@ package net.kelmer.correostracker.util
 
 import android.content.Context
 import android.content.pm.ApplicationInfo
-import androidx.viewbinding.BuildConfig
-import net.kelmer.correostracker.BuildInfo
 
 object Util {
 

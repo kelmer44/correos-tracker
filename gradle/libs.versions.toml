@@ -2,7 +2,7 @@
 androidXAppCompat = "1.5.1"
 androidXCoreVersion = "1.8.0"
 androidXLifecycleVersion = "2.5.1"
-androidXRoomVersion = "2.4.1"
+androidXRoomVersion = "2.6.1"
 androidXTestCoreVersion = "1.4.0"
 androidXTestEspressoVersion = "3.4.0"
 androidXWindowVersion = "1.0.0-beta03"
@@ -20,7 +20,7 @@ groupieVersion = "2.8.1"
 
 leakCanaryVersion = "2.10"
 
-moshiVersion = "1.14.0"
+moshiVersion = "1.15.1"
 
 navigation = "2.5.3"
 

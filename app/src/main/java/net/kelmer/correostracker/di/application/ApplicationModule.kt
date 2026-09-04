@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import androidx.lifecycle.LifecycleObserver
-import androidx.viewbinding.BuildConfig
+import net.kelmer.correostracker.BuildConfig
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

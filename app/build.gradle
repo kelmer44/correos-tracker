@@ -31,6 +31,9 @@ def gitTimestamp() {
 
 android {
 
+    // AGP 8 removed the `package` attribute from AndroidManifest.xml; the namespace lives here now.
+    namespace 'net.kelmer.correostracker'
+
     defaultConfig {
         applicationId "net.kelmer.correostracker"
 
@@ -66,7 +69,8 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildToolsVersion = '29.0.3'
+    // buildToolsVersion intentionally unset: AGP 8.13 defaults to 35.0.0, which is its minimum.
+    // The previous pin ('29.0.3') was far below that and is not installed.
 
     buildFeatures {
         viewBinding true

@@ -11,7 +11,7 @@ import net.kelmer.correostracker.util.SchedulerProvider
 /**
  * Created by gabriel on 08/02/2018.
  */
-fun <T> Flowable<T>.toResource(): Flowable<Resource<T>> {
+fun <T : Any> Flowable<T>.toResource(): Flowable<Resource<T>> {
     return compose { item ->
         item
             .map { Resource.success(it) }
@@ -19,7 +19,7 @@ fun <T> Flowable<T>.toResource(): Flowable<Resource<T>> {
             .startWith(Resource.inProgress())
     }
 }
-fun <T> Flowable<T>.toResource(schedulerProvider: SchedulerProvider): Flowable<Resource<T>> {
+fun <T : Any> Flowable<T>.toResource(schedulerProvider: SchedulerProvider): Flowable<Resource<T>> {
     return compose { item ->
         item
             .map { Resource.success(it) }
@@ -30,11 +30,11 @@ fun <T> Flowable<T>.toResource(schedulerProvider: SchedulerProvider): Flowable<R
     }
 }
 
-fun <T> Single<T>.toResource(schedulerProvider: SchedulerProvider): Observable<Resource<T>> {
+fun <T : Any> Single<T>.toResource(schedulerProvider: SchedulerProvider): Observable<Resource<T>> {
     return toObservable().toResource(schedulerProvider)
 }
 
-fun <T> Observable<T>.toResource(schedulerProvider: SchedulerProvider): Observable<Resource<T>> {
+fun <T : Any> Observable<T>.toResource(schedulerProvider: SchedulerProvider): Observable<Resource<T>> {
     return compose { item ->
         item
             .map { Resource.success(it) }
@@ -47,7 +47,7 @@ fun <T> Observable<T>.toResource(schedulerProvider: SchedulerProvider): Observab
     }
 }
 
-fun <T> Completable.toResource(schedulerProvider: SchedulerProvider): Observable<Resource<T>> {
+fun <T : Any> Completable.toResource(schedulerProvider: SchedulerProvider): Observable<Resource<T>> {
     return toObservable<T>().toResource(schedulerProvider)
 }
 

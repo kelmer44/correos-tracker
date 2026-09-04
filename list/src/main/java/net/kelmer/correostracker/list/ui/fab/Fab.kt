@@ -17,10 +17,10 @@ fun AddParcelFAB(onClick: () -> Unit) {
     ExtendedFloatingActionButton(
         onClick = onClick,
         text = {
-            Text(text = stringResource(id = R.string.add_parcel))
+            Text(text = stringResource(id = net.kelmer.correostracker.core.R.string.add_parcel))
         },
         icon = {
-            Icon(imageVector = Icons.Filled.Add, contentDescription = stringResource(id = R.string.add_parcel))
+            Icon(imageVector = Icons.Filled.Add, contentDescription = stringResource(id = net.kelmer.correostracker.core.R.string.add_parcel))
         },
         expanded = true,
     )

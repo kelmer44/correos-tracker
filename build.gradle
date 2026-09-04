@@ -3,13 +3,13 @@
 buildscript {
     repositories {
         google()
-        jcenter()
         mavenCentral()
     }
 
     dependencies {
         classpath buildLibs.android.gradle.plugin
         classpath buildLibs.kotlin.gradle.plugin
+        classpath buildLibs.ksp.gradle.plugin
         classpath buildLibs.dagger.hilt.gradle.plugin
         classpath buildLibs.firebase.crashlytics.gradle
         classpath buildLibs.google.services
@@ -17,15 +17,14 @@ buildscript {
 
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+tasks.register('clean', Delete) {
+    delete rootProject.layout.buildDirectory
 }
 
 allprojects {
     repositories {
         google()
         mavenCentral()
-        jcenter()
         maven { url 'https://jitpack.io' }
 
     }

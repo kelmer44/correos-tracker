@@ -1,6 +1,7 @@
 package net.kelmer.correostracker.ui.activity
 
 import io.reactivex.Flowable
+import net.kelmer.correostracker.iap.IapApi
 import net.kelmer.correostracker.list.ParcelListPreferences
 import net.kelmer.correostracker.ui.theme.ThemeMode
 import org.junit.Assert.*
@@ -18,8 +19,12 @@ class MainActivityViewModelTest {
     private val prefs: ParcelListPreferences<ThemeMode> = mock() {
         doReturn(Flowable.just(ThemeMode.SYSTEM)).whenever(it).themeModeStream
     }
+    private val iap: IapApi = mock() {
+        doReturn(Flowable.just(false)).whenever(it).isPremium()
+    }
     private val viewModel = MainActivityViewModel(
-        prefs
+        prefs,
+        iap
     )
 
     @Before

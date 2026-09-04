@@ -51,7 +51,7 @@ fun Event(
             if (!isFirst) {
                 //Vertical line, first half
                 Divider(
-                    color = colorResource(id = R.color.primary),
+                    color = colorResource(id = net.kelmer.correostracker.theme.R.color.primary),
                     modifier = Modifier
                         .align(Alignment.TopCenter)
                         .fillMaxHeight(0.5f)
@@ -60,7 +60,7 @@ fun Event(
             }
             if (!isLast) {
                 Divider(
-                    color = colorResource(id = R.color.primary),
+                    color = colorResource(id = net.kelmer.correostracker.theme.R.color.primary),
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .fillMaxHeight(0.5f)
@@ -144,7 +144,7 @@ fun Event(
                         ),
                         modifier = Modifier.size(16.dp),
                         contentDescription = "",
-                        tint = colorResource(id = R.color.primary)
+                        tint = colorResource(id = net.kelmer.correostracker.theme.R.color.primary)
                     )
                     Column(
                         modifier = Modifier
