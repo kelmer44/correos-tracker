@@ -26,8 +26,8 @@ import net.kelmer.correostracker.ui.compose.TextRadioButton
 ) {
 
     val radioOptions = listOf(
-        LocalParcelReference.Stance.INCOMING to stringResource(id = R.string.incoming),
-        LocalParcelReference.Stance.OUTGOING to stringResource(id = R.string.outgoing)
+        LocalParcelReference.Stance.INCOMING to stringResource(id = net.kelmer.correostracker.core.R.string.incoming),
+        LocalParcelReference.Stance.OUTGOING to stringResource(id = net.kelmer.correostracker.core.R.string.outgoing)
     )
 
     Text(

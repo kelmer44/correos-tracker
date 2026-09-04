@@ -21,7 +21,11 @@ data class CorreosApiEvent(
     val fase: String? = "?",
     val desTextoResumen: String? = "",
     val desTextoAmpliado: String? = "",
-    val unidad: String? = null
+    val unidad: String? = null,
+    /**
+     * Street address of [unidad], when the operative unit lookup returned one.
+     */
+    val unidadDireccion: String? = null
 ) {
 
     fun isEntregado() = desTextoResumen == "Entregado"

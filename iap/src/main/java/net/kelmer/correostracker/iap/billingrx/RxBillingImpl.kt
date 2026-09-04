@@ -4,17 +4,12 @@ import android.app.Activity
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingFlowParams
-import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.ConsumeParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
-import com.android.billingclient.api.PurchaseHistoryRecord
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
-import com.android.billingclient.api.QueryPurchaseHistoryParams
 import com.android.billingclient.api.QueryPurchasesParams
-import com.android.billingclient.api.SkuDetails
-import com.android.billingclient.api.SkuDetailsParams
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -70,36 +65,15 @@ class RxBillingImpl(
         return getBoughtItems(skuType)
     }
 
-    override fun getPurchaseHistory(@BillingClient.ProductType skuType: String): Single<List<PurchaseHistoryRecord>> {
-        return getHistory(skuType)
-    }
-
-    override fun getSkuDetails(params: SkuDetailsParams): Single<List<SkuDetails>> {
-        return connectionFlowable
-            .flatMapSingle { client ->
-                Single.create<List<SkuDetails>> {
-                    client.querySkuDetailsAsync(params) { billingResult, skuDetailsList ->
-                        if (it.isDisposed) return@querySkuDetailsAsync
-                        val responseCode = billingResult.responseCode
-                        if (isSuccess(responseCode)) {
-                            it.onSuccess(skuDetailsList.orEmpty())
-                        } else {
-                            it.onError(BillingException.fromResult(billingResult))
-                        }
-                    }
-                }
-            }.firstOrError()
-    }
-
     override fun getProductDetails(params: QueryProductDetailsParams): Single<List<ProductDetails>> {
         return connectionFlowable
             .flatMapSingle { client ->
                 Single.create<List<ProductDetails>> {
-                    client.queryProductDetailsAsync(params) { billingResult, skuDetailsList ->
+                    client.queryProductDetailsAsync(params) { billingResult, result ->
                         if (it.isDisposed) return@queryProductDetailsAsync
                         val responseCode = billingResult.responseCode
                         if (isSuccess(responseCode)) {
-                            it.onSuccess(skuDetailsList)
+                            it.onSuccess(result.productDetailsList)
                         } else {
                             it.onError(BillingException.fromResult(billingResult))
                         }
@@ -175,26 +149,6 @@ class RxBillingImpl(
                             emitter.onSuccess(mutableList)
                         } else {
                             emitter.onError(BillingException.fromResult(billingResult))
-                        }
-                    }
-                }
-            }.firstOrError()
-    }
-
-    private fun getHistory(@BillingClient.ProductType type: String): Single<List<PurchaseHistoryRecord>> {
-        return connectionFlowable
-            .flatMapSingle { client ->
-                Single.create<List<PurchaseHistoryRecord>> {
-                    val params = QueryPurchaseHistoryParams.newBuilder()
-                        .setProductType(type)
-                        .build()
-                    client.queryPurchaseHistoryAsync(params) { billingResult: BillingResult, list: MutableList<PurchaseHistoryRecord>? ->
-                        if (it.isDisposed) return@queryPurchaseHistoryAsync
-                        val responseCode = billingResult.responseCode
-                        if (isSuccess(responseCode)) {
-                            it.onSuccess(list.orEmpty())
-                        } else {
-                            it.onError(BillingException.fromResult(billingResult))
                         }
                     }
                 }

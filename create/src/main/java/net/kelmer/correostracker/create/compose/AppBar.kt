@@ -17,7 +17,7 @@ fun CreateAppBar(
 ) {
     NoSearchAppBar(
         useDarkTheme = useDarkTheme,
-        title = stringResource(id = R.string.add_parcel),
+        title = stringResource(id = net.kelmer.correostracker.core.R.string.add_parcel),
         actionItems = emptyList(),
         navigationIcon = {
             IconButton(onClick = backAction) {

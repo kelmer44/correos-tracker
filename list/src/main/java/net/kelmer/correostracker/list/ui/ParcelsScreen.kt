@@ -109,7 +109,7 @@ fun ParcelsScreen(
                         }
                     }
                     if (state.error != null) {
-                        val unrecognized = stringResource(id = R.string.error_unrecognized)
+                        val unrecognized = stringResource(id = net.kelmer.correostracker.core.R.string.error_unrecognized)
                         ErrorView(message = state.error.message ?: unrecognized)
                     }
                 }
@@ -197,16 +197,16 @@ fun ListStateIcon(parcel: LocalParcelReference) {
 
         LocalParcelReference.UpdateStatus.ERROR -> {
             CircledIcon(
-                bgColor = colorResource(id = R.color.stage_error),
-                icon = R.drawable.ic_error,
+                bgColor = colorResource(id = net.kelmer.correostracker.theme.R.color.stage_error),
+                icon = net.kelmer.correostracker.theme.R.drawable.ic_error,
                 contentDescription = ""
             )
         }
 
         LocalParcelReference.UpdateStatus.UNKNOWN -> {
             CircledIcon(
-                bgColor = colorResource(id = R.color.stage_unknown),
-                icon = R.drawable.ic_questionmark,
+                bgColor = colorResource(id = net.kelmer.correostracker.theme.R.color.stage_unknown),
+                icon = net.kelmer.correostracker.theme.R.drawable.ic_questionmark,
                 contentDescription = ""
             )
         }

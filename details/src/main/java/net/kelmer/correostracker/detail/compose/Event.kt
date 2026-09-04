@@ -2,6 +2,7 @@ package net.kelmer.correostracker.detail.compose
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -50,7 +51,7 @@ fun Event(
             if (!isFirst) {
                 //Vertical line, first half
                 Divider(
-                    color = colorResource(id = R.color.primary),
+                    color = colorResource(id = net.kelmer.correostracker.theme.R.color.primary),
                     modifier = Modifier
                         .align(Alignment.TopCenter)
                         .fillMaxHeight(0.5f)
@@ -59,7 +60,7 @@ fun Event(
             }
             if (!isLast) {
                 Divider(
-                    color = colorResource(id = R.color.primary),
+                    color = colorResource(id = net.kelmer.correostracker.theme.R.color.primary),
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .fillMaxHeight(0.5f)
@@ -143,16 +144,28 @@ fun Event(
                         ),
                         modifier = Modifier.size(16.dp),
                         contentDescription = "",
-                        tint = colorResource(id = R.color.primary)
+                        tint = colorResource(id = net.kelmer.correostracker.theme.R.color.primary)
                     )
-                    Text(
-                        text = event.unidad ?: "",
+                    Column(
                         modifier = Modifier
                             .weight(1f)
-                            .padding(horizontal = 4.dp),
-                        style = MaterialTheme.typography.bodySmall,
-                        fontSize = 12.sp
-                    )
+                            .padding(horizontal = 4.dp)
+                    ) {
+                        Text(
+                            text = event.unidad ?: "",
+                            style = MaterialTheme.typography.bodySmall,
+                            fontSize = 12.sp
+                        )
+                        if (event.unidadDireccion.isNullOrBlank().not()) {
+                            AlphaText(alpha = 0.5f) {
+                                Text(
+                                    text = event.unidadDireccion ?: "",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    fontSize = 11.sp
+                                )
+                            }
+                        }
+                    }
                 }
             }
             Box(

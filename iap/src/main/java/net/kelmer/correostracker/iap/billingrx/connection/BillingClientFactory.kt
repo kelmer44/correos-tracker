@@ -4,6 +4,7 @@ import android.content.Context
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.PurchasesUpdatedListener
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
@@ -20,7 +21,13 @@ class BillingClientFactory(
     fun createBillingFlowable(listener: PurchasesUpdatedListener): Flowable<BillingClient> {
         val flowable = Flowable.create<BillingClient>({ emitter->
             val billingClient = BillingClient.newBuilder(context)
-                .enablePendingPurchases()
+                // Since Billing 6.2 pending purchases must be opted into explicitly. Only one-time
+                // products are sold here, so prepaid plans are left off.
+                .enablePendingPurchases(
+                    PendingPurchasesParams.newBuilder()
+                        .enableOneTimeProducts()
+                        .build()
+                )
                 .setListener(listener)
                 .build()
             Timber.d("startConnection")

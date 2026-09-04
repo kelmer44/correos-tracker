@@ -1,8 +1,8 @@
 android {
-    compileSdk 34
+    compileSdk 36
     defaultConfig {
-        minSdk 21
-        targetSdk 35
+        minSdk 23
+        targetSdk 36
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

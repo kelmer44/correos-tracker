@@ -142,11 +142,11 @@ fun ParcelListItem(
                             text = stringResource(
                                 when (parcel.stance) {
                                     LocalParcelReference.Stance.INCOMING -> {
-                                        R.string.incoming
+                                        net.kelmer.correostracker.core.R.string.incoming
                                     }
 
                                     LocalParcelReference.Stance.OUTGOING -> {
-                                        R.string.outgoing
+                                        net.kelmer.correostracker.core.R.string.outgoing
                                     }
                                 }
                             ),

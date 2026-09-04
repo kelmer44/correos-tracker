@@ -13,7 +13,9 @@
 
 
     <style name="Widget.CorreosTracker.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-        <item name="boxStrokeColor">@color/outline_stroke_color</item>
+        <!-- @color/outline_stroke_color was never defined anywhere, which broke release resource
+             verification. Using the same theme attribute as strokeColor below keeps it theme-aware. -->
+        <item name="boxStrokeColor">?attr/colorOnBackground</item>
         <item name="hintTextColor">?colorSecondary</item>
         <item name="strokeColor">?colorOnBackground</item>
         <item name="hintAnimationEnabled">true</item>

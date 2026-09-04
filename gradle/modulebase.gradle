@@ -15,6 +15,15 @@ android {
 
     buildFeatures {
         compose true
+        // AGP 8 stopped generating BuildConfig by default; app/ads/core/details/list all read it.
+        buildConfig true
+    }
+
+    // Required while on Kotlin 1.x: the Compose compiler is a separate artifact whose version must
+    // match the Kotlin version (1.5.14 pairs with Kotlin 1.9.24). Kotlin 2.x folds this into the
+    // Kotlin plugin instead and this block goes away.
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.5.14'
     }
 }
 

@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
-//TODO REMOVE
-apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.devtools.ksp'
 apply from: rootProject.file('gradle/module-api.gradle')
 
 android {
@@ -8,8 +7,7 @@ android {
 }
 
 dependencies {
-    //TODO REMOVE
-    kapt libs.androidx.room.compiler
+    ksp libs.androidx.room.compiler
     implementation libs.androidx.room.runtime
     implementation libs.moshi.core
     implementation libs.moshi.reflect

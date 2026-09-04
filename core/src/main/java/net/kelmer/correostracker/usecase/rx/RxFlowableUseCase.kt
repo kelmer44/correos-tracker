@@ -5,7 +5,7 @@ import io.reactivex.rxkotlin.subscribeBy
 import net.kelmer.correostracker.dataApi.Resource
 import net.kelmer.correostracker.util.ext.toResource
 
-abstract class RxFlowableUseCase<in P, R> : RxUseCase<P, R>() {
+abstract class RxFlowableUseCase<in P, R : Any> : RxUseCase<P, R>() {
 
     abstract fun buildUseCase(params: P): Flowable<R>
     override fun execute(params: P, onNext: (Resource<R>) -> Unit) {

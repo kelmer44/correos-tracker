@@ -3,6 +3,7 @@ package net.kelmer.correostracker.data
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.Maybe
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
@@ -16,7 +17,6 @@ import net.kelmer.correostracker.dataApi.model.local.LocalUnidadDao
 import net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent
 import net.kelmer.correostracker.dataApi.model.remote.CorreosApiParcel
 import net.kelmer.correostracker.dataApi.model.remote.Error
-import net.kelmer.correostracker.dataApi.model.remote.unidad.Unidad
 import net.kelmer.correostracker.dataApi.model.remote.v1.Shipment
 import net.kelmer.correostracker.dataApi.model.remote.v1.ShipmentEvent
 import net.kelmer.correostracker.data.remote.CorreosV1
@@ -46,38 +46,48 @@ class CorreosRepositoryImpl @Inject constructor(
                 )
             }
             .flatMap { shipment ->
-                val map =
-                    shipment.events.mapNotNull { it.codired }.filter { it.isNotBlank() }
-                        .map { codigo -> getUnidad(codigo) }
-                if (map.isNotEmpty()) {
-                    Maybe
-                        .zip(map) { unidades: Array<Any> ->
-                            unidades
-                                .mapNotNull { it as? LocalUnidad }
-                                .associateBy { it.officeId }
-                        }
-                        .toSingle(emptyMap())
-                } else {
-                    Single.just(emptyMap())
-                }
+                // Distinct because consecutive events usually share a codired, and one lookup per
+                // unit is enough. flatMapMaybe drops the ones that fail or resolve to nothing, so a
+                // single bad lookup only costs that event its location, not the whole parcel.
+                val codireds = shipment.events
+                    .mapNotNull { it.codired }
+                    .filter { it.isNotBlank() }
+                    .distinct()
+                Observable.fromIterable(codireds)
+                    .flatMapMaybe { codired -> getUnidad(codired) }
+                    .toList()
+                    .map { unidades -> unidades.associateBy { it.officeId } }
                     .map { shipment to it }
             }
     }
 
     private fun getUnidad(officeId: String): Maybe<LocalUnidad> {
         return unidadDao.getUnidad(officeId)
-            .doOnComplete { Timber.w("CACHETEST - Hit from local cache!") }
             .switchIfEmpty(
                 unidades.getUnidad(officeId)
-                    .filter { it.officeId != null }
-                    .flatMap {
-                        Timber.w("CACHETEST - Cache miss saving from remote!")
-                        val localUnidad = LocalUnidad(officeId, it.officeType, it.cityName)
-                        unidadDao.saveUnidad(localUnidad)
-                            .toMaybe<Unit>()
-                            .flatMap { unidadDao.getUnidad(officeId) }
+                    .flatMapMaybe { unidad ->
+                        val localUnidad = LocalUnidad(
+                            officeId = officeId,
+                            officeType = unidad.typeCode,
+                            cityName = unidad.municipalityName,
+                            unitName = unidad.unitName,
+                            address = unidad.address,
+                            provinceName = unidad.provinceName,
+                            postalCode = unidad.postalCode,
+                            latitude = unidad.coorLatWGS84?.toDoubleOrNull(),
+                            longitude = unidad.coorLonWGS84?.toDoubleOrNull()
+                        )
+                        // Nothing to display and nothing worth caching.
+                        if (localUnidad.name == null) {
+                            Maybe.empty()
+                        } else {
+                            unidadDao.saveUnidad(localUnidad)
+                                .toSingleDefault(localUnidad)
+                                .toMaybe()
+                        }
                     }
-            ).onErrorComplete()
+            )
+            .onErrorComplete()
     }
 
     override fun retrieveParcel(parcelCode: String): Single<CorreosApiParcel> {
@@ -93,13 +103,15 @@ class CorreosRepositoryImpl @Inject constructor(
                         )
                     },
                     eventos = fixSummary(shipment.events).map {
+                        val unidad = unidades[it.codired]
                         CorreosApiEvent(
                             fecEvento = it.eventDate,
                             horEvento = it.eventTime,
                             fase = it.phase,
                             desTextoResumen = it.summaryText,
                             desTextoAmpliado = it.extendedText,
-                            unidad = unidades[it.codired]?.name
+                            unidad = unidad?.name,
+                            unidadDireccion = unidad?.addressLine
                         )
                     })
             }

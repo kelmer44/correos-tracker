@@ -3,7 +3,7 @@ package net.kelmer.correostracker.dataApi.model.local
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import io.reactivex.Completable
@@ -37,7 +37,7 @@ interface LocalParcelDao {
     @Query("update LocalParcelReference set notify = 1 where trackingCode = :code")
     fun enableNotifications(code: String): Completable
 
-    @Insert(onConflict = REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveParcel(parcel: LocalParcelReference): Long
 
     @Delete

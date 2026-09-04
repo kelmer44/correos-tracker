@@ -34,7 +34,7 @@ fun ErrorMap(state: DetailViewModel.State) {
             }
             ErrorView(
                 stringResource(
-                    id = R.string.error_no_network
+                    id = net.kelmer.correostracker.core.R.string.error_no_network
                 )
             )
         }
@@ -48,7 +48,7 @@ fun ErrorMap(state: DetailViewModel.State) {
             }
             ErrorView(
                 stringResource(
-                    id = R.string.error_unrecognized
+                    id = net.kelmer.correostracker.core.R.string.error_unrecognized
                 )
             )
         }

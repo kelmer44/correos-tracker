@@ -196,7 +196,7 @@ class MainActivity : FragmentActivity() {
 
         val notification =
             NotificationCompat.Builder(applicationContext, ParcelPollWorker.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_reparto)
+                .setSmallIcon(net.kelmer.correostracker.theme.R.drawable.ic_reparto)
                 .setContentTitle("Test")
                 .setContentText("This is a test")
                 .setStyle(

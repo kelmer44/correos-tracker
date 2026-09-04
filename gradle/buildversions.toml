@@ -1,24 +1,26 @@
 [versions]
-androidGradlePlugin = { strictly = "7.4.1" }
-dagger = { strictly = "2.42" }
-kotlin = { strictly = "1.7.0" }
+androidGradlePlugin = { strictly = "8.13.0" }
+dagger = { strictly = "2.51.1" }
+kotlin = { strictly = "1.9.24" }
+ksp = { strictly = "1.9.24-1.0.20" }
 
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 
-google-services = { module = "com.google.gms:google-services", version = "4.3.15" }
+google-services = { module = "com.google.gms:google-services", version = "4.4.2" }
 
 dagger-hilt-android-base = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
 dagger-hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "dagger" }
 dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }
 dagger-hilt-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger" }
 
-firebase-crashlytics-gradle = {module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.4" }
+firebase-crashlytics-gradle = {module = "com.google.firebase:firebase-crashlytics-gradle", version = "3.0.2" }
 
 gradle-cache-plugin = { module = "org.gradle.android.cache-fix:org.gradle.android.cache-fix.gradle.plugin", version = "2.6.5" }
 
 kotlin-android-extensions-runtime = { module = "org.jetbrains.kotlin:kotlin-android-extensions-runtime", version.ref = "kotlin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradle-plugin = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp" }
 kotlin-stdlib-base = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 kotlin-stdlib-common = { module = "org.jetbrains.kotlin:kotlin-stdlib-common", version.ref = "kotlin" }
