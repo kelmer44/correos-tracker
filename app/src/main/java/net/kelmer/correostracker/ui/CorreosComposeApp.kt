@@ -30,7 +30,6 @@ fun CorreosComposeApp(
     viewModel: MainActivityViewModel = hiltViewModel(),
     windowSizeClass: WindowSizeClass,
     appState: CorreosAppState = rememberCorreosAppState(),
-    onWebClicked: () -> Unit,
     onBuyClicked: () -> Unit
 ) {
     ScaffoldDefaults.contentWindowInsets
@@ -56,7 +55,6 @@ fun CorreosComposeApp(
                         )
                     }
                 },
-                onWebClicked = onWebClicked,
                 onBuyClicked = onBuyClicked
             )
         }

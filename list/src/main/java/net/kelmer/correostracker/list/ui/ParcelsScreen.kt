@@ -56,7 +56,6 @@ fun ParcelsScreen(
     viewModel: ParcelListViewModel = viewModel(),
     onAddParcel: () -> Unit = {},
     onParcelClicked: (String) -> Unit = {},
-    onWebClicked: () -> Unit,
     onBuyClicked: () -> Unit
 ) {
     val viewState by viewModel.stateOnceAndStream.subscribeAsState(ParcelListViewModel.State())
@@ -117,7 +116,6 @@ fun ParcelsScreen(
                 if (showAbout) {
                     FeatureDialog(
                         featureList = viewModel.getFeatureList(),
-                        onWebClick = onWebClicked,
                         onDismiss = {
                             showAbout = false
                             viewModel.setShownFeature()

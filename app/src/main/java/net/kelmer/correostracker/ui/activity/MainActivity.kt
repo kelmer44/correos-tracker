@@ -102,9 +102,7 @@ class MainActivity : FragmentActivity() {
                     premium = activityState.premiumState,
                     useDarkTheme = useDarkColors,
                     windowSizeClass = windowSizeClass,
-                    onWebClicked = ::onWebClicked,
                     onBuyClicked = ::onBuyClicked
-//                    displayFeatures
                 )
             }
         }
@@ -176,13 +174,6 @@ class MainActivity : FragmentActivity() {
             .subscribe({
                 Timber.i("Successfully launched Purchase flow")
             }, Timber::e)
-    }
-
-    private fun onWebClicked() {
-        val url = "https://github.com/kelmer44/correos-tracker"
-        val i = Intent(Intent.ACTION_VIEW)
-        i.data = Uri.parse(url)
-        startActivity(i)
     }
 
     private fun triggerSampleNotification() {

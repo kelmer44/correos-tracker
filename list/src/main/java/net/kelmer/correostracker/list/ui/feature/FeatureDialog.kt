@@ -29,8 +29,7 @@ import net.kelmer.correostracker.ui.theme.CorreosTheme
 fun FeatureDialog(
     featureList: List<Feature>,
     modifier: Modifier = Modifier,
-    onDismiss: () -> Unit = {},
-    onWebClick: () -> Unit = {}
+    onDismiss: () -> Unit = {}
 ) {
 
     CorreosDialog(title = stringResource(id = R.string.about), onDismiss = onDismiss, onConfirm = onDismiss) {
@@ -40,16 +39,9 @@ fun FeatureDialog(
             Column {
                 Text(
                     text = stringResource(id = R.string.feature_dialog_opensource),
-                    textAlign = TextAlign.Justify
+                    textAlign = TextAlign.Justify,
+                    modifier = Modifier.padding(bottom = 16.dp)
                 )
-                OutlinedButton(
-                    onClick = onWebClick,
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(vertical = 8.dp)
-                ) {
-                    Text(text = stringResource(id = R.string.visit_web))
-                }
             }
             Divider(
                 thickness = 2.dp,
