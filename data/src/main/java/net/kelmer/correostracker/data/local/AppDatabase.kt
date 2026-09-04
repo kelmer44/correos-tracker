@@ -9,7 +9,6 @@ import net.kelmer.correostracker.dataApi.model.local.LocalUnidad
 import net.kelmer.correostracker.dataApi.model.local.LocalUnidadDao
 import net.kelmer.correostracker.dataApi.model.local.StanceConverter
 import net.kelmer.correostracker.dataApi.model.local.UpdateStatusConverter
-import net.kelmer.correostracker.dataApi.model.remote.unidad.Unidad
 
 /**
  * Created by gabriel on 25/03/2018.
@@ -19,7 +18,7 @@ import net.kelmer.correostracker.dataApi.model.remote.unidad.Unidad
         LocalParcelReference::class,
         LocalUnidad::class
     ],
-    version = 9
+    version = 10
 )
 @TypeConverters(StanceConverter::class, UpdateStatusConverter::class)
 abstract class AppDatabase : RoomDatabase() {

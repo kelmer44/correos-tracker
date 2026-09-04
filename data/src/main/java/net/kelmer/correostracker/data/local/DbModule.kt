@@ -86,6 +86,27 @@ class DbModule {
                     ")")
             }
         }
+
+        /**
+         * The operative unit lookup moved to api1.correos.es, which returns a full address and
+         * coordinates on top of the unit name, so LocalUnidad grows to hold them and
+         * LocalParcelReference carries the address of its last event's unit.
+         *
+         * LocalUnidad is a pure cache whose existing rows predate the richer response, so it is
+         * emptied here to let them repopulate with addresses.
+         */
+        val MIGRATION_9_10: Migration = object : Migration(9, 10) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE LocalUnidad ADD COLUMN unitName TEXT DEFAULT NULL")
+                database.execSQL("ALTER TABLE LocalUnidad ADD COLUMN address TEXT DEFAULT NULL")
+                database.execSQL("ALTER TABLE LocalUnidad ADD COLUMN provinceName TEXT DEFAULT NULL")
+                database.execSQL("ALTER TABLE LocalUnidad ADD COLUMN postalCode TEXT DEFAULT NULL")
+                database.execSQL("ALTER TABLE LocalUnidad ADD COLUMN latitude REAL DEFAULT NULL")
+                database.execSQL("ALTER TABLE LocalUnidad ADD COLUMN longitude REAL DEFAULT NULL")
+                database.execSQL("DELETE FROM LocalUnidad")
+                database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN unidadDireccion TEXT")
+            }
+        }
     }
 
     @Provides
@@ -103,7 +124,8 @@ class DbModule {
                 MIGRATION_5_6,
                 MIGRATION_6_7,
                 MIGRATION_7_8,
-                MIGRATION_8_9
+                MIGRATION_8_9,
+                MIGRATION_9_10
             )
             .build()
     }

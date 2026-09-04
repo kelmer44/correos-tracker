@@ -30,6 +30,7 @@
     <string name="changes_3_1_6">Añadido modo compacto, mejoras en la introducción de texto, añadidos peso y medidas (si presentes) a información extra</string>
     <string name="changes_3_3_0">Añadidas opciones de privacidad.</string>
 
+    <string name="changes_3_4_0">La app vuelve a indicar la localización geográfica del paquete.</string>
     <string name="feature_dialog_title">Últimas novedades</string>
     <string name="feature_dialog_opensource">Esta app NO tiene afiliación alguna con Correos, sino que es un desarrollo independiente y gratuito. Colabora con nosotros o reporta errores en nuestra web:</string>
     <string name="feature_dialog_opensource_contribute">Si quieres contribuir con el proyecto haz una donación a través de Kofi:</string>
