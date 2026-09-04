@@ -197,4 +197,7 @@ compose-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version = "1.0.0" }
 
-billingclient = { module = "com.android.billingclient:billing-ktx", version = "6.0.1" }
+# The -ktx variant is built with Kotlin 2.3, whose metadata Kotlin 1.9.24 cannot read. Nothing here
+# uses its coroutine extensions (all call sites are listener-based), and the plain artifact is pure
+# Java, so it works regardless of our Kotlin version. Switch back to -ktx after moving to Kotlin 2.x.
+billingclient = { module = "com.android.billingclient:billing", version = "9.1.0" }
