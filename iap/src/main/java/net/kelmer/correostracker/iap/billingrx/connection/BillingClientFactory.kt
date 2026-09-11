@@ -43,10 +43,13 @@ class BillingClientFactory(
                     val responseCode = result.responseCode
                     Timber.d("onBillingSetupFinished response $responseCode isReady ${billingClient.isReady}")
                     if (!emitter.isCancelled) {
-                        if (responseCode == BillingClient.BillingResponseCode.OK) {
-                            emitter.onNext(billingClient)
-                        } else {
-                            emitter.onError(BillingException.fromResult(result))
+                        when {
+                            responseCode == BillingClient.BillingResponseCode.OK -> emitter.onNext(billingClient)
+                            // The billing service went away mid-connection. This is transient and
+                            // recoverable, so treat it like onBillingServiceDisconnected and let
+                            // RepeatConnectionTransformer reconnect instead of failing the stream.
+                            responseCode == BillingClient.BillingResponseCode.SERVICE_DISCONNECTED -> emitter.onComplete()
+                            else -> emitter.tryOnError(BillingException.fromResult(result))
                         }
                     } else {
                         if (billingClient.isReady) {
