@@ -168,7 +168,7 @@ class CorreosRepositoryImpl @Inject constructor(
                 val p = parcelReference
                 if (p != null) {
                     p.updateStatus = LocalParcelReference.UpdateStatus.ERROR
-                    dao.saveParcel(p)
+                    dao.updateParcelIfExists(p)
                 }
             }.doOnSuccess {
                 parcelReference?.let { p ->
@@ -182,8 +182,8 @@ class CorreosRepositoryImpl @Inject constructor(
                     p.peso = it.peso
                     p.fechaCalculada = it.fechaCalculada
                     p.updateStatus = LocalParcelReference.UpdateStatus.OK
-                    var value = dao.saveParcel(p)
-                    Timber.w("Saving $p to database! $value saved")
+                    val value = dao.updateParcelIfExists(p)
+                    Timber.w("Updating $p in database! $value rows updated")
                 }
             }
     }

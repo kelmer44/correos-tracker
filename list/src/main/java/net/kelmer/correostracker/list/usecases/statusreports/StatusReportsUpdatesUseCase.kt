@@ -44,7 +44,7 @@ class StatusReportsUpdatesUseCase @Inject constructor(
                             )
                         )
                     } else {
-                        return@map localParcelRepository.saveParcel(item)
+                        return@map localParcelRepository.updateParcelIfExists(item)
                             .andThen(
                                 parcelRepository.getParcelStatus(item.trackingCode)
                             )

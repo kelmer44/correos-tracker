@@ -13,6 +13,8 @@ interface LocalParcelRepository {
     fun getNotifiableParcels(): Single<List<LocalParcelReference>>
     fun getParcel(code: String): Flowable<LocalParcelReference>
     fun saveParcel(parcel: LocalParcelReference): Completable
+    /** Updates the parcel only if it still exists; never re-creates a deleted one. */
+    fun updateParcelIfExists(parcel: LocalParcelReference): Completable
     fun deleteParcel(parcel: LocalParcelReference): Completable
     fun setNotify(code: String, enable: Boolean): Completable
 }

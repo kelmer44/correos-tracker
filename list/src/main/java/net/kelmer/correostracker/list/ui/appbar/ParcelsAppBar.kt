@@ -4,9 +4,11 @@ package net.kelmer.correostracker.list.ui.appbar
 
 import android.content.res.Configuration
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -120,11 +122,14 @@ fun SearchAppBar(
         if (useDarkTheme) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSecondary
 
     Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(64.dp),
+        modifier = Modifier.fillMaxWidth(),
         color = surfaceColor
     ) {
+        Box(
+            modifier = Modifier
+                .statusBarsPadding()
+                .height(64.dp)
+        ) {
 
 
         fun innerTextChange(text: String) {
@@ -193,6 +198,7 @@ fun SearchAppBar(
                 placeholderColor = elementsColor
             ),
         )
+        }
     }
 }
 

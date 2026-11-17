@@ -31,6 +31,13 @@ interface LocalParcelDao {
     @Update
     fun updateParcel(parcel: LocalParcelReference): Completable
 
+    /**
+     * Update-only (never inserts). Used by background refreshes so they can't resurrect
+     * a parcel that was deleted while the refresh was in flight.
+     */
+    @Update
+    fun updateParcelIfExists(parcel: LocalParcelReference): Int
+
     @Query("update LocalParcelReference set notify = 0 where trackingCode = :code")
     fun disableNotifications(code: String): Completable
 

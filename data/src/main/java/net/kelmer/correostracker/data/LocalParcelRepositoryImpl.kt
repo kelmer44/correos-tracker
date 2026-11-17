@@ -32,6 +32,10 @@ class LocalParcelRepositoryImpl @Inject constructor(private val localParcelDao: 
         return Completable.fromAction { localParcelDao.saveParcel(parcel) }
     }
 
+    override fun updateParcelIfExists(parcel: LocalParcelReference): Completable {
+        return Completable.fromAction { localParcelDao.updateParcelIfExists(parcel) }
+    }
+
     override fun deleteParcel(parcel: LocalParcelReference): Completable {
         Timber.e("Requested deletion of $parcel")
         return localParcelDao.deleteParcel(parcel)
