@@ -1,6 +1,6 @@
 def versionMajor = 3
 def versionMinor = 5
-def versionPatch = 1
+def versionPatch = 2
 def versionBuild = 0
 
 apply from: rootProject.file('gradle/moduleapp.gradle')
@@ -58,7 +58,7 @@ android {
             resValue("string", "PORT_NUMBER", "8081")
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
