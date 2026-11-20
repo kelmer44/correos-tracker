@@ -131,6 +131,10 @@ class ParcelListViewModel @Inject constructor(
         parcelListPreferences.setSeenFeatureBlurb(buildInfo.versionName)
     }
 
+    fun isBatteryHintDismissed() = parcelListPreferences.isBatteryHintDismissed()
+
+    fun dismissBatteryHint() = parcelListPreferences.setBatteryHintDismissed()
+
     fun setTheme(theme: ThemeMode) {
         parcelListPreferences.theme = theme
     }

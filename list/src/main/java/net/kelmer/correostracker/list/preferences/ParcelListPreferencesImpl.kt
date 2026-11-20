@@ -35,6 +35,12 @@ class ParcelListPreferencesImpl @Inject constructor(@ApplicationContext context:
         set(FEATURE_SEEN + "_" + versionName, true)
     }
 
+    override fun isBatteryHintDismissed() = get(BATTERY_HINT_DISMISSED, false)
+
+    override fun setBatteryHintDismissed() {
+        set(BATTERY_HINT_DISMISSED, true)
+    }
+
     inner class ThemeModePreferenceDelegate(
         private val name: String,
         private val default: ThemeMode,
@@ -66,6 +72,7 @@ class ParcelListPreferencesImpl @Inject constructor(@ApplicationContext context:
         const val PARCELLIST_PREFS_KEY = "ParcelList"
         private const val FEATURE_SEEN = "C_FEATURE_SEEN"
         private const val COMPACT_MODE = "C_COMPACT_MODE"
+        private const val BATTERY_HINT_DISMISSED = "C_BATTERY_HINT_DISMISSED"
         private const val PREFERENCE_NIGHT_MODE = "preference_night_mode"
     }
 }

@@ -108,12 +108,7 @@ class DbModule {
             }
         }
 
-        /**
-         * Tracks the latest event the user was notified about, separately from ultimoEstado
-         * (which the background fetch overwrites before the notification is actually posted).
-         * Left null for existing rows: the worker falls back to ultimoEstado for those, so no
-         * spurious notifications after the update.
-         */
+        /** Adds lastNotifiedEventKey; null for old rows (the worker falls back to ultimoEstado). */
         val MIGRATION_10_11: Migration = object : Migration(10, 11) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE LocalParcelReference ADD COLUMN lastNotifiedEventKey TEXT")

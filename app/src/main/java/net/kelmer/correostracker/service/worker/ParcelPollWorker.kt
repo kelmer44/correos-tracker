@@ -45,8 +45,7 @@ class ParcelPollWorker constructor(
             .filter { it.ultimoEstado?.isEntregado() != true }
             .flatMapSingle { local ->
                 Timber.d("Parcel poll checking parcel with code ${local.trackingCode}")
-                // markSeen = false: the event is only recorded as notified below, once the
-                // notification has actually been posted.
+                // Recorded as notified only after the notification is posted (see below)
                 correosRepository.getParcelStatus(local.trackingCode, markSeen = false)
                     .map {
                         ParcelStatusComparator(local, it)
@@ -72,11 +71,7 @@ class ParcelPollWorker constructor(
             }
     }
 
-    /**
-     * @return true when the events are dealt with (notification posted, or the user has
-     * notifications turned off so there is nothing to retry); false when posting failed and the
-     * events should be picked up again on the next run.
-     */
+    /** @return false if posting failed, so the events are retried next run. */
     private fun buildNotification(newEvents: List<NewEventInfo>): Boolean {
         var handled = true
         if (newEvents.isNotEmpty()) {
@@ -131,10 +126,7 @@ class ParcelPollWorker constructor(
         return handled
     }
 
-    /**
-     * The latest event the user already knows about: the last one notified (or seen in the app),
-     * falling back to the stored latest state for parcels that predate that tracking.
-     */
+    /** Latest event the user knows about; falls back to ultimoEstado for older rows. */
     private fun knownEventKey(c: ParcelStatusComparator): String? =
         c.previous.lastNotifiedEventKey ?: c.previous.ultimoEstado?.notificationKey()
 
@@ -151,10 +143,7 @@ class ParcelPollWorker constructor(
         return newEvents
     }
 
-    /**
-     * Persists the latest event per parcel as notified. A genuinely new event is only recorded
-     * when [handled], so a failed notification is retried on the next run instead of lost.
-     */
+    /** Marks latest events as notified; new events only if [handled]. */
     private fun recordNotifiedEvents(comparators: List<ParcelStatusComparator>, handled: Boolean) {
         comparators.forEach { c ->
             val key = c.new?.eventos?.lastOrNull()?.notificationKey() ?: return@forEach

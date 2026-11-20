@@ -225,12 +225,7 @@ class MainActivity : FragmentActivity() {
         }
     }
 
-    /**
-     * POST_NOTIFICATIONS is a runtime permission from Android 13 on. It must be requested
-     * whenever it isn't granted: shouldShowRequestPermissionRationale() is false until the user
-     * has denied once, so gating on it meant the dialog never appeared. The system itself stops
-     * showing the dialog after repeated denials.
-     */
+    /** Runtime permission on Android 13+. Don't gate on the rationale check: it's false at first. */
     private fun requestNotificationPermissionIfNeeded() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
         val granted = ContextCompat.checkSelfPermission(this, PERMISSION_NOTIS) ==
@@ -253,8 +248,7 @@ class MainActivity : FragmentActivity() {
         WorkManager.getInstance(this)
             .enqueueUniquePeriodicWork(
                 CorreosApp.PARCEL_CHECKER_WORKREQUEST,
-                // KEEP: REPLACE would cancel and restart the period on every launch, pushing the
-                // next poll back each time the user opens the app.
+                // KEEP: REPLACE would restart the period on every launch
                 ExistingPeriodicWorkPolicy.KEEP,
                 uploadWorker
             )

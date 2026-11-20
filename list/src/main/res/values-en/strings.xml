@@ -50,4 +50,9 @@
     <string name="menu_premium">Premium</string>
     <string name="compact">Compact mode</string>
     <string name="detailed">Detailed mode</string>
+
+    <string name="battery_hint_title">Alerts may arrive late</string>
+    <string name="battery_hint_desc">Set this app\'s battery usage to Unrestricted to get alerts on time.</string>
+    <string name="battery_hint_action">Settings</string>
+    <string name="battery_hint_dismiss">Hide</string>
 </resources>

@@ -14,6 +14,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,14 +22,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rxjava2.subscribeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.list.ParcelListViewModel
 import net.kelmer.correostracker.list.R
+import net.kelmer.correostracker.list.ui.battery.BatteryOptimizationHint
+import net.kelmer.correostracker.list.ui.battery.isSubjectToBatteryOptimization
+import net.kelmer.correostracker.list.ui.battery.openBatteryOptimizationSettings
 import net.kelmer.correostracker.list.ui.emptystate.EmptyState
 import net.kelmer.correostracker.list.ui.feature.FeatureDialog
 import net.kelmer.correostracker.list.ui.parcelitem.ParcelListItem
@@ -63,6 +71,22 @@ fun ParcelsScreen(
     var showAbout by remember { mutableStateOf(!viewModel.showFeature()) }
     var showThemeDialog by remember { mutableStateOf(false) }
     var showPremiumDialog by remember { mutableStateOf(false) }
+
+    val context = LocalContext.current
+    var batteryRestricted by remember { mutableStateOf(context.isSubjectToBatteryOptimization()) }
+    var batteryHintDismissed by remember { mutableStateOf(viewModel.isBatteryHintDismissed()) }
+    // Re-check on resume so the card disappears right after the user changes the setting.
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                batteryRestricted = context.isSubjectToBatteryOptimization()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
+
     Column() {
         Scaffold(
             modifier = modifier.weight(1f),
@@ -90,6 +114,17 @@ fun ParcelsScreen(
                         .padding(contentPadding)
                 ) {
                     val state = viewState
+
+                    // Only worth showing when there is something that would notify the user.
+                    if (batteryRestricted && !batteryHintDismissed && state.list?.any { it.notify } == true) {
+                        BatteryOptimizationHint(
+                            onOpenSettings = { context.openBatteryOptimizationSettings() },
+                            onDismiss = {
+                                viewModel.dismissBatteryHint()
+                                batteryHintDismissed = true
+                            }
+                        )
+                    }
 
                     val refreshing by remember { mutableStateOf(state.loading) }
                     if (state.list != null) {

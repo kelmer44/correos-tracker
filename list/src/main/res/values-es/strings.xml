@@ -54,4 +54,9 @@
     <string name="menu_premium">Premium</string>
     <string name="compact">Modo compacto</string>
     <string name="detailed">Modo detallado</string>
+
+    <string name="battery_hint_title">Las alertas pueden llegar tarde</string>
+    <string name="battery_hint_desc">Pon el uso de batería de esta app en Sin restricciones para recibir las alertas a tiempo.</string>
+    <string name="battery_hint_action">Ajustes</string>
+    <string name="battery_hint_dismiss">Ocultar</string>
 </resources>

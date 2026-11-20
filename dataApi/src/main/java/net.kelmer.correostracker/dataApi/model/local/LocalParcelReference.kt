@@ -36,11 +36,7 @@ data class LocalParcelReference(
     var notify: Boolean = true,
     @TypeConverters(UpdateStatusConverter::class)
     var updateStatus: UpdateStatus,
-    /**
-     * [net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent.notificationKey] of the
-     * latest event the user has been told about (by notification, or by seeing it in the app).
-     * Null until first known.
-     */
+    /** notificationKey() of the latest event the user was notified of or has seen. */
     var lastNotifiedEventKey: String? = null
 ) {
 
