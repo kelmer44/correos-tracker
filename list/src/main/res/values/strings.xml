@@ -28,6 +28,7 @@
     <string name="changes_3_1_6">Añadido modo compacto, mejoras en la introducción de texto, añadidos peso y medidas (si presentes) a información extra.</string>
     <string name="changes_3_3_0">Añadidas opciones de privacidad.</string>
     <string name="changes_3_4_0">La app vuelve a indicar la localización geográfica del paquete.</string>
+    <string name="changes_3_5_0">Ahora puedes ordenar la lista de paquetes por nombre o por último estado, en orden ascendente o descendente.</string>
     <string name="feature_dialog_title">Novedades</string>
     <string name="feature_dialog_opensource">Esta app NO tiene afiliación alguna con la Sociedad Estatal Correos y Telégrafos, S.A. sino que ha sido creada por un desarrollador independiente. Seguimiento Correos es gratuita y open source.</string>
     <string name="feature_dialog_opensource_contribute">Si quieres contribuir con el proyecto haz una donación a través de Kofi:</string>
