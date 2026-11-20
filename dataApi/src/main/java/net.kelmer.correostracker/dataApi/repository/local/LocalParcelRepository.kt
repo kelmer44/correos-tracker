@@ -17,4 +17,6 @@ interface LocalParcelRepository {
     fun updateParcelIfExists(parcel: LocalParcelReference): Completable
     fun deleteParcel(parcel: LocalParcelReference): Completable
     fun setNotify(code: String, enable: Boolean): Completable
+    /** Records the latest event the user has been told about, by parcel [code] (primary key). */
+    fun setLastNotifiedEventKey(code: String, key: String?): Completable
 }

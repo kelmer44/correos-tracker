@@ -2,6 +2,7 @@ package net.kelmer.correostracker.ui.activity
 
 import android.app.PendingIntent
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.compose.runtime.rxjava2.subscribeAsState
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
@@ -108,12 +110,7 @@ class MainActivity : FragmentActivity() {
         }
 
         initWorker()
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(
-                PERMISSION_NOTIS
-            )
-        ) {
-            ActivityCompat.requestPermissions(this, arrayOf(PERMISSION_NOTIS), NOTI_REQ_PERMISSION)
-        }
+        requestNotificationPermissionIfNeeded()
 
         inAppReviewService.showIfNeeded()
     }
@@ -228,6 +225,21 @@ class MainActivity : FragmentActivity() {
         }
     }
 
+    /**
+     * POST_NOTIFICATIONS is a runtime permission from Android 13 on. It must be requested
+     * whenever it isn't granted: shouldShowRequestPermissionRationale() is false until the user
+     * has denied once, so gating on it meant the dialog never appeared. The system itself stops
+     * showing the dialog after repeated denials.
+     */
+    private fun requestNotificationPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+        val granted = ContextCompat.checkSelfPermission(this, PERMISSION_NOTIS) ==
+            PackageManager.PERMISSION_GRANTED
+        if (!granted) {
+            ActivityCompat.requestPermissions(this, arrayOf(PERMISSION_NOTIS), NOTI_REQ_PERMISSION)
+        }
+    }
+
     private fun initWorker() {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -241,7 +253,9 @@ class MainActivity : FragmentActivity() {
         WorkManager.getInstance(this)
             .enqueueUniquePeriodicWork(
                 CorreosApp.PARCEL_CHECKER_WORKREQUEST,
-                ExistingPeriodicWorkPolicy.REPLACE,
+                // KEEP: REPLACE would cancel and restart the period on every launch, pushing the
+                // next poll back each time the user opens the app.
+                ExistingPeriodicWorkPolicy.KEEP,
                 uploadWorker
             )
     }

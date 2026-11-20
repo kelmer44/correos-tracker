@@ -35,7 +35,13 @@ data class LocalParcelReference(
     var fechaCalculada: String? = " ",
     var notify: Boolean = true,
     @TypeConverters(UpdateStatusConverter::class)
-    var updateStatus: UpdateStatus
+    var updateStatus: UpdateStatus,
+    /**
+     * [net.kelmer.correostracker.dataApi.model.remote.CorreosApiEvent.notificationKey] of the
+     * latest event the user has been told about (by notification, or by seeing it in the app).
+     * Null until first known.
+     */
+    var lastNotifiedEventKey: String? = null
 ) {
 
     fun containsDimensions(): Boolean =

@@ -18,7 +18,7 @@ import net.kelmer.correostracker.dataApi.model.local.UpdateStatusConverter
         LocalParcelReference::class,
         LocalUnidad::class
     ],
-    version = 10
+    version = 11
 )
 @TypeConverters(StanceConverter::class, UpdateStatusConverter::class)
 abstract class AppDatabase : RoomDatabase() {

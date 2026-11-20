@@ -45,7 +45,9 @@ class ParcelPollWorker constructor(
             .filter { it.ultimoEstado?.isEntregado() != true }
             .flatMapSingle { local ->
                 Timber.d("Parcel poll checking parcel with code ${local.trackingCode}")
-                correosRepository.getParcelStatus(local.trackingCode)
+                // markSeen = false: the event is only recorded as notified below, once the
+                // notification has actually been posted.
+                correosRepository.getParcelStatus(local.trackingCode, markSeen = false)
                     .map {
                         ParcelStatusComparator(local, it)
                     }
@@ -57,7 +59,8 @@ class ParcelPollWorker constructor(
             .doOnSuccess {
                 val newEvents = getNewEvents(it)
                 Timber.d("Parcel poll got new Events: $newEvents")
-                buildNotification(newEvents)
+                val handled = buildNotification(newEvents)
+                recordNotifiedEvents(it, handled)
             }
             .map {
                 Result.success()
@@ -69,7 +72,13 @@ class ParcelPollWorker constructor(
             }
     }
 
-    private fun buildNotification(newEvents: List<NewEventInfo>) {
+    /**
+     * @return true when the events are dealt with (notification posted, or the user has
+     * notifications turned off so there is nothing to retry); false when posting failed and the
+     * events should be picked up again on the next run.
+     */
+    private fun buildNotification(newEvents: List<NewEventInfo>): Boolean {
+        var handled = true
         if (newEvents.isNotEmpty()) {
             val text = if (newEvents.size == 1) {
                 applicationContext.getString(R.string.new_event_single, newEvents.first().nameEnvio, newEvents.first().event.desTextoResumen)
@@ -112,28 +121,50 @@ class ParcelPollWorker constructor(
                     try {
                         notify(NotificationID.id, notification)
                     } catch (s: SecurityException){
+                        handled = false
                         Timber.e(s)
                         FirebaseCrashlytics.getInstance().recordException(s)
                     }
                 }
             }
         }
+        return handled
     }
+
+    /**
+     * The latest event the user already knows about: the last one notified (or seen in the app),
+     * falling back to the stored latest state for parcels that predate that tracking.
+     */
+    private fun knownEventKey(c: ParcelStatusComparator): String? =
+        c.previous.lastNotifiedEventKey ?: c.previous.ultimoEstado?.notificationKey()
 
     private fun getNewEvents(it: MutableList<ParcelStatusComparator>): MutableList<NewEventInfo> {
         val newEvents = mutableListOf<NewEventInfo>()
         it.forEach {
             val previousParcel = it.previous
-            val currentParcel = it.new
-            if (currentParcel != null) {
-                val ultimoEstado = previousParcel.ultimoEstado
-                val last = currentParcel.eventos?.lastOrNull()
-                if ((ultimoEstado != null && last != null) && ultimoEstado != last) {
-                    newEvents.add(NewEventInfo(previousParcel.trackingCode, previousParcel.parcelName, last))
-                }
+            val last = it.new?.eventos?.lastOrNull()
+            val known = knownEventKey(it)
+            if (last != null && known != null && known != last.notificationKey()) {
+                newEvents.add(NewEventInfo(previousParcel.trackingCode, previousParcel.parcelName, last))
             }
         }
         return newEvents
+    }
+
+    /**
+     * Persists the latest event per parcel as notified. A genuinely new event is only recorded
+     * when [handled], so a failed notification is retried on the next run instead of lost.
+     */
+    private fun recordNotifiedEvents(comparators: List<ParcelStatusComparator>, handled: Boolean) {
+        comparators.forEach { c ->
+            val key = c.new?.eventos?.lastOrNull()?.notificationKey() ?: return@forEach
+            val known = knownEventKey(c)
+            val isNewEvent = known != null && known != key
+            if (isNewEvent && !handled) return@forEach
+            if (c.previous.lastNotifiedEventKey != key) {
+                parcelRepository.setLastNotifiedEventKey(c.previous.code, key).blockingAwait()
+            }
+        }
     }
 
     class Factory @Inject constructor(

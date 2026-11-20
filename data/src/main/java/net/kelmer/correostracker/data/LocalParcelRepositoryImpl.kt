@@ -18,6 +18,10 @@ class LocalParcelRepositoryImpl @Inject constructor(private val localParcelDao: 
         }
     }
 
+    override fun setLastNotifiedEventKey(code: String, key: String?): Completable {
+        return Completable.fromAction { localParcelDao.setLastNotifiedEventKey(code, key) }
+    }
+
     override fun getNotifiableParcels(): Single<List<LocalParcelReference>> {
         return localParcelDao.getNotifiableParcels()
     }

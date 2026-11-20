@@ -28,6 +28,13 @@ data class CorreosApiEvent(
     val unidadDireccion: String? = null
 ) {
 
+    /**
+     * Identity of this event for "was it already notified" checks. Deliberately ignores
+     * [unidad] / [unidadDireccion], which come from a separate lookup that can fail or change
+     * without a real new event.
+     */
+    fun notificationKey() = "$fecEvento|$horEvento|${desTextoResumen.orEmpty()}"
+
     fun isEntregado() = desTextoResumen == "Entregado"
     fun buildUltimoEstado() = if (!unidad.isNullOrBlank()) "$desTextoResumen en $unidad" else desTextoResumen
 }

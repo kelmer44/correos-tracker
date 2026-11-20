@@ -146,7 +146,7 @@ class CorreosRepositoryImpl @Inject constructor(
         }
 
 
-    override fun getParcelStatus(parcelId: String): Single<CorreosApiParcel> {
+    override fun getParcelStatus(parcelId: String, markSeen: Boolean): Single<CorreosApiParcel> {
         var parcelReference: LocalParcelReference? = null
         return dao.getParcelSync(parcelId)
             //this magic line adds synchronicity :shrug
@@ -173,6 +173,9 @@ class CorreosRepositoryImpl @Inject constructor(
             }.doOnSuccess {
                 parcelReference?.let { p ->
                     p.ultimoEstado = it.eventos?.lastOrNull()
+                    if (markSeen) {
+                        p.lastNotifiedEventKey = p.ultimoEstado?.notificationKey()
+                    }
                     p.lastChecked = Date().time
                     p.alto = it.alto
                     p.ancho = it.ancho

@@ -38,6 +38,9 @@ interface LocalParcelDao {
     @Update
     fun updateParcelIfExists(parcel: LocalParcelReference): Int
 
+    @Query("update LocalParcelReference set lastNotifiedEventKey = :key where code = :code")
+    fun setLastNotifiedEventKey(code: String, key: String?): Int
+
     @Query("update LocalParcelReference set notify = 0 where trackingCode = :code")
     fun disableNotifications(code: String): Completable
 
