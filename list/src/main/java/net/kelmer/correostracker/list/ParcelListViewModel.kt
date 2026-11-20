@@ -44,19 +44,21 @@ class ParcelListViewModel @Inject constructor(
             parcelListPreferences.themeModeStream,
             iapApi.getProductDetails().toFlowable().startWith(ProductDetails("", "", ""))
                 .onErrorReturnItem(ProductDetails("", "", "")),
-            parcelListPreferences.compactModeStream
+            parcelListPreferences.compactModeStream,
+            parcelListPreferences.sortOrderStream
         )
-        { list, filter, theme, product, compactMode ->
+        { list, filter, theme, product, compactMode, sortOrder ->
             State(
                 list = list.filter {
                     filter.isNullOrBlank() ||
                         it.parcelName.contains(filter, true) ||
                         it.trackingCode.contains(filter, true)
-                },
+                }.sortedFor(sortOrder),
                 filter = filter,
                 theme = theme,
                 price = product.price,
-                compact = compactMode
+                compact = compactMode,
+                sortOrder = sortOrder
             )
         }
             .startWith(State(loading = true))
@@ -141,6 +143,16 @@ class ParcelListViewModel @Inject constructor(
 
     fun filter(newText: String) = filterSubject.onNext(newText)
 
+    /** Picks the field with its natural direction: A to Z for names, newest first for dates. */
+    fun setSort(sort: ParcelSort) {
+        parcelListPreferences.sortOrder = ParcelSortOrder(sort, ascending = sort == ParcelSort.NAME)
+    }
+
+    fun toggleSortDirection() {
+        val current = parcelListPreferences.sortOrder
+        parcelListPreferences.sortOrder = current.copy(ascending = !current.ascending)
+    }
+
     fun setCompactMode(enable: Boolean) {
         parcelListPreferences.compactMode = enable
     }
@@ -152,6 +164,7 @@ class ParcelListViewModel @Inject constructor(
         val filter: String? = null,
         val theme: ThemeMode? = null,
         val price: String? = null,
-        val compact: Boolean = false
+        val compact: Boolean = false,
+        val sortOrder: ParcelSortOrder = ParcelSortOrder()
     )
 }

@@ -10,6 +10,8 @@ import io.reactivex.processors.BehaviorProcessor
 import kotlinx.coroutines.flow.MutableStateFlow
 import net.kelmer.correostracker.dataApi.LazySharedPreferences
 import net.kelmer.correostracker.list.ParcelListPreferences
+import net.kelmer.correostracker.list.ParcelSort
+import net.kelmer.correostracker.list.ParcelSortOrder
 import net.kelmer.correostracker.ui.theme.ThemeMode
 import timber.log.Timber
 import javax.inject.Inject
@@ -25,7 +27,22 @@ class ParcelListPreferencesImpl @Inject constructor(@ApplicationContext context:
     override var theme: ThemeMode by ThemeModePreferenceDelegate(PREFERENCE_NIGHT_MODE, ThemeMode.SYSTEM)
     override var compactMode: Boolean by CompactModeDelegate(false)
 
+    override var sortOrder: ParcelSortOrder
+        get() = ParcelSortOrder(
+            sort = ParcelSort.values().getOrElse(getInt(SORT, ParcelSort.NAME.ordinal)) { ParcelSort.NAME },
+            ascending = getBoolean(SORT_ASCENDING, true)
+        )
+        set(value) {
+            sortOrderProcessor.onNext(value)
+            edit {
+                putInt(SORT, value.sort.ordinal)
+                putBoolean(SORT_ASCENDING, value.ascending)
+            }
+        }
+
     private val themeProcessor = BehaviorProcessor.createDefault(theme)
+    private val sortOrderProcessor = BehaviorProcessor.createDefault(sortOrder)
+    override val sortOrderStream: Flowable<ParcelSortOrder> = sortOrderProcessor
     private val compactModeProcessor = BehaviorProcessor.createDefault(compactMode)
     override val themeModeStream: Flowable<ThemeMode> = themeProcessor
     override val compactModeStream: Flowable<Boolean> = compactModeProcessor
@@ -72,6 +89,8 @@ class ParcelListPreferencesImpl @Inject constructor(@ApplicationContext context:
         const val PARCELLIST_PREFS_KEY = "ParcelList"
         private const val FEATURE_SEEN = "C_FEATURE_SEEN"
         private const val COMPACT_MODE = "C_COMPACT_MODE"
+        private const val SORT = "C_SORT"
+        private const val SORT_ASCENDING = "C_SORT_ASCENDING"
         private const val BATTERY_HINT_DISMISSED = "C_BATTERY_HINT_DISMISSED"
         private const val PREFERENCE_NIGHT_MODE = "preference_night_mode"
     }

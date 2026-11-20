@@ -34,6 +34,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import net.kelmer.correostracker.dataApi.model.local.LocalParcelReference
 import net.kelmer.correostracker.list.ParcelListViewModel
 import net.kelmer.correostracker.list.R
+import net.kelmer.correostracker.list.ui.sort.SortBar
 import net.kelmer.correostracker.list.ui.battery.BatteryOptimizationHint
 import net.kelmer.correostracker.list.ui.battery.isSubjectToBatteryOptimization
 import net.kelmer.correostracker.list.ui.battery.openBatteryOptimizationSettings
@@ -114,6 +115,14 @@ fun ParcelsScreen(
                         .padding(contentPadding)
                 ) {
                     val state = viewState
+
+                    if (!state.list.isNullOrEmpty()) {
+                        SortBar(
+                            order = state.sortOrder,
+                            onSortSelected = viewModel::setSort,
+                            onToggleDirection = viewModel::toggleSortDirection
+                        )
+                    }
 
                     // Only worth showing when there is something that would notify the user.
                     if (batteryRestricted && !batteryHintDismissed && state.list?.any { it.notify } == true) {
